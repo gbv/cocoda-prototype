@@ -23,16 +23,48 @@ sub about {
     };
 }
 
-# look up a concept
-sub concept {
-    my ($self, $id) = @_;
-    return;
-}
-
-# full-text search for concepts
-sub search {
-    my ($self, $query) = @_;
-    return;
-}
-
 1;
+
+=head1 DESCRIPTION
+
+For each terminology, a subclass of Cocoda::Terminology must be implemented as
+Cocoda::Terminology::SOMENAME. The subclass should implement the following
+methods:
+
+=head1 concept($concept)
+
+Look up a concept.
+
+Expected to return a hash reference with the following (optional) fields:
+
+=over
+
+=item notation
+
+=item label
+
+Hash reference that maps language tags to main labels.
+
+=item narrower
+
+List of narrower/child concepts.
+
+=item ancestors
+
+List of all broader transitive concepts.
+
+=back
+
+=head2 search($query)
+
+Full-text search for concepts.
+
+Expected to return an array reference of concepts (see method C<concept>).
+
+=head2 top
+
+Return a list of top concepts. 
+
+Expected to return an array reference of concepts (see method C<concept>).
+
+=encoding utf8
