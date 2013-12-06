@@ -1,0 +1,9 @@
+bin/*             srv/{$package_name}/bin
+cpanfile          srv/{$package_name}
+cpanfile.snapshot srv/{$package_name}
+config.yml        srv/{$package_name}
+
+lib/*       srv/{$package_name}/lib
+local/*     srv/{$package_name}/local
+public/*    srv/{$package_name}/public
+views/*     srv/{$package_name}/views

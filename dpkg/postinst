@@ -1,0 +1,39 @@
+#!/bin/sh
+
+set -e
+
+PACKAGE={$package_name}
+
+case "$1" in
+    configure)
+
+        # Create user if it doesn`t exist.
+        if ! id $PACKAGE > /dev/null 2>&1 ; then
+            adduser --system --home /srv/$PACKAGE --no-create-home \
+                --ingroup nogroup --disabled-password --shell /bin/bash \
+                $PACKAGE
+        fi
+
+        # Make sure this user owns the directory
+        chown -R $PACKAGE:adm /srv/$PACKAGE
+
+        # Create log directory
+        if [ ! -e /var/log/$PACKAGE ]; then
+            mkdir /var/log/$PACKAGE
+            chown -R $PACKAGE:adm /var/log/$PACKAGE
+        fi
+
+        # Start with upstart
+        start $PACKAGE
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+ 
+    *)
+        echo "postinst called with unknown argument: $1" >&2
+        exit 1
+    ;;
+esac
+
+exit 0

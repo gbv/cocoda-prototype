@@ -1,0 +1,32 @@
+---
+about:
+    author          : Jakob Voss <voss@gbv.de>
+    architecture    : any
+    version         : "`sed -n 's/version:\s\+//p' config.yml`"
+    changes         : "`git log -n1 --pretty=format:\"  * %s\"`"
+    timestamp       : "`git log -n1 --format=\"%ad\" --date=rfc`"
+
+package:
+    name            : cocoda 
+    description     : "VZG Cocoda Server"
+    depends         : "perl (>= 5.14)" #, carton (>= 1.0)
+    binary_depends  :
+    section         : gbv
+    priority        : extra
+
+before_build:
+    - cpanm -L local Carton
+    - perl -Ilocal/lib/perl5 local/bin/carton install
+    - perl -Ilocal/lib/perl5 local/bin/carton exec -- prove -Ilib t
+
+source:
+    - bin
+    - cpanfile
+    - cpanfile.snapshot
+    - config.yml
+    - lib
+    - local
+    - public
+    - views
+
+debuild: -uc -us

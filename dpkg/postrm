@@ -1,0 +1,32 @@
+#!/bin/sh
+
+set -e
+
+PACKAGE={$package_name}
+
+case "$1" in
+    purge)
+
+        # Remove init script links
+        update-rc.d $PACKAGE remove
+
+        # Remove user
+        userdel $PACKAGE || true
+
+        # Remove home directory
+        rm -rf /srv/$PACKAGE
+
+        # Remove log directory
+        rm -rf /var/log/$PACKAGE
+    ;;
+
+    remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+    ;;
+     
+    *)
+        echo "postrm called with unknown argument: $1" >&2
+        exit 1
+    ;;
+esac
+
+exit 0

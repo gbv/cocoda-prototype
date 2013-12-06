@@ -1,0 +1,18 @@
+# upstart {$package_name} script (requires upstart >=1.4)
+
+description "{$package_description}"
+version "{$version}"
+author "{$author}"
+
+start on runlevel [2345]
+stop on runlevel [016]
+
+setuid {$package_name}
+
+script
+    NAME={$package_name}
+    chdir /srv/$NAME
+    echo "Starting $NAME at `date +%Y-%m-%d\ %T\ %Z`:"
+    set -x
+    exec perl -Ilocal/lib/perl5 local/bin/carton exec -- bin/app.psgi
+end script

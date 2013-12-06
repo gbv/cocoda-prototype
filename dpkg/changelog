@@ -1,0 +1,5 @@
+{$package_name} ({$version}) stable; urgency=low
+
+{$changes}
+
+ -- {$author}  {$timestamp} 
