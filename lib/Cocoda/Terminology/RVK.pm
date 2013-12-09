@@ -11,6 +11,11 @@ has '+title' => (
     default => sub { 'Regensburger Verbundklassifikation' }
 );
 
+sub debug { # TODO: move to logging module
+    use Data::Dumper;
+    say STDERR ref($_[0]) ? Dumper($_[0]) : $_[0]; 
+}
+
 sub concept {
     my ($self, $notation, %options) = @_;
 
@@ -18,13 +23,18 @@ sub concept {
     my $url = "http://rvk.uni-regensburg.de/api/json/node/$notation";
     my $data = $self->jsonclient($url) or return;
 
+    # debug($data);
+
     my $concept = rvk_to_cocoda( $data->{node} );
 
     if ($options{ancestors}) {
         my $url = "http://rvk.uni-regensburg.de/api/json/ancestors/$notation";
         if (my $data = $self->jsonclient($url)) {
+            # debug($data);
+            my $nodes = $data->{node};
+            $nodes = [$nodes] unless ref $nodes eq 'ARRAY';
             $concept->{ancestors} = [
-                map { rvk_to_cocoda($_) } @{$data->{node}}
+                map { rvk_to_cocoda($_) } @$nodes
             ]
         }
     }
@@ -53,7 +63,7 @@ sub rvk_to_cocoda {
 
     $concept->{register} = $node->{register} 
         if exists $node->{register};
-    $concept->{children} = 0
+    $concept->{narrower} = [ ]
         if ($node->{has_children} // 'yes') ne 'yes';
 
     return $concept;

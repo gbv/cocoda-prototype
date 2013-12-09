@@ -11,12 +11,11 @@ use Dancer2::Test apps => [
     'Cocoda::Server::Sample',
 ];
 
-foreach (qw(/ /terminology)) { # /mapping /sample)) {
+foreach (qw(/ /terminology /sample)) { # /mapping /sample)) {
     route_exists [GET => $_], "route handler defined for $_";
     response_status_is [GET => $_], 200, "GET $_ is 200";
 }
 
 response_status_is [GET => '/mapping'], 500, "GET /mapping is 500";
-response_status_is [GET => '/sample'], 500, "GET /index is 500";
 
 done_testing;

@@ -27,3 +27,28 @@ get '/' => sub {
 #};
 
 1;
+
+=head1 DESCRIPTION
+
+A Cocoda Server can provide multiple services, each implemented in
+a Perl package of its own:
+
+=over
+
+=item /terminology
+
+L<Cocoda::Server::Terminology>
+
+=item /mapping
+
+L<Cocoda::Server::Mapping>
+
+=item /sample
+
+L<Cocoda::Server::Sample>
+
+=back
+
+=cut
+
+=encoding utf8

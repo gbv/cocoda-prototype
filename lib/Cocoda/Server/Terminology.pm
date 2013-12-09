@@ -24,6 +24,7 @@ get '/' => sub {
                 %{$terminologies->{$_}->about},
                 url => "$base/terminology/$_" 
             }
+            # TODO: search and lookup URL, if implemented
         } keys %$terminologies
     }
 };
@@ -81,3 +82,67 @@ get qr{/(?<terminology>[^/]+)/(?<concept>.+)$} => sub {
 };
 
 1;
+
+=head1 DESCRIPTION
+
+A concept in Cocoda belongs to exactely one terminology. A concepts can have
+the following properties:
+
+=over
+
+=item notation
+
+Unique notation. This may be empty for some authority files and mandatory for
+others.
+
+=item label
+
+Set of labels, each uniquely mapped from a language.
+
+=item uri
+
+URI for use of concepts in SKOS/RDF.
+
+=item ancestors
+
+...
+
+=item narrower
+
+...
+
+=item broader
+
+...
+
+=item register
+
+...
+
+=item notes
+
+...Anmerkungen...
+
+=back
+
+More properties, such as C<alias>, may be added in a later version.
+
+=head1 QUERIES
+
+=over
+
+=item C</>
+
+General infomation about a terminology. This may includes a list
+of top concepts, if supported.
+
+=item C</?search=...>
+
+Full text search in a terminology.
+
+=item C</...>
+
+Lookup of a concept. Query parameters C<narrower>, C<broader>, and
+C<ancestors> can be used to also return connected concepts.
+
+=encoding utf8
