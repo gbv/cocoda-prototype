@@ -8,3 +8,9 @@ title: Cocoda Server
 version: 0.0.1
 
 port: 6006
+
+terminologies:
+    - DDC
+    - RVK:
+        key: rvk
+    - +Cocoda::Terminology::BK

@@ -3,33 +3,47 @@ package Cocoda::Terminology;
 use v5.14;
 use Moo;
 
-has 'title' => ( 
+has title => ( 
     is => 'ro', 
     default => sub { 'unknown' } 
 ); 
 
-has 'key' => (
+has key => (
     is => 'ro', 
     default => sub {
         lc($1) if ref($_[0]) =~ /^Cocoda::Terminology::(.+)/;
     }
 );
 
-sub about {
-    my ($self) = @_;
-    return {
-        title => $self->title,
-        key   => $self->key,
-    };
-}
+has uri => (
+    is => 'ro',
+);
 
 1;
 
 =head1 DESCRIPTION
 
-For each terminology, a subclass of Cocoda::Terminology must be implemented as
-Cocoda::Terminology::SOMENAME. The subclass should implement the following
-methods:
+A terminology must provide at least the following attributes:
+
+=over
+
+=item key
+
+A lowercase letter code to uniquely identify the terminology within the scope
+of a Cocoda server. A class Cocoda::Terminology::FOO, if derived from
+Cocoda::Terminology, will automatically get the default key "foo".
+
+=item title
+
+A human-readable title.
+
+=item uri
+
+An URI for uniquely identifying the terminology (optional).
+
+=back
+
+A terminology should implement the following query methods:
 
 =head1 concept($concept)
 
@@ -61,7 +75,7 @@ Full-text search for concepts.
 
 Expected to return an array reference of concepts (see method C<concept>).
 
-=head2 top
+=head2 top()
 
 Return a list of top concepts. 
 

@@ -3,28 +3,32 @@ use v5.14;
 use Dancer2;
 
 use Cocoda::Terminology;
+use Cocoda::Util;
 
 prefix '/terminology';
 
-use Cocoda::Terminology::RVK;
-use Cocoda::Terminology::DDC;
-use Cocoda::Terminology::BK;
-
-my $terminologies = {
-    map { $_->key => $_ }
-    map { "Cocoda::Terminology::$_"->new } qw(RVK DDC BK)
-};
+# load terminologies specified in config file
+my $terminologies = { };
+foreach (@{ config->{terminologies} // [ ] }) {
+    my ($class, $args) = ref $_ ? %$_ : ($_,{});
+    my $t = Cocoda::Util::new_instance($class, 'Cocoda::Terminology', %$args);
+    # TODO: warn if key already used
+    $terminologies->{ $t->key } = $t;
+}
 
 # Return a list of known terminologies
 get '/' => sub {
     my $base = request->uri_base;
     return {
         map {
-            $_ => { 
-                %{$terminologies->{$_}->about},
-                url => "$base/terminology/$_" 
-            }
-            # TODO: search and lookup URL, if implemented
+            my $t = $terminologies->{$_};
+            my $about = { 
+                title => $t->title,
+                key   => $_,
+                url   => "$base/terminology/$_",
+            };
+            $about->{uri} = $t->uri if $t->uri;
+            $_ => $about;
         } keys %$terminologies
     }
 };
