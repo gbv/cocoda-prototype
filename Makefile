@@ -20,7 +20,7 @@ test: noperlbrew
 	@perl -Ilocal/lib/perl5 local/bin/carton exec -- prove -Ilib t
 
 start:
-	@perl -Ilocal/lib/perl5 local/bin/carton exec -- bin/app.psgi
+	@perl -Ilocal/lib/perl5 local/bin/carton exec -- local/bin/starman bin/app.psgi
 
 noperlbrew:
 	@if [ `which perl` != "/usr/bin/perl" ]; then\

@@ -13,6 +13,7 @@ package:
     binary_depends  :
     section         : gbv
     priority        : extra
+    port            : 6006
 
 before_build:
     - cpanm -L local Carton
