@@ -4,7 +4,7 @@ ifeq ($(GIT),)
 endif
 
 about:
-	@echo "make debian|clean|purge"
+	@echo "make build|clean|purge"
 
 git:
 	@$(GIT) --version > /dev/null

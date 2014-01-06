@@ -2,7 +2,6 @@ charset: UTF-8
 engines:
     template_toolkit:
         ENCODING: utf8
-serializer: JSON
 
 title: Cocoda Server
 version: 0.0.2

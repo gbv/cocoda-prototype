@@ -13,6 +13,8 @@ install:
     - cpanm --installdeps .
 
 script:
+    # test server
     - prove -Ilib t
+    # test client (TODO)
 
 env: RELEASE_TESTING=1 AUTOMATED_TESTING=1 AUTHOR_TESTING=1

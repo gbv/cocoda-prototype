@@ -6,6 +6,8 @@ use Cocoda::Server::Terminology;
 use Cocoda::Server::Mapping;
 use Cocoda::Server::Sample;
 
+set serializer => 'JSON';
+
 prefix undef;
 
 # Return information about the Cocoda server

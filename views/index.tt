@@ -1,5 +1,11 @@
 <html>
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="css/cocoda.css" type="text/css" />
+  <script type="text/javascript" src="js/cocoda.coffee"></script>
+</head>
 <body>
-  Hello, World!
+  This static web page will serve a JavaScript web application that
+  communicates with the <a href="/">Cocoda server</a>.
 </body>
 </html>
