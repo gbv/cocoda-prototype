@@ -1,4 +1,8 @@
 requires 'perl', '5.14.1';
+
+# problems to install on travis-ci
+requires 'Test::TCP';
+
 requires 'Dancer2', '0.11';
 requires 'Furl', '3.0';
 requires 'URI::Escape';
