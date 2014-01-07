@@ -10,6 +10,7 @@ before_install:
     - git config user.email 'travis@nowhere.dne'
 
 install:
+    - cpanm --notest Net::Server # failed test in 2.007
     - cpanm --installdeps .
 
 script:
