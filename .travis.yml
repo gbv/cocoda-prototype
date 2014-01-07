@@ -10,6 +10,7 @@ before_install:
     - git config user.email 'travis@nowhere.dne'
 
 install:
+    - cpanm --verbose Test::TCP
     - cpanm --installdeps .
 
 script:
