@@ -1,6 +1,8 @@
-# VZG Cocoda Server.
+# VZG Cocoda Server
 
-The server is implemented in Perl as Dancer2 application.
+Cocoda server consists of a JSON API as server and a JavaScript user interface
+as client. The server is written in Perl as Dancer2 application. The client is
+written with [AngularJS](http://angularjs.org/).
 
 ## Requirements
 

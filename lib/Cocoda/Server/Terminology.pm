@@ -16,20 +16,23 @@ foreach (@{ config->{terminologies} // [ ] }) {
     $terminologies->{ $t->key } = $t;
 }
 
+sub about_terminology {
+    my ($key) = @_;
+    my $t = $terminologies->{$key};
+    my $about = { 
+        key   => $key,
+        title => $t->title,
+        url   => request->uri_base . "/terminology/$key",
+    };
+    $about->{uri} = $t->uri if $t->uri;
+    return $about;
+}
+
 # Return a list of known terminologies
 get '/' => sub {
-    my $base = request->uri_base;
     return {
-        map {
-            my $t = $terminologies->{$_};
-            my $about = { 
-                title => $t->title,
-                key   => $_,
-                url   => "$base/terminology/$_",
-            };
-            $about->{uri} = $t->uri if $t->uri;
-            $_ => $about;
-        } keys %$terminologies
+        map { $_ => about_terminology($_) }
+        keys %$terminologies
     }
 };
 
@@ -41,7 +44,7 @@ get qr{/(?<terminology>[^/]+)/?$} => sub {
         my $expand   = params->{expand}; # broader|narrower|ancestors
 
         my $response = { 
-            terminology => $terminology->about
+            terminology => about_terminology($key)
         };
 
         if (defined $search) {

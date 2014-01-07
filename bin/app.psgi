@@ -34,7 +34,7 @@ builder {
                 dir_index => 'index.tt';
         };
         mount '/' => builder {
-            enable 'Plack::Middleware::JSON::ForBrowsers';
+            # enable 'Plack::Middleware::JSON::ForBrowsers';
             enable 'Plack::Middleware::JSONP';
             Cocoda::Server->dance;
         };

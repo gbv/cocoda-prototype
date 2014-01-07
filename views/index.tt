@@ -1,11 +1,56 @@
-<html>
+<!doctype html>
+<html lang="de" ng-app="myApp">
 <head>
-  <meta charset="utf-8" />
-  <link rel="stylesheet" href="css/cocoda.css" type="text/css" />
-  <script type="text/javascript" src="js/cocoda.coffee"></script>
+  <meta charset="utf-8">
+  <title>Cocoda web application</title>
+
+  <link rel="stylesheet" href="css/bootstrap.min.css"> <!-- TODO: 3.0 (?) -->
+  <link rel="stylesheet" href="css/cocoda.css">
+
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
+  <!--script src="js/angular/angular.min.js"></script-->
+  <!--script type="text/javascript" src="js/cocoda.coffee"></script-->
+
+  <script src="js/myApp.js"></script>
 </head>
-<body>
-  This static web page will serve a JavaScript web application that
-  communicates with the <a href="/">Cocoda server</a>.
+<body ng-controller="CocodaServer">
+  <div id="wrap">
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">{{title}}</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="#">version {{version}}</a></li>
+          <li><a href="{{api}}">api</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <h2>Terminologies</h2>
+      <ul class="terminologies">
+        <li ng-repeat="terminology in terminologies" ng-click="selectTerminology(terminology)">
+          <a href="{{terminology.url}}">{{terminology.key}}</a>
+          {{terminology.title}}
+          <!-- TODO: search -->
+        </li>
+      </ul>
+      <form class="well form-search">
+        <label>Search in {{currentTerminology.key}}</label>
+        <input ng-model="searchInTerminology">
+        <button type="submit" class="btn" ng-click="searchTerminology()">Search</button>
+      </form>
+      <h3>Result</h3>
+      <ul class="searchResult">
+        <li ng-repeat="r in searchResult">
+         . {{r}}
+        </li>
+      </ul>
+      <h2>Mappings</h2>
+        ...
+      <h2>Samples</h2>
+        ...
+    </div>
+  </div>
 </body>
 </html>
