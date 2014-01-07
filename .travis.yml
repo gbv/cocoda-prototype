@@ -10,12 +10,10 @@ before_install:
     - git config user.email 'travis@nowhere.dne'
 
 install:
-    - cpanm --verbose Test::TCP
     - cpanm --installdeps .
 
 script:
     # test server
+    - export RELEASE_TESTING=1 AUTOMATED_TESTING=1 AUTHOR_TESTING=1
     - prove -Ilib t
     # test client (TODO)
-
-env: RELEASE_TESTING=1 AUTOMATED_TESTING=1 AUTHOR_TESTING=1
