@@ -1,0 +1,16 @@
+{
+  "name": "Cocoda",
+  "version": "0.0.2",
+  "description": "AngularJS module to interact with a Cocoda server",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt karma:unit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gbv/Cocoda.git"
+  },
+  "author": "Jakob Voß",
+  "license": "GPL",
+  "readmeFilename": "README.md"
+}

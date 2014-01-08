@@ -74,3 +74,11 @@ As Debian package, the Cocoda server is installed as user `cocoda` in directory
 
 Error logs are written to `/var/log/upstart/cocoda.log`.
 
+# Cocoda client
+
+To *locally* install test requirements:
+
+    sudo apt-get install nodejs-legacy
+    npm install karma bower grunt grunt-cli
+    ./node_modules/.bin/grunt
+
