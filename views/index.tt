@@ -11,9 +11,10 @@
   <!--script src="js/angular/angular.min.js"></script-->
   <!--script type="text/javascript" src="js/cocoda.coffee"></script-->
 
+  <script src="js/modules/cocoda.js"></script>
   <script src="js/myApp.js"></script>
 </head>
-<body ng-controller="CocodaServer">
+<body ng-controller="CocodaAppController">
   <div id="wrap">
     <nav class="navbar navbar-default" role="navigation">
       <div class="navbar-header">
@@ -41,9 +42,17 @@
         <button type="submit" class="btn" ng-click="searchTerminology()">Search</button>
       </form>
       <h3>Result</h3>
-      <ul class="searchResult">
-        <li ng-repeat="r in searchResult">
-         . {{r}}
+      <ol class="searchResult">
+        <li ng-repeat="concept in searchResult">
+          <b>{{concept.notation}}</b>
+          {{concept.label.de}}
+        </li>
+      </ol>
+      <h3>Top Concepts</h3>
+      <ul class="topConcepts">
+        <li ng-repeat="concept in topConcepts">
+          <b>{{concept.notation}}</b>
+          {{concept.label.de}}
         </li>
       </ul>
       <h2>Mappings</h2>

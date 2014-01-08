@@ -16,11 +16,13 @@ get '/' => sub {
     my $version = config->{version};
     my $title   = config->{title} // "Cocoda server";
     return {
-        title         => $title,
-        version       => $version,
-        terminologies => "$base/terminology",
-        mappings      => "$base/mapping",
-        samples       => "$base/sample",
+        title    => $title,
+        version  => $version,
+        services => {
+            terminologies => "$base/terminology",
+            mappings      => "$base/mapping",
+            samples       => "$base/sample",
+        }
     };
 };
 

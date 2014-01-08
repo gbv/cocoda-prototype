@@ -1,8 +1,8 @@
 language: perl
 perl:
-    - "5.19"
+    # - "5.19"
     - "5.18"
-    - "5.16"
+    #- "5.16"
     - "5.14"
 
 before_install:
@@ -10,11 +10,19 @@ before_install:
     - git config user.email 'travis@nowhere.dne'
 
 install:
+    # server dependencies
     - cpanm --notest Net::Server # failed test in 2.007
     - cpanm --installdeps .
+    # client dependencies
+    - export DISPLAY=:99.0
+    - sh -e /etc/init.d/xvfb start
+    - npm install -g karma bower grunt-cli
+    - bower install
+    - npm install
 
 script:
     # test server
     - export RELEASE_TESTING=1 AUTOMATED_TESTING=1 AUTHOR_TESTING=1
     - prove -Ilib t
-    # test client (TODO)
+    # test client (TODO: start server for testing)
+#    - grunt
