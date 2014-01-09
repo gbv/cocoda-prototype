@@ -37,3 +37,18 @@ function CocodaAppController($scope, CocodaServer, CocodaTerminology) {
     }
 }
 
+// defines <conceptlist>
+myApp.directive('conceptlist', function() {
+    return {
+        restrict:'E',
+        scope: {
+            title: '=title',
+            concepts: '=concepts',
+        },
+        templateUrl: "conceptlist.html",
+        controller: function($scope) {
+            // how to interact, e.g. on clicks
+        }
+    };
+});
+

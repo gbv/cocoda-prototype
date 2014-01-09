@@ -41,24 +41,24 @@
         <input ng-model="searchInTerminology">
         <button type="submit" class="btn" ng-click="searchTerminology()">Search</button>
       </form>
-      <h3>Result</h3>
-      <ol class="searchResult">
-        <li ng-repeat="concept in searchResult">
-          <b>{{concept.notation}}</b>
-          {{concept.label.de}}
-        </li>
-      </ol>
-      <h3>Top Concepts</h3>
-      <ul class="topConcepts">
-        <li ng-repeat="concept in topConcepts">
-          <b>{{concept.notation}}</b>
-          {{concept.label.de}}
-        </li>
-      </ul>
+      <conceptlist title="'Results'" concepts="searchResult"></conceptlist>
+      <conceptlist title="'Top Concepts'" concepts="topConcepts"></conceptlist>
       <h2>Mappings</h2>
         ...
       <h2>Samples</h2>
         ...
+
+<script type="text/ng-template" id="conceptlist.html">
+<div ng-if="concepts">
+  <h3>{{title}}</h3>
+  <ul>
+    <li ng-repeat='c in concepts'>
+      {{c.notation}}</i> {{c.label.de}}
+    </li>
+  </ul>
+</div>
+</script>
+
     </div>
   </div>
 </body>
