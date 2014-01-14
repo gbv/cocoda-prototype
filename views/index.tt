@@ -16,51 +16,78 @@
   <script src="js/myApp.js"></script>
 </head>
 <body ng-controller="CocodaAppController">
-  <div id="wrap">
-    <nav class="navbar navbar-default" role="navigation">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">{{title}}</a>
-      </div>
-      <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li><a href="#">version {{version}}</a></li>
-          <li><a href="{{api}}">api</a></li>
-        </ul>
-      </div>
-    </nav>
-    <div class="container">
-      <h2>Terminologies</h2>
-      <ul class="terminologies">
-        <li ng-repeat="terminology in terminologies" ng-click="selectTerminology(terminology)">
-          <a href="{{terminology.url}}">{{terminology.key}}</a>
-          {{terminology.title}}
-          <!-- TODO: search -->
-        </li>
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">{{title}}</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="#">version {{version}}</a></li>
+        <li><a href="{{api}}">api</a></li>
       </ul>
-      <form class="well form-search">
-        <label>Search in {{currentTerminology.key}}</label>
-        <input ng-model="searchInTerminology">
-        <button type="submit" class="btn" ng-click="searchTerminology()">Search</button>
-      </form>
-      <conceptlist title="'Results'" concepts="searchResult"></conceptlist>
-      <conceptlist title="'Top Concepts'" concepts="topConcepts"></conceptlist>
-      <h2>Mappings</h2>
-        ...
-      <h2>Samples</h2>
-        ...
+    </div>
+  </nav>
+  <div class="container-liquid">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="sheet">
+          <h2>Terminologies</h2>
+          <ul class="terminologies">
+            <li ng-repeat="terminology in terminologies" ng-click="selectTerminology(terminology)">
+              <a href="{{terminology.url}}">{{terminology.key}}</a>
+              {{terminology.title}}
+              <!-- TODO: search -->
+            </li>
+          </ul>
+        </div>
+        <conceptlist title="'Top Concepts'" concepts="topConcepts"></conceptlist>
+      </div>
+      <div class="col-md-4">
+        
+        <div class="sheet">
+          <!-- TODO: make tab together with top concepts -->
+          <h2>Search</h2>
+          <form class="form-search">
+            <label>Search in {{currentTerminology.key}}</label>
+            <input ng-model="searchInTerminology">
+            <button type="submit" class="btn" ng-click="searchTerminology()">
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </form>
+        </div>
+        <div class="sheet">
+          <conceptlist title="'Results'" 
+                concepts="searchResult" highlight="searchInTerminology"></conceptlist>
+        </div>
+
+        <div class="sheet">
+          <h2>Occurrences</h2>
+            ...
+        </div>
 
 <script type="text/ng-template" id="conceptlist.html">
-<div ng-if="concepts">
-  <h3 ng-click="isCollapsed = !isCollapsed">{{title}}</h3> 
-  <ul collapse="isCollapsed">
+<!-- TODO: make collapser a widget-or-element 
+  <sheet title="..." collapsible>...</sheet>
+-->
+<div ng-if="concepts" class="sheet">
+  <h2 ng-click="collapsed = !collapsed">{{title}}
+    <span class="collapser glyphicon" ng-class="collapsed ? 'glyphicon-plus-sign' : 'glyphicon-minus-sign'"></span>
+  </h2> 
+  <ul class="concepts" collapse="collapsed" style="height:100%; overflow-y:scroll;">
     <li ng-repeat='c in concepts'>
-      {{c.notation}}</i> {{c.label.de}}
+      <notation>{{c.notation}}</notation> {{c.label.de}}
     </li>
   </ul>
 </div>
 </script>
-
-    </div>
+      </div>
+      <div class="col-md-4">
+        <div class="sheet">
+          <h2>Mappings</h2>
+            ...
+        </div>
+      </div>
+    </div> <!-- row -->
   </div>
 </body>
 </html>

@@ -34,7 +34,7 @@ builder {
         };
         mount '/' => builder {
             enable 'Static', 
-                path => qr{\.(png|css|js)$},
+                path => qr{\.(png|css|js|eot|svg|ttf|woff)$},
                 root => 'public';
             enable 'TemplateToolkit',
                 INCLUDE_PATH => 'views',

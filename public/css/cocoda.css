@@ -1,6 +1,50 @@
 html, body {
-  height: 100%; 
+    height: 100%; 
+}
+.navbar {
+    margin-bottom: 0;
+}
+.container-liquid {
+    max-width: 100%;
+    padding: 0 15px;
 }
 
 // required by http://angular-ui.github.io/bootstrap/
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.col-md-4 {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin:0;
+}
+.sheet {
+    padding: 0px;
+    margin-bottom: 8px;
+    box-shadow: 4px 4px 8px #000000;
+}
+h2 {
+    padding: 4px;
+    margin-bottom: 4px;
+    background: #90EE90;
+    border-bottom: 2px solid #CDFECD;
+}
+h2:hover > .collapser {
+    color: #000;
+}
+.collapser {
+    float: right;
+    color: #fff;
+}
+
+/* concept list */
+ul.concepts {
+    list-style:none;
+    padding-left: 1.5em;
+    text-indent: -1em;
+    padding-bottom: 4px;
+}
+notation {
+    font-weight: bold;
+    color: #33f;
+}
+
