@@ -4,7 +4,7 @@ use Dancer2;
 
 use Cocoda::Server::Terminology;
 use Cocoda::Server::Mapping;
-use Cocoda::Server::Sample;
+use Cocoda::Server::Occurrence;
 
 set serializer => 'JSON';
 
@@ -21,7 +21,7 @@ get '/' => sub {
         services => {
             terminologies => "$base/terminology",
             mappings      => "$base/mapping",
-            samples       => "$base/sample",
+            occurrences   => "$base/occurrence",
         }
     };
 };
@@ -47,9 +47,9 @@ L<Cocoda::Server::Terminology>
 
 L<Cocoda::Server::Mapping>
 
-=item /sample
+=item /occurrence
 
-L<Cocoda::Server::Sample>
+L<Cocoda::Server::Occurrence>
 
 =back
 

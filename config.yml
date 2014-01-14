@@ -4,7 +4,7 @@ engines:
         ENCODING: utf8
 
 title: Cocoda Server
-version: 0.0.2
+version: 0.0.3
 
 terminologies:
     - DDC
