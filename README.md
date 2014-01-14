@@ -10,35 +10,29 @@ written with [AngularJS](http://angularjs.org/).
 
 2. Make sure you have installed cpanminus.
 
-## Running the server
+## Local usage
 
-Either install required Perl modules in your default Perl
-include path with
+All required commands for local usage can be executed via `Makefile`. Both
+perlbrew and default system perl are supported but perlbrew must be switched
+off to build a Debian package.
 
-    cpanm --installdeps . # add sudo if installing to system perl
+### Install dependencies
 
-and start the server with
-
-    perl -Ilib bin/app.psgi
-
-or install required Perl modules to the `local/` directory as required
-by the final Debian package. There is a makefile to do so with
+Install required Perl modules to perlbrew or to the `local/` directory with:
 
     make deps
 
-followed by
+### Run unit tests
+
+    make test
+
+Server tests are located in directory `t/`.
+
+### Start the server
 
     make start
 
-## Running unit tests
-
-With required modules in your default Perl include path:
-
-    prove -l t
-
-With required modules in `local/`:
-
-    make test
+By default the local server is accessible at <http://localhost:5000/>. 
 
 ## Building a Debian package
 
@@ -52,13 +46,15 @@ package contains all requirements among other tools:
 If using perlbrew, make sure to disable it before installing any modules
 to `local/`:
 
-    hash perlbrew 2>/dev/null && perlbrew off
+    perlbrew off
 
 The build script is the called via
 
-    makedpkg
+    make build
 
-The resulting package is located in directory `debuild/`. It can be installed
+# Installation
+
+A build Debian package is located in directory `debuild/`. It can be installed
 locally for instance with
 
     sudo dpkg --install debuild/cocoda_0.0.1_amd64.deb
@@ -81,4 +77,8 @@ To *locally* install test requirements:
     sudo apt-get install nodejs-legacy
     npm install karma bower grunt grunt-cli
     ./node_modules/.bin/grunt
+
+# Build status
+
+[![Build Status](https://travis-ci.org/gbv/Cocoda.png?branch=master)](https://travis-ci.org/gbv/Cocoda)
 

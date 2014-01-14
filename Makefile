@@ -4,28 +4,45 @@ ifeq ($(GIT),)
 endif
 
 about:
-	@echo "make build|clean|purge"
+	@echo "make deps|test|build|start|clean|purge"
+	@if [ "$$PERLBREW_PERL" ]; then\
+		echo "Using perlbrew $$PERLBREW_PERL" ;\
+	else \
+		echo "Using Perl" `perl -e 'print $$]'` "and carton with ./local";\
+	fi
 
 git:
 	@$(GIT) --version > /dev/null
 
+deps:
+	@if [ "$$PERLBREW_PERL" ]; then\
+		cpanm --installdeps . ;\
+	else \
+		perl -Ilocal/lib/perl5 local/bin/carton install ;\
+	fi
 
-deps: noperlbrew
-	@perl -Ilocal/lib/perl5 local/bin/carton install
-
-build: git noperlbrew
+build: git noperlbrew deps
 	@./makedpkg
 
-test: noperlbrew
-	@perl -Ilocal/lib/perl5 local/bin/carton exec -- prove -Ilib t
+test:
+	@if [ "$$PERLBREW_PERL" ]; then\
+		prove -Ilib t ;\
+	else\
+		perl -Ilocal/lib/perl5 local/bin/carton exec -- prove -Ilib t ;\
+	fi
 
 start:
-	@perl -Ilocal/lib/perl5 local/bin/carton exec -- local/bin/starman bin/app.psgi
+	@if [ "$$PERLBREW_PERL" ]; then\
+		plackup -Ilib bin/app.psgi ;\
+	else \
+		perl -Ilocal/lib/perl5 local/bin/carton exec -- local/bin/starman bin/app.psgi ;\
+	fi
 
 noperlbrew:
-	@if [ `which perl` != "/usr/bin/perl" ]; then\
-	   echo "perl must be /usr/bin/perl"; exit 1; fi
-#	@hash perlbrew 2>/dev/null && perlbrew off
+	@if [ "$$PERLBREW_PERL" ]; then\
+	 	echo "please switch off perlbrew for build!" ;\
+		exit 1 ;\
+	fi
 
 clean:
 	@rm -rf debuild
