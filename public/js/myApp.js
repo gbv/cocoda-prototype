@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp',['Cocoda']);
+var myApp = angular.module('myApp',['Cocoda','ui.bootstrap']);
 
 function CocodaAppController($scope, CocodaServer, CocodaTerminology) {
 

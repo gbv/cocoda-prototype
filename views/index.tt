@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Cocoda web application</title>
 
-  <link rel="stylesheet" href="css/bootstrap.min.css"> <!-- TODO: 3.0 (?) -->
+  <link rel="stylesheet" href="css/bootstrap.min.css"> 
   <link rel="stylesheet" href="css/cocoda.css">
 
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
@@ -12,6 +12,7 @@
   <!--script type="text/javascript" src="js/cocoda.coffee"></script-->
 
   <script src="js/modules/cocoda.js"></script>
+  <script src="js/modules/ui-bootstrap.min.js"></script>
   <script src="js/myApp.js"></script>
 </head>
 <body ng-controller="CocodaAppController">
@@ -50,8 +51,8 @@
 
 <script type="text/ng-template" id="conceptlist.html">
 <div ng-if="concepts">
-  <h3>{{title}}</h3>
-  <ul>
+  <h3 ng-click="isCollapsed = !isCollapsed">{{title}}</h3> 
+  <ul collapse="isCollapsed">
     <li ng-repeat='c in concepts'>
       {{c.notation}}</i> {{c.label.de}}
     </li>

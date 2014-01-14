@@ -1,3 +1,6 @@
 html, body {
   height: 100%; 
 }
+
+// required by http://angular-ui.github.io/bootstrap/
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
