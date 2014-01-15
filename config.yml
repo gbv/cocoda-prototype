@@ -11,3 +11,4 @@ terminologies:
     - RVK:
         key: rvk
     - +Cocoda::Terminology::BK
+    - GND

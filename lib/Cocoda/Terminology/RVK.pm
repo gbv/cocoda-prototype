@@ -28,7 +28,7 @@ sub concept {
 
     # debug($data);
 
-    my $concept = rvk_to_cocoda( $data->{node} );
+    my $concept = _to_cocoda( $data->{node} );
 
     if ($options{ancestors}) {
         if (my $data = $self->get("/ancestors/$notation")) {
@@ -36,7 +36,7 @@ sub concept {
             my $nodes = $data->{node};
             $nodes = [$nodes] unless ref $nodes eq 'ARRAY';
             $concept->{ancestors} = [
-                map { rvk_to_cocoda($_) } @$nodes
+                map { _to_cocoda($_) } @$nodes
             ]
         }
     }
@@ -44,7 +44,7 @@ sub concept {
     if ($options{narrower}) {
         if (my $data = $self->get("/children/$notation")) {
             $concept->{narrower} = [
-                map { rvk_to_cocoda($_) } @{$data->{node}{children}{node}}
+                map { _to_cocoda($_) } @{$data->{node}{children}{node}}
             ]
         }
     }
@@ -58,17 +58,17 @@ sub search {
     $query = uri_escape($query);
     my $data = $self->get("/nodes/$query") or return;
 
-    return [ map { rvk_to_cocoda($_) } @{$data->{node}} ];
+    return [ map { _to_cocoda($_) } @{$data->{node}} ];
 }
 
 sub topConcepts {
     my ($self) = @_;
 
     my $data = $self->get("/children") or return;
-    return [ map { rvk_to_cocoda($_) } @{$data->{node}{children}{node}} ];
+    return [ map { _to_cocoda($_) } @{$data->{node}{children}{node}} ];
 }
 
-sub rvk_to_cocoda {
+sub _to_cocoda {
     my ($node) = @_;
 
     my $concept = { 
