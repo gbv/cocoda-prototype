@@ -22,7 +22,7 @@ function CocodaAppController($scope, CocodaServer, CocodaTerminology) {
     $scope.selectTerminology = function(terminology) {
         $scope.currentTerminology = terminology;
         CocodaTerminology.about(terminology.key).then(function(about) {
-            $scope.topConcepts = about.top;
+            $scope.topConcepts = about.topConcepts;
         });
     }
 

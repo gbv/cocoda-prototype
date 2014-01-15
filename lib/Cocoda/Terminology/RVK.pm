@@ -3,7 +3,6 @@ use v5.14;
 use Moo;
 
 extends 'Cocoda::Terminology';
-with 'Cocoda::Role::JSONClient';
 
 use URI::Escape;
 
@@ -11,6 +10,7 @@ has '+title' => (
     default => sub { 'Regensburger Verbundklassifikation' }
 );
 
+with 'Cocoda::Role::JSONClient';
 has '+base' => (
     default => sub { 'http://rvk.uni-regensburg.de/api/json' }
 );
@@ -61,7 +61,7 @@ sub search {
     return [ map { rvk_to_cocoda($_) } @{$data->{node}} ];
 }
 
-sub top {
+sub topConcepts {
     my ($self) = @_;
 
     my $data = $self->get("/children") or return;

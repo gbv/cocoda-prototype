@@ -54,8 +54,8 @@ get qr{/(?<terminology>[^/]+)/?$} => sub {
                 send_error('terminology does not support search',404);
             }
         } else {
-            if ($terminology->can('top')) {
-                $response->{top} = $terminology->top();
+            if ($terminology->can('topConcepts')) {
+                $response->{topConcepts} = $terminology->topConcepts();
             }
         }
 

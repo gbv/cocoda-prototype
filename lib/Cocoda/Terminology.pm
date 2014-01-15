@@ -75,7 +75,7 @@ Full-text search for concepts.
 
 Expected to return an array reference of concepts (see method C<concept>).
 
-=head2 top()
+=head2 topConcepts()
 
 Return a list of top concepts. 
 
