@@ -18,6 +18,7 @@ deps:
 	@if [ "$$PERLBREW_PERL" ]; then\
 		cpanm --installdeps . ;\
 	else \
+		[ -f local/bin/carton ] || cpanm -L local Carton; \
 		perl -Ilocal/lib/perl5 local/bin/carton install ;\
 	fi
 
