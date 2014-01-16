@@ -6,7 +6,17 @@ use Cocoda::Server::Terminology;
 use Cocoda::Server::Mapping;
 use Cocoda::Server::Occurrence;
 
+use Encode;
+
+# Fix UTF8 mess
 set serializer => 'JSON';
+hook after => sub {
+#    my $content = $_[0]->content; # is double encoded
+#    $_[0]->content( encode('utf8',decode('utf8',$content)) );
+#    $_[0]->{content_type} .= '; encoding=UTF-8';
+#    $_[0]->{content} = decode('utf8',$content);
+#    print STDERR $_[0];
+};
 
 prefix undef;
 
@@ -17,6 +27,7 @@ get '/' => sub {
     my $title   = config->{title} // "Cocoda server";
     return {
         title    => $title,
+        foo      => 'äöü',
         version  => $version,
         services => {
             terminologies => "$base/terminology",

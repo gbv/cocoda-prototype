@@ -1,11 +1,11 @@
-package Cocoda::Terminology::GND;
+package Cocoda::Terminology::GNDSubjects;
 use v5.14;
 use Moo;
 
 extends 'Cocoda::Terminology';
 
 has '+title' => (
-    default => sub { 'Gemeinsame Normdatei' }
+    default => sub { 'Sachschlagwörter der Gemeinsamen Normdatei' }
 );
 
 with 'Cocoda::Role::JSONClient';
@@ -14,9 +14,10 @@ has '+base' => (
 );
 
 sub concept {
-    my ($self, $notation, %options) = @_;
+    my ($self, $id, %options) = @_;
 
-    undef;
+    my $data = $self->get(id => $id, format => 'full') or return;
+    _to_cocoda($data);
 }
 
 sub topConcepts {
