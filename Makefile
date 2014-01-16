@@ -1,3 +1,5 @@
+APP=bin/app.psgi
+
 GIT = $(shell which git)
 ifeq ($(GIT),)
     GIT = $(error git is required but not installed)
@@ -18,7 +20,7 @@ deps:
 	@if [ "$$PERLBREW_PERL" ]; then\
 		cpanm --installdeps . ;\
 	else \
-		[ -f local/bin/carton ] || cpanm -L local Carton; \
+		[ -f local/bin/carton ] || cpanm -L local Carton ;\
 		perl -Ilocal/lib/perl5 local/bin/carton install ;\
 	fi
 
@@ -34,9 +36,9 @@ test:
 
 start:
 	@if [ "$$PERLBREW_PERL" ]; then\
-		plackup -Ilib bin/app.psgi ;\
+		plackup -Ilib $(APP) ;\
 	else \
-		perl -Ilocal/lib/perl5 local/bin/carton exec -- local/bin/starman bin/app.psgi ;\
+		perl -Ilocal/lib/perl5 local/bin/carton exec -- local/bin/starman $(APP) ;\
 	fi
 
 noperlbrew:
