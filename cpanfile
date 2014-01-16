@@ -7,6 +7,6 @@ requires 'Starman', '0.4005';
 
 requires 'Plack', '1.0';
 requires 'Plack::Middleware::Debug', '0.16';
-requires 'Plack::Middleware::JSON::ForBrowsers', '0.001000';
+requires 'Plack::Middleware::JSON::ForBrowsers', '0.002000';
 requires 'Plack::Middleware::TemplateToolkit', '0.26';
-requires 'Plack::Middleware::Compile', '0.01';
+requires 'Plack::App::Directory::Template', '0.27';

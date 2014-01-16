@@ -6,4 +6,3 @@ config.yml        srv/{$package_name}
 lib/*       srv/{$package_name}/lib
 local/*     srv/{$package_name}/local
 public/*    srv/{$package_name}/public
-views/*     srv/{$package_name}/views

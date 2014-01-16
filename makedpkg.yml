@@ -28,6 +28,5 @@ source:
     - lib
     - local
     - public
-    - views
 
 debuild: -uc -us
