@@ -10,7 +10,7 @@ has '+title' => (
 
 with 'Cocoda::Role::JSONClient';
 has '+base' => (
-    default => sub { 'http://api.lobid.org/subject' }
+    default => sub { 'http://api.lobid.org/subject?format=full' }
 );
 
 sub concept {
@@ -27,7 +27,7 @@ sub topConcepts {
 sub search {
     my ($self, $query) = @_;
 
-    my $data = $self->get(q => $query, format => 'full') or return;
+    my $data = $self->get( name => $query ) or return;
 
     use Data::Dumper;
     print STDERR Dumper($data);
@@ -40,14 +40,24 @@ sub _to_cocoda {
     
     my ($caption) = map { $gnd->{$_} } grep { $_ =~ /^preferredName/ } keys %$gnd;
 
-    return { 
-        notation => ($gnd->{gndIdentifier} // ''),
-        label    => {
-            de => $caption
-        },
+    my $id = $gnd->{gndIdentifier};
+    my $concept = { 
+        notation => $id,
+        uri      => "http://d-nb.info/gnd/$id",
+        caption  => { de => $caption },
     };
 
-    # TODO: broader/narrower
+    if (my $broader = $gnd->{broaderTermGeneral}) {;
+        $concept->{broader} = [ 
+            map { $_ if $_ =~ s|^http://d-nb\.info/gnd/||; } 
+            (ref $broader ? @$broader : $broader) 
+        ];
+    }
+
+    # TODO: narrower
+    # TODO: synonyme und erläuterung
+
+    return $concept;
 }
 
 1;

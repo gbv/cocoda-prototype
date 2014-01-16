@@ -102,9 +102,9 @@ the following properties:
 Unique notation. This may be empty for some authority files and mandatory for
 others.
 
-=item label
+=item caption
 
-Set of labels, each uniquely mapped from a language.
+Set of caption, each uniquely mapped from a language.
 
 =item uri
 

@@ -55,9 +55,11 @@ Expected to return a hash reference with the following (optional) fields:
 
 =item notation
 
-=item label
+Notation of the concept
 
-Hash reference that maps language tags to main labels.
+=item caption
+
+Hash reference that maps language tags to concept captions.
 
 =item narrower
 

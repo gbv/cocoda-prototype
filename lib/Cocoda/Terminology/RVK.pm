@@ -73,7 +73,7 @@ sub _to_cocoda {
 
     my $concept = { 
         notation => ($node->{notation} // ''),
-        label    => {
+        caption  => {
             de => $node->{benennung}
         },
     };

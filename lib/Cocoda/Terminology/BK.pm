@@ -22,12 +22,12 @@ sub concept {
     return unless $res->is_success;
     my $rdf = decode_json($res->content);
 
-    my $title = $rdf->{$uri}->{"http://purl.org/dc/elements/1.1/title"}->[0]->{"value"};
+    my $caption = $rdf->{$uri}->{"http://purl.org/dc/elements/1.1/title"}->[0]->{"value"};
 
     return {
         uri => $uri,
         notation => $id,
-        label => $title,
+        caption => { de => $caption },
     };
 }
 

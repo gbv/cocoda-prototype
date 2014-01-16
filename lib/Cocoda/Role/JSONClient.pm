@@ -27,7 +27,9 @@ sub get {
 
     # TODO: better catch errors
 
-    my $res = $self->furl->get( $self->url(@_) );
+    my $url = $self->url(@_);
+#    print STDERR $url;
+    my $res = $self->furl->get( $url );
     return unless $res->is_success;
     my $data = JSON->new->utf8(0)->decode($res->content);
 
@@ -41,9 +43,10 @@ sub url {
 
     my $url = $self->base;
     $url .= $path if defined $path;
-    $url .= '?' . do {
-        join '&', map { "$_=".uri_escape($query{$_}) } keys %query 
-    } if %query;
+    if (%query) {
+        $url .= ($url =~ /\?/ ? '&' : '?');
+        $url .= join '&', map { "$_=".uri_escape($query{$_}) } keys %query;
+    } 
 
     $url;
 }
