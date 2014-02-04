@@ -8,7 +8,7 @@
 
 (function() {
 
-var Cocoda = angular.module('Cocoda',[]);
+var Cocoda = angular.module('Cocoda',['ngResource']);
 
 // TODO: move into module
 function parseURLTemplate(url) {
@@ -65,44 +65,36 @@ Cocoda.factory('CocodaServer',function($http){
 });
 
 // Service to query a Cocoda terminology server
-Cocoda.factory('CocodaTerminology',function($http){
+Cocoda.factory('CocodaTerminology',['$resource',function($resource){
     return {
-        // get top concepts
-        about: function(terminology) {
-            return $http.get(terminology.url.base)
-                .then(function(response){
-                    expandCocodaResource(response.data);
-                    return response.data;
+        // get terminology, including top concepts
+        get: function(terminology) {
+            return $resource(terminology.url.base).get({},
+                function(data){
+                    expandCocodaResource(data);
                 });
         },
         // look up a concept
         // TODO: URL template, such as
         // http://example.org/my-terminology/{notation}{?search}
-        concept: function(terminology, conceptId) {
+        // concept: function(terminology, conceptId) {
             // ...
-        },
+        // },
         // search for concepts
         search: function(terminology, query) {
-            return $http({ 
-                url: terminology.url.base, method: "GET", params: { search: query } }
-            ).then(function(response){
-                expandCocodaResource(response.data);
-                return response.data.concepts;
-            });
+            return $resource( terminology.url.base ).get( { search: query },
+                function(data){
+                    expandCocodaResource(data);
+                });
         },
     };
-});
-
-
+}]);
 
 // Service to read and write mappings
-Cocoda.factory('CocodaMapping',function($http){
+Cocoda.factory('CocodaMapping',['$resource',function($resource){
     return {
-        url: null,
-        // ...
+        // TODO
     };
-});
-
-// ...
+}]);
 
 }).call(this);

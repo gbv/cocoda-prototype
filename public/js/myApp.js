@@ -5,6 +5,7 @@ function CocodaAppController($scope, CocodaServer, CocodaTerminology) {
     $scope.api = '/api';
 
     // get basic data from Cocoda Server (TODO: error handling)
+
     CocodaServer.about($scope.api).then(function(provider){
         $scope.title   = provider.title;
         $scope.version = provider.version;
@@ -24,19 +25,22 @@ function CocodaAppController($scope, CocodaServer, CocodaTerminology) {
 
     $scope.selectTerminology = function(terminology) {
         $scope.currentTerminology = terminology;
-        CocodaTerminology.about(terminology).then(function(about) {
-            $scope.topConcepts = about.topConcepts;
-        });
-    }
+        $scope.currentTerminology = CocodaTerminology.get(terminology);
+    };
 
     $scope.searchTerminology = function() {
         var query = $scope.searchInTerminology;
-        CocodaTerminology.search(
+        $scope.searchResults = CocodaTerminology.search(
+            $scope.currentTerminology,
+            query
+        );
+  /*      CocodaTerminology.search(
             $scope.currentTerminology,
             query
         ).then(function(result){
             $scope.searchResult = result;
         });
+        */
     }
 }
 
