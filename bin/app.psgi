@@ -8,9 +8,12 @@ use Plack::App::Directory::Template;
 use Cocoda::Server;
 
 builder {
+    enable_if { $ENV{PLACK_ENV} eq 'development' } 'StackTrace';
+    enable_if { $ENV{PLACK_ENV} eq 'development' } 'Lint';
     enable 'Debug';
     builder {
         mount '/api' => builder {
+            enable 'AccessLog';
             # enable 'Plack::Middleware::JSON::ForBrowsers';
             enable 'Plack::Middleware::JSONP';
             Cocoda::Server->dance;

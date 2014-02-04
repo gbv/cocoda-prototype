@@ -36,7 +36,7 @@ test:
 
 start:
 	@if [ "$$PERLBREW_PERL" ]; then\
-		plackup -Ilib $(APP) ;\
+		plackup --no-default-middleware -Ilib $(APP) ;\
 	else \
 		perl -Ilocal/lib/perl5 local/bin/carton exec -- local/bin/starman $(APP) ;\
 	fi

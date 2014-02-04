@@ -10,60 +10,95 @@
 
 var Cocoda = angular.module('Cocoda',[]);
 
+// TODO: move into module
+function parseURLTemplate(url) {
+    var template = url.match(/(.+){\?(.+)}$/);
+    if (template) {
+        return {
+            base: template[1],
+            query: template[2].split(',').reduce(
+                function(o,k){o[k]=k;return o;},{}
+            )
+        }
+    } else {
+        return { 
+            base: url, 
+            query: { }
+        };
+    }
+}
+
+function expandCocodaResource(obj) {
+    for (var key in obj) {
+        if (obj[key] !== null && typeof(obj[key])=="object") {
+            expandCocodaResource(obj[key]);
+        } else if (key == 'url') {
+            obj['url'] = parseURLTemplate(obj['url'])
+        }
+    }
+}
+
+// use $resource with transformResponse instead of $http
+
 // Service to query basic information from a Cocoda server
 Cocoda.factory('CocodaServer',function($http){
     return {
-        apiBase: null,
-        about: function() {
-            return $http.get(this.apiBase/*,{cache:true}*/)
+        about: function(url) {
+            return $http.get(url)
                 .then(function(response){
-                    return response.data;
+                    expandCocodaResource(response.data);
+                    return response.data.provider;
                 });
         },
+        // list terminologies
+        terminologies: function(url) {
+            return $http.get(url).then(function(response){
+                    expandCocodaResource(response.data);
+                    return response.data.terminologies;
+                });
+        },
+        // list mappings
+        mappings: function() {
+            // TODO
+        }
     };
 });
 
 // Service to query a Cocoda terminology server
 Cocoda.factory('CocodaTerminology',function($http){
     return {
-        apiBase: null,
-        // list available terminologies
-        list: function() {
-            return $http.get(this.apiBase/*,{cache:true}*/)
-                .then(function(response){
-                    var terminologies = [];
-                    for(var key in response.data) {
-                        terminologies.push(response.data[key]);
-                    }
-                    return terminologies;
-                });
-        },
         // get top concepts
-        about: function(terminologyKey) {
-            return $http.get(this.apiBase + '/' + terminologyKey)
+        about: function(terminology) {
+            return $http.get(terminology.url.base)
                 .then(function(response){
+                    expandCocodaResource(response.data);
                     return response.data;
                 });
         },
         // look up a concept
-        concept: function(terminologyKey, conceptId) {
+        // TODO: URL template, such as
+        // http://example.org/my-terminology/{notation}{?search}
+        concept: function(terminology, conceptId) {
             // ...
         },
         // search for concepts
-        search: function(terminologyKey, query) {
-            var url = this.apiBase + '/' + terminologyKey;
-            return $http({ url: url, method: "GET", params: { search: query } })
-                .then(function(response){
-                    return response.data.concepts;
-                });
+        search: function(terminology, query) {
+            return $http({ 
+                url: terminology.url.base, method: "GET", params: { search: query } }
+            ).then(function(response){
+                expandCocodaResource(response.data);
+                return response.data.concepts;
+            });
         },
     };
 });
 
+
+
 // Service to read and write mappings
 Cocoda.factory('CocodaMapping',function($http){
     return {
-        apiBase: null,
+        url: null,
         // ...
     };
 });

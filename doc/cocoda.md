@@ -5,69 +5,6 @@ returned by a Cocoda server instead of assuming some URL structure.
 
 # Cocoda Resources
 
-A Cocoda Resource is a JSON object that comprises any of the following keys:
-
-* title
-* version
-* services
-
-* terminologies
-* concepts
-* mappings
-* ocurrences
-
-## Concepts
-
-The key `concepts` contains an array of JSON objects with the following keys:
-
-notation
-  : Unique notation, gtiven as string. This may be empty for some authority 
-    files and mandatory for others. Corresponds to `skos:notation`.
-
-prefLabel
-  : Set of preferred labels, each uniquely mapped from a language. In some 
-    terminologies these labels are unique while other terminologies require 
-    a notation to uniquely refer to a concept. Correspond to `skos:prefLabel`.
-
-uri
-  : URI for use of concepts in SKOS/RDF.
-
-ancestors
-  : List of all broader transitive concepts. Roughly corresponds to
-    `skos:broaderTransitive`. Sorted ??
-
-narrower
-  : List of narrower/child concepts, each given as ???.
-    Corresponds to `skos:narrower`
-
-broader
-  : Corresponds to `skos:broader`
-
-notes
-  : Array of notes, each given as string. Corresponds to `skos:note`.
-
-More properties, such as `alias`, may be added in a later version.
-
-## Terminologies
-
-prefLabel
-  : Set of human-readable titles of the terminology, each uniquely mapped from
-    a language. Correspond to `skos:prefLabel`.
-
-uri
-  : An URI for uniquely identifying the terminology (optional).
-
-topConcepts
-  : corresponds to `skos:hasTopConcept`
-
-## Mappings
-
-...
-
-## Occurrences
-
-...
-
 ## Cocoda Resource Media Type
 
 Cocoda defines the media type `application/vnd.cocoda+json` for use with Cocoda

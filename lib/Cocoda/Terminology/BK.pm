@@ -33,10 +33,4 @@ sub concept {
     };
 }
 
-# full-text search for concepts
-sub search {
-    my ($self, $query) = @_;
-    return;
-}
-
 1;

@@ -31,7 +31,8 @@
         <div class="sheet">
           <h2>Terminologies</h2>
           <ul class="terminologies">
-            <li ng-repeat="terminology in terminologies" ng-click="selectTerminology(terminology)">
+            <li ng-repeat="terminology in terminologies | orderBy:'prefLabel.de'" 
+                ng-click="selectTerminology(terminology)">
               <a href="{{terminology.url}}">{{terminology.key}}</a>
               {{terminology.prefLabel.de}}
               <!-- TODO: search -->
@@ -47,8 +48,10 @@
           <h2>Search</h2>
           <form class="form-search">
             <label>Search in {{currentTerminology.key}}</label>
-            <input ng-model="searchInTerminology">
-            <button type="submit" class="btn" ng-click="searchTerminology()">
+            <input ng-model="searchInTerminology" ng-disabled="!currentTerminology.url.query.search">
+            <button type="submit" class="btn" ng-click="searchTerminology()"
+                 ng-disabled="!currentTerminology.url.query.search"
+                >
               <span class="glyphicon glyphicon-search"></span>
             </button>
           </form>

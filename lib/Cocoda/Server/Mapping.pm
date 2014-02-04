@@ -7,10 +7,10 @@ prefix '/mapping';
 # Return a list and/or general information about stored mappings.
 # Query parameters are supported to search for mappings.
 get '/' => sub {
-    my $source    = params->{source};
-    my $target    = params->{target};
-    my $from      = params->{from}; # may be array
-    my $to        = params->{to};   # may be array
+    my $sourceTerminology = params->{sourceTerminology};
+    my $targetTerminology = params->{targetTerminology};
+    my $sourceConcept = params->{sourceConcept}; # may be array
+    my $targetConcept = params->{targetConcept}; # may be array
     my $relevance = params->{relevance};
 
     send_error('not implemented yet',500);

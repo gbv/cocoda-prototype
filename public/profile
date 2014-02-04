@@ -1,6 +1,128 @@
 # Cocoda API
 
 The API provides access to terminologies, concepts, mappings, and concept
-ocurrences.
+ocurrences. The default content type is *Cocoda Resource* defined as a JSON
+object with MIME type `application/vnd.cocoda+json`.
+
+    Accept: application/vnd.cocoda+json
+
+The API is designed as Hypermedia API, so clients SHOULD NOT assume a fixed URL
+structure but discover links included in API responses. In particular, linked
+Cocoda Resources can be distributed on different hosts. Some links are given as
+URI templates with form-style query variables as defined in RFC 6570.
+
+   http://example.org/my-terminology{?search}
+
+## Cocoda Resources
+
+The following Cocoda Resource types can be distinguished:
+
+* Provider
+* Terminology Registry
+* Terminology
+* Concept
+* Mapping Service
+* Mapping
+* Ocurrence (?)
+
+A Cocoda Resource is a JSON object that comprises any of the following keys:
+
+provider
+  : title and services
+version
+  : ...
+concepts
+  : an array of concept descriptions
+terminologies
+  : ...
+mappings
+  : ...
+ocurrences
+  : ...
+
+### Cocoda Provider Description
+
+A Cocoda Provider contains links to Cocoda services.
+
+### Cocoda Terminology Registry Description
+
+A Cocoda Terminology Registry contains links to Cocoda Terminologies.
+
+### Cocoda Concept Description
+
+A concept description is a JSON object with any of the following keys:
+
+notation
+  : Unique notation, gtiven as string. This may be empty for some authority 
+    files and mandatory for others. Corresponds to `skos:notation`.
+
+prefLabel
+  : Set of preferred labels, each uniquely mapped from a language. In some 
+    terminologies these labels are unique while other terminologies require 
+    a notation to uniquely refer to a concept. Correspond to `skos:prefLabel`.
+
+uri
+  : URI for use of concepts in SKOS/RDF.
+
+url
+  : URL to get or modify the concept as Cocoda Resource
+
+ancestors
+  : List of all broader transitive concepts. Roughly corresponds to
+    `skos:broaderTransitive`. Sorted ??
+
+narrower
+  : List of narrower/child concepts, each given as ???.
+    Corresponds to `skos:narrower`
+
+broader
+  : Corresponds to `skos:broader`
+
+notes
+  : Array of notes, each given as string. Corresponds to `skos:note`.
+
+More properties, such as `alias`, may be added later.
+
+### Cocoda Terminology Description
+
+A terminology description is a JSON object with any of the following keys:
+
+prefLabel
+  : Set of human-readable titles of the terminology, each uniquely mapped from
+    a language. Correspond to `skos:prefLabel`.
+
+uri
+  : An URI for uniquely identifying the terminology (optional).
+
+topConcepts
+  : corresponds to `skos:hasTopConcept` (TODO)
+
+### Cocoda Mapping Description
+
+A mapping description is a JSON object to be specified.
+
+sourceConcept
+  : URI(s) or Concept description(s).
+
+targetConcept
+  : URI(s) or Concept description(s).
+
+sourceTerminology
+  : URI or Terminology description.
+
+targetTerminology
+  : URI or Terminology description.
+
+relevance
+  : ...
+
+An RDF triple with an [SKOS mapping property](http://www.w3.org/TR/skos-reference/#mapping)
+can be derived from a Cocoda mapping.
+
+## Client Errors
+
+...
+
+## Authentification
 
 ...

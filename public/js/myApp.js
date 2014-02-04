@@ -2,36 +2,39 @@ var myApp = angular.module('myApp',['Cocoda','ui.bootstrap']);
 
 function CocodaAppController($scope, CocodaServer, CocodaTerminology) {
 
-    $scope.api = CocodaServer.apiBase = '/api';
+    $scope.api = '/api';
 
     // get basic data from Cocoda Server (TODO: error handling)
-    CocodaServer.about().then(function(server){
-        $scope.title   = server.title;
-        $scope.version = server.version;
-        return server.services;
+    CocodaServer.about($scope.api).then(function(provider){
+        $scope.title   = provider.title;
+        $scope.version = provider.version;
+        return provider.services;
     }).then(function(services) {
-        CocodaTerminology.apiBase = services.terminologies;
-        CocodaTerminology.list().then(function(terminologies){
-            $scope.terminologies = terminologies;
-            if (!$scope.currentTerminology) {
-                $scope.currentTerminology = terminologies[0];
-            }
-        });
+        if (services.terminologies) {
+            CocodaServer.terminologies(services.terminologies)
+            .then(function(terminologies){
+                $scope.terminologies = terminologies;
+                if (!$scope.currentTerminology) {
+                    $scope.currentTerminology = terminologies[0];
+                }
+            });
+        }
+        // TODO: mappings and ocurrences
     });
 
     $scope.selectTerminology = function(terminology) {
         $scope.currentTerminology = terminology;
-        CocodaTerminology.about(terminology.key).then(function(about) {
+        CocodaTerminology.about(terminology).then(function(about) {
             $scope.topConcepts = about.topConcepts;
         });
     }
 
-
     $scope.searchTerminology = function() {
         var query = $scope.searchInTerminology;
-        var key   = $scope.currentTerminology.key;
-
-        CocodaTerminology.search(key,query).then(function(result){
+        CocodaTerminology.search(
+            $scope.currentTerminology,
+            query
+        ).then(function(result){
             $scope.searchResult = result;
         });
     }

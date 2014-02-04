@@ -17,15 +17,21 @@ foreach (@{ config->{terminologies} // [ ] }) {
 }
 
 sub about_terminology {
-    my ($key) = @_;
+    my ($t) = @_;
 
-    my $t = $terminologies->{$key};
+    return unless $t;
+
     my $prefLabel = $t->prefLabel;
+    my $key = $t->key;
+
+    my @parameters;
+    push @parameters, 'search' if $t->can('search');
+    my $url = request->uri_base . "/terminology/$key";
+    $url .= '{?'.join(',',@parameters).'}' if @parameters;
 
     my $about = { 
-        key       => $key,
         prefLabel => ref $prefLabel ? $prefLabel : { en => $prefLabel },
-        url       => request->uri_base . "/terminology/$key",
+        url       => $url,
     };
     $about->{uri} = $t->uri if $t->uri;
 
@@ -34,9 +40,12 @@ sub about_terminology {
 
 # Return a list of known terminologies
 get '/' => sub {
+    # TODO: filter and query
+    # TODO: add short name (notation)
     return {
-        map { $_ => about_terminology($_) }
-        keys %$terminologies
+        terminologies => [
+            map { about_terminology($_) } values %$terminologies
+        ]
     }
 };
 
@@ -45,10 +54,10 @@ get qr{/(?<terminology>[^/]+)/?$} => sub {
     my $key = captures->{terminology};
     if (my $terminology = $terminologies->{$key}) {
         my $search   = params->{search};
-        my $expand   = params->{expand}; # broader|narrower|ancestors
+#        my $expand   = params->{expand}; # broader|narrower|ancestors
 
         my $response = { 
-            terminology => about_terminology($key)
+            terminology => about_terminology( $terminologies->{key} )
         };
 
         if (defined $search) {
