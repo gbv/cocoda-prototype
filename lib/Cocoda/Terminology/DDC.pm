@@ -4,8 +4,11 @@ use Moo;
 
 extends 'Cocoda::Terminology';
 
-has '+title' => (
-    default => sub { 'Dewey Decimal Classification' }
+has '+prefLabel' => (
+    default => sub { {
+        en => 'Dewey Decimal Classification',
+        de => 'Dewey-Dezimalklassifikation',
+    } }
 );
 
 # look up a concept

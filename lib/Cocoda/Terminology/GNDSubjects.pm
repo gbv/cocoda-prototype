@@ -4,8 +4,11 @@ use Moo;
 
 extends 'Cocoda::Terminology';
 
-has '+title' => (
-    default => sub { 'Sachschlagwörter der Gemeinsamen Normdatei' }
+has '+prefLabel' => (
+    default => sub { {
+        de => 'Sachschlagwörter der Gemeinsamen Normdatei',
+        en => 'Subject headings of Integrated Authority File (GND)',
+    } }
 );
 
 with 'Cocoda::Role::JSONClient';
@@ -38,13 +41,13 @@ sub search {
 sub _to_cocoda {
     my ($gnd) = @_;
     
-    my ($caption) = map { $gnd->{$_} } grep { $_ =~ /^preferredName/ } keys %$gnd;
+    my ($prefLabel) = map { $gnd->{$_} } grep { $_ =~ /^preferredName/ } keys %$gnd;
 
     my $id = $gnd->{gndIdentifier};
     my $concept = { 
-        notation => $id,
-        uri      => "http://d-nb.info/gnd/$id",
-        caption  => { de => $caption },
+        notation  => $id,
+        uri       => "http://d-nb.info/gnd/$id",
+        prefLabel => { de => $prefLabel },
     };
 
     if (my $broader = $gnd->{broaderTermGeneral}) {;

@@ -54,7 +54,7 @@ Cocoda.factory('CocodaTerminology',function($http){
             var url = this.apiBase + '/' + terminologyKey;
             return $http({ url: url, method: "GET", params: { search: query } })
                 .then(function(response){
-                    return response.data.result;
+                    return response.data.concepts;
                 });
         },
     };

@@ -18,13 +18,17 @@ foreach (@{ config->{terminologies} // [ ] }) {
 
 sub about_terminology {
     my ($key) = @_;
+
     my $t = $terminologies->{$key};
+    my $prefLabel = $t->prefLabel;
+
     my $about = { 
-        key   => $key,
-        title => $t->title,
-        url   => request->uri_base . "/terminology/$key",
+        key       => $key,
+        prefLabel => ref $prefLabel ? $prefLabel : { en => $prefLabel },
+        url       => request->uri_base . "/terminology/$key",
     };
     $about->{uri} = $t->uri if $t->uri;
+
     return $about;
 }
 
@@ -49,7 +53,7 @@ get qr{/(?<terminology>[^/]+)/?$} => sub {
 
         if (defined $search) {
             if ($terminology->can('search')) {
-                $response->{result} = $terminology->search($search);
+                $response->{concepts} = $terminology->search($search);
             } else {
                 send_error('terminology does not support search',404);
             }
@@ -92,47 +96,8 @@ get qr{/(?<terminology>[^/]+)/(?<concept>.+)$} => sub {
 
 =head1 DESCRIPTION
 
-A concept in Cocoda belongs to exactely one terminology. A concepts can have
-the following properties:
-
-=over
-
-=item notation
-
-Unique notation. This may be empty for some authority files and mandatory for
-others.
-
-=item caption
-
-Set of caption, each uniquely mapped from a language.
-
-=item uri
-
-URI for use of concepts in SKOS/RDF.
-
-=item ancestors
-
-...
-
-=item narrower
-
-...
-
-=item broader
-
-...
-
-=item register
-
-...
-
-=item notes
-
-...Anmerkungen...
-
-=back
-
-More properties, such as C<alias>, may be added in a later version.
+A concept in Cocoda belongs to exactely one terminology. The JSON format of a concept
+is defined in the Cocoda specification.
 
 =head1 QUERIES
 

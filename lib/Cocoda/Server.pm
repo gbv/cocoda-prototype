@@ -8,9 +8,16 @@ use Cocoda::Server::Occurrence;
 
 use Encode;
 
-# Fix UTF8 mess
+# TODO: Fix UTF8 mess
 set serializer => 'JSON';
 hook after => sub {
+    content_type 'application/vnd.cocoda+json';
+
+    # http://tools.ietf.org/html/draft-wilde-profile-link-04
+    if (my $profile = config->{profile}) {
+        header 'Link', "<$profile>; rel=\"profile\"";
+    }
+
 #    my $content = $_[0]->content; # is double encoded
 #    $_[0]->content( encode('utf8',decode('utf8',$content)) );
 #    $_[0]->{content_type} .= '; encoding=UTF-8';

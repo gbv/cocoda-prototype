@@ -29,9 +29,9 @@ build: git noperlbrew deps
 
 test:
 	@if [ "$$PERLBREW_PERL" ]; then\
-		prove -Ilib t ;\
+		prove -r -Ilib t ;\
 	else\
-		perl -Ilocal/lib/perl5 local/bin/carton exec -- prove -Ilib t ;\
+		perl -Ilocal/lib/perl5 local/bin/carton exec -- prove -r -Ilib t ;\
 	fi
 
 start:
@@ -47,10 +47,13 @@ noperlbrew:
 		exit 1 ;\
 	fi
 
+doc:
+	cd doc; make html pdf
+
 clean:
 	@rm -rf debuild
 
 purge: clean
 	@rm -rf local
 
-.PHONY: about deps build test start noperlbrew
+.PHONY: about deps build test start noperlbrew doc

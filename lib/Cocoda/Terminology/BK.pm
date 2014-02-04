@@ -6,8 +6,10 @@ use JSON;
 
 extends 'Cocoda::Terminology';
 
-has '+title' => (
-    default => sub { 'Basisklassifikation' }
+has '+prefLabel' => (
+    default => sub { {
+        de => 'Basisklassifikation',
+    } }
 );
 
 # look up a concept
@@ -22,12 +24,12 @@ sub concept {
     return unless $res->is_success;
     my $rdf = decode_json($res->content);
 
-    my $caption = $rdf->{$uri}->{"http://purl.org/dc/elements/1.1/title"}->[0]->{"value"};
+    my $prefLabel = $rdf->{$uri}->{"http://purl.org/dc/elements/1.1/title"}->[0]->{"value"};
 
     return {
         uri => $uri,
         notation => $id,
-        caption => { de => $caption },
+        prefLabel => { de => $prefLabel },
     };
 }
 

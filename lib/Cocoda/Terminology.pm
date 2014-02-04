@@ -3,9 +3,9 @@ package Cocoda::Terminology;
 use v5.14;
 use Moo;
 
-has title => ( 
+has prefLabel => ( 
     is => 'ro', 
-    default => sub { 'unknown' } 
+    default => sub { 'unknown' }
 ); 
 
 has key => (
@@ -33,9 +33,9 @@ A lowercase letter code to uniquely identify the terminology within the scope
 of a Cocoda server. A class Cocoda::Terminology::FOO, if derived from
 Cocoda::Terminology, will automatically get the default key "foo".
 
-=item title
+=item prefLabel
 
-A human-readable title.
+A human-readable title. Will be used as prefLabel.
 
 =item uri
 
@@ -47,29 +47,9 @@ A terminology should implement the following query methods:
 
 =head1 concept($concept)
 
-Look up a concept.
-
-Expected to return a hash reference with the following (optional) fields:
-
-=over
-
-=item notation
-
-Notation of the concept
-
-=item caption
-
-Hash reference that maps language tags to concept captions.
-
-=item narrower
-
-List of narrower/child concepts.
-
-=item ancestors
-
-List of all broader transitive concepts.
-
-=back
+Look up a concept. Expected to return a hash reference with the (optional)
+fields notation, prefLabel, narrower, broader, and ancestors as defined by
+the Cocoda specification.
 
 =head2 search($query)
 

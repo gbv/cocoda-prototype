@@ -5,7 +5,7 @@ use Dancer2;
 # for testing
 our $databases = {
     gvk => {
-        title => 'GVK'
+        prefLabel => { en => 'GVK' }
     }
 };
 

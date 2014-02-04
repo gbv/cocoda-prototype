@@ -4,10 +4,10 @@ use Moo;
 
 extends 'Cocoda::Terminology';
 
-use URI::Escape;
-
-has '+title' => (
-    default => sub { 'Regensburger Verbundklassifikation' }
+has '+prefLabel' => (
+    default => sub { { 
+        de => 'Regensburger Verbundklassifikation' 
+    } }
 );
 
 with 'Cocoda::Role::JSONClient';
@@ -52,6 +52,8 @@ sub concept {
     return $concept;
 }
 
+use URI::Escape;
+
 sub search {
     my ($self, $query) = @_;
 
@@ -73,12 +75,12 @@ sub _to_cocoda {
 
     my $concept = { 
         notation => ($node->{notation} // ''),
-        caption  => {
+        prefLabel => {
             de => $node->{benennung}
         },
     };
 
-    $concept->{register} = $node->{register} 
+    $concept->{notes} = $node->{register} 
         if exists $node->{register};
     $concept->{narrower} = [ ]
         if ($node->{has_children} // 'yes') ne 'yes';

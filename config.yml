@@ -4,7 +4,8 @@ engines:
         pretty: '1'
 
 title: Cocoda Server
-version: 0.0.3
+version: 0.0.4
+profile: '../profile'
 
 terminologies:
     - DDC

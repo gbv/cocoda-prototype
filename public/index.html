@@ -33,7 +33,7 @@
           <ul class="terminologies">
             <li ng-repeat="terminology in terminologies" ng-click="selectTerminology(terminology)">
               <a href="{{terminology.url}}">{{terminology.key}}</a>
-              {{terminology.title}}
+              {{terminology.prefLabel.de}}
               <!-- TODO: search -->
             </li>
           </ul>
@@ -73,7 +73,7 @@
   </h2> 
   <ul class="concepts" collapse="collapsed" style="height:100%; overflow-y:scroll;">
     <li ng-repeat='c in concepts'>
-      <notation>{{c.notation}}</notation> {{c.caption.de}}
+      <notation>{{c.notation}}</notation> {{c.prefLabel.de}}
     </li>
   </ul>
 </div>

@@ -19,6 +19,9 @@ sub to_json {
     $s->serialize(@_);
 }
 
+our @JSON_OPTIONS = qw(allow_nonref allow_unknown ascii canonical
+    convert_blessed indent latin1 pretty shrink space_after space_before);
+
 # class definition
 sub loaded {1}
 
@@ -27,8 +30,10 @@ sub serialize {
 
     my $config = eval { $self->context->app->config->{engines}->{JSON} };
 
-    foreach (keys %$config) {
-        $options->{$_} = $config->{$_} unless defined $options->{$_};
+    foreach (@JSON_OPTIONS) {
+        if (defined $config->{$_} and !defined $options->{$_}) {
+            $options->{$_} = $config->{$_}
+        }
     }
 
     $options->{utf8} = 1 if !defined $options->{utf8};
