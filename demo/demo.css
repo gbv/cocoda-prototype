@@ -1,0 +1,10 @@
+.concept {
+    border: 1px solid #666;
+}
+ul.ancestors { padding:0; }
+ul.ancestors li {
+    display: inline;
+}
+li::after {
+    content: " > ";
+}

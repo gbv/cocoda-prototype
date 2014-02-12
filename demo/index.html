@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" ng-app="cocodaDemo">
+<head>
+  <meta charset="utf-8">
+  <title>ng-cocoda demo application</title>
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+
+{{sampleConcept}}
+
+<hr>
+
+<p>
+  The directive attribute <tt>concept-view</tt> displays a concept: 
+</p>
+
+  <div concept-view concept="sampleConcept" class="concept">
+    <ul ng-if="ancestors && ancestors.length" class="ancestors">
+      <li ng-repeat="a in ancestors" ng-click="update(a);reload();">
+        <span concept-view concept="a">{{prefLabel.en}}</span>
+      <li>
+    </ul>
+    <span>{{notation}}</span>
+    <b>{{prefLabel.en}}</b>
+    <!-- ...broader, narrower, related... -->
+ </div>
+
+</p>
+<p>
+  The element content can be used to control how the concept is shown:
+
+  <div concept-view concept="sampleConcept" class="concept">
+    {{notation}}: <i>{{prefLabel.en}}</i>
+  </div>
+</p>
+
+<p>
+  Interactive elements can be added, for instance to 
+  change the concept on clicks by loading from a cocoda 
+  server...(TODO)
+</p>
+
+<script src="lib/angular.min.js"></script>
+<script src="lib/angular-resource.min.js"></script>
+<script src="demo.js"></script>
+<script src="../src/directives/conceptView.js"></script>
+
+</body>
+</html>

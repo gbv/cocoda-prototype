@@ -1,0 +1,10 @@
+{
+    "name": "ng-cocoda",
+    "version": "0.0.1",
+    "author": "Jakob Voß <voss@gbv.de>",
+    "license": "AGPL",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/gbv/ng-cocoda.git"
+    }
+}
