@@ -24,37 +24,44 @@ function CocodaAppController($scope, CocodaServer, CocodaTerminology) {
     });
 
     $scope.selectTerminology = function(terminology) {
-        $scope.currentTerminology = terminology;
         $scope.currentTerminology = CocodaTerminology.get(terminology);
     };
 
-    $scope.searchTerminology = function() {
-        var query = $scope.searchInTerminology;
-        $scope.searchResults = CocodaTerminology.search(
-            $scope.currentTerminology,
-            query
-        );
-  /*      CocodaTerminology.search(
-            $scope.currentTerminology,
-            query
-        ).then(function(result){
-            $scope.searchResult = result;
-        });
-        */
-    }
 }
 
-// defines <conceptlist>
-myApp.directive('conceptlist', function() {
+// defines <cocoda-conceptlist>
+myApp.directive('cocodaConceptlist', function() {
     return {
-        restrict:'E',
+        restrict: 'E',
         scope: {
-            title: '=title',
-            concepts: '=concepts',
+            title: '=',
+            concepts: '=',
         },
-        templateUrl: "conceptlist.html",
+        templateUrl: "templates/conceptlist.html",
         controller: function($scope) {
-            // how to interact, e.g. on clicks
+            // TODO: browsing in the list
+        }
+    };
+});
+
+// defines <cocoda-conceptsearch>
+myApp.directive('cocodaConceptsearch', function() {
+    return {
+        restrict: 'E',
+        scope: {
+            title: '=',
+            terminology: '=',
+            result: '=',
+        },
+        templateUrl: "templates/conceptsearch.html",
+        controller: function($scope, CocodaTerminology) {
+            $scope.search = function() {
+                console.log("search: " + $scope.query);
+                $scope.result = CocodaTerminology.search(
+                    $scope.terminology,
+                    $scope.query
+                );
+            };
         }
     };
 });

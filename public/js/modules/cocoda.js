@@ -82,10 +82,7 @@ Cocoda.factory('CocodaTerminology',['$resource',function($resource){
         // },
         // search for concepts
         search: function(terminology, query) {
-            return $resource( terminology.url.base ).get( { search: query },
-                function(data){
-                    expandCocodaResource(data);
-                });
+            return $resource( terminology.url.base ).query( { search: query } );
         },
     };
 }]);

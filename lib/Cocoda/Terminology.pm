@@ -8,6 +8,12 @@ has prefLabel => (
     default => sub { 'unknown' }
 ); 
 
+has shortLabel => (
+    is => 'ro',
+    lazy => 1,
+    builder => sub { uc($_[0]->key) },
+);
+
 has key => (
     is => 'ro', 
     default => sub {
@@ -36,6 +42,11 @@ Cocoda::Terminology, will automatically get the default key "foo".
 =item prefLabel
 
 A human-readable title. Will be used as prefLabel.
+
+=item shortLabel
+
+An abbreviation or acronym to refer to the terminology. If not set, the
+uppercase key will be used.
 
 =item uri
 

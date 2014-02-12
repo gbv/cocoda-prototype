@@ -1,0 +1,11 @@
+<h2 ng-if="title">{{title}}</h2>
+<form class="form-search">
+  <label>Search in {{terminology.shortLabel}}</label>
+  <input ng-model="query" ng-disabled="!terminology.url.query.search">
+  <!-- TODO: ng-click -->
+  <button type="submit" class="btn" 
+      ng-click="search()"
+      ng-disabled="!terminology.url.query.search">
+    <span class="glyphicon glyphicon-search"></span>
+  </button>
+</form>

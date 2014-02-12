@@ -30,8 +30,9 @@ sub about_terminology {
     $url .= '{?'.join(',',@parameters).'}' if @parameters;
 
     my $about = { 
-        prefLabel => ref $prefLabel ? $prefLabel : { en => $prefLabel },
-        url       => $url,
+        prefLabel  => ref $prefLabel ? $prefLabel : { en => $prefLabel },
+        url        => $url,
+        shortLabel => $t->shortLabel,
     };
     $about->{uri} = $t->uri if $t->uri;
 
@@ -56,13 +57,11 @@ get qr{/(?<terminology>[^/]+)/?$} => sub {
         my $search   = params->{search};
 #        my $expand   = params->{expand}; # broader|narrower|ancestors
 
-        my $response = { 
-            terminology => about_terminology( $terminologies->{key} )
-        };
+        my $response = about_terminology( $terminologies->{$key} );
 
         if (defined $search) {
             if ($terminology->can('search')) {
-                $response->{concepts} = $terminology->search($search);
+                $response = $terminology->search($search);
             } else {
                 send_error('terminology does not support search',404);
             }

@@ -33,33 +33,22 @@
           <h2>Terminologies</h2>
           <ul class="terminologies">
             <li ng-repeat="terminology in terminologies | orderBy:'prefLabel.de'" 
-                ng-click="selectTerminology(terminology)">
-              <a href="{{terminology.url}}">{{terminology.key}}</a>
+                ng-click="selectTerminology(terminology)"
+                ng-class="{selected: currentTerminology.url.base == terminology.url.base}">
               {{terminology.prefLabel.de}}
-              <!-- TODO: search -->
+              (<a href="{{terminology.url.base}}">{{terminology.shortLabel}}</a>)
             </li>
           </ul>
         </div>
-        <conceptlist title="'Top Concepts'" concepts="currentTerminology.topConcepts"></conceptlist>
+        <cocoda-conceptlist title="'Top Concepts'" concepts="currentTerminology.topConcepts"></cocoda-conceptlist>
       </div>
       <div class="col-md-4">
         
         <div class="sheet">
-          <!-- TODO: make tab together with top concepts -->
-          <h2>Search</h2>
-          <form class="form-search">
-            <label>Search in {{currentTerminology.key}}</label>
-            <input ng-model="searchInTerminology" ng-disabled="!currentTerminology.url.query.search">
-            <button type="submit" class="btn" ng-click="searchTerminology()"
-                 ng-disabled="!currentTerminology.url.query.search"
-                >
-              <span class="glyphicon glyphicon-search"></span>
-            </button>
-          </form>
-        </div>
-        <div class="sheet">
-          <conceptlist title="'Results'" 
-                concepts="searchResult" highlight="searchInTerminology"></conceptlist>
+          <cocoda-conceptsearch title="'Search'" terminology="currentTerminology" result="searchResult">
+          </cocoda-conceptsearch>
+          <cocoda-conceptlist concepts="searchResult" highlight="searchInTerminology">
+          </cocoda-conceptlist>
         </div>
 
         <div class="sheet">
@@ -67,21 +56,6 @@
             ...
         </div>
 
-<script type="text/ng-template" id="conceptlist.html">
-<!-- TODO: make collapser a widget-or-element 
-  <sheet title="..." collapsible>...</sheet>
--->
-<div ng-if="concepts" class="sheet">
-  <h2 ng-click="collapsed = !collapsed">{{title}}
-    <span class="collapser glyphicon" ng-class="collapsed ? 'glyphicon-plus-sign' : 'glyphicon-minus-sign'"></span>
-  </h2> 
-  <ul class="concepts" collapse="collapsed" style="height:100%; overflow-y:scroll;">
-    <li ng-repeat='c in concepts'>
-      <notation>{{c.notation}}</notation> {{c.prefLabel.de}}
-    </li>
-  </ul>
-</div>
-</script>
       </div>
       <div class="col-md-4">
         <div class="sheet">
@@ -92,4 +66,5 @@
     </div> <!-- row -->
   </div>
 </body>
+
 </html>

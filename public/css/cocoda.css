@@ -48,3 +48,6 @@ notation {
     color: #33f;
 }
 
+li.selected {
+    font-weight: bold;
+}

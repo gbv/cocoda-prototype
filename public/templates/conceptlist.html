@@ -1,0 +1,10 @@
+<div class="sheet">
+  <h2 ng-if="title" ng-click="collapsed = !collapsed">{{title}}
+    <span class="collapser glyphicon" ng-class="collapsed ? 'glyphicon-plus-sign' : 'glyphicon-minus-sign'"></span>
+  </h2> 
+  <ul class="concepts" collapse="title && collapsed" style="height:100%; overflow-y:scroll;">
+    <li ng-repeat='c in concepts'>
+      <notation>{{c.notation}}</notation> {{c.prefLabel.de}}
+    </li>
+  </ul>
+</div>
