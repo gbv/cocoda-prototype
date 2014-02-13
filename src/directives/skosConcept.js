@@ -1,6 +1,4 @@
 // requires AngularJS >= 1.2
-
-angular.module('Cocoda',[])
 // Display a concept (skos:Concept) with custom template having following variables
 // - ancestors (array of concepts)
 // - prefLabel (object of strings)
@@ -10,12 +8,12 @@ angular.module('Cocoda',[])
 // - broader ...
 // - narrower ...
 // - related ...
-.directive('conceptView', function() {
+ngSKOS.directive('skosConcept', function() {
     return {
         restrict: 'EA',
         scope: { concept: '=' },
-        transclude: "element",
-        template: "",
+        transclude: 'element',
+        template: '',
         link: function link($scope, element, attrs, controller, transclude) {
             $scope.update = function(concept) {
                 if (concept) {
@@ -24,7 +22,7 @@ angular.module('Cocoda',[])
                 // TODO: choose prefLabel by language attribute
                 // TODO: replace ancestors with list of ancestors
                 angular.forEach(
-                    ['ancestors','prefLabel','altLabel','notation'],
+                    ['ancestors','prefLabel','altLabel','notation','narrower','broader','related'],
                     function(field) { 
                         $scope[field] = $scope.concept[field]; 
                         // TODO: add watcher/trigger
@@ -36,6 +34,7 @@ angular.module('Cocoda',[])
             $scope.reload = function() { };
 
             $scope.update();
+
             transclude($scope,
                 function(clone) {
                     element.after(clone);

@@ -5,6 +5,22 @@ ul.ancestors { padding:0; }
 ul.ancestors li {
     display: inline;
 }
-li::after {
+.ancestors li::after {
     content: " > ";
 }
+
+ul.broader {
+
+} 
+
+ul.narrower {
+
+}
+
+/* show language attribute after element */
+.show-lang:after {
+    content: "@" attr(lang);
+    color: #999;
+    padding-left: 2px;
+}
+

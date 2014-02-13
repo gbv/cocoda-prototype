@@ -1,4 +1,4 @@
-var cocodaDemo = angular.module('cocodaDemo', ['Cocoda']);
+var cocodaDemo = angular.module('cocodaDemo', ['ngSKOS']);
 cocodaDemo.run(function($rootScope) {
     $rootScope.sampleConcept = {
         ancestors: [ 
@@ -6,7 +6,11 @@ cocodaDemo.run(function($rootScope) {
             { 'prefLabel': { en: 'child' } }
         ],
         notation: 'XY',
-        prefLabel: { en: 'SampleConcept' },
+        prefLabel: { en: 'Sample&Concept', de: 'Beispiel<>Konzept' },
         note: { en: ['this is a note'] },
+        narrower: [
+            { prefLabel: { en: 'c1' } },
+            { prefLabel: { en: 'c2' } },
+        ]
     };
 });

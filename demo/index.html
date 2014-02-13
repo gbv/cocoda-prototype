@@ -2,35 +2,67 @@
 <html lang="en" ng-app="cocodaDemo">
 <head>
   <meta charset="utf-8">
-  <title>ng-cocoda demo application</title>
+  <title>ng-skos demo application</title>
   <link rel="stylesheet" href="demo.css">
 </head>
 <body>
 
-{{sampleConcept}}
+<h1>Directives</h1>
 
-<hr>
-
+<h2>skos-label</h2>
 <p>
-  The directive attribute <tt>concept-view</tt> displays a concept: 
+  Used as attribute to emit the preferred label of a concept. The lang
+  attribute of the directive element is read and set accordingly. If
+  no label of the required language exists, another language is selected.
+</p>
+<p>
+  <ul>
+    <li><span skos-label concept="sampleConcept" lang="de" class="show-lang"/></li>
+    <li><span skos-label concept="sampleConcept" lang="en" class="show-lang"/></li>
+    <li><span skos-label concept="sampleConcept" class="show-lang"/></li>
+    <li><span skos-label concept="sampleConcept" lang="fr" class="show-lang"/></li>
+  </ul>
 </p>
 
-  <div concept-view concept="sampleConcept" class="concept">
-    <ul ng-if="ancestors && ancestors.length" class="ancestors">
-      <li ng-repeat="a in ancestors" ng-click="update(a);reload();">
-        <span concept-view concept="a">{{prefLabel.en}}</span>
-      <li>
+<h2>skos-concept</h2>
+<p>
+  Used as element or attribute to display a concept.
+</p>
+
+<div skos-concept concept="sampleConcept" class="concept">
+  <ul ng-if="ancestors && ancestors.length" class="ancestors">
+    <li ng-repeat="a in ancestors" ng-click="update(a);reload();">
+     <span skos-label concept="a"/>
+    <li>
+  </ul>
+  <span>{{notation}}</span>
+  <b>{{prefLabel.en}}</b>
+  <div ng-if="broader && broader.length" class="broader">
+    BT:
+    <ul>
+      <li ng-repeat="c in broader" ng-click="update(c);reload();">
+        <span skos-label concept="c"/>
+      </li>
     </ul>
-    <span>{{notation}}</span>
-    <b>{{prefLabel.en}}</b>
-    <!-- ...broader, narrower, related... -->
- </div>
+  </div>
 
-</p>
+  <div skos-concept-list concept="c in narrower" class="narrower" title="NT:" action="update">
+    A: {{c}}
+  </div>
+
+  <div ng-if="related && related.length" class="related">
+    RT:
+    <ul>
+      <li ng-repeat="c in related" ng-click="update(c);reload();">
+        <span skos-label concept="c"/>
+      </li>
+    </ul>
+  </div>
+</div>
 <p>
   The element content can be used to control how the concept is shown:
 
-  <div concept-view concept="sampleConcept" class="concept">
+  <div skos-concept concept="sampleConcept" class="concept">
     {{notation}}: <i>{{prefLabel.en}}</i>
   </div>
 </p>
@@ -41,10 +73,42 @@
   server...(TODO)
 </p>
 
+<h2>skos-concept-list</h2>
+<p>...</p>
+
+<hr>
+{{sampleConcept}}
+
+<h1>Sample Concept</h1>
+<!-- TODO: conceptEditor -->
+<form>
+    prefLabel:
+    <ul>
+      <li ng-repeat="(lang,label) in sampleConcept.prefLabel">
+        {{lang}}: <input type="text" ng-model="sampleConcept.prefLabel[lang]"/>
+        <button>x</button>
+      </li>
+      <li>
+        <input type="text" size="4" />
+        <input type="text">
+        <button>+</button>
+      </li>
+    </ul>
+</form>
+<hr>
+
+
+<hr>
+
 <script src="lib/angular.min.js"></script>
 <script src="lib/angular-resource.min.js"></script>
+<script src="lib/angular-sanitize.min.js"></script>
 <script src="demo.js"></script>
-<script src="../src/directives/conceptView.js"></script>
+
+<script src="../src/ng-skos.js"></script>
+<script src="../src/directives/skosLabel.js"></script>
+<script src="../src/directives/skosConcept.js"></script>
+<script src="../src/directives/skosConceptList.js"></script>
 
 </body>
 </html>
