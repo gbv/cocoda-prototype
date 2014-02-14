@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/gbv/ng-skos.png?branch=master)](https://travis-ci.org/gbv/ng-skos)
+
 # Requirements
 
 Require AngularJS >= 1.2.
@@ -36,6 +38,10 @@ For contious testing (tests are re-run on changes), call:
 
     grunt watch
 
+As configured in `.travis.yml` the tests are automatically 
+[executed at travis-ci](https://travis-ci.org/gbv/ng-skos)
+when pushed to GitHub.
+
 ## Documentation
 
 Documentation is written using
@@ -45,3 +51,4 @@ with module [grunt-ngdocs](https://www.npmjs.org/package/grunt-ngdoc).
 Just call
 
     grunt docs
+    
