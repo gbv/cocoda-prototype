@@ -1,10 +1,21 @@
 {
-    "name": "ng-skos",
-    "version": "0.0.1",
-    "author": "Jakob Voß <voss@gbv.de>",
-    "license": "AGPL",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/gbv/ng-cocoda.git"
-    }
+  "name": "ng-skos",
+  "version": "0.0.1",
+  "author": "Jakob Voß <voss@gbv.de>",
+  "description": "AngularJS module to work with simple knowledge organization systems (SKOS)",
+  "license": "AGPL",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gbv/ng-skos.git"
+  },
+  "devDependencies": {
+    "karma": "~0.10.9",
+    "karma-jasmine": "~0.1.5"
+  },
+  "dependencies": {
+    "grunt": "~0.4.2",
+    "grunt-ngdocs": "~0.2.1",
+    "grunt-contrib-connect": "~0.3.0",
+    "grunt-contrib-clean": "~0.5.0"
+  }
 }

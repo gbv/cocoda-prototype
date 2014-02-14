@@ -1,20 +1,36 @@
-// requires AngularJS >= 1.2
-// Display a concept (skos:Concept) with custom template having following variables
-// - ancestors (array of concepts)
-// - prefLabel (object of strings)
-// - altLabel (object of array of strings)
-// - notation (string)
-// - note (object of array of strings)
-// - broader ...
-// - narrower ...
-// - related ...
+/**
+ * @ngdoc directive
+ * @name ng-skos.directive:skosConcept
+ * @restrict AE
+ * @scope
+ * @description
+ * 
+ * Display a concept with a custom template.
+ *
+ * The following variables are added to the scope:
+ * <ul>
+ * <li>ancestors (array of concepts)
+ * <li>prefLabel (object of strings)
+ * <li>altLabel (object of array of strings)
+ * <li>notation (string)
+ * <li>note (object of array of strings)
+ * <li>broader (array of concepts)
+ * <li>narrower (array of concepts)
+ * <li>related (array of concepts)
+ * </ul>
+ *
+ * @param {object} concept the concept to display
+ */
 ngSKOS.directive('skosConcept', function() {
     return {
-        restrict: 'EA',
+        restrict: 'AE',
         scope: { concept: '=' },
         transclude: 'element',
         template: '',
         link: function link($scope, element, attrs, controller, transclude) {
+
+//            attrs.skosConcept;
+
             $scope.update = function(concept) {
                 if (concept) {
                     $scope.concept = concept;
@@ -37,7 +53,7 @@ ngSKOS.directive('skosConcept', function() {
 
             transclude($scope,
                 function(clone) {
-                    element.after(clone);
+                    element.append(clone);
                 }
             );
         }
