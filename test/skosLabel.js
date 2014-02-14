@@ -13,17 +13,15 @@ describe('skos-concept directive', function() {
                 }
             };
 
-            var elem = angular.element(html);
-            $compile(elem)($rootScope);
+            var elem = $compile(html)($rootScope);
+
             $rootScope.$digest();
-     
             expect(elem.html()).toBe('chair');
 
             // modify label
             $rootScope.c1.prefLabel.en = 'stool';
             $rootScope.$digest();
             expect(elem.html()).toBe('stool');
-
         })
     );
 });

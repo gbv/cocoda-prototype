@@ -3,23 +3,21 @@
 describe('skos-concept directive', function() {
     beforeEach(module('ngSKOS'));
 
-    it('...', function() { 
-        inject(function($compile, $rootScope) {
-            $rootScope.dummy = 1;
-            var html = "<span>{{dummy}}</span>";
-            var element = $compile(html)($rootScope);
+    it('should do something', function() { 
+        inject(function($compile,$rootScope) {
+            var html = "<div skos-concept='c1'>{{notation}}: <i>{{prefLabel.en}}</i></div>";
+     
+            $rootScope.c1 = { 
+                prefLabel: { en: 'chair' },
+                notation: 'C',
+            };
 
-            $rootScope.$digest(); // fire all watches
-            expect(element.html()).toBe("1");
+            var elem = $compile(html)($rootScope);
 
-            $rootScope.c1 = { notation: 'abc' };
-            html = "<div skos-concept concept='c1'>N:{{notation}}</div>";
-            element = $compile(html)($rootScope);
-
-            $rootScope.$digest(); // fire all watches
-            expect(element.html()).toBe("N");
-
-            // Modify $rootScope. ...
+            $rootScope.$apply();
+            var next = elem.next();
+            
+            expect(next.text()).toBe('C: chair');
         }); 
     });
 });

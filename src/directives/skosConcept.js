@@ -1,7 +1,7 @@
 /**
  * @ngdoc directive
  * @name ng-skos.directive:skosConcept
- * @restrict AE
+ * @restrict A
  * @scope
  * @description
  * 
@@ -19,24 +19,21 @@
  * <li>related (array of concepts)
  * </ul>
  *
- * @param {object} concept the concept to display
+ * @param {object} skosConcept the concept to display
  */
 ngSKOS.directive('skosConcept', function() {
     return {
-        restrict: 'AE',
-        scope: { concept: '=' },
+        restrict: 'A',
+        scope: { concept: '=skosConcept' },
         transclude: 'element',
         template: '',
         link: function link($scope, element, attrs, controller, transclude) {
-
-//            attrs.skosConcept;
 
             $scope.update = function(concept) {
                 if (concept) {
                     $scope.concept = concept;
                 }
-                // TODO: choose prefLabel by language attribute
-                // TODO: replace ancestors with list of ancestors
+                // TODO: choose prefLabel by language attribute (?)
                 angular.forEach(
                     ['ancestors','prefLabel','altLabel','notation','narrower','broader','related'],
                     function(field) { 
@@ -53,7 +50,7 @@ ngSKOS.directive('skosConcept', function() {
 
             transclude($scope,
                 function(clone) {
-                    element.append(clone);
+                    element.after(clone);
                 }
             );
         }

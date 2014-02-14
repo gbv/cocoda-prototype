@@ -12,6 +12,14 @@ module.exports = function(config) {
 
         frameworks: ['jasmine'],
 
+        browsers: ['Firefox'],
+
+        plugins: [
+            'karma-jasmine',
+            'karma-phantomjs-launcher',
+            'karma-firefox-launcher'
+        ],
+
         // continuous integration mode
         autoWatch: true,
         singleRun: false,

@@ -17,10 +17,10 @@
 </p>
 <p>
   <ul>
-    <li><span skos-label concept="sampleConcept" lang="de" class="show-lang"/></li>
-    <li><span skos-label concept="sampleConcept" lang="en" class="show-lang"/></li>
-    <li><span skos-label concept="sampleConcept" class="show-lang"/></li>
-    <li><span skos-label concept="sampleConcept" lang="fr" class="show-lang"/></li>
+    <li><span skos-label="sampleConcept" lang="de" class="show-lang"/></li>
+    <li><span skos-label="sampleConcept" lang="en" class="show-lang"/></li>
+    <li><span skos-label="sampleConcept" class="show-lang"/></li>
+    <li><span skos-label="sampleConcept" lang="fr" class="show-lang"/></li>
   </ul>
 </p>
 
@@ -29,32 +29,35 @@
   Used as element or attribute to display a concept.
 </p>
 
-<div skos-concept concept="sampleConcept" class="concept">
-  <ul ng-if="ancestors && ancestors.length" class="ancestors">
+<div skos-concept="sampleConcept" class="concept">
+  <ul ng-if="ancestors.length" class="ancestors">
     <li ng-repeat="a in ancestors" ng-click="update(a);reload();">
-     <span skos-label concept="a"/>
+     <span skos-label="a"/>
     <li>
   </ul>
   <span>{{notation}}</span>
   <b>{{prefLabel.en}}</b>
-  <div ng-if="broader && broader.length" class="broader">
+  <div ng-if="broader.length" class="broader">
     BT:
     <ul>
       <li ng-repeat="c in broader" ng-click="update(c);reload();">
-        <span skos-label concept="c"/>
+        <span skos-label="c"/>
       </li>
     </ul>
   </div>
-
-  <div skos-concept-list concept="c in narrower" class="narrower" title="NT:" action="update">
-    A: {{c}}
+  <div ng-if="narrower.length" class="narrower">
+    NT:
+    <ul>
+      <li ng-repeat="c in narrower" ng-click="update(c);reload();">
+        <span skos-label="c"/>
+      </li>
+    </ul>
   </div>
-
-  <div ng-if="related && related.length" class="related">
+  <div ng-if="related.length" class="related">
     RT:
     <ul>
       <li ng-repeat="c in related" ng-click="update(c);reload();">
-        <span skos-label concept="c"/>
+        <span skos-label="c"/>
       </li>
     </ul>
   </div>
@@ -62,7 +65,7 @@
 <p>
   The element content can be used to control how the concept is shown:
 
-  <div skos-concept concept="sampleConcept" class="concept">
+  <div skos-concept="sampleConcept" class="concept">
     {{notation}}: <i>{{prefLabel.en}}</i>
   </div>
 </p>
@@ -72,9 +75,6 @@
   change the concept on clicks by loading from a cocoda 
   server...(TODO)
 </p>
-
-<h2>skos-concept-list</h2>
-<p>...</p>
 
 <hr>
 {{sampleConcept}}
@@ -108,7 +108,6 @@
 <script src="../src/ng-skos.js"></script>
 <script src="../src/directives/skosLabel.js"></script>
 <script src="../src/directives/skosConcept.js"></script>
-<script src="../src/directives/skosConceptList.js"></script>
 
 </body>
 </html>

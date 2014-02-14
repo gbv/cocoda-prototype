@@ -25,17 +25,16 @@ First install Karma using npm:
     npm install -g karma   
 
 Testing is configured in `karma.conf.js` and all tests are located in the
-`test` directory.
+`test` directory. Unit tests are written with
+[Jasmine](http://pivotal.github.io/jasmine/).
 
-To execute of all unit tests, as done on travis-ci (see `.travis.yml`), call:
+To execute of all unit tests call:
 
-    karma start --no-auto-watch --single-run --reporters=dots --browsers=Firefox
+    grunt test
 
 For contious testing (tests are re-run on changes), call:
 
-    karma start --reporters=dots --browsers=Firefox
-
-Unit tests are written with [Jasmine](http://pivotal.github.io/jasmine/).
+    grunt watch
 
 ## Documentation
 
@@ -45,4 +44,4 @@ with module [grunt-ngdocs](https://www.npmjs.org/package/grunt-ngdoc).
 
 Just call
 
-    grunt
+    grunt docs
