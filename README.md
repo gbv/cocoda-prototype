@@ -1,5 +1,9 @@
 [![Build Status](https://travis-ci.org/gbv/ng-skos.png?branch=master)](https://travis-ci.org/gbv/ng-skos)
 
+**ng-skos** is a AngularJS module to interact with simple knowledge
+organization systems (SKOS). Further information and API documentation is
+included in the sources. 
+
 # Requirements
 
 Require AngularJS >= 1.2.
@@ -24,7 +28,7 @@ by calling
 
 First install Karma using npm:
 
-    npm install -g karma   
+    npm install -g karma
 
 Testing is configured in `karma.conf.js` and all tests are located in the
 `test` directory. Unit tests are written with
@@ -51,4 +55,4 @@ with module [grunt-ngdocs](https://www.npmjs.org/package/grunt-ngdoc).
 Just call
 
     grunt docs
-    
+
