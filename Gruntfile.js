@@ -9,7 +9,27 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: require('./package.json'),
         ngdocs: {
-            all: ['src/*.js','src/**/*.js'],
+            options: {
+                html5Mode: false,
+                startPage: '/api',
+                scripts: [
+                    'angular.js',
+                    'src/ng-skos.js',
+                    'src/directives/skosLabel.js',
+                    'src/directives/skosConcept.js',
+                    'src/services/skosAccess.js',
+                    'demo/lib/angular-resource.min.js',
+                    'demo/lib/angular-sanitize.min.js',
+                ]
+            },
+            api: {
+                title: 'API Reference',
+                src: [
+                    'src/*.js',
+                    'src/**/*.js',
+                    'src/*.ngdoc',
+                ],
+            },
         },
         connect: {
             options: {

@@ -1,31 +1,36 @@
+'use strict';
 /**
  * @ngdoc service
- * @name ng-skos.service:skosProvider
+ * @name ng-skos.skosAccess
  * @description
  * Look up concepts and terminologies by URI. 
  *
- * An skosProvider service should be used as layer to access concepts and
+ * An skosAccess service should be used as layer to access concepts and
  * terminologies. The service adds caching and additional methods to expand
  * a list of URIs to a list of concept or terminology objects. 
- *
- * <pre>
- * var provider = new skosProvider({
- *     concept: function(uri, cb) { ... };
- * });
- * var concepts = ["http://example.org/term1", "http://example.org/term2"];
- * provider.getConcepts(concepts);
- * </pre>
  *
  * See CocodaClient for a sample source.
  *
  * <pre>
  * var ddc = CocodaTerminology("http://example.org/ddc/");
- * var ddcProvider = new skosProvider(ddc);
+ * var ddcAccess = new skosAccess(ddc);
  * </pre>
  *
- * TODO: rename to skosAccess?
+ * @example
+ <example>
+  <file name="index.html">
+    ...
+  </file>
+  <file name="script.js">
+    var provider = new skosAccess({
+        concept: function(uri, cb) { ... };
+    });
+    var concepts = ["http://example.org/term1", "http://example.org/term2"];
+    provider.getConcepts(concepts);
+  </file>
+</example>
  */
-ngSKOS.factory('skosProvider',function() {
+ngSKOS.factory('skosAccess',function() {
     // TODO: use $angularCacheFactory for caching
     return function(source) {
         var provider = this;
