@@ -1,8 +1,9 @@
 [![Build Status](https://travis-ci.org/gbv/ng-skos.png?branch=master)](https://travis-ci.org/gbv/ng-skos)
 
 **ng-skos** is a AngularJS module to interact with simple knowledge
-organization systems (SKOS). Further information and API documentation is
-included in the sources. 
+organization systems (SKOS). The API reference, as generated with
+[grunt-ngdocs], is published at <http://gbv.github.io/ng-skos/>. The module is
+managed in a public git repository at <https://github.com/gbv/ng-skos>.
 
 # Requirements
 
@@ -50,7 +51,9 @@ when pushed to GitHub.
 
 Documentation is written using
 [ngdoc](https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation)
-with module [grunt-ngdocs](https://www.npmjs.org/package/grunt-ngdoc).
+with module [grunt-ngdocs].
+
+[grunt-ngdocs]: https://www.npmjs.org/package/grunt-ngdoc
 
 Just call
 

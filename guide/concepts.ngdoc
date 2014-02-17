@@ -1,0 +1,40 @@
+@ngdoc overview
+@name Concepts 
+@description
+
+A <b>concept</b> in ng-skos is a JSON object with the following keys:
+
+<dl>
+<dt>uri
+<dd>URI of the concept, 
+    given as string
+<dt>prefLabel
+<dd>object that maps language tags to preferred labels,
+    each given as string
+<dt>altLabel
+<dd>object that maps language tags to unordered arrays of alternative labels,
+    each given as string
+<dt>notation
+<dd>partly ordered array of notations, 
+    each given as string. The first notation might be used as primary 
+    notation but multiple notations might also be used equivalently. The data
+    type is assumed to be undefined or implicitly known. To support multiple 
+    notations of different type, additional concept keys might be introduced
+    in a later version of ng-skos.
+<dt>narrower
+<dd>...
+<dt>broader
+<dd>...
+<dt>related
+<dd>...
+<dt>ancestors
+<dd>...
+<dt>inScheme
+<dd>unordered array of terminologies,
+    each given either as string with the URI of the terminology, or as
+    terminology object.
+</dl>
+
+# Examples
+
+See {@link ng-skos.directive:skosConcept skosConcept directive} for an example.

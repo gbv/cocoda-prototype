@@ -1,0 +1,47 @@
+@ngdoc overview
+@name guide
+@id index
+@description
+
+# How enties are expressed
+
+The core entities supported by ng-skos are JSON objects that encode:
+
+<dl>
+<dt>{@link concepts}</dt>
+<dd>based on {@link http://www.w3.org/TR/skos-primer/#secconcept SKOS Concepts}
+<dt>{@link terminologies}</dt>
+<dd>based on {@link
+http://www.w3.org/TR/skos-primer/#secscheme SKOS Concept Schemes}</dd>
+<dt>{@link mappings}</dt>
+<dd>based on {@link http://www.w3.org/TR/skos-reference/#mapping
+SKOS mapping properties}</dd>
+</dl>
+
+Concept collections for grouping and sorting
+concepts are not supported yet.  
+
+All object keys are optional, but an empty object should better be replaced by
+`null`. Missing keys may indicate that the corresponding properties is
+not known (open world). To explicitly state for instance that a concept has no
+notation (closed world), set it no <tt>null</tt> or to an empty array.
+
+<code><pre>
+{
+  prefLabel: {
+    en: "peace",
+    de: "Frieden"
+  }
+}
+</pre></code>
+
+# Directives
+
+{@link #/api/ng-skos.directive:skosConcept skosConcept}
+
+{@link #/api/ng-skos.directive:skosLabel skosLabel}
+
+# Services
+
+{@link #/api/ng-skos.skosAccess skosAccess} to look up concepts and terminologies by URI.
+

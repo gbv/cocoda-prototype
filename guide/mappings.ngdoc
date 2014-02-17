@@ -1,0 +1,6 @@
+@ngdoc overview
+@name Mappings
+@description
+
+A <b>mapping</b> in ng-skos is a JSON object with keys yet-to-be defined.
+
