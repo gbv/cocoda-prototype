@@ -15,3 +15,4 @@ script
     echo "Starting $NAME at `date +%Y-%m-%d\ %T\ %Z`:"
     set -x
     exec perl -Ilocal/lib/perl5 local/bin/carton exec -- local/bin/starman -p {$package_port} bin/app.psgi
+end script
