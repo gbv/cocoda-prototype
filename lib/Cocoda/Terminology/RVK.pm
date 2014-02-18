@@ -52,8 +52,6 @@ sub concept {
     return $concept;
 }
 
-use URI::Escape;
-
 sub search {
     my ($self, $query) = @_;
 
