@@ -19,6 +19,7 @@ module.exports = function(grunt) {
                     'demo/lib/angular-resource.min.js',
                     'demo/lib/angular-sanitize.min.js',
                     'ng-skos.js',
+                    'src/json-text.js',
                 ]
             },
             guide: {

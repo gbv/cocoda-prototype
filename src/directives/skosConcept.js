@@ -19,7 +19,11 @@
  * <li>related (array of concepts)
  * </ul>
  *
- * @param {object} skosConcept the concept to display
+ * @param {string} skos-concept Assignable angular expression with 
+ *      [concept](#/guide/concepts) data to bind to.
+ *
+ * @example
+ *
  */
 ngSKOS.directive('skosConcept', function() {
     return {

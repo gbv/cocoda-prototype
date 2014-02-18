@@ -37,11 +37,11 @@ notation (closed world), set it no <tt>null</tt> or to an empty array.
 
 # Directives
 
-{@link #/api/ng-skos.directive:skosConcept skosConcept}
+[skosConcept](#/api/ng-skos.directive:skosConcept)
 
-{@link #/api/ng-skos.directive:skosLabel skosLabel}
+[skosLabel](#/api/ng-skos.directive:skosLabel)
 
 # Services
 
-{@link #/api/ng-skos.skosAccess skosAccess} to look up concepts and terminologies by URI.
+[skosAccess](#/api/ng-skos.skosAccess) to look up concepts and terminologies by URI.
 

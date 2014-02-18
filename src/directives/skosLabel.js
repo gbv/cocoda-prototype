@@ -7,13 +7,15 @@
  * Displays the preferred label of a concept.
  * Changes on the preferred label are reflected in the display.
  *
- * @param {object} skos-label the concept
+ * @param {string} skos-label Assignable angular expression with 
+ *      [concept](#/guide/concepts) data to bind to.
+ * @param {string=} lang optional language. If not specified, an arbitrary
+ *      preferred labels is selected.
  *
  * @example
  <example module="myApp">
   <file name="index.html">
-    <div ng-controller="MainCtrl">
-      {{sampleConcept}}
+    <div ng-controller="myController">
       <dl>
         <dt>en</dt>
         <dd><span skos-label="sampleConcept" lang="en"/></dd>
@@ -22,12 +24,13 @@
         <dt>fr</dt>
         <dd><span skos-label="sampleConcept" lang="fr"/></dd>
       </dl>
+      <textarea json-text ng-model="sampleConcept" cols="40" rows="20" />
     </div>
   </file>
   <file name="script.js">
-    angular.module('myApp',['ngSKOS']);
+    angular.module('myApp',['ngSKOS','jsonText']);
 
-    function MainCtrl($scope) {
+    function myController($scope) {
         $scope.sampleConcept = {
             prefLabel: { 
                 en: "example",

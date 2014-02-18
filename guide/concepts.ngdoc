@@ -37,4 +37,4 @@ A <b>concept</b> in ng-skos is a JSON object with the following keys:
 
 # Examples
 
-See {@link ng-skos.directive:skosConcept skosConcept directive} for an example.
+See [skosConcept](#/api/ng-skos.directive:skosConcept) for an example.

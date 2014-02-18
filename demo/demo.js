@@ -1,4 +1,4 @@
-var cocodaDemo = angular.module('cocodaDemo', ['ngSKOS']);
+var cocodaDemo = angular.module('cocodaDemo', ['ngSKOS','jsonText']);
 cocodaDemo.run(function($rootScope) {
     $rootScope.sampleConcept = {
         ancestors: [ 

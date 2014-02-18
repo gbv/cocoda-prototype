@@ -77,26 +77,9 @@
 </p>
 
 <hr>
-{{sampleConcept}}
 
 <h1>Sample Concept</h1>
-<!-- TODO: conceptEditor -->
-<form>
-    prefLabel:
-    <ul>
-      <li ng-repeat="(lang,label) in sampleConcept.prefLabel">
-        {{lang}}: <input type="text" ng-model="sampleConcept.prefLabel[lang]"/>
-        <button>x</button>
-      </li>
-      <li>
-        <input type="text" size="4" />
-        <input type="text">
-        <button>+</button>
-      </li>
-    </ul>
-</form>
-<hr>
-
+<textarea json-text ng-model="sampleConcept" cols=40 rows=20></textarea>
 
 <hr>
 
@@ -105,6 +88,7 @@
 <script src="lib/angular-sanitize.min.js"></script>
 <script src="demo.js"></script>
 
+<script src="../src/json-text.js"></script>
 <script src="../src/ng-skos.js"></script>
 <script src="../src/directives/skosLabel.js"></script>
 <script src="../src/directives/skosConcept.js"></script>
