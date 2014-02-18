@@ -9,7 +9,7 @@ about:
 package:
     name            : cocoda 
     description     : "VZG Cocoda Server"
-    depends         : "perl (>= 5.14), coffeescript (>= 1.2)"
+    depends         : "perl (>= 5.14)"
     binary_depends  :
     section         : gbv
     priority        : extra
