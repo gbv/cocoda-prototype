@@ -10,6 +10,8 @@ specific APIs have been developed to access knowledge organization systems.
 
 # Overview of existing APIs
 
+* TWC SKOS API: <http://tw.rpi.edu/web/project/CMSPV/SKOS_Vocabulary_Service_API>
+
 * <http://openskos.org/api>
 
 * <http://askosi.org/>
@@ -37,6 +39,7 @@ levels...
 | API       | search | topConcepts | ancestors | mappings | terminologies |
 +-----------+--------+-------------+-----------+----------+---------------+
 | OCLC      |   x    |     ?       |  ?        | ?        | -             |
+| TWC       |        |             |           |          |               |
 | SWAT      |        |             |           |          |               |
 | xTree     |        |             |           |          |               |
 | PoolParty |        |             |           |          |               |
