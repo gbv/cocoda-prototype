@@ -5,12 +5,17 @@ cocodaDemo.run(function($rootScope) {
             { 'prefLabel': { en: 'root' } },
             { 'prefLabel': { en: 'child' } }
         ],
-        notation: 'XY',
-        prefLabel: { en: 'Sample&Concept', de: 'Beispiel<>Konzept' },
+        notation: 'UN',
+        prefLabel: { en: 'nuclear physics', de: 'Kernphysik' },
         note: { en: ['this is a note'] },
         narrower: [
-            { prefLabel: { en: 'c1' } },
-            { prefLabel: { en: 'c2' } },
+            { prefLabel: { en: 'general, textbooks' } },
+            { prefLabel: { de: 'Allgemeines, Lehrbücher' } },
         ]
+        ,broader: [
+            { prefLabel: { en: 'physics' } },
+            { prefLabel: { de: 'Physik' } },
+        ]
+
     };
 });

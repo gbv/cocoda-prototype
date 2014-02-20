@@ -1,22 +1,38 @@
 .concept {
     border: 1px solid #666;
+    padding-left: 10px;
 }
-ul.ancestors { padding:0; }
+ul.ancestors { 
+    padding:0; 
+}
 ul.ancestors li {
     display: inline;
 }
-.ancestors li::after {
+
+.ancestors li:after {
     content: " > ";
 }
-
+.ancestors span:hover {
+    background-color:lightgrey;
+}
 ul.broader {
 
 } 
-
+.broader li {
+    color:blue;
+}
+.broader span:hover{
+    background-color:lightgrey;
+}
 ul.narrower {
 
 }
-
+.narrower li {
+    color:blue;
+}
+.narrower span:hover{
+    background-color:lightgrey;
+}
 /* show language attribute after element */
 .show-lang:after {
     content: "@" attr(lang);
