@@ -21,6 +21,8 @@
  *
  * @param {string} skos-concept Assignable angular expression with 
  *      [concept](#/guide/concepts) data to bind to.
+ * @param {string} language Assignable angular expression with 
+ *      preferred language to be used as bounded `language` variable. 
  *
  * @example
  *
@@ -28,10 +30,13 @@
 ngSKOS.directive('skosConcept', function() {
     return {
         restrict: 'A',
-        scope: { concept: '=skosConcept' },
+        scope: { 
+            concept: '=skosConcept',
+            language: '=language',
+        },
         transclude: 'element',
         template: '',
-        link: function link($scope, element, attrs, controller, transclude) {
+        link: function link($scope, element, attr, controller, transclude) {
 
             $scope.update = function(concept) {
                 if (concept) {

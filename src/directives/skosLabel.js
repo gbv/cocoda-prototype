@@ -44,23 +44,34 @@
 ngSKOS.directive('skosLabel', function() {
     return {
         restrict: 'A',
-        scope: { concept: '=skosLabel' },
-        template: '{{concept.prefLabel[lang]}}',
+        scope: { 
+            concept: '=skosLabel',
+            language: '@lang',
+        },
+        template: '{{concept.prefLabel[language]}}',
         link: function(scope, element, attrs) {
             var concept = scope.concept;
             if (!concept || !concept.prefLabel) return;
-            var lang = attrs.lang;
 
             // get any language unless required label available
-            // TODO: remember original language and observer attrs.lang
-            if (!lang || !concept.prefLabel[lang]) {
-                for (lang in concept.prefLabel) {
-                    element.attr('lang',lang);
-                    break;
+            // TODO: remember original language and switch if available
+            function updateLanguage(language) {
+                if (!language || !concept.prefLabel[language]) {
+                    for (language in concept.prefLabel) {
+                        scope.language = language;
+                        if (attrs.lang != language) {
+                            attrs.$set('lang',language);
+                        }
+                        break;
+                    }
                 }
             }
 
-            scope.lang = lang;
+            // update if lang attribute changed
+            attrs.$observe('lang', function(val) {
+                //console.log("observe: "+val);
+                updateLanguage(val);  
+            });
         },
     };
 });

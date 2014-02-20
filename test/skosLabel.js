@@ -9,7 +9,8 @@ describe('skos-concept directive', function() {
      
             $rootScope.c1 = { 
                 prefLabel: { 
-                    en: 'chair' 
+                    en: 'chair', 
+                    de: 'Stuhl'
                 }
             };
 
@@ -22,6 +23,14 @@ describe('skos-concept directive', function() {
             $rootScope.c1.prefLabel.en = 'stool';
             $rootScope.$digest();
             expect(elem.html()).toBe('stool');
+
+            // FIXME: trigger $observer
+            //console.log("MOD");
+            // modify language
+            elem.attr('lang','de');
+            //console.log(elem);
+            //console.log(elem.scope().language);
+            expect(elem.html()).toBe('Stuhl');
         })
     );
 });

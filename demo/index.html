@@ -29,18 +29,26 @@
   Used as element or attribute to display a concept.
 </p>
 
-<div skos-concept="sampleConcept" class="concept">
+<p>
+  <select ng-model="language">
+    <option>de</option>
+    <option>en</option>
+  </select>
+  Language: {{language}}
+</p>
+<div skos-concept="sampleConcept" class="concept" language="language">
   <ul ng-if="ancestors.length" class="ancestors">
     <li ng-repeat="a in ancestors" ng-click="update(a);reload();">
-     <span skos-label="a"/>
+      <span skos-label="a" lang2="{{language}}"/>
+    </li>
   </ul>
   <span>{{notation}}</span>
-  <b>{{prefLabel.en}}</b>
+  <b><span skos-label="concept" lang="{{language}}"/></b>
   <div ng-if="broader.length" class="broader">
     BT:
     <ul>
       <li ng-repeat="c in broader" ng-click="update(c);reload();">
-        <span skos-label="c"/>
+        <span skos-label="c" lang="{{language}}"/>
       </li>
     </ul>
   </div>
@@ -48,7 +56,7 @@
     NT:
     <ul>
       <li ng-repeat="c in narrower" ng-click="update(c);reload();">
-        <span skos-label="c"/>
+        <span skos-label="c" lang="{{language}}"/>
       </li>
     </ul>
   </div>
@@ -56,10 +64,11 @@
     RT:
     <ul>
       <li ng-repeat="c in related" ng-click="update(c);reload();">
-        <span skos-label="c"/>
+        <span skos-label="c" lang="{{language}}"/>
       </li>
     </ul>
   </div>
+  <small>lang: {{language}}</small>
 </div>
 <p>
   The element content can be used to control how the concept is shown:

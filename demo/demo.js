@@ -6,16 +6,26 @@ cocodaDemo.run(function($rootScope) {
             { 'prefLabel': { en: 'child' } }
         ],
         notation: 'UN',
-        prefLabel: { en: 'nuclear physics', de: 'Kernphysik' },
+        prefLabel: { 
+            en: 'nuclear physics', 
+            de: 'Kernphysik' 
+        },
         note: { en: ['this is a note'] },
         narrower: [
-            { prefLabel: { en: 'general, textbooks' } },
-            { prefLabel: { de: 'Allgemeines, Lehrbücher' } },
+            { 
+                prefLabel: { 
+                    en: 'general, textbooks',
+                    de: 'Allgemeines, Lehrbücher'
+                } 
+            },
+        ],
+        broader: [
+            { 
+                prefLabel: { 
+                    en: 'physics',
+                    de: 'Physik'
+                } 
+            },
         ]
-        ,broader: [
-            { prefLabel: { en: 'physics' } },
-            { prefLabel: { de: 'Physik' } },
-        ]
-
     };
 });
