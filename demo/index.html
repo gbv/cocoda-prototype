@@ -3,103 +3,129 @@
 <head>
   <meta charset="utf-8">
   <title>ng-skos demo application</title>
-  <link rel="stylesheet" href="demo.css">
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="demo.css" rel="stylesheet" />
 </head>
 <body>
-
-<h1>Directives</h1>
-
-<h2>skos-label</h2>
-<p>
-  Used as attribute to emit the preferred label of a concept. The lang
-  attribute of the directive element is read and set accordingly. If
-  no label of the required language exists, another language is selected.
-</p>
-<p>
-  <ul>
-    <li><span skos-label="sampleConcept" lang="de" class="show-lang"/></li>
-    <li><span skos-label="sampleConcept" lang="en" class="show-lang"/></li>
-    <li><span skos-label="sampleConcept" class="show-lang"/></li>
-    <li><span skos-label="sampleConcept" lang="fr" class="show-lang"/></li>
-  </ul>
-</p>
-
-<h2>skos-concept</h2>
-<p>
-  Used as element or attribute to display a concept.
-</p>
-
-<p>
-  <select ng-model="language">
-    <option>de</option>
-    <option>en</option>
-  </select>
-  Language: {{language}}
-</p>
-<div skos-concept="sampleConcept" class="concept" language="language">
-  <ul ng-if="ancestors.length" class="ancestors">
-    <li ng-repeat="a in ancestors" ng-click="update(a);reload();">
-      <span skos-label="a" lang2="{{language}}"/>
-    </li>
-  </ul>
-  <span>{{notation}}</span>
-  <b><span skos-label="concept" lang="{{language}}"/></b>
-  <div ng-if="broader.length" class="broader">
-    BT:
-    <ul>
-      <li ng-repeat="c in broader" ng-click="update(c);reload();">
-        <span skos-label="c" lang="{{language}}"/>
-      </li>
-    </ul>
-  </div>
-  <div ng-if="narrower.length" class="narrower">
-    NT:
-    <ul>
-      <li ng-repeat="c in narrower" ng-click="update(c);reload();">
-        <span skos-label="c" lang="{{language}}"/>
-      </li>
-    </ul>
-  </div>
-  <div ng-if="related.length" class="related">
-    RT:
-    <ul>
-      <li ng-repeat="c in related" ng-click="update(c);reload();">
-        <span skos-label="c" lang="{{language}}"/>
-      </li>
-    </ul>
-  </div>
-  <small>lang: {{language}}</small>
+<div id="header">
 </div>
-<p>
-  The element content can be used to control how the concept is shown:
+<div class="container">
 
-  <div skos-concept="sampleConcept" class="concept">
-    {{notation}}: <i>{{prefLabel.en}}</i>
-  </div>
-</p>
+	<div class="row">
+        <div class="col-md-12">
+		    <h1>Directives</h1>
+		    <h2>skos-label</h2>
+        </div>
+        <div class="col-md-12">
+		    <p>
+		    Used as attribute to emit the preferred label of a concept. The lang
+		    attribute of the directive element is read and set accordingly. If
+		    no label of the required language exists, another language is selected.
+		    </p>
+		    <p>
+		  	    <ul>
+				    <li><span skos-label="sampleConcept" lang="de" class="show-lang"/></li>
+				    <li><span skos-label="sampleConcept" lang="en" class="show-lang"/></li>
+				    <li><span skos-label="sampleConcept" class="show-lang"/></li>
+				    <li><span skos-label="sampleConcept" lang="fr" class="show-lang"/></li>
+		  	    </ul>
+		    </p>
+        </div>
+    </div>
+            <hr>
+    <div class="row">
+        <div class="col-md-12">
+		    <h2>skos-concept</h2>
+        </div>
+        <div class="col-md-6">
+		    <p>
+		    Used as element or attribute to display a concept.
+		    </p>
+		    <p>
+			    <select ng-model="language">
+				<option>de</option>
+				<option>en</option>
+			    </select>
+			    Language: {{language}}
+		    </p>
+		    <div skos-concept="sampleConcept" class="concept" language="language">
+		      	<ul ng-if="ancestors.length" class="ancestors">
+				    <li ng-repeat="a in ancestors" ng-click="update(a);reload();">
+			      	<span skos-label="a" lang="{{language}}"/>
+				    </li>
+		      	</ul>
+		      	<span class="not">{{notation}}</span>
+		      	<b><span skos-label="concept" lang="{{language}}"/></b>
+		      	<div ng-if="broader.length" class="broader">
+			        BT:
+			        <table>
+				        <tr>
+			          <td ng-repeat="c in broader" ng-click="update(c);reload();">
+				        <span skos-label="c" lang="{{language}}"/>
+			          </td>
+				        </tr>
+			        </table>
+			    </div>
+			    <div ng-if="narrower.length" class="narrower">
+				    NT:
+				    <table>
+					    <tr>
+						    <td ng-repeat="c in narrower" ng-click="update(c);reload();">
+						    <span skos-label="c" lang="{{language}}"/>
+			      			</td>
+					    </tr>
+				    </table>
+			    </div>
+			    <div ng-if="related.length" class="related">
+				    RT:
+				    <table>
+                        <tr>
+			      		    <td ng-repeat="c in related" ng-click="update(c);reload();">
+						    <span skos-label="c" lang="{{language}}"/>
+			      			</td>
+				        </tr>
+                    </table>
+		     	</div>
+			    <small>lang: {{language}}</small>
+		    </div>
+        </div>
+        <div class="col-md-6">
+		    <p>
+		    The element content can be used to control how the concept is shown:
+		    <div skos-concept="sampleConcept" class="concept">
+    			{{notation}}: <i>{{prefLabel.en}}</i>
+		    </div>
+		    </p>
 
-<p>
-  Interactive elements can be added, for instance to 
-  change the concept on clicks by loading from a cocoda 
-  server...(TODO)
-</p>
+		    <p>
+		      Interactive elements can be added, for instance to 
+		      change the concept on clicks by loading from a cocoda 
+		      server...(TODO)
+		    </p>
+        </div>
 
-<hr>
+    </div>
+    <hr>
+    <div class="row">   	
+        <div class="col-md-12">
+		    <h1>Sample Concept</h1>
+        </div>
+        <div class="col-md-6">
+		    <textarea json-text ng-model="sampleConcept" cols=40 rows=20 id="sample"></textarea>
+	    </div>
 
-<h1>Sample Concept</h1>
-<textarea json-text ng-model="sampleConcept" cols=40 rows=20></textarea>
+    </div>
+</div>
+<div id="footer">
+</div>
+		    <script src="lib/angular.min.js"></script>
+		    <script src="lib/angular-resource.min.js"></script>
+		    <script src="lib/angular-sanitize.min.js"></script>
+		    <script src="demo.js"></script>
 
-<hr>
-
-<script src="lib/angular.min.js"></script>
-<script src="lib/angular-resource.min.js"></script>
-<script src="lib/angular-sanitize.min.js"></script>
-<script src="demo.js"></script>
-
-<script src="../src/json-text.js"></script>
-<script src="../src/ng-skos.js"></script>
-<script src="../src/directives/skosLabel.js"></script>
-<script src="../src/directives/skosConcept.js"></script>
-
+		    <script src="../src/json-text.js"></script>
+		    <script src="../src/ng-skos.js"></script>
+		    <script src="../src/directives/skosLabel.js"></script>
+		    <script src="../src/directives/skosConcept.js"></script>
 </body>
 </html>

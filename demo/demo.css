@@ -1,37 +1,70 @@
+#header{
+    height:35px;
+}
 .concept {
-    border: 1px solid #666;
+    border: 2px solid #999;
+	border-radius:5px;
     padding-left: 10px;
+	width:500px;
+	padding-bottom:5px;
+	padding-top:5px;
+}
+.concept table{
+	margin:10px;
+
+} 
+.concept td {
+	padding:4px;
+	cursor:pointer;
+    text-decoration:underline;
+}
+.concept td:hover {
+    background-color:lightgrey;
+    border-radius:3px;
+}
+.not{
+	color:dimgrey;
+	font-family:times;
+	font-weight:bold;
+}
+.not:after{
+	content: " - ";
 }
 ul.ancestors { 
     padding:0; 
 }
 ul.ancestors li {
     display: inline;
+	cursor:pointer;
 }
 
 .ancestors li:after {
+	font-size:small;
+	color:#999;
     content: " > ";
 }
 .ancestors span:hover {
     background-color:lightgrey;
 }
-ul.broader {
-
-} 
-.broader li {
-    color:blue;
+.broader{
+	margin-top:10px;
+	margin-left:10px;
 }
-.broader span:hover{
-    background-color:lightgrey;
+.narrower{
+	margin-top:10px;
+	margin-left:10px;
 }
-ul.narrower {
-
+.related{
+	margin-top:10px;
+	margin-left:10px;
 }
-.narrower li {
-    color:blue;
+#sample{
+    border:1px solid #666;
+    border-radius:2px;
 }
-.narrower span:hover{
-    background-color:lightgrey;
+#footer{
+    position:relative;
+    height:85px;
 }
 /* show language attribute after element */
 .show-lang:after {
@@ -39,4 +72,4 @@ ul.narrower {
     color: #999;
     padding-left: 2px;
 }
-
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
