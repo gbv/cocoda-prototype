@@ -48,54 +48,79 @@
 			    </select>
 			    Language: {{language}}
 		    </p>
+
 		    <div skos-concept="sampleConcept" class="concept" language="language">
 		      	<ul ng-if="ancestors.length" class="ancestors">
 				    <li ng-repeat="a in ancestors" ng-click="update(a);reload();">
 			      	<span skos-label="a" lang="{{language}}"/>
 				    </li>
 		      	</ul>
+                <div class="top top-classic">                
 		      	<span class="not">{{notation}}</span>
 		      	<b><span skos-label="concept" lang="{{language}}"/></b>
+                </div>
 		      	<div ng-if="broader.length" class="broader">
 			        BT:
-			        <table>
-				        <tr>
-			          <td ng-repeat="c in broader" ng-click="update(c);reload();">
-				        <span skos-label="c" lang="{{language}}"/>
-			          </td>
-				        </tr>
+			        <table>      
+			            <tr ng-repeat="c in broader" ng-click="update(c);reload();">
+				            <td><span skos-label="c" lang="{{language}}"/></td>
+                        </tr>
 			        </table>
 			    </div>
 			    <div ng-if="narrower.length" class="narrower">
 				    NT:
 				    <table>
-					    <tr>
-						    <td ng-repeat="c in narrower" ng-click="update(c);reload();">
-						    <span skos-label="c" lang="{{language}}"/>
-			      			</td>
+		                <tr ng-repeat="c in narrower" ng-click="update(c);reload();">
+						    <td><span skos-label="c" lang="{{language}}"/></td>
 					    </tr>
 				    </table>
 			    </div>
 			    <div ng-if="related.length" class="related">
 				    RT:
 				    <table>
-                        <tr>
-			      		    <td ng-repeat="c in related" ng-click="update(c);reload();">
-						    <span skos-label="c" lang="{{language}}"/>
-			      			</td>
-				        </tr>
+                        <tr ng-repeat="c in related" ng-click="update(c);reload();">
+						    <td><span skos-label="c" lang="{{language}}"/></td>
+                        </tr>
                     </table>
 		     	</div>
-			    <small>lang: {{language}}</small>
 		    </div>
         </div>
         <div class="col-md-6">
 		    <p>
 		    The element content can be used to control how the concept is shown:
-		    <div skos-concept="sampleConcept" class="concept">
-    			{{notation}}: <i>{{prefLabel.en}}</i>
-		    </div>
 		    </p>
+        </div>
+        <div class="col-md-6">
+		    <div skos-concept="sampleConcept" class="concept concept-alt" language="language">
+                <div class="top top-alt">
+		      	<span class="not">{{notation}}</span>
+		      	<span skos-label="concept" lang="{{language}}"/>
+                </div>
+		      	<div ng-if="broader.length" class="broader">
+			        <table>
+			            <tr ng-repeat="c in broader" ng-click="update(c);reload();">
+				            <td>&#8598; <span skos-label="c" lang="{{language}}"/></td>
+				        </tr>
+			        </table>
+			    </div>
+			    <div ng-if="narrower.length" class="narrower">
+				    <table>
+						<tr ng-repeat="c in narrower" ng-click="update(c);reload();">
+						     <td>&#8600; <span skos-label="c" lang="{{language}}"/></td>
+			      		</tr>
+				    </table>
+			    </div>
+			    <div ng-if="related.length" class="related">
+				    <table>
+                        
+			      		  <tr ng-repeat="c in related" ng-click="update(c);reload();">
+						    <td>&#10137; <span skos-label="c" lang="{{language}}"/></td>
+			      		</tr>
+                    </table>
+		     	</div>
+
+		    </div>
+
 
 		    <p>
 		      Interactive elements can be added, for instance to 

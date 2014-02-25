@@ -5,9 +5,10 @@
     border: 2px solid #999;
 	border-radius:5px;
     padding-left: 10px;
-	width:500px;
+	width:450px;
 	padding-bottom:5px;
-	padding-top:5px;
+	padding-top:10px;
+    margin-bottom:10px;
 }
 .concept table{
 	margin:10px;
@@ -22,13 +23,24 @@
     background-color:lightgrey;
     border-radius:3px;
 }
-.not{
-	color:dimgrey;
-	font-family:times;
+.concept-alt td{
+    text-decoration:none;
+}
+.concept-alt .broader span,.concept-alt .narrower span, .concept-alt .related span{
+    color:#803A22;
+    font-weight:bold;
+}
+.top-classic{
+}
+.top-alt{
 	font-weight:bold;
 }
-.not:after{
-	content: " - ";
+.top-alt .not{
+	color:dimgrey;‎
+	font-family:times;
+}
+.top-alt .not:after{
+    content:" :";
 }
 ul.ancestors { 
     padding:0; 
