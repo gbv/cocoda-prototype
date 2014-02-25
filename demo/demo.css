@@ -1,14 +1,14 @@
 #header{
-    height:35px;
+  height:35px;
 }
 .concept {
-    border: 2px solid #999;
+  border: 2px solid #999;
 	border-radius:5px;
-    padding-left: 10px;
+  padding-left: 10px;
 	width:450px;
 	padding-bottom:5px;
 	padding-top:10px;
-    margin-bottom:10px;
+  margin-bottom:10px;
 }
 .concept table{
 	margin:10px;
@@ -17,18 +17,18 @@
 .concept td {
 	padding:4px;
 	cursor:pointer;
-    text-decoration:underline;
+  text-decoration:underline;
 }
 .concept td:hover {
     background-color:lightgrey;
     border-radius:3px;
 }
 .concept-alt td{
-    text-decoration:none;
+  text-decoration:none;
 }
 .concept-alt .broader span,.concept-alt .narrower span, .concept-alt .related span{
-    color:#803A22;
-    font-weight:bold;
+  color:#803A22;
+  font-weight:bold;
 }
 .top-classic{
 }
@@ -40,23 +40,23 @@
 	font-family:times;
 }
 .top-alt .not:after{
-    content:" :";
+  content:" :";
 }
 ul.ancestors { 
-    padding:0; 
+  padding:0; 
 }
 ul.ancestors li {
-    display: inline;
+  display: inline;
 	cursor:pointer;
 }
 
 .ancestors li:after {
 	font-size:small;
 	color:#999;
-    content: " > ";
+  content: " > ";
 }
 .ancestors span:hover {
-    background-color:lightgrey;
+  background-color:lightgrey;
 }
 .broader{
 	margin-top:10px;
@@ -64,24 +64,33 @@ ul.ancestors li {
 }
 .narrower{
 	margin-top:10px;
-	margin-left:10px;
+  margin-left:10px;
 }
 .related{
-	margin-top:10px;
-	margin-left:10px;
+  margin-top:10px;
+  margin-left:10px;
 }
-#sample{
-    border:1px solid #666;
-    border-radius:2px;
+.smpl{
+  margin-top:25px;
+  padding-top:1px;
+  padding-left:50px;
+  padding-bottom:20px;
+  background-color:lightgrey;
+  border-radius:4px;
+}
+.smpl textarea{
+  border-radius: 0px 3px 0px 0px;
 }
 #footer{
-    position:relative;
-    height:85px;
+  position:relative;
+  height:85px;
 }
 /* show language attribute after element */
 .show-lang:after {
-    content: "@" attr(lang);
-    color: #999;
-    padding-left: 2px;
+  content: "@" attr(lang);
+  color: #999;
+  padding-left: 2px;
 }
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.nav, .pagination, .carousel, .panel-title a { 
+  cursor: pointer;
+}
