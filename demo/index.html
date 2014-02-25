@@ -115,7 +115,68 @@
 	    </div>
 
     </div>
+
+<section id="search">
+  <div class="page-header">   	
+    <h1>skos-search</h1>
+  </div>
+  <div class="row">   	
+    <div class="col-md-6">
+      <p>...example...</p>
+      <textarea json-text cols="40" rows="15" ng-model="searchSample" id="sample2"></textarea>
+    </div>
+    <div class="col-md-6">
+      ...documentation...
+    </div>
+  </div>
+</section>
+<section id="tree">
+  <div class="page-header">   	
+    <h1>skos-tree</h1>
+  </div>
+  <div class="row">   	
+    <div class="col-md-6">
+      <p>...example...</p>
+      <div><textarea json-text cols="40" rows="15" ng-model="treeSample"></textarea></div>
+    </div>
+    <div class="col-md-6">
+      ...documentation...
+    </div>
+  </div>
+</section>
+<section id="mapping">
+  <div class="page-header">   	
+    <h1>skos-mapping</h1>
+  </div>
+  <div class="row">   	
+    <div class="col-md-6">
+      <p>
+        <span>{{mappingSample}}</span>
+      </p>
+      <textarea json-text cols="40" rows="15" ng-model="mappingSample"></textarea>
+    </div>
+    <div class="col-md-6">
+      ...documentation...
+    </div>
+  </div>
+</section>
+<section id="occurrences">
+  <div class="page-header">   	
+    <h1>skos-occurrences</h1>
+  </div>
+  <div class="row">   	
+    <div class="col-md-6">
+      <p>...example...</p>
+      <p><textarea json-text cols="40" rows="15" ng-model="ocurrencesSample"></textarea></p>
+    </div>
+    <div class="col-md-6">
+      ...documentation...
+    </div>
+  </div>
+</section>
+
 </div>
+
 <div id="footer">
 </div>
 		    <script src="lib/angular.min.js"></script>
@@ -127,5 +188,9 @@
 		    <script src="../src/ng-skos.js"></script>
 		    <script src="../src/directives/skosLabel.js"></script>
 		    <script src="../src/directives/skosConcept.js"></script>
+		    <script src="../src/directives/skosTree.js"></script>
+		    <script src="../src/directives/skosSearch.js"></script>
+		    <script src="../src/directives/skosMapping.js"></script>
+		    <script src="../src/directives/skosOccurrences.js"></script>
 </body>
 </html>

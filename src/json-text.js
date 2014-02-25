@@ -51,7 +51,9 @@ angular.module('jsonText',[])
     return {
         restrict: 'AE',
         require: 'ngModel',
-        scope: { jsonValid: '=' },
+        scope: { 
+//            jsonValid: '=' 
+        },
         link: function(scope, element, attrs, ngModel) {
             scope.jsonValid = true;
             function fromJson(text) {
