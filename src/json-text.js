@@ -21,14 +21,48 @@ angular.module('jsonText',[])
  * <code>
  * <pre><textarea json-text ng-model="myObject"/></pre>
  * </code>
- */
+ *
+ * @param {string} json-valid AngularJS expression to bind parsing status to.
+ *
+ * @example 
+ <example module="myApp">
+  <file name="index.html">
+    <div ng-controller="myController">
+      valid: {{jsonOk}}
+      <pre>{{data | json}}</pre>
+      <textarea json-text ng-model="data" json-valid="jsonOk" style="width:100%" rows="12"></textarea>
+    </div>
+  </file>
+  <file name="script.js">
+    angular.module('myApp',['ngSKOS','jsonText']);
+
+    function myController($scope) {
+        $scope.data = {
+            foo: [32, 42],
+            bar: { 
+                doz: true,
+            },
+        };
+    }
+  </file>
+</example>
+*/
 .directive('jsonText',function(){
     return {
         restrict: 'AE',
         require: 'ngModel',
+        scope: { 
+//            jsonValid: '=' 
+        },
         link: function(scope, element, attrs, ngModel) {
+            scope.jsonValid = true;
             function fromJson(text) {
-                return angular.fromJson(text);
+                try {
+                    scope.jsonValid = true;
+                   return angular.fromJson(text);
+                } catch(e) {
+                    scope.jsonValid = false;
+                }
             }
             function toJson(object) {
                 return angular.toJson(object, true);
