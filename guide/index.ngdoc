@@ -31,7 +31,8 @@ notation (closed world), set it no <tt>null</tt> or to an empty array.
   prefLabel: {
     en: "peace",
     de: "Frieden"
-  }
+  },
+  notation: ['P'],
 }
 </pre></code>
 
@@ -40,6 +41,10 @@ notation (closed world), set it no <tt>null</tt> or to an empty array.
 [skosConcept](#/api/ng-skos.directive:skosConcept)
 
 [skosLabel](#/api/ng-skos.directive:skosLabel)
+
+[skosTree](#/api/ng-skos.directive:skosTree)
+
+[skosSearch](#/api/ng-skos.directive:skosSearch)
 
 # Services
 
