@@ -48,7 +48,7 @@ cocodaDemo.run(function($rootScope) {
     $rootScope.searchSample = {
         // ...
     };
-    $rootScope.ocurrencesSample = {
+    $rootScope.occurrencesSample = {
         search: { notation: "612.112" }, // concept
         database: { notation: "GVK" }, // database
         target: { notation: "RVK" }, // what to look for

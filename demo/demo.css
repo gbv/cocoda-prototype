@@ -1,46 +1,78 @@
 #header{
   height:35px;
 }
+.notation{
+  background-color:lightgrey;
+  border-radius:3px;
+  padding-left:3px;
+  padding-right:3px;
+}
 .concept {
   border: 2px solid #999;
 	border-radius:5px;
-  padding-left: 10px;
+  padding-left: 20px;
+  padding-right:20px;
 	width:450px;
 	padding-bottom:5px;
 	padding-top:10px;
   margin-bottom:10px;
 }
 .concept table{
-	margin:10px;
-
+	margin-top:10px;
+	margin-bottom:10px;
 } 
 .concept td {
 	padding:4px;
-	cursor:pointer;
-  text-decoration:underline;
 }
-.concept td:hover {
-    background-color:lightgrey;
-    border-radius:3px;
+.concept-classic td:hover {
+  background-color:lightgrey;
+  border-radius:3px;
+}
+.concept-classic td{
+  text-decoration:underline; 
+	cursor:pointer; 
+}
+.concept-alt td:hover {
+  background-color:lightgrey;
+  border-radius:3px;
 }
 .concept-alt td{
   text-decoration:none;
+	cursor:pointer;
 }
 .concept-alt .broader span,.concept-alt .narrower span, .concept-alt .related span{
   color:#803A22;
   font-weight:bold;
 }
-.top-classic{
-}
 .top-alt{
 	font-weight:bold;
 }
-.top-alt .not{
+.top-alt .notation{
 	color:dimgrey;‎
 	font-family:times;
 }
-.top-alt .not:after{
+.top-alt .notation:after{
   content:" :";
+}
+.concept-occ td, .concept-occ th{
+  border:1px solid #999;
+  padding-left:10px;
+  padding-right:10px;
+}
+.concept-occ ul{
+  margin-top:5px;
+  margin-left:-15px;
+  list-style-type:none;
+  color:#803A22;
+  font-weight:bold;
+}
+.concept-mapp table{
+  table-layout:fixed;
+  text-align:center;
+}
+.concept-mapp td{
+  padding-left:20px;
+  padding-right:20px;
 }
 ul.ancestors { 
   padding:0; 
@@ -75,7 +107,6 @@ ul.ancestors li {
   padding-top:1px;
   padding-left:50px;
   padding-bottom:20px;
-  background-color:lightgrey;
   border-radius:4px;
 }
 .smpl textarea{

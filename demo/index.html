@@ -7,8 +7,53 @@
   <link href="demo.css" rel="stylesheet" />
 </head>
 <body>
-<div id="header">
-</div>
+<header class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-3" ng-click="isCollapsed =!isCollapsed">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>     
+        </button>
+      </div>
+    <nav class="hidden-xs">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" role="button" class="dropdown-toggle">
+            Directives
+          <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="#concept">Concept</a>
+            </li>
+            <li>
+              <a href="#search">Search</a>
+            </li>
+            <li>
+              <a href="#tree">Tree</a>
+            </li>
+            <li>
+              <a href="#mapping">Mapping</a>
+            </li>
+            <li>
+              <a href="#occurrences">Occurrences</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <nav class="visible-xs collapse" collapse="!isCollapsed" style="height: 0px;">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="#directives_small" ng-click="isCollapsed = !isCollapsed">Directives</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
 <div class="container">
   <section id="head">
     <h1>Directives</h1>
@@ -51,14 +96,14 @@
 			    </select>
 			    Language: {{language}}
 		    </p>
-		    <div skos-concept="sampleConcept" class="concept" language="language">
+		    <div skos-concept="sampleConcept" class="concept concept-classic" language="language">
 		      <ul ng-if="ancestors.length" class="ancestors">
 				    <li ng-repeat="a in ancestors" ng-click="update(a);reload();">
 			      	<span skos-label="a" lang="{{language}}"/>
 				    </li>
 		      	</ul>
           <div class="top top-classic">                
-		      	<span class="not">{{notation}}</span>
+		      	<span class="notation">{{notation}}</span>
 		      	<b><span skos-label="concept" lang="{{language}}"/></b>
           </div>
 		      <div ng-if="broader.length" class="broader">
@@ -125,8 +170,6 @@
 		    </p>
       </div>
     </div>
-  </section>
-  <section id="sample">
     <div class="row">
       <div class="col-md-6">
         <div class="smpl">
@@ -143,10 +186,17 @@
     <div class="row">   	
       <div class="col-md-6">
         <p>...example...</p>
-        <textarea json-text cols="40" rows="15" ng-model="searchSample" id="sample2"></textarea>
       </div>
       <div class="col-md-6">
         ...documentation...
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="smpl">
+          <h3>Sample Search</h3>                    
+          <textarea json-text cols="40" rows="15" ng-model="searchSample" id="sample2"></textarea>
+        </div>
       </div>
     </div>
   </section>
@@ -157,11 +207,17 @@
     <div class="row">   	
       <div class="col-md-6">
       <p>...example...</p>
-      <div><textarea json-text cols="40" rows="15" ng-model="treeSample"></textarea>
-      </div>
       </div>
       <div class="col-md-6">
       ...documentation...
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="smpl">
+          <h3>Sample Tree</h3> 
+          <textarea json-text cols="40" rows="15" ng-model="treeSample"></textarea>
+        </div>
       </div>
     </div>
   </section>
@@ -171,13 +227,31 @@
     </div>
     <div class="row">   	
       <div class="col-md-6">
-        <p>
-          <span>{{mappingSample}}</span>
-        </p>
-        <textarea json-text cols="40" rows="15" ng-model="mappingSample"></textarea>
+        <div class="concept concept-mapp">
+          <table>
+            <tr>
+              <td><span class="notation">{{mappingSample.from[0].notation}}</span></td><td style="width:40px"><big>&#8658;</big></td><td>
+          <table>
+            <tr ng-repeat="target in mappingSample.to">
+              <td><span class="notation">{{target.notation}}</span></td><td>({{mappingSample.type}})</td>
+            </tr>
+          </table>
+            </td>
+            </tr>
+          </table>
+            {{mappingSample.timestamp}}
+        </div>
       </div>
       <div class="col-md-6">
       ...documentation...
+      </div>
+    </div>
+    <div class="row">   	
+      <div class="col-md-6">
+        <div class="smpl">
+          <h3>Sample Mapping</h3>
+          <textarea json-text cols="40" rows="15" ng-model="mappingSample"></textarea>
+        </div>
       </div>
     </div>
   </section>
@@ -187,11 +261,42 @@
     </div>
     <div class="row">   	
       <div class="col-md-6">
-        <p>...example...</p>
-        <p><textarea json-text cols="40" rows="15" ng-model="ocurrencesSample"></textarea></p>
+        <div class="concept concept-occ">
+			      <table>
+			        <tr>
+				        <td>Notation:</td><td><span class="notation">{{occurrencesSample.search.notation}}</span></td>
+              </tr>
+              <tr>
+                <td>Verwendete Datenbank:</td><td>{{occurrencesSample.database.notation}}</td>
+              </tr>
+              <tr>
+                <td>Zieldatenbank:</td><td>{{occurrencesSample.target.notation}}</td>
+              </tr>
+              <tr>
+                <td>Gesamtzahl Treffer für <span class="notation">{{occurrencesSample.search.notation}}</span>:</td><td>{{occurrencesSample.total}}</td>
+              </tr>
+            </table>
+                Gefundene Notationen:
+            <div>
+              <table>
+                <th>Notation</th><th>Gesamt</th><th>Prozentual</th>
+                <tr ng-repeat="notation in occurrencesSample.hits">
+                  <td>{{notation[0].notation}}</td><td>{{notation[1]}}</td><td>{{notation[1]/occurrencesSample.total*100 | number:1}} %</td>
+				        </tr>
+			        </table>
+            </div>
+        </div>
       </div>
       <div class="col-md-6">
         ...documentation...
+      </div>
+    </div>
+    <div class="row">   	
+      <div class="col-md-6">
+        <div class="smpl">
+          <h3>Sample Mapping</h3>    
+          <p><textarea json-text cols="40" rows="15" ng-model="occurrencesSample"></textarea></p>
+        </div>
       </div>
     </div>
   </section>
