@@ -26,8 +26,15 @@ cocodaDemo.run(function($rootScope) {
                 prefLabel: { 
                     en: 'general, textbooks',
                     de: 'Allgemeines, Lehrbücher'
-                } 
+                }
             },
+            {
+                prefLabel: {
+                    en: 'compendiums, lectures, review books',
+                    de: 'Kompendien, Vorlesungen, Repetitorien'
+                }
+
+            }
         ],
         broader: [
             { 
