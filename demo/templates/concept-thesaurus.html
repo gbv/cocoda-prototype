@@ -1,0 +1,38 @@
+<ul ng-if="ancestors.length" class="ancestors">
+    <li ng-repeat="a in ancestors" ng-click="update(a);reload();">
+    <span skos-label="a" lang="{{language}}"/>
+    </li>
+</ul>
+<span class="not">{{notation}}</span>
+<b><span skos-label="concept" lang="{{language}}"/></b>
+<div ng-if="broader.length" class="broader">
+    BT:
+    <table>
+        <tr>
+      <td ng-repeat="c in broader" ng-click="update(c);reload();">
+        <span skos-label="c" lang="{{language}}"/>
+      </td>
+        </tr>
+    </table>
+</div>
+<div ng-if="narrower.length" class="narrower">
+    NT:
+    <table>
+        <tr>
+            <td ng-repeat="c in narrower" ng-click="update(c);reload();">
+            <span skos-label="c" lang="{{language}}"/>
+            </td>
+        </tr>
+    </table>
+</div>
+<div ng-if="related.length" class="related">
+    RT:
+    <table>
+        <tr>
+            <td ng-repeat="c in related" ng-click="update(c);reload();">
+            <span skos-label="c" lang="{{language}}"/>
+            </td>
+        </tr>
+    </table>
+</div>
+<small>lang: {{language}}</small>
