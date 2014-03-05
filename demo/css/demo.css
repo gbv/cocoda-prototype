@@ -13,12 +13,22 @@ body{
 	border-radius:3px;
 	padding-left:3px;
 	padding-right:3px;
+	color:black;
 }
 .classification{
 	background-color:#E6E681;
 	border-radius:3px;
 	padding-left:3px;
 	padding-right:3px;
+}
+.dbase{
+	background-color:#B6D3FC;
+	border-radius:3px;
+	padding-left:3px;
+	padding-right:3px;	
+}
+.uri{
+	padding-left:20px;
 }
 .concept {
   border: 2px solid #999;
@@ -31,7 +41,6 @@ body{
 	margin-bottom:10px;
 }
 .concept table{
-	margin-top:10px;
 	margin-bottom:10px;
 } 
 .concept td {
@@ -61,16 +70,29 @@ body{
 	font-weight:bold;
 }
 .top-alt .notation{
-	color:dimgrey;‎
 	font-family:times;
 }
-.top-alt .notation:after{
-	content:" :";
+.concept-tree ul{
+	list-style-type:none;
+	position:relative;
+	padding:5px;
+	padding-left:20px;
 }
-.concept-tree .node li{
+.concept-tree li{
+	margin-left:10px;
+	display:inline;
+}
+.concept-tree .nlabel{
+	margin-left:5px;
 	color:#803A22;
 	font-weight:bold;
-	list-style-type:none;
+}
+.node li:hover{
+	border-radius:3px;
+	cursor:pointer;
+}
+.concept-occ table{
+	margin-top:10px;;
 }
 .concept-occ td, .concept-occ th{
 	border:1px solid #999;
@@ -84,9 +106,21 @@ body{
 	color:#803A22;
 	font-weight:bold;
 }
+.concept-mapp .mlabel{
+	padding-left:30px;
+	color:#666;
+	font-weight:bold;
+}
+.concept-mapp .mappingCl{
+	display:inline;
+	margin-top:20px;
+	list-style-type:none;
+}
+.concept-mapp .mappingCl li{
+	margin-left:30px;	
+}
 .concept-mapp .mappingResults table{
 	table-layout:fixed;
-	text-align:center;
 }
 .concept-mapp .mappingResults td{
 	padding-left:20px;
@@ -94,7 +128,7 @@ body{
 }
 .concept-mapp .mappingFoot table{
 	table-layout:auto;
-	margin-left:40px; 
+	margin-left:5px; 
 }
 .concept-mapp .mappingFoot td{
 	padding-left:10px;

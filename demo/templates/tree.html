@@ -1,14 +1,14 @@
 <ul class="node">
 	<li>
-		{{notation}} : {{label}} Test
+		<span ngif="notation.length" class="notation">{{notation}}</span><span class="nlabel">{{prefLabel.en}}</span>
 	</li>
-	<ul ng-repeat="c in children">
+	<ul ng-repeat="c in narrower">
 		<li>
-			{{c.notation}} : {{c.label}}
+			<span class="notation">{{c.notation}}</span><span class="nlabel"> {{c.prefLabel.en}}</span>
 		</li>
 		<ul ng-repeat="cc in children.children">
 			<li>
-				<span>{{cc.notation}} : {{cc.label}}</span>
+				<span>{{cc.notation}}</span><span class="nlabel"> {{cc.prefLabel.en}}</span>
 			</li>
 		</ul>
 	</ul>

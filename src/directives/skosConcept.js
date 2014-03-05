@@ -46,7 +46,7 @@ ngSKOS.directive('skosConcept', function() {
                 }
                 // TODO: choose prefLabel by language attribute (?)
                 angular.forEach(
-                    ['ancestors','prefLabel','altLabel','notation','narrower','broader','related'],
+                    ['uri','ancestors','prefLabel','altLabel','notation','narrower','broader','related'],
                     function(field) { 
                         $scope[field] = $scope.concept[field];
                         // TODO: add watcher/trigger

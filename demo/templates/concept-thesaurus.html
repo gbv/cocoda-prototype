@@ -4,8 +4,8 @@
 	</li>
 </ul>
 <div class="top top-classic">
-	<span class="notation">{{notation}}</span>
-	<b><span skos-label="concept" lang="{{language}}"/></b>
+	<span ng-if="notation.length" class="notation">{{notation}}</span>
+	<b><span skos-label="concept" lang="{{language}}"/></b><a class="uri" href="{{uri}}"><span class="glyphicon glyphicon-globe"></span></a>
 </div>
 <div ng-if="broader.length" class="broader">
   BT:

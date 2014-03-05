@@ -36,7 +36,7 @@ ngSKOS.directive('skosTree', function() {
         },
         link: function(scope, element, attr, controller, transclude) {
 					angular.forEach(
-						['label','notation','children'],
+						['uri','prefLabel','notation','narrower'],
 						function(field) { 
 							scope[field] = scope.tree[field];
 								// TODO: add watcher/trigger

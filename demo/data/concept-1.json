@@ -1,16 +1,13 @@
 {
-    "ancestors": [ 
-        { "prefLabel": 
+		"uri": "http://example.org/concept/UN",
+    "ancestors": [
+        { 
+					"uri": "http://example.org/concept/U",
+					"prefLabel": 
             { 
                 "en": "physics",
                 "de": "Physik"
             }
-        },
-        { "prefLabel": 
-            { 
-                "en": "nuclear physics",
-                "de": "Kernphysik"
-            } 
         }
     ],
     "notation": "UN",
@@ -21,12 +18,14 @@
     "note": { "en": ["this is a note"] },
     "narrower": [
         { 
+						"uri":"http://example.org/concept/UN1000",
             "prefLabel": { 
                 "en": "general, textbooks",
                 "de": "Allgemeines, Lehrbücher"
             }
         },
 				{
+						"uri":"http://example.org/concept/UN1020",
 						"prefLabel": {
                     "en": "compendiums, lectures, review books",
                     "de": "Kompendien, Vorlesungen, Repetitorien"
@@ -35,6 +34,7 @@
     ],
     "broader": [
         { 
+						"uri":"http://example.org/concept/U",
             "prefLabel": { 
                 "en": "physics",
                 "de": "Physik"

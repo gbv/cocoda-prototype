@@ -1,5 +1,5 @@
 {
-	"search": [ { "notation": "612.112" }, {"inScheme":{ "notation":"DDC" }} ],
+	"search": [ { "notation": "612.112", "inScheme": { "notation":"DDC" }} ],
 	"database": { "notation": "GVK" },
   "target": { "notation": "RVK" }, 
   "total": 42,

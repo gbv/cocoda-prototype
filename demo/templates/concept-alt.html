@@ -1,6 +1,6 @@
 <div class="top top-alt">
-  <span class="not">{{notation}}</span>
-  <span skos-label="concept" lang="{{language}}"/>
+  <span ng-if="notation.length" class="notation">{{notation}}</span>
+  <span skos-label="concept" lang="{{language}}"/><a class="uri" href="{{uri}}"><span class="glyphicon glyphicon-globe"/></a>
 </div>
 <div ng-if="broader.length" class="broader">
   <table>
@@ -17,7 +17,7 @@
   </table>
 </div>
 <div ng-if="related.length" class="related">
-  <table>    
+  <table>
     <tr ng-repeat="c in related" ng-click="update(c);reload();">
       <td>&#10137; <span skos-label="c" lang="{{language}}"/></td>
     </tr>

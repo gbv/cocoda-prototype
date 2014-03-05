@@ -3,21 +3,21 @@
 		<td>Used notation:</td><td><span ng-if="search.length" class="notation">{{search[0].notation}}</span></td>
 	</tr>
 	<tr>
-		<td><b>Used</b> classification:</td><td><span ng-if="search.length" class="classification">{{search[1].inScheme.notation}}</span></td>
+		<td><b>Used</b> classification:</td><td><span ng-if="search.length" class="classification">{{search[0].inScheme.notation}}</span></td>
 	</tr>
 	<tr>
 		<td><b>Target</b> classification:</td><td><span ng-if="search.length" class="classification">{{target.notation}}</span></td>
 	</tr>
 	<tr>
-		<td>Used database:</td><td>{{database.notation}}</td>
+		<td>Used database:</td><td><span ng-if="search.length" class="dbase"> {{database.notation}}</td>
 	</tr>
 	<tr>
 		<td>Results (total) for <span ng-if="search.length" class="notation">{{search[0].notation}}</span>:</td><td>{{total}}</td>
 		</tr>
 </table>
-	Corresponding notations in <span ng-if="target.length" class="classification">{{target.notation}}</span>:
+	Corresponding notations in <span ng-if="search.length" class="classification">{{target.notation}}</span>:
 <div>
-	<table>
+	<table ng-if="search.length">
 		<th>Notation</th><th>total</th><th>% of total results</th>
 		<tr ng-repeat="not in hits">
 			<td><span ng-if="not.length" class="notation">{{not[0].notation}}</span></td><td>{{not[1]}}</td><td>{{not[1]/total*100 | number:1}} %</td>

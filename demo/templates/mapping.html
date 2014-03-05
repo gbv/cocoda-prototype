@@ -1,13 +1,18 @@
+<ul class="mappingCl">
+	<li><span class="classification">{{from[0].inScheme.notation}}</span><span style="margin-left:143px;" class="classification">{{to[0].inScheme.notation}}</span></li>
+</ul>
 <table class="mappingResults">
 	<tr>
-		<td><span class="notation">{{from[0].notation}}</span></td><td style="width:40px"><big><div class="glyphicon glyphicon-arrow-right"></div></big></td><td>
-	<table>
-		<tr ng-repeat="target in to">
-			<td><span class="notation">{{target.notation}}</span></td>
-		</tr>
-	</table>
+		<td><span class="notation">{{from[0].notation}}</span></td>
+		<td style="width:40px"><big><span ng-if="from.length" class="glyphicon glyphicon-arrow-right"></span></big></td>
+		<td>
+			<table>
+				<tr ng-repeat="target in to">
+					<td><span class="notation">{{target.notation}}</span><span class="mlabel">{{target.prefLabel.en}}</span></td>
+				</tr>
+			</table>
 		</td>
-  </tr>
+	</tr>
 </table>
 <div class="mappingFoot">
 	<table>

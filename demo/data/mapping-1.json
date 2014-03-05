@@ -1,6 +1,23 @@
 {
-	"from": [{ "notation": "612.112" }],
-	"to": [{ "notation": "ABC 123" }, { "notation": "XX 33" }],
+	"from": [{ 
+	  "notation": "612.112",
+	  "inScheme": { "notation": "DDC" }
+	}],
+	"to": [{ 
+		"notation": "ABC 123",
+		"prefLabel": {
+			"en":"test1",
+			"de":"Test1"
+		},
+		"inScheme": { "notation": "RVK" }
+	},
+	{ "notation": "XX 33",
+		"prefLabel": {
+			"en":"test2",
+			"de":"Test2"
+		},
+		"inScheme": { "notation": "RVK" }
+	}],
 	"type": "strong",
 	"timestamp": "2014-01-01"
 }
