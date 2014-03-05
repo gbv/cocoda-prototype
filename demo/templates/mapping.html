@@ -1,0 +1,19 @@
+<table class="mappingResults">
+	<tr>
+		<td><span class="notation">{{from[0].notation}}</span></td><td style="width:40px"><big><div class="glyphicon glyphicon-arrow-right"></div></big></td><td>
+	<table>
+		<tr ng-repeat="target in to">
+			<td><span class="notation">{{target.notation}}</span></td>
+		</tr>
+	</table>
+		</td>
+  </tr>
+</table>
+<div class="mappingFoot">
+	<table>
+		<tr>
+			<td><b>Type:</b></td><td><span>{{type}}</span></td>
+			<td><b>Date added:</b></td><td><span> {{timestamp}} </span></td>
+		</tr>
+	</table>
+</div>

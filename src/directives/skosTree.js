@@ -28,11 +28,21 @@ ngSKOS.directive('skosTree', function() {
     return {
         restrict: 'A',
         scope: {
-            // ...
+            tree:'=skosTree',
         },
-        template: '...',
-        link: function(scope, element, attrs) {
-            // ...
+        templateUrl: function(element, attrs) {
+            // TODO: use default if not specified
+            return attrs.templateUrl;
         },
+        link: function(scope, element, attr, controller, transclude) {
+					angular.forEach(
+						['label','notation','children'],
+						function(field) { 
+							scope[field] = scope.tree[field];
+								// TODO: add watcher/trigger
+						}
+          );					
+            // ...
+        },				
     };
 });

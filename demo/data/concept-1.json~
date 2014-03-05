@@ -3,13 +3,13 @@
         { "prefLabel": 
             { 
                 "en": "physics",
-                "de": "Physik"
+                "de": "Physik"      
             }
         },
         { "prefLabel": 
             { 
                 "en": "nuclear physics",
-                "de": "Kernphysik"
+                "de": "Kernphysik"                     
             } 
         }
     ],
@@ -24,13 +24,7 @@
             "prefLabel": { 
                 "en": "general, textbooks",
                 "de": "Allgemeines, Lehrbücher"
-            }
-        },
-				{
-						"prefLabel": {
-                    "en": "compendiums, lectures, review books",
-                    "de": "Kompendien, Vorlesungen, Repetitorien"
-            }
+            } 
         }
     ],
     "broader": [

@@ -1,0 +1,26 @@
+{
+	"label":"Physik", 
+	"notation":"U", 
+	"children":[
+		{
+			"label":"Atom- und Molekülphysik", "notation":"UM", "children": [
+				{
+					"label":"Allgemeines", "notation":"UM 1000", "children": []
+				},
+				{
+					"label":"Kompendien, Vorlesungen, Repetitorien", "notation":"UM 1020", "children": []
+				}
+			]
+		},
+		{
+			"label":"Nuklearphysik", "notation":"UN", "children": [
+				{
+					"label":"Allgemeines", "notation":"UN 1000", "children": []
+				},
+				{
+					"label":"Kompendien, Vorlesungen, Repetitorien", "notation":"UN 1020", "children": []
+				}
+			]
+		}
+	]
+}

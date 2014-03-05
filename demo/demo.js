@@ -1,72 +1,26 @@
-var cocodaDemo = angular.module('cocodaDemo', ['ngSKOS','jsonText']);
-cocodaDemo.run(function($rootScope) {
-    $rootScope.sampleConcept = {
-        ancestors: [ 
-            { 'prefLabel': 
-                { 
-                    en: 'physics',
-                    de: 'Physik'      
-                }
-            },
-            { 'prefLabel': 
-                { 
-                    en: 'nuclear physics',
-                    de: 'Kernphysik'                     
-                } 
-            }
-        ],
-        notation: 'UN',
-        prefLabel: { 
-            en: 'nuclear physics', 
-            de: 'Kernphysik' 
-        },
-        note: { en: ['this is a note'] },
-        narrower: [
-            { 
-                prefLabel: { 
-                    en: 'general, textbooks',
-                    de: 'Allgemeines, Lehrbücher'
-                }
-            },
-            {
-                prefLabel: {
-                    en: 'compendiums, lectures, review books',
-                    de: 'Kompendien, Vorlesungen, Repetitorien'
-                }
-
-            }
-        ],
-        broader: [
-            { 
-                prefLabel: { 
-                    en: 'physics',
-                    de: 'Physik'
-                } 
-            },
-        ]
-    };
+var cocodaDemo = angular.module('cocodaDemo', ['ngSKOS','jsonText','ui.bootstrap']);
+cocodaDemo.run(function($rootScope,$http) {
+    $rootScope.sampleConcept = {};
+    $http.get('data/concept-1.json').success(function(data){
+        $rootScope.sampleConcept = data;
+    });
     $rootScope.searchSample = {
         // ...
     };
-    $rootScope.occurrencesSample = {
-        search: { notation: "612.112" }, // concept
-        database: { notation: "GVK" }, // database
-        target: { notation: "RVK" }, // what to look for
-        total: 42,
-        hits: [
-          [ { notation: "ABC 123" }, "22" ],
-          [ { notation: "QR 13" }, "11" ],
-          [ { notation: "QR 1355" }, "8" ],
-          [ { notation: "XX 33" }, "1" ],
-        ]
-    };
-    $rootScope.mappingSample = {
-        from: [{ notation: "612.112" }],
-        to: [{ notation: "ABC 123" }, { notation: "XX 33" }],
-        type: "strong",
-        timestamp: "2014-01-01"
-    };
-    $rootScope.treeSample = {
-        // ...
-    };
+
+    $rootScope.mappingSample = {};
+    $http.get('data/mapping-1.json').success(function(data){
+        $rootScope.mappingSample = data;
+		});
+		$rootScope.occurrencesSample = {};
+    $http.get('data/occurrences-1.json').success(function(data){
+        $rootScope.occurrencesSample = data;
+		});
+    $rootScope.treeSample = {};
+		$http.get('data/tree-1.json').success(function(data){
+        $rootScope.treeSample = data;
+		});
 });
+cocodaDemo.config(function($locationProvider) {
+          $locationProvider.html5Mode(true);
+        }).controller('MainCtrl', function ($scope, $location) { });

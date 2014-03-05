@@ -1,0 +1,6 @@
+{
+	"from": [{ "notation": "612.112" }],
+	"to": [{ "notation": "ABC 123" }, { "notation": "XX 33" }],
+	"type": "strong",
+	"timestamp": "2014-01-01"
+}

@@ -1,0 +1,25 @@
+<div class="top top-alt">
+  <span class="not">{{notation}}</span>
+  <span skos-label="concept" lang="{{language}}"/>
+</div>
+<div ng-if="broader.length" class="broader">
+  <table>
+    <tr ng-repeat="c in broader" ng-click="update(c);reload();">
+      <td>&#8598; <span skos-label="c" lang="{{language}}"/></td>
+    </tr>
+  </table>
+</div>
+<div ng-if="narrower.length" class="narrower">
+  <table>
+    <tr ng-repeat="c in narrower" ng-click="update(c);reload();">
+      <td>&#8600; <span skos-label="c" lang="{{language}}"/></td>
+    </tr>
+  </table>
+</div>
+<div ng-if="related.length" class="related">
+  <table>    
+    <tr ng-repeat="c in related" ng-click="update(c);reload();">
+      <td>&#10137; <span skos-label="c" lang="{{language}}"/></td>
+    </tr>
+  </table>
+</div>

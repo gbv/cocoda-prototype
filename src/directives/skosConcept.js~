@@ -37,7 +37,7 @@ ngSKOS.directive('skosConcept', function() {
         templateUrl: function(element, attrs) {
             // TODO: use default if not specified
             return attrs.templateUrl; 
-        },
+        },   
         link: function link($scope, element, attr, controller, transclude) {
 
             $scope.update = function(concept) {
@@ -48,15 +48,17 @@ ngSKOS.directive('skosConcept', function() {
                 angular.forEach(
                     ['ancestors','prefLabel','altLabel','notation','narrower','broader','related'],
                     function(field) { 
-                        $scope[field] = $scope.concept[field];
+                        $scope[field] = $scope.concept[field]; 
                         // TODO: add watcher/trigger
                     }
-                );
+                ); 
             };
+            
             // TODO: (re)load concept from server to get current details
             $scope.reload = function() { };
 
             $scope.update();
+            );
         }
     }
 });

@@ -1,0 +1,12 @@
+{
+	"search": [ { "notation": "612.112" }, {"inScheme":{ "notation":"DDC" }} ],
+	"database": { "notation": "GVK" },
+  "target": { "notation": "RVK" }, 
+  "total": 42,
+  "hits": [
+					[ { "notation": "ABC 123" }, 22 ],
+          [ { "notation": "QR 13" }, 11 ],
+          [ { "notation": "QR 1355" }, 8 ],
+          [ { "notation": "XX 33" }, 1 ]
+	]
+}

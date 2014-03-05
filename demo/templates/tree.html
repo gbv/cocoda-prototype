@@ -1,0 +1,15 @@
+<ul class="node">
+	<li>
+		{{notation}} : {{label}} Test
+	</li>
+	<ul ng-repeat="c in children">
+		<li>
+			{{c.notation}} : {{c.label}}
+		</li>
+		<ul ng-repeat="cc in children.children">
+			<li>
+				<span>{{cc.notation}} : {{cc.label}}</span>
+			</li>
+		</ul>
+	</ul>
+</ul>
