@@ -27,6 +27,9 @@
             </a>
             <ul class="dropdown-menu" role="menu">
               <li>
+                <a href="#label" target="_self">Label</a>
+              </li>
+              <li>
                 <a href="#concept" target="_self">Concept</a>
               </li>
               <li>
@@ -53,25 +56,25 @@
 		<section id="header">
 			<h1>Directives</h1>
 		</section>
-		<section id="label">
+		<section id="label" class="fixnav">
 			<div class="page-header">
 				<h2>skos-label</h2>
 			</div>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-6">
 					<p>
 						Used as attribute to emit the preferred label of a concept. The lang
 						attribute of the directive element is read and set accordingly. If
 						no label of the required language exists, another language is selected.
 					</p>
-					<p>
+					<div class="concept concept-label">
 						<ul>
 							<li><span skos-label="sampleConcept" lang="de" class="show-lang"/></li>
 							<li><span skos-label="sampleConcept" lang="en" class="show-lang"/></li>
 							<li><span skos-label="sampleConcept" class="show-lang"/></li>
 							<li><span skos-label="sampleConcept" lang="fr" class="show-lang"/></li>
 						</ul>
-					</p>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -148,7 +151,7 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-				...documentation...
+				This directive implements a way to present dynamically loaded content in a tree view.
 				</div>
 			</div>
 			<div class="row">
@@ -170,7 +173,7 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-				...documentation...
+				skosMapping is a directive for displaying existing mappings between the notations of different concept schemes.
 				</div>
 			</div>
 			<div class="row">
@@ -192,7 +195,7 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-					...documentation...
+					skosOccurrences is a directive for displaying results of a search in catalogues for specific notations of one concept scheme and the corresponding notations in another scheme.
 				</div>
 			</div>
 			<div class="row">
@@ -207,6 +210,12 @@
 	</div>
 </div>
 <div id="footer">
+<p>
+	This demo page is using parts of the <a href="http://angular-ui.github.io/bootstrap/">AngularJS Bootstrap UI</a> and <a href="http://getbootstrap.com/">Bootstrap CSS</a>
+</p>
+<p>
+	Glyphicons courtesy of <a href="http://glyphicons.com/">Glyphicons.com</a>
+</p>
 </div>
 		    <script src="lib/angular.min.js"></script>
 		    <script src="lib/angular-resource.min.js"></script>

@@ -4,7 +4,7 @@
 		"en":"physics",
 		"de":"Physik"
 	},
-	"notation":"U", 
+	"notation":["U"], 
 	"narrower":[
 		{
 			"uri":"http://example.org/concept/UM",
@@ -12,7 +12,7 @@
 				"en":"atomic and molecular physics",
 				"de":"Atom- und Molekülphysik"
 			},
-			"notation":"UM",
+			"notation": ["UM"],
 			"narrower": [
 				{
 					"uri":"http://example.org/concept/UM1000",
@@ -20,7 +20,7 @@
 						"en": "general, textbooks",
 						"de": "Allgemeines, Lehrbücher"
 					},
-					"notation":"UM 1000",
+					"notation": ["UM 1000"],
 					"narrower": []
 				},
 				{
@@ -29,7 +29,7 @@
             "en": "compendiums, lectures, review books",
             "de": "Kompendien, Vorlesungen, Repetitorien"
 					},
-					"notation":"UM 1020",
+					"notation": ["UM 1020"],
 					"narrower": []
 				}
 			]
@@ -40,16 +40,16 @@
         "en": "nuclear physics", 
         "de": "Kernphysik" 
 			},
-			"notation":"UN",
+			"notation": ["UN"],
 			"narrower": [
 				{
 					"prefLabel":"Allgemeines",
-					"notation":"UN 1000",
+					"notation": ["UN 1000"],
 					"narrower": []
 				},
 				{
 					"prefLabel":"Kompendien, Vorlesungen, Repetitorien",
-					"notation":"UN 1020",
+					"notation": ["UN 1020"],
 					"narrower": []
 				}
 			]

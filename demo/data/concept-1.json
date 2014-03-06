@@ -10,7 +10,7 @@
             }
         }
     ],
-    "notation": "UN",
+    "notation": ["UN"],
     "prefLabel": { 
         "en": "nuclear physics", 
         "de": "Kernphysik" 

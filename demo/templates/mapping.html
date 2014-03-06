@@ -1,21 +1,21 @@
 <ul class="mappingCl">
-	<li><span class="classification">{{from[0].inScheme.notation}}</span><span style="margin-left:143px;" class="classification">{{to[0].inScheme.notation}}</span></li>
+	<li><span class="classification">{{from[0].inScheme.notation[0]}}</span><span style="margin-left:143px;" class="classification">{{to[0].inScheme.notation[0]}}</span></li>
 </ul>
 <table class="mappingResults">
 	<tr>
-		<td><span class="notation">{{from[0].notation}}</span></td>
+		<td><span class="notation" popover="{{from[0].prefLabel.en}}" popover-trigger="mouseenter">{{from[0].notation[0]}}</span></td>
 		<td style="width:40px"><big><span ng-if="from.length" class="glyphicon glyphicon-arrow-right"></span></big></td>
 		<td>
 			<table>
 				<tr ng-repeat="target in to">
-					<td><span class="notation">{{target.notation}}</span><span class="mlabel">{{target.prefLabel.en}}</span></td>
+					<td><span class="notation" popover="{{target.prefLabel.en}}" popover-trigger="mouseenter">{{target.notation[0]}}</span><span class="mlabel"></span></td>
 				</tr>
 			</table>
 		</td>
 	</tr>
 </table>
 <div class="mappingFoot">
-	<table>
+	<table ng-if="from.length">
 		<tr>
 			<td><b>Type:</b></td><td><span>{{type}}</span></td>
 			<td><b>Date added:</b></td><td><span> {{timestamp}} </span></td>

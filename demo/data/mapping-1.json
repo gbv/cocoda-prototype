@@ -1,22 +1,26 @@
 {
 	"from": [{ 
-	  "notation": "612.112",
-	  "inScheme": { "notation": "DDC" }
+	  "notation": ["612.112"],
+	  "prefLabel":{
+			"en":"ddcSample1",
+			"de":"ddcBeispiel1"
+			},
+	  "inScheme": { "notation": ["DDC"] }
 	}],
 	"to": [{ 
-		"notation": "ABC 123",
+		"notation": ["ABC 123"],
 		"prefLabel": {
-			"en":"test1",
-			"de":"Test1"
+			"en":"rvkSample1",
+			"de":"rvkBeispiel1"
 		},
-		"inScheme": { "notation": "RVK" }
+		"inScheme": { "notation": ["RVK"] }
 	},
-	{ "notation": "XX 33",
+	{ "notation": ["XX 33"],
 		"prefLabel": {
-			"en":"test2",
-			"de":"Test2"
+			"en":"rvkSample2",
+			"de":"rvkBeispiel2"
 		},
-		"inScheme": { "notation": "RVK" }
+		"inScheme": { "notation": ["RVK"] }
 	}],
 	"type": "strong",
 	"timestamp": "2014-01-01"
