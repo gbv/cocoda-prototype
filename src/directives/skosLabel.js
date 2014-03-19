@@ -5,12 +5,13 @@
  * @description
  *
  * Displays the preferred label of a concept.
- * Changes on the preferred label are reflected in the display.
+ * Changes on the preferred label(s) are reflected in the display.
  *
  * @param {string} skos-label Assignable angular expression with 
  *      [concept](#/guide/concepts) data to bind to.
  * @param {string=} lang optional language. If not specified, an arbitrary
- *      preferred labels is selected.
+ *      preferred label is selected. Future versions of this directive may
+ *      use more elaborated heuristics to select an alternative language.
  *
  * @example
  <example module="myApp">
@@ -21,8 +22,8 @@
         <dd><span skos-label="sampleConcept" lang="en"/></dd>
         <dt>de</dt>
         <dd><span skos-label="sampleConcept" lang="de"/></dd>
-        <dt>fr</dt>
-        <dd><span skos-label="sampleConcept" lang="fr"/></dd>
+        <dt><input type="text" ng-model="lang2"/></dt>
+        <dd><span skos-label="sampleConcept" lang="{{lang2}}"/></dd>
       </dl>
       <textarea json-text ng-model="sampleConcept" cols="40" rows="20" />
     </div>
@@ -37,6 +38,7 @@
                 de: "Beispiel",
             },
         };
+        $scope.lang2 = "fr";
     }
   </file>
 </example>
@@ -46,32 +48,44 @@ ngSKOS.directive('skosLabel', function() {
         restrict: 'A',
         scope: { 
             concept: '=skosLabel',
-            language: '@lang',
         },
         template: '{{concept.prefLabel[language]}}',
         link: function(scope, element, attrs) {
-            var concept = scope.concept;
-            if (!concept || !concept.prefLabel) return;
 
-            // get any language unless required label available
-            // TODO: remember original language and switch if available
             function updateLanguage(language) {
-                if (!language || !concept.prefLabel[language]) {
-                    for (language in concept.prefLabel) {
-                        scope.language = language;
-                        if (attrs.lang != language) {
-                            attrs.$set('lang',language);
+                scope.language = language ? language : attrs.lang;
+
+                //console.log("updateLanguage: "+scope.language);
+                //console.log(scope.concept.prefLabel);
+
+                language = scope.concept 
+                         ? selectLanguage(scope.concept.prefLabel, scope.language) : "";
+
+                if (language != scope.language) {
+                    // console.log("use language "+language+" instead of "+scope.language);
+                    scope.language = language;
+                }
+            }
+
+            function selectLanguage(labels, language) {
+                if ( angular.isObject(labels) ) {
+                    if ( language && labels[language] ) {
+                        return language;
+                    } else {
+                        for (language in labels) {
+                            return language;
                         }
-                        break;
                     }
                 }
             }
 
-            // update if lang attribute changed
-            attrs.$observe('lang', function(val) {
-                //console.log("observe: "+val);
-                updateLanguage(val);  
-            });
+            // update if lang attribute changed (also called once at initialization)
+            attrs.$observe('lang', updateLanguage);
+
+            // update with same language if prefLabels changed
+            scope.$watch('concept.prefLabel', function(value) {
+                updateLanguage();
+            }, true);
         },
     };
 });

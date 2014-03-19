@@ -3,6 +3,7 @@
 describe('skos-concept directive', function() {
     beforeEach(module('ngSKOS'));
 
+    /*
     it('should do something', function() { 
         inject(function($compile,$rootScope) {
             var html = "<div skos-concept='c1'>{{notation}}: <i>{{prefLabel.en}}</i></div>";
@@ -20,4 +21,5 @@ describe('skos-concept directive', function() {
             expect(next.text()).toBe('C: chair');
         }); 
     });
+    */
 });
