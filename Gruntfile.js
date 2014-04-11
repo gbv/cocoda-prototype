@@ -6,7 +6,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');    
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-concat');
-
+    grunt.loadNpmTasks('grunt-shell');
+		
     grunt.initConfig({
         pkg: require('./package.json'),
         ngdocs: {
@@ -61,11 +62,17 @@ module.exports = function(grunt) {
                 src: ['src/*.js','src/**/*.js'],                                          
                 dest: 'ng-skos.js',
             },
-        }
+        },
+				shell: {
+          	site: {
+								command: "rm -rf site && mkdir site && cp -r docs/* site"
+						}
+				}
     });
 
     grunt.registerTask('default',['docs','test','connect']);
     grunt.registerTask('docs',['clean','concat','ngdocs']);
     grunt.registerTask('test',['karma:unit']);
     grunt.registerTask('watch',['karma:watch']);
+		grunt.registerTask('site', ['docs','shell:site']);
 };
