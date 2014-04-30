@@ -22,20 +22,40 @@
             "prefLabel": { 
                 "en": "general, textbooks",
                 "de": "Allgemeines, Lehrbücher"
-            }
+            },
+            "ancestors": [
+							{
+								"uri": "http://example.org/concept/U",
+								"prefLabel": 
+									{ 
+										"en": "physics",
+										"de": "Physik"
+									}
+							},
+							{
+								"uri": "http://example.org/concept/UN",
+								"prefLabel": 
+									{ 
+										"en": "nuclear physics", 
+										"de": "Kernphysik" 
+									}
+							}
+            ]
         },
 				{
 						"uri":"http://example.org/concept/UN1020",
-						"prefLabel": {
-                    "en": "compendiums, lectures, review books",
-                    "de": "Kompendien, Vorlesungen, Repetitorien"
+						"prefLabel": 
+						{
+							"en": "compendiums, lectures, review books",
+							"de": "Kompendien, Vorlesungen, Repetitorien"
             }
         }
     ],
     "broader": [
         { 
 						"uri":"http://example.org/concept/U",
-            "prefLabel": { 
+            "prefLabel": 
+            { 
                 "en": "physics",
                 "de": "Physik"
             } 

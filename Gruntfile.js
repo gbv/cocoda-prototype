@@ -160,5 +160,4 @@ module.exports = function(grunt) {
     grunt.registerTask('site', ['docs','shell:site']);
     grunt.registerTask('test',['karma:unit']);
     grunt.registerTask('watch',['karma:watch']);
-
 };
