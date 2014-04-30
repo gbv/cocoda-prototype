@@ -28,21 +28,21 @@ ngSKOS.directive('skosMapping', function() {
     return {
         restrict: 'A',
         scope: {
-					mapping: '=skosMapping',
+                    mapping: '=skosMapping',
         },
         templateUrl: function(element, attrs) {
             // TODO: use default if not specified
             return attrs.templateUrl; 
         },
         link: function(scope, element, attr, controller, transclude) {
-					
+                    
                 angular.forEach(
                     ['from','to','type','timestamp'],
                     function(field) { 
                         scope[field] = scope.mapping[field];
                         // TODO: add watcher/trigger
                     }
-                );					
+                );                    
             // ...
         },
     };

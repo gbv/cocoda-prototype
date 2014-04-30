@@ -1,39 +1,28 @@
-[![Build Status](https://travis-ci.org/gbv/ng-skos.png?branch=master)](https://travis-ci.org/gbv/ng-skos)
+# ng-skos [![Build Status](https://travis-ci.org/gbv/ng-skos.svg?branch=master)](https://travis-ci.org/gbv/ng-skos)
 
-**ng-skos** is a AngularJS module to interact with simple knowledge
-organization systems (SKOS). The API reference, as generated with
-[grunt-ngdocs], is published at <http://gbv.github.io/ng-skos/>. The module is
-managed in a public git repository at <https://github.com/gbv/ng-skos>.
+> [AngularJS](http://angularjs.org/) module to interact with Simple Knowledge Organization Systems (SKOS)
 
-# Requirements
+## Usage and documentation
+
+See <http://gbv.github.io/ng-skos/>.
+
+## Requirements
 
 Require AngularJS >= 1.2.
 
-# Development
+## Development
 
-For development install Node.js, if it is not already installed. Node.js
-includes `npm` to install additional packages. For global installation one
-might require to call npm via `sudo -H`.
+First, **clone** the repository from <https://github.com/gbv/ng-skos>.
 
-First install Grunt locally
+Second, install Node.js unless it is already installed. Node.js includes `npm`
+to install additional packages. Locally **install all required packages**
+listed in `package.json` (for global installation call `npm` via `sudo -H`):
 
-    npm install grunt 
-
-As far as I understand, `Gruntfile.js` is kind of a Makefile for JavaScript
-projects. Then install all required npm modules as listed in `package.json`
-by calling
-
+    npm install -g grunt-cli
     npm install
 
-## Running unit tests
-
-First install Karma using npm:
-
-    npm install -g karma
-
-Testing is configured in `karma.conf.js` and all tests are located in the
-`test` directory. Unit tests are written with
-[Jasmine](http://pivotal.github.io/jasmine/).
+Testing is configured in `karma.conf.js` and **unit tests** are located in
+directory `test` written with [Jasmine](http://pivotal.github.io/jasmine/). 
 
 To execute of all unit tests call:
 
@@ -47,15 +36,9 @@ As configured in `.travis.yml` the tests are automatically
 [executed at travis-ci](https://travis-ci.org/gbv/ng-skos)
 when pushed to GitHub.
 
-## Documentation
-
-Documentation is written using
-[ngdoc](https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation)
-with module [grunt-ngdocs].
-
-[grunt-ngdocs]: https://www.npmjs.org/package/grunt-ngdoc
-
-Just call
+To build the **documentation**, written using
+[ngdoc](https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation),
+call
 
     grunt docs
 

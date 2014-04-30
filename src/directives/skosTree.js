@@ -35,14 +35,14 @@ ngSKOS.directive('skosTree', function() {
             return attrs.templateUrl;
         },
         link: function(scope, element, attr, controller, transclude) {
-					angular.forEach(
-						['uri','prefLabel','notation','narrower'],
-						function(field) { 
-							scope[field] = scope.tree[field];
-								// TODO: add watcher/trigger
-						}
-          );					
+                    angular.forEach(
+                        ['uri','prefLabel','notation','narrower'],
+                        function(field) { 
+                            scope[field] = scope.tree[field];
+                                // TODO: add watcher/trigger
+                        }
+          );                    
             // ...
-        },				
+        },                
     };
 });
