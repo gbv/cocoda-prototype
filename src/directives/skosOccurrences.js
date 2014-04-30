@@ -34,14 +34,14 @@ ngSKOS.directive('skosOccurrences', function() {
             // TODO: use default if not specified
             return attrs.templateUrl;
         },
-				link: function link(scope, element, attr, controller, transclude) {
-					angular.forEach(
-						['search','database','target','total','hits'],
-						function(field) { 
-              scope[field] = scope.occurrence[field];
-							// TODO: add watcher/trigger
-						}
-					);
-				}
+        link: function link(scope, element, attr, controller, transclude) {
+            angular.forEach(
+                ['search','database','target','total','hits'],
+                function(field) { 
+                    scope[field] = scope.occurrence[field];
+                    // TODO: add watcher/trigger
+                }
+            );
+        }
     };
 });
