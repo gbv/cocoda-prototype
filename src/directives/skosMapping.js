@@ -36,14 +36,13 @@ ngSKOS.directive('skosMapping', function() {
             attrs.templateUrl : 'templates/mapping.html';
         },
         link: function(scope, element, attr, controller, transclude) {
-
-                angular.forEach(
-                    ['from','to','type','timestamp'],
-                    function(field) { 
-                        scope[field] = scope.mapping[field];
-                        // TODO: add watcher/trigger
-                    }
-                );
+            angular.forEach(
+                ['from','to','type','timestamp'],
+                function(field) { 
+                    scope[field] = scope.mapping[field];
+                    // TODO: add watcher/trigger
+                }
+            );
             // ...
         },
     };
