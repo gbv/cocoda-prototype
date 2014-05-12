@@ -8,230 +8,229 @@
 </head>
 <body>
 <header>
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">ng-skos</a>
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-        </div>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li class="dropdown">
-            <a data-toggle="dropdown" type="button" class="dropdown-toggle">
-              Jump to directive
-              <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu" role="menu">
-              <li>
-                <a href="#label" target="_self">Label</a>
-              </li>
-              <li>
-                <a href="#concept" target="_self">Concept</a>
-              </li>
-              <li>
-                <a href="#search" target="_self">Search</a>
-              </li>
-              <li>
-                <a href="#tree" target="_self">Tree</a>
-              </li>
-              <li>
-                <a href="#mapping" target="_self">Mapping</a>
-              </li>
-              <li>
-                <a href="#occurrences" target="_self">Occurrences</a>
-              </li>
-            </ul>
-          </li>
-          </div>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" type="button" class="dropdown-toggle">
+                            Jump to directive
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#label" target="_self">Label</a>
+                            </li>
+                            <li>
+                                <a href="#concept" target="_self">Concept</a>
+                            </li>
+                            <li>
+                                <a href="#search" target="_self">Search</a>
+                            </li>
+                            <li>
+                                <a href="#tree" target="_self">Tree</a>
+                            </li>
+                            <li>
+                                <a href="#mapping" target="_self">Mapping</a>
+                            </li>
+                            <li>
+                                <a href="#occurrences" target="_self">Occurrences</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div> 
-      </div> 
-</nav>
+    </nav>
 </header>
 <div class="main">
-	<div class="container">
-		<section id="header">
-			<h1>Directives</h1>
-		</section>
-		<section id="label" class="fixnav">
-			<div class="page-header">
-				<h2>skos-label</h2>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<p>
-						Used as attribute to emit the preferred label of a concept. The lang
-						attribute of the directive element is read and set accordingly. If
-						no label of the required language exists, another language is selected.
-					</p>
-					<div class="concept concept-label">
-						<ul>
-							<li><span skos-label="sampleConcept" lang="de" class="show-lang"/></li>
-							<li><span skos-label="sampleConcept" lang="en" class="show-lang"/></li>
-							<li><span skos-label="sampleConcept" class="show-lang"/></li>
-							<li><span skos-label="sampleConcept" lang="fr" class="show-lang"/></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</section>
-		<section id="concept" class="fixnav">
-			<div class="page-header">
-				<h2>skos-concept</h2>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<p>
-						Used as element or attribute to display a concept.
-					</p>
-					<p>
-						<select ng-model="language">
-							<option>de</option>
-							<option>en</option>
-						</select>
-						Language: {{language}}
-					</p>
-					<div skos-concept="sampleConcept" class="concept concept-classic" language="language" template-url="templates/concept-thesaurus.html">
-					</div>
-				</div>
-				<div class="col-md-6">
-					<p>
-						The element content can be used to control how the concept is shown:
-					</p>
-					<div skos-concept="sampleConcept" class="concept concept-alt" language="language" template-url="templates/concept-alt.html">
-					</div>
-					<p>
-						Interactive elements can be added, for instance to 
-						change the concept on clicks by loading from a cocoda 
-						server...(TODO)
-					</p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="smpl">
-						<h3>Sample Concept</h3> 
-						<textarea json-text ng-model="sampleConcept" cols=40 rows=15></textarea>
-					</div>
-				</div>
-			</div>
-		</section>
-		<section id="search" class="fixnav">
-			<div class="page-header">
-				<h2>skos-search</h2>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div skos-search="searchSample" class="concept concept-search" template-url="templates/search.html">
-					</div>
-				</div>
-				<div class="col-md-6">
-					...documentation...
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="smpl">
-						<h3>Sample Search</h3>
-						<textarea json-text cols="40" rows="15" ng-model="searchSample"></textarea>
-					</div>
-				</div>
-			</div>
-		</section>
-		<section id="tree" class="fixnav">
-			<div class="page-header">
-				<h2>skos-tree</h2>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="concept concept-tree" skos-tree="treeSample" template-url="templates/tree.html">
-					</div>
-				</div>
-				<div class="col-md-6">
-				This directive implements a way to present dynamically loaded content in a tree view.
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="smpl">
-						<h3>Sample Tree</h3> 
-						<textarea json-text cols="40" rows="15" ng-model="treeSample"></textarea>
-					</div>
-				</div>
-			</div>
-		</section>
-		<section id="mapping" class="fixnav">
-			<div class="page-header">
-				<h2>skos-mapping</h2>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="concept concept-mapp" skos-mapping="mappingSample" template-url="templates/mapping.html">
-					</div>
-				</div>
-				<div class="col-md-6">
-				skosMapping is a directive for displaying existing mappings between the notations of different concept schemes.
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="smpl">
-						<h3>Sample Mapping</h3>
-						<textarea json-text cols="40" rows="15" ng-model="mappingSample"></textarea>
-					</div>
-				</div>
-			</div>
-		</section>
-		<section id="occurrences" class="fixnav">
-			<div class="page-header">
-				<h2>skos-occurrences</h2>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="concept concept-occ" skos-occurrences="occurrencesSample" template-url="templates/occurrences.html">...
-					</div>
-				</div>
-				<div class="col-md-6">
-					skosOccurrences is a directive for displaying results of a search in catalogues for specific notations of one concept scheme and the corresponding notations in another scheme.
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="smpl">
-						<h3>Sample Occurrences</h3>
-						<p><textarea json-text cols="40" rows="15" ng-model="occurrencesSample"></textarea></p>
-					</div>
-				</div>
-			</div>
-		</section>
-	</div>
+    <div class="container">
+        <section id="about">
+            <div class="page-header">
+                <h1>Introduction</h1>
+            </div>
+        </section>
+        <section id="label"  class="fixnav">
+            <div class="page-header">
+                <h2>skos-label</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>
+                        Used as attribute to emit the preferred label of a concept. The lang
+                        attribute of the directive element is read and set accordingly. If
+                        no label of the required language exists, another language is selected.
+                    </p>
+                    <div class="concept-label">
+                        <ul>
+                            <li><span skos-label="sampleConcept" lang="de" class="show-lang"/></li>
+                            <li><span skos-label="sampleConcept" lang="en" class="show-lang"/></li>
+                            <li><span skos-label="sampleConcept" class="show-lang"/></li>
+                            <li><span skos-label="sampleConcept" lang="fr" class="show-lang"/></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="concept" class="fixnav">
+            <div class="page-header">
+                <h2>skos-concept</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>
+                        Used as element or attribute to display a concept.
+                    </p>
+                    <p>
+                        <select ng-model="language">
+                            <option>de</option>
+                            <option>en</option>
+                        </select>
+                        Language: {{language}}
+                    </p>
+                    <div skos-concept="sampleConcept" class="concept concept-classic" language="language" template-url="templates/concept-thesaurus.html">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        The element content can be used to control how the concept is shown:
+                    </p>
+                    <div skos-concept="sampleConcept" class="concept concept-alt" language="language" template-url="templates/concept-alt.html">
+                    </div>
+                    <p>
+                        Interactive elements can be added, for instance to 
+                        change the concept on clicks by loading from a cocoda 
+                        server...(TODO)
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="smpl">
+                        <h3>Sample Concept</h3> 
+                        <textarea json-text ng-model="sampleConcept" cols=40 rows=15></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="search" class="fixnav">
+            <div class="page-header">
+                <h2>skos-search</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div skos-search="searchSample" class="concept concept-search" template-url="templates/search.html">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    ...documentation...
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="smpl">
+                        <h3>Sample Search</h3>
+                        <textarea json-text cols="40" rows="15" ng-model="searchSample"></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="tree" class="fixnav">
+            <div class="page-header">
+                <h2>skos-tree</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="concept concept-tree" skos-tree="treeSample">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    This directive implements a way to present dynamically loaded content in a tree view. (TODO, currently static placeholder)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="smpl">
+                        <h3>Sample Tree</h3> 
+                        <textarea json-text cols="40" rows="15" ng-model="treeSample"></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="mapping" class="fixnav">
+            <div class="page-header">
+                <h2>skos-mapping</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="concept concept-mapp" skos-mapping="mappingSample">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                skosMapping is a directive for displaying existing mappings between the notations of different concept schemes.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="smpl">
+                        <h3>Sample Mapping</h3>
+                        <textarea json-text cols="40" rows="15" ng-model="mappingSample"></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="occurrences" class="fixnav">
+            <div class="page-header">
+                <h2>skos-occurrences</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="concept" skos-occurrences="occurrencesSample">...
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    skosOccurrences is a directive for displaying results of a search in catalogues for specific notations of one concept scheme and the corresponding notations in another scheme.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="smpl">
+                        <h3>Sample Occurrences</h3>
+                        <p><textarea json-text cols="40" rows="15" ng-model="occurrencesSample"></textarea></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 </div>
 <div id="footer">
-<p>
-	This demo page is using parts of the <a href="http://angular-ui.github.io/bootstrap/">AngularJS Bootstrap UI</a> and <a href="http://getbootstrap.com/">Bootstrap CSS</a>
-</p>
-<p>
-	Glyphicons courtesy of <a href="http://glyphicons.com/">Glyphicons.com</a>
-</p>
+    <p>
+        This demo page is using parts of the <a href="http://angular-ui.github.io/bootstrap/">AngularJS Bootstrap UI</a> and <a href="http://getbootstrap.com/">Bootstrap CSS</a>
+    </p>
+    <p>
+        Glyphicons courtesy of <a href="http://glyphicons.com/">Glyphicons.com</a>
+    </p>
 </div>
-		    <script src="lib/angular.min.js"></script>
-		    <script src="lib/angular-resource.min.js"></script>
-		    <script src="lib/angular-sanitize.min.js"></script>
-		    <script src="demo.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/angular-resource.min.js"></script>
+    <script src="lib/angular-sanitize.min.js"></script>
+    <script src="demo.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js
 "></script>
 
-		    <script src="../src/json-text.js"></script>
-		    <script src="../src/ng-skos.js"></script>
-		    <script src="../src/directives/skosLabel.js"></script>
-		    <script src="../src/directives/skosConcept.js"></script>
-		    <script src="../src/directives/skosTree.js"></script>
-		    <script src="../src/directives/skosSearch.js"></script>
-		    <script src="../src/directives/skosMapping.js"></script>
-		    <script src="../src/directives/skosOccurrences.js"></script>
+    <script src="../src/json-text.js"></script>
+    <script src="../src/ng-skos.js"></script>
+    <script src="../src/directives/skosLabel.js"></script>
+    <script src="../src/directives/skosConcept.js"></script>
+    <script src="../src/directives/skosTree.js"></script>
+    <script src="../src/directives/skosSearch.js"></script>
+    <script src="../src/directives/skosMapping.js"></script>
+    <script src="../src/directives/skosOccurrences.js"></script>
 </body>
 </html>

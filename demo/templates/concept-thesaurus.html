@@ -1,33 +1,34 @@
 <ul ng-if="ancestors.length" class="ancestors">
-	<li ng-repeat="a in ancestors" ng-click="update(a);reload();">
-		<span skos-label="a" lang="{{language}}"/>
-	</li>
+    <li ng-repeat="a in ancestors">
+        <span skos-label="a" lang="{{language}}" ng-click="update(a);reload();"></span>
+    </li>
 </ul>
 <div class="top top-classic">
-	<span ng-if="notation.length" class="notation">{{notation[0]}}</span>
-	<b><span skos-label="concept" lang="{{language}}"/></b><a class="uri" href="{{uri}}"><span class="glyphicon glyphicon-globe"></span></a>
+    <span ng-if="notation.length" class="notation">{{notation[0]}}</span>
+    <b><span skos-label="concept" lang="{{language}}"></span></b><a class="uri" href="{{uri}}">
+    <span style="vertical-align:-10%" class="glyphicon glyphicon-globe"></span></a>
 </div>
 <div ng-if="broader.length" class="broader">
-  BT:
-  <table>
-    <tr ng-repeat="c in broader" ng-click="update(c);reload();">
-      <td><span skos-label="c" lang="{{language}}"/></td>
-    </tr>
-  </table>
+    <b>Broader Terms:</b>
+    <ul ng-repeat="b in broader" ng-click="update(b);reload();">
+        <li>
+            <span skos-label="b" lang="{{language}}"/>
+        </li>
+    </ul>
 </div>
 <div ng-if="narrower.length" class="narrower">
-  NT:
-  <table>
-    <tr ng-repeat="c in narrower" ng-click="update(c);reload();">
-      <td><span skos-label="c" lang="{{language}}"/></td>
-    </tr>
-  </table>
+    <b>Narrower Terms:</b>
+    <ul ng-repeat="n in narrower" ng-click="update(n);reload();">
+        <li>
+            <span skos-label="n" lang="{{language}}"/>
+        </li>
+    </ul>
 </div>
 <div ng-if="related.length" class="related">
-  RT:
-  <table>
-    <tr ng-repeat="c in related" ng-click="update(c);reload();">
-      <td><span skos-label="c" lang="{{language}}"/></td>
-    </tr>
-  </table>
+    <b>Related Terms:</b>
+    <ul ng-repeat="r in related" ng-click="update(r);reload();">
+        <li>
+            <span skos-label="r" lang="{{language}}"/>
+        </li>
+    </ul>
 </div>

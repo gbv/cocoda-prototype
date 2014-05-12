@@ -1,58 +1,64 @@
 {
-	"uri":"http://example.org/concept/U",
-	"prefLabel": {
-		"en":"physics",
-		"de":"Physik"
-	},
-	"notation":["U"], 
-	"narrower":[
-		{
-			"uri":"http://example.org/concept/UM",
-			"prefLabel":{
-				"en":"atomic and molecular physics",
-				"de":"Atom- und Molekülphysik"
-			},
-			"notation": ["UM"],
-			"narrower": [
-				{
-					"uri":"http://example.org/concept/UM1000",
-					"prefLabel": { 
-						"en": "general, textbooks",
-						"de": "Allgemeines, Lehrbücher"
-					},
-					"notation": ["UM 1000"],
-					"narrower": []
-				},
-				{
-					"uri":"http://example.org/concept/UN1020",
-					"prefLabel": {
-            "en": "compendiums, lectures, review books",
-            "de": "Kompendien, Vorlesungen, Repetitorien"
-					},
-					"notation": ["UM 1020"],
-					"narrower": []
-				}
-			]
-		},
-		{
-			"uri":"http://example.org/concept/UN",
-			"prefLabel": { 
+    "uri":"http://example.org/concept/U",
+    "prefLabel": {
+        "en":"physics",
+        "de":"Physik"
+    },
+    "notation":["U"], 
+    "narrower":[
+        {
+            "uri":"http://example.org/concept/UM",
+            "prefLabel":{
+                "en":"atomic and molecular physics",
+                "de":"Atom- und Molekülphysik"
+            },
+            "notation": ["UM"],
+            "narrower": [
+                {
+                    "uri":"http://example.org/concept/UM1000",
+                    "prefLabel": { 
+                        "en": "general, textbooks",
+                        "de": "Allgemeines, Lehrbücher"
+                    },
+                    "notation": ["UM 1000"],
+                    "narrower": []
+                },
+                {
+                    "uri":"http://example.org/concept/UN1020",
+                    "prefLabel": {
+                        "en": "compendiums, lectures, review books",
+                        "de": "Kompendien, Vorlesungen, Repetitorien"
+                    },
+                    "notation": ["UM 1020"],
+                    "narrower": []
+                }
+            ]
+        },
+        {
+            "uri":"http://example.org/concept/UN",
+            "prefLabel": { 
         "en": "nuclear physics", 
         "de": "Kernphysik" 
-			},
-			"notation": ["UN"],
-			"narrower": [
-				{
-					"prefLabel":"Allgemeines",
-					"notation": ["UN 1000"],
-					"narrower": []
-				},
-				{
-					"prefLabel":"Kompendien, Vorlesungen, Repetitorien",
-					"notation": ["UN 1020"],
-					"narrower": []
-				}
-			]
-		}
-	]
+            },
+            "notation": ["UN"],
+            "narrower": [
+                {
+                    "prefLabel":{
+                        "en":"general",
+                        "de":"Allgemeines"
+                    },
+                    "notation": ["UN 1000"],
+                    "narrower": []
+                },
+                {
+                    "prefLabel":{
+                        "en":"compendiums, lectures, review books",
+                        "de":"Kompendien, Vorlesungen, Repetitorien"
+                    },
+                    "notation": ["UN 1020"],
+                    "narrower": []
+                }
+            ]
+        }
+    ]
 }

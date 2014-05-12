@@ -28,20 +28,21 @@ ngSKOS.directive('skosOccurrences', function() {
     return {
         restrict: 'A',
         scope: {
-					occurrence:'=skosOccurrences',
+            occurrence:'=skosOccurrences',
         },
         templateUrl: function(element, attrs) {
             // TODO: use default if not specified
-            return attrs.templateUrl;
+            return attrs.templateUrl ?
+                attrs.templateUrl : 'templates/occurrences.html';
         },
-				link: function link(scope, element, attr, controller, transclude) {
-					angular.forEach(
-						['search','database','target','total','hits'],
-						function(field) { 
-              scope[field] = scope.occurrence[field];
-							// TODO: add watcher/trigger
-						}
-					);
-				}
+        link: function link(scope, element, attr, controller, transclude) {
+            angular.forEach(
+                ['search','database','target','total','hits'],
+                function(field) { 
+                    scope[field] = scope.occurrence[field];
+                    // TODO: add watcher/trigger
+                }
+            );
+        }
     };
 });

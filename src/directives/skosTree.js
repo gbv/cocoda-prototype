@@ -32,17 +32,18 @@ ngSKOS.directive('skosTree', function() {
         },
         templateUrl: function(element, attrs) {
             // TODO: use default if not specified
-            return attrs.templateUrl;
+            return attrs.templateUrl ?
+                attrs.templateUrl : 'templates/tree.html';
         },
         link: function(scope, element, attr, controller, transclude) {
-					angular.forEach(
-						['uri','prefLabel','notation','narrower'],
-						function(field) { 
-							scope[field] = scope.tree[field];
-								// TODO: add watcher/trigger
-						}
-          );					
+            angular.forEach(
+                ['uri','prefLabel','notation','narrower'],
+                function(field) { 
+                    scope[field] = scope.tree[field];
+                        // TODO: add watcher/trigger
+                }
+          );
             // ...
-        },				
+        },
     };
 });

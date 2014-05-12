@@ -1,25 +1,26 @@
 <div class="top top-alt">
-  <span ng-if="notation.length" class="notation">{{notation[0]}}</span>
-  <span skos-label="concept" lang="{{language}}"/><a class="uri" href="{{uri}}"><span class="glyphicon glyphicon-globe"/></a>
+    <span ng-if="notation.length" class="notation">{{notation[0]}}</span>
+    <b><span skos-label="concept" lang="{{language}}"></span></b><a class="uri" href="{{uri}}">
+    <span class="glyphicon glyphicon-globe"></span></a>
 </div>
 <div ng-if="broader.length" class="broader">
-  <table>
-    <tr ng-repeat="c in broader" ng-click="update(c);reload();">
-      <td>&#8598; <span skos-label="c" lang="{{language}}"/></td>
-    </tr>
-  </table>
+    <ul ng-repeat="c in broader" ng-click="update(c);reload();">
+        <li>
+            &#8598; <span skos-label="c" lang="{{language}}"/>
+        </li>
+    </ul>
 </div>
 <div ng-if="narrower.length" class="narrower">
-  <table>
-    <tr ng-repeat="c in narrower" ng-click="update(c);reload();">
-      <td>&#8600; <span skos-label="c" lang="{{language}}"/></td>
-    </tr>
-  </table>
+    <ul ng-repeat="c in narrower" ng-click="update(c);reload();">
+        <li>
+            &#8600; <span skos-label="c" lang="{{language}}"/>
+        </li>
+    </ul>
 </div>
 <div ng-if="related.length" class="related">
-  <table>
-    <tr ng-repeat="c in related" ng-click="update(c);reload();">
-      <td>&#10137; <span skos-label="c" lang="{{language}}"/></td>
-    </tr>
-  </table>
+    <ul ng-repeat="c in related" ng-click="update(c);reload();">
+        <li>
+            &#10137; <span skos-label="c" lang="{{language}}"/>
+        </li>
+    </ul>
 </div>
