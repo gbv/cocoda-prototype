@@ -1,15 +1,11 @@
-<ul class="node">
-	<li>
-		<span ng-if="notation" class="notation">{{notation[0]}}</span><span class="nlabel">{{prefLabel.en}}</span>
-	</li>
-	<ul ng-repeat="c in narrower">
-		<li>
-			<span class="notation">{{c.notation[0]}}</span><span class="nlabel"> {{c.prefLabel.en}}</span>
-		</li>
-		<ul ng-repeat="cc in c.narrower">
-			<li>
-				<span class="notation">{{cc.notation[0]}}</span><span class="nlabel"> {{cc.prefLabel.en}}</span>
-			</li>
-		</ul>
-	</ul>
-</ul>
+<div class="concept-tree">
+    <p class="set">
+        <span ng-if="tree.notation" class="notation">{{tree.notation[0]}}</span>
+        <span class="nlabel">{{ tree.prefLabel.en }}</span>
+    </p>
+    <ul>
+        <li ng-repeat="n in tree.narrower">
+            <span skos-tree="n"></span>
+        </li>
+    </ul>
+</div>

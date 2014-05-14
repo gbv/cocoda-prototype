@@ -24,26 +24,30 @@
   </file>
 </example>
  */
-ngSKOS.directive('skosTree', function() {
+ngSKOS.directive('skosTree', function($compile) {
     return {
         restrict: 'A',
+        transclude: true,
         scope: {
             tree:'=skosTree',
         },
         templateUrl: function(element, attrs) {
             // TODO: use default if not specified
             return attrs.templateUrl ?
-                attrs.templateUrl : 'templates/tree.html';
+            attrs.templateUrl : 'templates/tree.html';
         },
-        link: function(scope, element, attr, controller, transclude) {
-            angular.forEach(
-                ['uri','prefLabel','notation','narrower'],
-                function(field) { 
-                    scope[field] = scope.tree[field];
-                        // TODO: add watcher/trigger
+        compile: function(tElement, tAttr, transclude) {
+            var contents = tElement.contents().remove();
+            console.log(contents);
+            var compiledContents;
+            return function(scope, iElement, iAttr) {
+                if(!compiledContents) {
+                    compiledContents = $compile(contents, transclude);
                 }
-          );
-            // ...
-        },
+                compiledContents(scope, function(clone, scope) {
+                         iElement.append(clone); 
+                });
+            };
+        }
     };
 });

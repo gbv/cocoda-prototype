@@ -1,17 +1,11 @@
 {
     "uri": "http://example.org/concept/UN",
+    "inScheme": "RVK",
     "ancestors": [
         {
             "uri": "http://example.org/concept/U",
             "prefLabel":{
                 "en": "physics",
-                "de": "Physik"
-            }
-        },
-        {
-            "uri": "http://example.org/concept/UN",
-            "prefLabel":{
-                "en": "nuclear physics",
                 "de": "Physik"
             }
         }

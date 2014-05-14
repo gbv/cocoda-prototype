@@ -66,14 +66,19 @@ ul.ancestors li {
     cursor:pointer;
     margin-bottom:10px;
 }
-.ancestors span{
+.ancestor span{
     padding-right:3px;
 }
-.ancestors span:before {
+.ancestor:before {
     font-size:small;
     color:#999;
     content: " > ";
     font-weight:bold;
+}
+.ancestor li:after{
+    content: " > ";
+    font-weight:bold;
+    font-size:small;
 }
 .ancestors span:hover {
     background-color:lightgrey;
@@ -132,27 +137,24 @@ ul.ancestors li {
 
 .concept-tree ul{
     list-style-type:none;
-    position:relative;
-    padding:5px;
-    padding-left:20px;
+}
+.concept-tree ul{
+    margin-left:-10px;
 }
 .concept-tree li{
-    margin-left:10px;
-    margin-right:8px;
-    display:inline;
 }
-.concept-tree .nlabel{
-    margin-left:5px;
+.set{
+    display:inline;
+    border-radius:3px;
+    padding-right:3px;
+}
+.set:hover{
+    display:inline;
+    border:1px solid #ddd;
+}
+.nlabel{
     color:#803A22;
     font-weight:bold;
-}
-.node {
-    margin-left:-20px;
-}
-.node li:hover{
-    border-radius:3px;
-    padding-right:4px;
-    border:1px solid #ddd;
     cursor:pointer;
 }
 /* SKOS-occurences */

@@ -1,5 +1,6 @@
 <ul ng-if="ancestors.length" class="ancestors">
-    <li ng-repeat="a in ancestors">
+    <span class="classification">{{inScheme}}</span> 
+    <li class="ancestor" ng-repeat="a in ancestors">
         <span skos-label="a" lang="{{language}}" ng-click="update(a);reload();"></span>
     </li>
 </ul>
