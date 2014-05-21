@@ -23,6 +23,7 @@
  *      [concept](#/guide/concepts) data to bind to.
  * @param {string} language Assignable angular expression with 
  *      preferred language to be used as bounded `language` variable. 
+ * @param {string} template-url URL of a template to display the concept
  *
  * @example
  *
@@ -34,9 +35,9 @@ ngSKOS.directive('skosConcept', function() {
             concept: '=skosConcept',
             language: '=language',
         },
-        templateUrl: function(element, attrs) {
-            // TODO: use default if not specified
-            return attrs.templateUrl; 
+        templateUrl: function(elem, attrs) {
+            return attrs.templateUrl ? 
+                   attrs.templateUrl : 'template/skos-concept.html';
         },
         link: function link($scope, element, attr, controller, transclude) {
 

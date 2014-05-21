@@ -7,6 +7,7 @@
  * ...
  *
  * @param {string} skos-search ...
+ * @param {string} template-url URL of a template to display the search
  *
  * @example
  <example module="myApp">
@@ -30,7 +31,10 @@ ngSKOS.directive('skosSearch', function() {
         scope: {
             // ...
         },
-        template: '...',
+        templateUrl: function(elem, attrs) {
+            return attrs.templateUrl ? 
+                   attrs.templateUrl : 'template/skos-Search.html';
+        },
         link: function(scope, element, attrs) {
             // ...
         },

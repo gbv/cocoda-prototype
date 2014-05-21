@@ -7,6 +7,7 @@
  * ...
  *
  * @param {string} skos-occurrences ...
+ * @param {string} template-url URL of a template to display the occurrences
  *
  * @example
  <example module="myApp">
@@ -30,10 +31,9 @@ ngSKOS.directive('skosOccurrences', function() {
         scope: {
             occurrence:'=skosOccurrences',
         },
-        templateUrl: function(element, attrs) {
-            // TODO: use default if not specified
-            return attrs.templateUrl ?
-                attrs.templateUrl : 'templates/occurrences.html';
+        templateUrl: function(elem, attrs) {
+            return attrs.templateUrl ? 
+                   attrs.templateUrl : 'template/skos-occurrences.html';
         },
         link: function link(scope, element, attr, controller, transclude) {
             angular.forEach(

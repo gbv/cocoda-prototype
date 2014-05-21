@@ -6,7 +6,14 @@
  *
  * ...
  *
- * @param {string} skos-tree ...
+ * ## Source code
+ *
+ * The most recent [source 
+ * code](https://github.com/gbv/ng-skos/blob/master/src/directives/skosTree.js)
+ * of this directive is available at GitHub.
+ *
+ * @param {string} skos-tree Tree to display
+ * @param {string} template-url URL of a template to display the tree
  *
  * @example
  <example module="myApp">
@@ -31,10 +38,9 @@ ngSKOS.directive('skosTree', function($compile) {
         scope: {
             tree:'=skosTree',
         },
-        templateUrl: function(element, attrs) {
-            // TODO: use default if not specified
-            return attrs.templateUrl ?
-            attrs.templateUrl : 'templates/tree.html';
+        templateUrl: function(elem, attrs) {
+            return attrs.templateUrl ? 
+                   attrs.templateUrl : 'template/skos-tree.html';
         },
         compile: function(tElement, tAttr, transclude) {
             var contents = tElement.contents().remove();

@@ -2,5 +2,7 @@
 @name Mappings
 @description
 
-A <b>mapping</b> in ng-skos is a JSON object with keys yet-to-be defined.
+A **mapping** in ng-skos represents a mapping between concepts of two concept
+schemes.
+
 

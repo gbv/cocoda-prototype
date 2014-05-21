@@ -4,9 +4,17 @@
  * @restrict A
  * @description
  *
- * ...
+ * This directive displays a [mapping](#/guide/mappings) between concepts of
+ * two concept schemes.
  *
- * @param {string} skos-mapping ...
+ * ## Source code
+ *
+ * The most recent [source 
+ * code](https://github.com/gbv/ng-skos/blob/master/src/directives/skosMapping.js)
+ * of this directive is available at GitHub.
+ *
+ * @param {string} skos-mapping Mapping to display
+ * @param {string} template-url URL of a template to display the mapping
  *
  * @example
  <example module="myApp">
@@ -30,10 +38,9 @@ ngSKOS.directive('skosMapping', function() {
         scope: {
             mapping: '=skosMapping',
         },
-        templateUrl: function(element, attrs) {
-            // TODO: use default if not specified
+        templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
-            attrs.templateUrl : 'templates/mapping.html';
+                   attrs.templateUrl : 'template/skos-mapping.html';
         },
         link: function(scope, element, attr, controller, transclude) {
             angular.forEach(
