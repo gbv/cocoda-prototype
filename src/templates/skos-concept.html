@@ -1,26 +1,28 @@
-<div class="top top-alt">
-    <span ng-if="notation.length" class="notation">{{notation[0]}}</span>
-    <b><span skos-label="concept" lang="{{language}}"></span></b><a class="uri" href="{{uri}}">
-    <span class="glyphicon glyphicon-globe"></span></a>
-</div>
-<div ng-if="broader.length" class="broader">
-    <ul ng-repeat="c in broader" ng-click="update(c);reload();">
-        <li>
-            &#8598; <span skos-label="c" lang="{{language}}"/>
-        </li>
-    </ul>
-</div>
-<div ng-if="narrower.length" class="narrower">
-    <ul ng-repeat="c in narrower" ng-click="update(c);reload();">
-        <li>
-            &#8600; <span skos-label="c" lang="{{language}}"/>
-        </li>
-    </ul>
-</div>
-<div ng-if="related.length" class="related">
-    <ul ng-repeat="c in related" ng-click="update(c);reload();">
-        <li>
-            &#10137; <span skos-label="c" lang="{{language}}"/>
-        </li>
-    </ul>
+<div  class="concept concept-alt">
+    <div class="top top-alt">
+        <span ng-if="notation.length" class="notation">{{notation[0]}}</span>
+        <b><span skos-label="concept" lang="{{language}}"></span></b><a class="uri" href="{{uri}}">
+        <span class="glyphicon glyphicon-globe"></span></a>
+    </div>
+    <div ng-if="broader.length" class="broader">
+        <ul ng-repeat="c in broader" ng-click="update(c);reload();">
+            <li>
+                &#8598; <span skos-label="c" lang="{{language}}"/>
+            </li>
+        </ul>
+    </div>
+    <div ng-if="narrower.length" class="narrower">
+        <ul ng-repeat="c in narrower" ng-click="update(c);reload();">
+            <li>
+                &#8600; <span skos-label="c" lang="{{language}}"/>
+            </li>
+        </ul>
+    </div>
+    <div ng-if="related.length" class="related">
+        <ul ng-repeat="c in related" ng-click="update(c);reload();">
+            <li>
+                &#10137; <span skos-label="c" lang="{{language}}"/>
+            </li>
+        </ul>
+    </div>
 </div>
