@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+    <head>
+        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="ng-skos.css" rel="stylesheet" />
+        <link href="demo2.css" rel="stylesheet" />
+    </head>
+    <body ng-controller="myController">
+    <script type="text/ng-template" id="sampleTemplate1.html">
+        <div class="suggest-item">
+            <div class="suggest-item-label">
+                <span bind-html-unsafe="match.label"></span>
+            </div>
+            <div class="suggest-item-description">
+                {{match.model.description}}
+            </div>
+        </div>
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                <div style="margin-top:50px; margin-bottom:20px;">
+                    <input class="form-control"
+                        typeahead-loading="loadingLocations1"
+                        typeahead-on-select="example.onSelect($item)"
+                        ng-model="example.input" 
+                        suggest-typeahead="{{example.api}}"
+                        placeholder="Search"
+                    />
+                    <i ng-show="loadingLocations1" style="position:absolute; margin-top:10px; right:25px;" class="glyphicon glyphicon-refresh"></i>
+                    <div style="margin-top:10px" ng-if="example.item.description">
+                        <b>Description:</b> {{example.item.description}}
+                    </div>
+                    <div ng-if="example.item.url" style="margin-top:10px">
+                        <b>URL:</b> <a href="{{example.item.url}}">{{example.item.url}}</a>
+                    </div>
+                </div>
+                <div class="tmpl-border" skos-concept="sampleConcept">
+                </div>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+    </div>
+        <script src="lib/angular.min.js"></script>
+        <script src="lib/angular-resource.min.js"></script>
+        <script src="lib/angular-sanitize.min.js"></script>
+        <script src="../lib/ng-suggest.min.js"></script>
+        <script src="demo2.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js
+"></script>
+        <script src="../src/ng-skos.js"></script>
+        <script src="../src/directives/skosLabel.js"></script>
+        <script src="../src/directives/skosConcept.js"></script>
+    </body>
+</html>
