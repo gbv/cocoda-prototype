@@ -1,35 +1,37 @@
-<div class="mappingResults">
-    <div class="mappingResults-from">
-            <div class="mapping-label">
-                <span class="classification">{{from[0].inScheme.notation[0]}}</span>
-            </div>
-        <ul>
-            <li ng-repeat="from in from">
-                <span class="notation" popover="{{from.prefLabel.en}}" popover-trigger="mouseenter">{{from.notation[0]}}</span>
-            </li>
-        </ul>
-    </div>
-    <div class="mappingResults-icon">
-        <big><span ng-if="from.length" class="glyphicon glyphicon-arrow-right"></span></big>
-    </div>
-    <div class="mappingResults-to">
-        <div class="mapping-label">
-            <span class="classification">{{to[0].inScheme.notation[0]}}</span>
+<div class="skos-mapping">
+    <div class="mappingResults">
+        <div class="mappingResults-from">
+                <div class="mapping-label">
+                    <span class="classification">{{from[0].inScheme.notation[0]}}</span>
+                </div>
+            <ul>
+                <li ng-repeat="from in from">
+                    <span class="notation" popover="{{from.prefLabel.en}}" popover-trigger="mouseenter">{{from.notation[0]}}</span>
+                </li>
+            </ul>
         </div>
-        <ul>
-            <li ng-repeat="target in to">
-                <span class="notation" popover="{{target.prefLabel.en}}" popover-trigger="mouseenter">{{target.notation[0]}}</span>
+        <div class="mappingResults-icon">
+            <big><span ng-if="from.length" class="glyphicon glyphicon-arrow-right"></span></big>
+        </div>
+        <div class="mappingResults-to">
+            <div class="mapping-label">
+                <span class="classification">{{to[0].inScheme.notation[0]}}</span>
+            </div>
+            <ul>
+                <li ng-repeat="target in to">
+                    <span class="notation" popover="{{target.prefLabel.en}}" popover-trigger="mouseenter">{{target.notation[0]}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="mappingFoot">
+        <ul ng-if="from.length">
+            <li>
+                <span><b>Type:</b></span>
+                <span>{{type}}</span>
+                <span><b>Date added:</b></span>
+                <span> {{timestamp}} </span>
             </li>
         </ul>
     </div>
-</div>
-<div class="mappingFoot">
-	<ul ng-if="from.length">
-		<li>
-			<span><b>Type:</b></span>
-			<span>{{type}}</span>
-			<span><b>Date added:</b></span>
-			<span> {{timestamp}} </span>
-		</li>
-	</ul>
 </div>

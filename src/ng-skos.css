@@ -1,3 +1,195 @@
 /* Basic CSS for ng-skos default templates */
+/* label styles */
+
+.notation{
+    background-color:lightgrey;
+    border-radius:3px;
+    padding-left:3px;
+    padding-right:3px;
+    color:black;
+    cursor:default;
+}
+.classification{
+    background-color:#E6E681;
+    border-radius:3px;
+    padding-left:3px;
+    padding-right:3px;
+}
+.dbase{
+    background-color:#B6D3FC;
+    border-radius:3px;
+    padding-left:3px;
+    padding-right:3px;
+}
+.uri{
+    padding-left:20px;
+}
+/* SKOS-concept */
+
+
+/* Ancestor view */
+
+ul.ancestors{
+    padding-left:0px;
+}
+ul.ancestors li {
+    display:inline;
+    cursor:pointer;
+    margin-bottom:10px;
+}
+.ancestor span{
+    padding-right:3px;
+}
+.ancestor:before {
+    font-size:small;
+    color:#999;
+    content: " > ";
+    font-weight:bold;
+}
+.ancestors li:after{
+    content: " > ";
+    font-weight:bold;
+    font-size:small;
+}
+/* Thesaurus SKOS-concept view */
+
+.skos-concept-thesaurus ul{
+    margin:3px;
+}
+.skos-concept-thesaurus li:hover {
+    background-color:lightgrey;
+    border-radius:3px;
+    cursor:pointer;
+}
+.skos-concept-thesaurus .broader li, .skos-concept-thesaurus .narrower li, .skos-concept-thesaurus .related li{
+    list-style-type:none;
+    text-decoration:underline;
+    margin-left:-25px;
+    padding:1px 3px 1px 3px;
+    display:inline-block;
+}
+.top-classic{
+    margin-bottom:10px;
+    margin-top:10px;
+    border:1px solid #ddd;
+    padding:0px 3px 0px 3px;
+    border-radius:3px;
+    background-color:#eee;
+    display:inline-block;
+}
+/* Alternative SKOS-concept view */
+
+.skos-concept ul{
+    list-style-type:none;
+    margin-bottom:5px;
+}
+.skos-concept li:hover {
+    background-color:lightgrey;
+    border-radius:3px;
+}
+.skos-concept li{
+    text-decoration:none;
+    cursor:pointer;
+    margin-left:-36px;
+    display:inline-block;
+    padding: 0px 4px 0px 4px;
+}
+.skos-concept .broader span,.skos-concept .narrower span, .skos-concept .related span{
+    color:#803A22;
+    font-weight:bold;
+}
+.top-alt{
+    margin-bottom:10px;
+}
+/* SKOS-search*/
+
+/* SKOS-tree */
+
+.skos-tree ul{
+    list-style-type:none;
+    padding-left:30px;
+}
+.skos-tree li{
+    padding-right:8px;
+}
+.set{
+    display:inline-table;
+    border-radius:3px;
+    padding-right:3px;
+    margin-right:10px;
+}
+.set:hover{
+    background-color:#eee;
+}
+.nlabel{
+    color:#803A22;
+    font-weight:bold;
+    cursor:pointer;
+    margin-left:3px;
+}
+
+/* SKOS-mapping */
+
+.mapping-label{
+    margin-bottom: 10px;
+}
+.mappingResults-from{
+    float:left;
+    display:inline-block;
+    padding:3px;
+    margin-bottom:10px;
+}
+.mappingResults-from ul{
+    padding:3px 4px 3px 0px;
+}
+.mappingResults-icon{
+    float:left;
+    padding: 20px 15% 30px 15%;
+}
+.mappingResults-to{
+    float:left;
+    padding:3px;
+    margin-bottom:10px;
+}
+.mappingResults-to ul{
+    padding:3px 4px 3px 0px;
+}
+.skos-mapping .mlabel{
+    color:#666;
+    font-weight:bold;
+}
+.mappingResults ul{
+    list-style-type:none;
+}
+.mappingResults li{
+    margin-left:0px;
+}
+.mappingFoot{
+    clear:left;
+}
+.mappingFoot span{
+    margin-right:5px; 
+}
+.mappingFoot ul{
+    list-style-type:none;
+    -webkit-padding-start: 0;
+    padding-left:0px;
+}
+/* SKOS-occurences */
+
+.skos-occurrences table{
+    margin-top:5px;
+    margin-bottom:10px;
+    width:auto;
+    min-width:300px;
+}
+.skos-occurrences td, .skos-occurrences th {
+    padding:3px 10px 3px 5px;
+}
+.occ-details td{
+    border:1px solid none;
+    padding: 3px 7px 3px 7px;
+}
+
 
 

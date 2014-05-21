@@ -51,11 +51,6 @@
 </header>
 <div class="main">
     <div class="container">
-        <section id="about">
-            <div class="page-header">
-                <h1>Introduction</h1>
-            </div>
-        </section>
         <section id="label"  class="fixnav">
             <div class="page-header">
                 <h2>skos-label</h2>
@@ -83,7 +78,7 @@
                 <h2>skos-concept</h2>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <p>
                         Used as element or attribute to display a concept.
                     </p>
@@ -94,20 +89,24 @@
                         </select>
                         Language: {{language}}
                     </p>
-                    <div skos-concept="sampleConcept" class="concept concept-classic" language="language" template-url="template/skos-concept-thesaurus.html">
+                    <div class="tmpl-border" skos-concept="sampleConcept" language="language" template-url="template/skos-concept-thesaurus.html">
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-5">
                     <p>
                         The element content can be used to control how the concept is shown:
                     </p>
-                    <div skos-concept="sampleConcept" class="concept concept-alt" language="language">
+                    <div class="tmpl-border" skos-concept="sampleConcept" language="language">
                     </div>
                     <p>
                         Interactive elements can be added, for instance to 
                         change the concept on clicks by loading from a cocoda 
                         server...(TODO)
                     </p>
+                </div>
+                <div class="col-md-1">
                 </div>
             </div>
             <div class="row">
@@ -126,9 +125,11 @@
                 <h2>skos-search</h2>
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <div skos-search="searchSample" class="concept concept-search">
+                <div class="col-md-5">
+                    <div class="tmpl-border" skos-search="searchSample">
                     </div>
+                </div>
+                <div class="col-md-1">
                 </div>
                 <div class="col-md-6">
                     ...documentation...
@@ -148,9 +149,11 @@
                 <h2>skos-tree</h2>
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <div class="concept" skos-tree="treeSample">
+                <div class="col-md-5">
+                    <div class="tmpl-border" skos-tree="treeSample">
                     </div>
+                </div>
+                <div class="col-md-1">
                 </div>
                 <div class="col-md-6">
                     This directive implements a way to present dynamically loaded content in a tree view. (TODO, currently static placeholder)
@@ -170,9 +173,11 @@
                 <h2>skos-mapping</h2>
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <div class="concept concept-mapp" skos-mapping="mappingSample">
+                <div class="col-md-5">
+                    <div class="tmpl-border" skos-mapping="mappingSample">
                     </div>
+                </div>
+                <div class="col-md-1">
                 </div>
                 <div class="col-md-6">
                 skosMapping is a directive for displaying existing mappings between the notations of different concept schemes.
@@ -192,9 +197,11 @@
                 <h2>skos-occurrences</h2>
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <div class="concept" skos-occurrences="occurrencesSample">...
+                <div class="col-md-5">
+                    <div class="tmpl-border" skos-occurrences="occurrencesSample">...
                     </div>
+                </div>
+                <div class="col-md-1">
                 </div>
                 <div class="col-md-6">
                     skosOccurrences is a directive for displaying results of a search in catalogues for specific notations of one concept scheme and the corresponding notations in another scheme.
