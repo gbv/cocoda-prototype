@@ -3,7 +3,7 @@
     <head>
         <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
         <link href="ng-skos.css" rel="stylesheet" />
-        <link href="demo2.css" rel="stylesheet" />
+        <link href="skos-suggest.css" rel="stylesheet" />
     </head>
     <body ng-controller="myController">
     <script type="text/ng-template" id="sampleTemplate1.html">
@@ -26,7 +26,7 @@
                         typeahead-loading="loadingLocations1"
                         typeahead-on-select="example.onSelect($item)"
                         ng-model="example.input" 
-                        suggest-typeahead="{{example.api}}"
+                        suggest-typeahead="example.api" jsonp=1
                         placeholder="Search"
                     />
                     <i ng-show="loadingLocations1" style="position:absolute; margin-top:10px; right:25px;" class="glyphicon glyphicon-refresh"></i>
@@ -48,7 +48,7 @@
         <script src="lib/angular-resource.min.js"></script>
         <script src="lib/angular-sanitize.min.js"></script>
         <script src="../lib/ng-suggest.min.js"></script>
-        <script src="demo2.js"></script>
+        <script src="skos-suggest.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js
 "></script>
