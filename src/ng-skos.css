@@ -26,12 +26,7 @@
 }
 /* SKOS-concept */
 
-.concept {
-    border: 1px solid #999;
-    width:450px;
-    padding:10px 20px 5px 20px;
-    margin:5px 0px 10px 0px;
-}
+
 /* Ancestor view */
 
 ul.ancestors{
@@ -58,15 +53,15 @@ ul.ancestors li {
 }
 /* Thesaurus SKOS-concept view */
 
-.concept-classic ul{
+.skos-concept-thesaurus ul{
     margin:3px;
 }
-.concept-classic li:hover {
+.skos-concept-thesaurus li:hover {
     background-color:lightgrey;
     border-radius:3px;
     cursor:pointer;
 }
-.concept-classic .broader li, .concept-classic .narrower li, .concept-classic .related li{
+.skos-concept-thesaurus .broader li, .skos-concept-thesaurus .narrower li, .skos-concept-thesaurus .related li{
     list-style-type:none;
     text-decoration:underline;
     margin-left:-25px;
@@ -84,60 +79,53 @@ ul.ancestors li {
 }
 /* Alternative SKOS-concept view */
 
-.concept-alt ul{
+.skos-concept ul{
     list-style-type:none;
     margin-bottom:5px;
 }
-.concept-alt li:hover {
+.skos-concept li:hover {
     background-color:lightgrey;
     border-radius:3px;
 }
-.concept-alt li{
+.skos-concept li{
     text-decoration:none;
     cursor:pointer;
     margin-left:-36px;
     display:inline-block;
     padding: 0px 4px 0px 4px;
 }
-.concept-alt .broader span,.concept-alt .narrower span, .concept-alt .related span{
+.skos-concept .broader span,.skos-concept .narrower span, .skos-concept .related span{
     color:#803A22;
     font-weight:bold;
 }
 .top-alt{
     margin-bottom:10px;
 }
+/* SKOS-search*/
+
 /* SKOS-tree */
 
-.concept-tree ul{
+.skos-tree ul{
     list-style-type:none;
-    margin-left:-10px;
+    padding-left:30px;
+}
+.skos-tree li{
+    padding-right:8px;
 }
 .set{
-    display:inline;
+    display:inline-table;
     border-radius:3px;
     padding-right:3px;
+    margin-right:10px;
 }
 .set:hover{
-    display:inline;
-    border:1px solid #ddd;
+    background-color:#eee;
 }
 .nlabel{
     color:#803A22;
     font-weight:bold;
     cursor:pointer;
-}
-/* SKOS-occurences */
-
-.concept-occ table{
-    margin-top:5px;
-    margin-bottom:10px;
-}
-.concept-occ td {
-    padding:4px;
-}
-.occ-details td{
-    border:1px solid none;
-    padding: 3px 7px 3px 7px;
+    margin-left:3px;
 }
 
 /* SKOS-mapping */
@@ -147,46 +135,60 @@ ul.ancestors li {
 }
 .mappingResults-from{
     float:left;
-    margin-left:40px;
-    width:100px;
     display:inline-block;
     padding:3px;
+    margin-bottom:10px;
 }
 .mappingResults-from ul{
     padding:3px 4px 3px 0px;
 }
 .mappingResults-icon{
     float:left;
-    padding: 35px 20px 35px 20px;
+    padding: 20px 15% 30px 15%;
 }
 .mappingResults-to{
     float:left;
-    margin-left:30px;
     padding:3px;
+    margin-bottom:10px;
 }
 .mappingResults-to ul{
     padding:3px 4px 3px 0px;
 }
-.concept-mapp .mlabel{
-    padding-left:30px;
+.skos-mapping .mlabel{
     color:#666;
     font-weight:bold;
 }
-.concept-mapp .mappingResults ul{
+.mappingResults ul{
     list-style-type:none;
 }
-.concept-mapp .mappingResults li{
-    list-style-type:none;
+.mappingResults li{
     margin-left:0px;
 }
-.concept-mapp .mappingFoot{
+.mappingFoot{
     clear:left;
 }
-.concept-mapp .mappingFoot span{
+.mappingFoot span{
     margin-right:5px; 
 }
-.concept-mapp .mappingFoot ul{
+.mappingFoot ul{
     list-style-type:none;
+    -webkit-padding-start: 0;
+    padding-left:0px;
+}
+/* SKOS-occurences */
+
+.skos-occurrences table{
+    margin-top:5px;
+    margin-bottom:10px;
+    width:auto;
+    min-width:300px;
+}
+.skos-occurrences td, .skos-occurrences th {
+    padding:3px 10px 3px 5px;
+}
+.occ-details td{
+    border:1px solid none;
+    padding: 3px 7px 3px 7px;
 }
 
 
