@@ -25,7 +25,8 @@
   </file>
 </example>
  */
-ngSKOS.directive('skosSearch', function() {
+angular.module('ngSKOS')
+.directive('skosSearch', function() {
     return {
         restrict: 'A',
         scope: {
@@ -33,7 +34,7 @@ ngSKOS.directive('skosSearch', function() {
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ? 
-                   attrs.templateUrl : 'template/skos-Search.html';
+                   attrs.templateUrl : 'template/skos-search.html';
         },
         link: function(scope, element, attrs) {
             // ...

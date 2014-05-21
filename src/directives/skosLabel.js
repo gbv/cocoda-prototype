@@ -43,7 +43,8 @@
   </file>
 </example>
  */
-ngSKOS.directive('skosLabel', function() {
+angular.module('ngSKOS')
+.directive('skosLabel', function() {
     return {
         restrict: 'A',
         scope: { 

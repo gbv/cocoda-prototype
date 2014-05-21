@@ -46,8 +46,7 @@ angular.module('jsonText', []).directive('jsonText', function () {
  * handle SKOS data. See the [developer guide](#guide) for an introduction and
  * the [API reference](#api) for documentation of the module.
  */
-var ngSKOS = angular.module('ngSKOS', ['ngSanitize']);
-ngSKOS.value('version', '0.0.1');
+angular.module('ngSKOS', ['ngSanitize']).value('version', '0.0.1');
 /**
  * @ngdoc directive
  * @name ng-skos.directive:skosConcept
@@ -55,7 +54,9 @@ ngSKOS.value('version', '0.0.1');
  * @scope
  * @description
  * 
- * Display a concept with a custom template.
+ * Display a ng-skos [concept](#/guide/concepts).
+ *
+ * ## Scope
  *
  * The following variables are added to the scope:
  * <ul>
@@ -69,6 +70,12 @@ ngSKOS.value('version', '0.0.1');
  * <li>related (array of concepts)
  * </ul>
  *
+ * ## Source code
+ *
+ * The most recent 
+ * [source code](https://github.com/gbv/ng-skos/blob/master/src/directives/skosConcept.js)
+ * of this directive is available at GitHub.
+ * 
  * @param {string} skos-concept Assignable angular expression with 
  *      [concept](#/guide/concepts) data to bind to.
  * @param {string} language Assignable angular expression with 
@@ -78,9 +85,9 @@ ngSKOS.value('version', '0.0.1');
  * @example
  *
  */
-ngSKOS.directive('skosConcept', function () {
+angular.module('ngSKOS').directive('skosConcept', function () {
   return {
-    restrict: 'A',
+    restrict: 'AE',
     scope: {
       concept: '=skosConcept',
       language: '=language'
@@ -88,31 +95,33 @@ ngSKOS.directive('skosConcept', function () {
     templateUrl: function (elem, attrs) {
       return attrs.templateUrl ? attrs.templateUrl : 'template/skos-concept.html';
     },
-    link: function link($scope, element, attr, controller, transclude) {
-      $scope.update = function (concept) {
+    link: function link(scope, element, attr) {
+      scope.update = function (concept) {
         if (concept) {
-          $scope.concept = concept;
+          scope.concept = concept;
         }
         // TODO: choose prefLabel by language attribute (?)
-        angular.forEach([
-          'uri',
-          'inScheme',
-          'ancestors',
-          'prefLabel',
-          'altLabel',
-          'note',
-          'notation',
-          'narrower',
-          'broader',
-          'related'
-        ], function (field) {
-          $scope[field] = $scope.concept[field];  // TODO: add watcher/trigger
-        });
+        if (angular.isObject(scope.concept)) {
+          angular.forEach([
+            'uri',
+            'inScheme',
+            'ancestors',
+            'prefLabel',
+            'altLabel',
+            'note',
+            'notation',
+            'narrower',
+            'broader',
+            'related'
+          ], function (field) {
+            scope[field] = scope.concept[field];  // TODO: add watcher/trigger
+          });
+        }
       };
       // TODO: (re)load concept from server to get current details
-      $scope.reload = function () {
+      scope.reload = function () {
       };
-      $scope.update();
+      scope.update();
     }
   };
 });
@@ -161,7 +170,7 @@ ngSKOS.directive('skosConcept', function () {
   </file>
 </example>
  */
-ngSKOS.directive('skosLabel', function () {
+angular.module('ngSKOS').directive('skosLabel', function () {
   return {
     restrict: 'A',
     scope: { concept: '=skosLabel' },
@@ -231,7 +240,7 @@ ngSKOS.directive('skosLabel', function () {
   </file>
 </example>
  */
-ngSKOS.directive('skosMapping', function () {
+angular.module('ngSKOS').directive('skosMapping', function () {
   return {
     restrict: 'A',
     scope: { mapping: '=skosMapping' },
@@ -277,7 +286,7 @@ ngSKOS.directive('skosMapping', function () {
   </file>
 </example>
  */
-ngSKOS.directive('skosOccurrences', function () {
+angular.module('ngSKOS').directive('skosOccurrences', function () {
   return {
     restrict: 'A',
     scope: { occurrence: '=skosOccurrences' },
@@ -324,12 +333,12 @@ ngSKOS.directive('skosOccurrences', function () {
   </file>
 </example>
  */
-ngSKOS.directive('skosSearch', function () {
+angular.module('ngSKOS').directive('skosSearch', function () {
   return {
     restrict: 'A',
     scope: {},
     templateUrl: function (elem, attrs) {
-      return attrs.templateUrl ? attrs.templateUrl : 'template/skos-Search.html';
+      return attrs.templateUrl ? attrs.templateUrl : 'template/skos-search.html';
     },
     link: function (scope, element, attrs) {
     }
@@ -368,7 +377,7 @@ ngSKOS.directive('skosSearch', function () {
   </file>
 </example>
  */
-ngSKOS.directive('skosTree', [
+angular.module('ngSKOS').directive('skosTree', [
   '$compile',
   function ($compile) {
     return {
@@ -392,6 +401,64 @@ ngSKOS.directive('skosTree', [
         };
       }
     };
+  }
+]);
+/**
+ * @ngdoc service
+ * @name ng-skos.service:SkosConceptProvider
+ * @description
+ * 
+ * Get selected concepts via HTTP
+ * 
+ * @example
+ *  <example module="myApp">
+ *    <file name="index.html">
+ *      <div ng-controller="myController">
+ *      </div>
+ *    </file>
+ *    <file name="script.js">
+ *      angular.module('myApp',['ngSKOS']);
+ *      function myController($scope, SkosConceptProvider) {
+ *          var foo = new SkosConceptProvider({});
+ *      }
+ *    </file>
+ *  </example>
+ */
+angular.module('ngSKOS').factory('SkosConceptProvider', [
+  '$http',
+  '$q',
+  function ($http, $q) {
+    // constructor
+    var SkosConceptProvider = function (args) {
+      this.transform = args.transform;
+      this.url = args.url;
+      this.jsonp = typeof args.jsonp === 'undefined' || args.jsonp === '' ? true : !!args.jsonp;
+    };
+    // methods
+    SkosConceptProvider.prototype = {
+      getConcept: function (concept) {
+        var url;
+        if (this.url) {
+          url = this.url;
+          url = url.replace('{uri}', decodeURIComponent(concept.uri));
+          url = url.replace('{notation}', decodeURIComponent(concept.notation));  // TODO: prefLabel
+        } else {
+          url = concept.uri;
+        }
+        var transform = this.transform;
+        // TODO: if jsonp
+        return $http.jsonp(url).then(function (response) {
+          try {
+            return transform ? transform(response.data) : response.data;
+          } catch (e) {
+            return $q.reject(e);
+          }
+        }, function (response) {
+          return $q.reject(response.data);
+        });
+      }
+    };
+    return SkosConceptProvider;
   }
 ]);
 'use strict';
@@ -426,7 +493,7 @@ ngSKOS.directive('skosTree', [
   </file>
 </example>
  */
-ngSKOS.factory('skosAccess', function () {
+angular.module('ngSKOS').factory('skosAccess', function () {
   // TODO: use $angularCacheFactory for caching
   return function (source) {
     var provider = this;

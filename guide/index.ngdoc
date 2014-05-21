@@ -3,7 +3,7 @@
 @id index
 @description
 
-# How enties are expressed
+# How entities are expressed
 
 The core entities supported by ng-skos are JSON objects that encode:
 

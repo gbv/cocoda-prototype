@@ -30,7 +30,8 @@
   </file>
 </example>
  */
-ngSKOS.factory('skosAccess',function() {
+angular.module('ngSKOS')
+.factory('skosAccess',function() {
     // TODO: use $angularCacheFactory for caching
     return function(source) {
         var provider = this;

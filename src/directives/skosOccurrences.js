@@ -25,7 +25,8 @@
   </file>
 </example>
  */
-ngSKOS.directive('skosOccurrences', function() {
+angular.module('ngSKOS')
+.directive('skosOccurrences', function() {
     return {
         restrict: 'A',
         scope: {

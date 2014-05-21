@@ -31,7 +31,8 @@
   </file>
 </example>
  */
-ngSKOS.directive('skosTree', function($compile) {
+angular.module('ngSKOS')
+.directive('skosTree', function($compile) {
     return {
         restrict: 'A',
         transclude: true,

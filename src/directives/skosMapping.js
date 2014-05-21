@@ -32,7 +32,8 @@
   </file>
 </example>
  */
-ngSKOS.directive('skosMapping', function() {
+angular.module('ngSKOS')
+.directive('skosMapping', function() {
     return {
         restrict: 'A',
         scope: {

@@ -35,6 +35,8 @@ A <b>concept</b> in ng-skos is a JSON object with the following keys:
     terminology object.
 </dl>
 
-# Examples
+# Usage and Examples
 
-See [skosConcept](#/api/ng-skos.directive:skosConcept) for an example.
+The [skosConcept directive](#/api/ng-skos.directive:skosConcept) can be used to
+display a concept.
+
