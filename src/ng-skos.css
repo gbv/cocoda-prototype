@@ -24,6 +24,9 @@
 .uri{
     padding-left:20px;
 }
+.uri:hover{
+    text-decoration:none;
+}
 /* SKOS-concept */
 
 

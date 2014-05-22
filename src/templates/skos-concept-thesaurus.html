@@ -1,13 +1,13 @@
 <div class="skos-concept-thesaurus">
     <ul ng-if="ancestors.length" class="ancestors">
-        <span class="classification">{{inScheme}}</span> 
+        <span ng-if="inScheme" class="classification">{{inScheme}}</span> 
         <li class="ancestor" ng-repeat="a in ancestors">
             <span skos-label="a" lang="{{language}}" ng-click="update(a);reload();"></span>
         </li>
     </ul>
     <div class="top top-classic">
-        <span ng-if="notation.length" class="notation">{{notation[0]}}</span>
-        <b><span skos-label="concept" lang="{{language}}"></span></b><a class="uri" href="{{uri}}">
+        <span ng-if="notation" class="notation">{{notation[0]}}</span>
+        <b><span skos-label="concept" lang="{{language}}"></span></b><a ng-if="notation" class="uri" href="{{uri}}">
         <span style="vertical-align:-10%" class="glyphicon glyphicon-globe"></span></a>
     </div>
     <div ng-if="broader.length" class="broader">

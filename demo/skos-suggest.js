@@ -1,7 +1,7 @@
 var Demo = angular.module('myApp', ['ngSKOS','ui.bootstrap','ngSuggest']);
 Demo.run(function($rootScope,$http) {
     $rootScope.sampleConcept = {};
-    $http.get('data/concept-1.json').success(function(data){
+    $http.get('data/rvk/UN.json').success(function(data){
         $rootScope.sampleConcept = data;
     });
 });
