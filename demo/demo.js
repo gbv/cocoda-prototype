@@ -13,11 +13,8 @@ function myController($scope, SkosConceptProvider) {
         if(phase == '$apply' || phase == '$digest') { if(fn) fn(); } else { this.$apply(fn); } };
     */
 
-    $scope.sampleConcept = { };
-    rvkProvider.getConcept( { notation: ['UN'] } ).then(
-        function(data) { $scope.sampleConcept = data }
-    );
-//    rvkProvider.updateConcept($scope.sampleConcept);
+    $scope.sampleConcept = { notation: ['UN'] };
+    rvkProvider.updateConcept($scope.sampleConcept);
 }
 
 cocodaDemo.run(function($rootScope,$http) {
