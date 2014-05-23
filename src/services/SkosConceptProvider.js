@@ -33,8 +33,11 @@ angular.module('ngSKOS')
     var SkosConceptProvider = function(args) {
         this.transform = args.transform;
         this.url = args.url;
-        this.jsonp = (typeof args.jsonp === 'undefined' || args.jsonp === "")
-                   ? true : !!args.jsonp;    
+        var jsonp = args.jsonp;
+        if (jsonp && (jsonp === true || angular.isNumber(jsonp) || jsonp.match(/^\d/))) {
+            jsonp = 'callback';
+        }
+        this.jsonp = jsonp;
     };
 
     // methods
@@ -44,28 +47,39 @@ angular.module('ngSKOS')
             var url;
 
             if (this.url) {
-                url = this.url;
-                var notation = concept.notation[0];
-                url = url.replace('{uri}', decodeURIComponent(concept.uri));
-                url = url.replace('{notation}', decodeURIComponent(notation));
-                // TODO: prefLabel
+                if (angular.isFunction(this.url)) {
+                    url = this.url(concept);
+                } else {
+                    url = this.url;
+                    if (concept.notation) {
+                        var notation = concept.notation[0];
+                        url = url.replace('{notation}', decodeURIComponent(notation));
+                    }
+                    url = url.replace('{uri}', decodeURIComponent(concept.uri));
+                }
             } else {    
                 url = concept.uri;
             }
 
             var transform = this.transform;
 
-            // TODO: if jsonp
-            var method = this.jsonp ? $http.jsonp : $http.get;
+            var get = $http.get;
+            if (this.jsonp) {
+                get = $http.jsonp;
+                url += url.indexOf('?') == -1 ? '?' : '&';
+                url += this.jsonp + '=JSON_CALLBACK';
+            }
 
-            return method(url).then(
+            return get(url).then(
                 function(response) {
                     try {
                         return transform ? transform(response.data) : response.data;
                     } catch(e) {
+                        console.error(e);
                         return $q.reject(e);
                     }
                 }, function(response) {
+                    console.error(response);
                     return $q.reject(response.data);
                 }
             );

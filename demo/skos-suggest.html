@@ -1,59 +1,52 @@
 <!DOCTYPE html>
 <html ng-app="myApp">
     <head>
+        <!-- CSS -->
         <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
         <link href="ng-skos.css" rel="stylesheet" />
         <link href="skos-suggest.css" rel="stylesheet" />
     </head>
+    
     <body ng-controller="myController">
-    <script type="text/ng-template" id="sampleTemplate1.html">
-        <div class="suggest-item">
-            <div class="suggest-item-label">
-                <span bind-html-unsafe="match.label"></span>
-            </div>
-            <div class="suggest-item-description">
-                {{match.model.description}}
-            </div>
-        </div>
-    </script>
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-            </div>
-            <div class="col-md-4">
-                <div style="margin-top:50px; margin-bottom:20px;">
+                <b>select GND subject</b>
+                <div>
                     <input class="form-control"
-                        typeahead-loading="loadingLocations1"
-                        typeahead-on-select="example.onSelect($item)"
-                        ng-model="example.input" 
-                        suggest-typeahead="example.api" jsonp=1
+                        suggest-typeahead="gndSubjectSuggest"
+                        typeahead-on-select="selectGndSubject($item)"
+                        ng-model="gndSubject"
                         placeholder="Search"
+                        typeahead-loading="loadingLocations"
                     />
-                    <i ng-show="loadingLocations1" class="glyphicon glyphicon-refresh"></i>
-                    <div style="margin-top:10px" ng-if="example.item.description">
-                        <b>Description:</b> {{example.item.description}}
-                    </div>
-                    <div ng-if="example.item.url" style="margin-top:10px">
-                        <b>URL:</b> <a href="{{example.item.url}}">{{example.item.url}}</a>
-                    </div>
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                 </div>
-                <div class="tmpl-border" skos-concept="sampleConcept">
+                <div class="tmpl-border" skos-concept="subjectConcept">
                 </div>
-            </div>
-            <div class="col-md-4">
             </div>
         </div>
     </div>
-        <script src="lib/angular.min.js"></script>
-        <script src="lib/angular-resource.min.js"></script>
-        <script src="lib/angular-sanitize.min.js"></script>
-        <script src="../lib/ng-suggest.min.js"></script>
-        <script src="skos-suggest.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js
-"></script>
-        <script src="../src/ng-skos.js"></script>
-        <script src="../src/directives/skosLabel.js"></script>
-        <script src="../src/directives/skosConcept.js"></script>
     </body>
+
+    <!-- libraries -->
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/angular-resource.min.js"></script>
+    <script src="lib/angular-sanitize.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js
+"></script>
+    <script src="../lib/ng-suggest.js"></script>
+
+    <!-- ng-skos -->
+    <script src="../src/ng-skos.js"></script>
+    <script src="../src/services/SkosConceptProvider.js"></script>
+    <script src="../src/directives/skosLabel.js"></script>
+    <script src="../src/directives/skosConcept.js"></script>
+    <script src="../src/directives/skosMapping.js"></script>
+    <script src="../src/directives/skosTree.js"></script>
+
+    <!-- app -->
+    <script src="skos-suggest.js"></script>
+
 </html>

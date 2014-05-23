@@ -53,7 +53,9 @@ angular.module('ngSKOS')
             scope.$watch('concept',function(concept) {
                 angular.forEach(['uri','inScheme','ancestors','prefLabel',
                     'altLabel','note','notation','narrower','broader','related'],
-                    function(field) { scope[field] = concept[field] }
+                    function(field) {
+                        scope[field] = concept ? concept[field] : null;
+                    }
                 );
             },true);
         }
