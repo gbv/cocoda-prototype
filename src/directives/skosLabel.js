@@ -50,7 +50,7 @@ angular.module('ngSKOS')
         scope: { 
             concept: '=skosLabel',
         },
-        template: '{{concept.prefLabel[language]}}',
+        template: '{{concept.prefLabel[language] ? concept.prefLabel[language] : "???"}}',
         link: function(scope, element, attrs) {
 
             function updateLanguage(language) {

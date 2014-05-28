@@ -86,11 +86,18 @@ ul.ancestors li {
     margin-bottom:5px;
     padding-left:0px;
 }
+.skos-concept li{
+    display:inline-block;
+}
+.skos-altlabel{
+    margin-bottom:5px;
+    font-style:italic;
+}
 .skos-concept-relation li:hover {
     background-color:lightgrey;
     border-radius:3px;
 }
-.skos-concept li{
+.skos-concept-relation li{
     text-decoration:none;
     cursor:pointer;
     display:inline-block;

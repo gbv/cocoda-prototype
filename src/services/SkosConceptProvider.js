@@ -91,6 +91,9 @@ angular.module('ngSKOS')
                     angular.copy(response, concept);
                 }
             );
+        },
+        updateRelated:  function(concept) {
+            //this.updaCeConcept(...)
         }
     };
  
