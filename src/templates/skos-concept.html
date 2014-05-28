@@ -14,23 +14,23 @@
         </ul>
     </div>
     <div ng-if="broader.length" class="skos-concept-relation">
-        <ul ng-repeat="c in broader" ng-click="update(c);reload();">
+        <ul ng-repeat="c in broader">
             <li>
-                &#8598; <span skos-label="c" lang="{{language}}"></span>
+                &#8598; <span skos-label="c" lang="{{language}}" ng-click="click(c)"></span>
             </li>
         </ul>
     </div>
     <div ng-if="narrower.length" class="skos-concept-relation">
-        <ul ng-repeat="c in narrower" ng-click="update(c);reload();">
+        <ul ng-repeat="c in narrower">
             <li>
-                &#8600; <span skos-label="c" lang="{{language}}"></span>
+                &#8600; <span skos-label="c" lang="{{language}}" ng-click="click(c)"></span>
             </li>
         </ul>
     </div>
     <div ng-if="related.length" class="skos-concept-relation">
-        <ul ng-repeat="c in related" ng-click="update(c);reload();">
+        <ul ng-repeat="c in related">
             <li>
-                &#10137; <span skos-label="c" lang="{{language}}"></span>
+                &#10137; <span skos-label="c" lang="{{language}}" ng-click="click(c)"></span>
             </li>
         </ul>
     </div>

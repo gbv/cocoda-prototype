@@ -19,10 +19,8 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     $scope.gndSubjectConcept = new SkosConceptProvider({
         url: "http://lobid.org/subject?format=full&id={uri}",
         transform: function(item) {
-
-            console.log("transform concept");
             var graph = item[1]['@graph'][0];
-            console.log(graph);
+            //console.debug(graph);
             var broaderTerms = [];
             var relatedTerms = [];
             var concept = {
@@ -43,15 +41,15 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                 angular.forEach(graph.broaderTermGeneral, function(bterm) {
                     concept.broader.push({uri: bterm });
                 });
-            }else if(angular.isString(graph.broaderTermGeneral)){
-                concept.broader[0] = {uri: graph.broaderTermGeneral};
+            } else if(angular.isString(graph.broaderTermGeneral)){
+                concept.broader = [{uri: graph.broaderTermGeneral}];
             }
             if(angular.isArray(graph.relatedTerm)){
                 angular.forEach(graph.relatedTerm, function(rterm) {
                     concept.related.push({uri: rterm });
                 });
-            }else if(angular.isString(graph.relatedTerm)){
-                concept.related[0] = {uri: graph.relatedTerm};
+            } else if(angular.isString(graph.relatedTerm)){
+                concept.related = [{uri: graph.relatedTerm}];
             }
             return concept;
         },
@@ -67,16 +65,21 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                 en: item.label
             }
         };
+
         // update
         $scope.gndSubjectConcept.updateConcept($scope.subjectConcept).then(function() {
-            var c = $scope.subjectConcept;
-
-            angular.forEach(c.broader, function(broader){
-                $scope.gndSubjectConcept.updateConcept(broader);
-            });
-            angular.forEach(c.related, function(related){
-                $scope.gndSubjectConcept.updateConcept(related);
-            });
+            $scope.gndSubjectConcept.updateConnected($scope.subjectConcept)
         });
+
+        // click
+        $scope.clickConcept = function(concept) {
+            console.log(concept);
+            $scope.gndSubjectConcept.updateConcept( $scope.subjectConcept = concept ).then(
+                function() {
+                    $scope.gndSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
+                    $scope.gndSubjectConcept.updateConnected($scope.subjectConcept)
+                }
+            );
+        };
     };
 }

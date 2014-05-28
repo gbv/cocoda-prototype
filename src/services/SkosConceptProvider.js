@@ -9,6 +9,7 @@
  *
  * * getConcept
  * * updateConcept
+ * * updateConnected
  *
  * @example
  *  <example module="myApp">
@@ -84,7 +85,6 @@ angular.module('ngSKOS')
                 }
             );
         },
-        // FIXME
         updateConcept: function(concept) {
             return this.getConcept(concept).then(
                 function(response) {
@@ -92,9 +92,19 @@ angular.module('ngSKOS')
                 }
             );
         },
-        updateRelated:  function(concept) {
-            //this.updaCeConcept(...)
-        }
+        updateConnected: function(concept, which) {
+            if (angular.isString(which)) {
+                which = [which];
+            } else if (!angular.isArray(which)) {
+                which = ['broader','narrower','related'];
+            }
+            var service = this;
+            angular.forEach(which, function(w) {
+                angular.forEach(concept[w], function(c){
+                    service.updateConcept(c);
+                });
+            });
+        },
     };
  
     return SkosConceptProvider;

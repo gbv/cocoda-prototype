@@ -33,6 +33,7 @@
  *      [concept](#/guide/concepts) to bind to
  * @param {string} language Assignable angular expression with 
  *      preferred language to be used as bounded `language` variable. 
+ * @param {string} skos-click function to call when a connected concept is clicked
  * @param {string} template-url URL of a template to display the concept
  *
  */
@@ -43,6 +44,7 @@ angular.module('ngSKOS')
         scope: { 
             concept: '=skosConcept',
             language: '=language',
+            click: '=skosClick',
             // TODO: simplify use by providing a SkosConceptProvider and properties
         },
         templateUrl: function(elem, attrs) {
