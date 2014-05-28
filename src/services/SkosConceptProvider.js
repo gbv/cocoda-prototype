@@ -57,7 +57,7 @@ angular.module('ngSKOS')
                     }
                     url = url.replace('{uri}', decodeURIComponent(concept.uri));
                 }
-            } else {    
+            } else {
                 url = concept.uri;
             }
 

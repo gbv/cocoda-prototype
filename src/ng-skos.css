@@ -58,16 +58,16 @@ ul.ancestors li {
 
 .skos-concept-thesaurus ul{
     margin:3px;
+    list-style-type:none;
+    padding-left:0px;
 }
 .skos-concept-thesaurus li:hover {
     background-color:lightgrey;
     border-radius:3px;
     cursor:pointer;
 }
-.skos-concept-thesaurus .broader li, .skos-concept-thesaurus .narrower li, .skos-concept-thesaurus .related li{
-    list-style-type:none;
+.skos-concept-thesaurus-relation li{
     text-decoration:underline;
-    margin-left:-25px;
     padding:1px 3px 1px 3px;
     display:inline-block;
 }
@@ -81,23 +81,22 @@ ul.ancestors li {
     display:inline-block;
 }
 /* Alternative SKOS-concept view */
-
 .skos-concept ul{
     list-style-type:none;
     margin-bottom:5px;
+    padding-left:0px;
 }
-.skos-concept li:hover {
+.skos-concept-relation li:hover {
     background-color:lightgrey;
     border-radius:3px;
 }
 .skos-concept li{
     text-decoration:none;
     cursor:pointer;
-    margin-left:-36px;
     display:inline-block;
     padding: 0px 4px 0px 4px;
 }
-.skos-concept .broader span,.skos-concept .narrower span, .skos-concept .related span{
+.skos-concept-relation span{
     color:#803A22;
     font-weight:bold;
 }

@@ -10,7 +10,7 @@
         <b><span skos-label="concept" lang="{{language}}"></span></b><a ng-if="notation" class="uri" href="{{uri}}">
         <span style="vertical-align:-10%" class="glyphicon glyphicon-globe"></span></a>
     </div>
-    <div ng-if="broader.length" class="broader">
+    <div ng-if="broader.length" class="skos-concept-thesaurus-relation">
         <b>Broader Terms:</b>
         <ul ng-repeat="b in broader" ng-click="update(b);reload();">
             <li>
@@ -18,7 +18,7 @@
             </li>
         </ul>
     </div>
-    <div ng-if="narrower.length" class="narrower">
+    <div ng-if="narrower.length" class="skos-concept-thesaurus-relation">
         <b>Narrower Terms:</b>
         <ul ng-repeat="n in narrower" ng-click="update(n);reload();">
             <li>
@@ -26,7 +26,7 @@
             </li>
         </ul>
     </div>
-    <div ng-if="related.length" class="related">
+    <div ng-if="related.length" class="skos-concept-thesaurus-relation">
         <b>Related Terms:</b>
         <ul ng-repeat="r in related" ng-click="update(r);reload();">
             <li>
