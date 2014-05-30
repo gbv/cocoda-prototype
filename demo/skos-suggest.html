@@ -9,9 +9,9 @@
     
     <body ng-controller="myController">
     <div class="container">
-        <div class="row">
+        <div style="margin-top:20px" class="row">
             <div class="col-md-4">
-                <b>select GND subject</b>
+                <b>Select GND subject (German):</b>
                 <div>
                     <input class="form-control"
                         suggest-typeahead="gndSubjectSuggest"
@@ -23,6 +23,19 @@
                     <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                 </div>
                 <div class="tmpl-border" skos-concept="subjectConcept" skos-click="clickConcept">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <h3>Some examplary GND-terms</h3>
+                    <ul style="list-style-type:none">
+                        <li>
+                            <a style="cursor:pointer" ng-click="selectSampleConcept('Kernkraftwerk','http://d-nb.info/gnd/4030329-9')">Kernkraftwerk</a>
+                        </li>
+                        <li>
+                            <a style="cursor:pointer" ng-click="selectSampleConcept('Stadtteil','http://d-nb.info/gnd/4077814-9')">Stadtteil</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

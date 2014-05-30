@@ -1,15 +1,14 @@
 <div class="skos-concept">
     <div ng-if="uri" class="top top-alt">
         <span ng-if="notation" class="notation">{{notation[0]}}</span>
-        <b><span skos-label="concept" lang="{{language}}"></span></b><a  ng-if="notation" class="uri" href="{{uri[0]}}">
+        <b><span skos-label="concept" lang="{{language}}"></span></b><a  ng-if="notation" class="uri" href="{{uri}}">
         <span class="glyphicon glyphicon-globe"></span></a>
     </div>
-    <div ng-if="altLabel.length" class="skos-altlabel">
+    <div ng-if="altLabel.length" class="skos-concept-altlabel">
         <ul>
             <li ng-repeat="alt in altLabel">
-                <!-- TODO: Kommas -->
                 <span ng-if="$index < 5" style="display:inline">{{alt}}</span>
-                <span style="margin-left:-4px;margin-right:3px;" ng-if="$index < altLabel.length-1">, </span>
+                <span style="margin-left:-4px;margin-right:3px;" ng-if="$index < 4 && $index < altLabel.length-1">, </span>
             </li>
         </ul>
     </div>

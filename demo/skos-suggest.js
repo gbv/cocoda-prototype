@@ -82,4 +82,17 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             );
         };
     };
+    // for filling the concept directly
+    $scope.selectSampleConcept = function(label, uri){
+        
+        $scope.subjectConcept = {
+            uri: uri,
+            prefLabel: {
+                en: label
+            }
+        }
+        $scope.gndSubjectConcept.updateConcept($scope.subjectConcept).then(function() {
+            $scope.gndSubjectConcept.updateConnected($scope.subjectConcept)
+        });
+    }
 }

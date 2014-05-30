@@ -1,6 +1,11 @@
 /* Basic CSS for ng-skos default templates */
-/* label styles */
+/* in order of their occurrence in the demo */
 
+
+/* label styles */
+/* styles for identifiers */
+
+/*  icon-style for notations*/
 .notation{
     background-color:lightgrey;
     border-radius:3px;
@@ -9,18 +14,21 @@
     color:black;
     cursor:default;
 }
+/*  icon-style for concept-schemes */
 .classification{
     background-color:#E6E681;
     border-radius:3px;
     padding-left:3px;
     padding-right:3px;
 }
+/*  icon-style for databases */
 .dbase{
     background-color:#B6D3FC;
     border-radius:3px;
     padding-left:3px;
     padding-right:3px;
 }
+/*  uri-link style*/
 .uri{
     padding-left:20px;
 }
@@ -29,8 +37,10 @@
 }
 /* SKOS-concept */
 
+/* ancestor styles */
 
-/* Ancestor view */
+/* 'skos-concept-thesaurus' template styles  */
+/*  template also uses: .notation, .uri */
 
 ul.ancestors{
     padding-left:0px;
@@ -54,8 +64,6 @@ ul.ancestors li {
     font-weight:bold;
     font-size:small;
 }
-/* Thesaurus SKOS-concept view */
-
 .skos-concept-thesaurus ul{
     margin:3px;
     list-style-type:none;
@@ -80,7 +88,9 @@ ul.ancestors li {
     background-color:#eee;
     display:inline-block;
 }
-/* Alternative SKOS-concept view */
+/* 'skos-concept' template styles */
+/*  template also uses: .notation, .uri */
+
 .skos-concept ul{
     list-style-type:none;
     margin-bottom:5px;
@@ -89,10 +99,12 @@ ul.ancestors li {
 .skos-concept li{
     display:inline-block;
 }
-.skos-altlabel{
+/* 'skos-concept' altLabel display*/
+.skos-concept-altlabel{
     margin-bottom:5px;
     font-style:italic;
 }
+/* 'skos-concept' relations (broader, narrower, related) display*/
 .skos-concept-relation li:hover {
     background-color:lightgrey;
     border-radius:3px;
@@ -107,12 +119,14 @@ ul.ancestors li {
     color:#803A22;
     font-weight:bold;
 }
+/* styles for header, containing notation, prefLabel and uri-link */
 .top-alt{
     margin-bottom:10px;
 }
 /* SKOS-search*/
 
 /* SKOS-tree */
+/*  template also uses: .notation*/
 
 .skos-tree ul{
     list-style-type:none;
@@ -121,6 +135,7 @@ ul.ancestors li {
 .skos-tree li{
     padding-right:8px;
 }
+/* style for a single node */
 .set{
     display:inline-table;
     border-radius:3px;
@@ -130,6 +145,7 @@ ul.ancestors li {
 .set:hover{
     background-color:#eee;
 }
+/* style for the label of a node*/
 .nlabel{
     color:#803A22;
     font-weight:bold;
@@ -137,7 +153,8 @@ ul.ancestors li {
     margin-left:3px;
 }
 
-/* SKOS-mapping */
+/* skos-mapping */
+/* template also uses: .notation, .classification */
 
 .mapping-label{
     margin-bottom: 10px;
@@ -152,6 +169,7 @@ ul.ancestors li {
     padding:3px 4px 3px 0px;
 }
 .mappingResults-icon{
+    position:relative;
     float:left;
     padding: 20px 15% 30px 15%;
 }
@@ -185,6 +203,7 @@ ul.ancestors li {
     padding-left:0px;
 }
 /* SKOS-occurences */
+/* template also uses: .notation, .classification, .dbase */
 
 .skos-occurrences table{
     margin-top:5px;
