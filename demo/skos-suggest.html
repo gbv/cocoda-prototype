@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html ng-app="myApp">
     <head>
+        <meta charset="utf-8">
+        <title>SKOS-Suggest demo application - GND concept display with typeahead</title>
         <!-- CSS -->
         <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
         <link href="ng-skos.css" rel="stylesheet" />
@@ -19,6 +21,7 @@
                         ng-model="gndSubject"
                         placeholder="Search"
                         typeahead-loading="loadingLocations"
+                        typeahead-editable="false"
                     />
                     <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                 </div>

@@ -59,8 +59,7 @@ angular.module('ngSKOS')
                 //console.log("updateLanguage: "+scope.language);
                 //console.log(scope.concept.prefLabel);
 
-                language = scope.concept 
-                         ? selectLanguage(scope.concept.prefLabel, scope.language) : "";
+                language = scope.concept ? selectLanguage(scope.concept.prefLabel, scope.language) : "";
 
                 if (language != scope.language) {
                     // console.log("use language "+language+" instead of "+scope.language);

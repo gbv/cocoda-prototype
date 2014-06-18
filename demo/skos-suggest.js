@@ -20,9 +20,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         url: "http://lobid.org/subject?format=full&id={uri}",
         transform: function(item) {
             var graph = item[1]['@graph'][0];
-            //console.debug(graph);
-            var broaderTerms = [];
-            var relatedTerms = [];
+            
             var concept = {
                 notation: [ graph.gndIdentifier ],
                 prefLabel: { de: graph.preferredName },
