@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="Cocoda">
+<head>
+    <meta charset="utf-8">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="ng-skos.css" rel="stylesheet" />
+    <link href="demo.css" rel="stylesheet" />
+</head>
+<body ng-controller="myController">
+    <header>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Cocoda</a>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                </button>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" type="button" class="dropdown-toggle" ng-init="language='en'">
+                            Language: {{language}}
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#" ng-click="language='de'">de</a>
+                            </li>
+                            <li>
+                                <a href="#" ng-click="language='en'">en</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" type="button" class="dropdown-toggle">
+                            Concept Scheme: {{activeView.origin}}
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#" ng-click="activeView.origin='GND'">GND</a>
+                            </li>
+                            <li>
+                                <a href="#" ng-click="activeView.origin='GNDS'">GND Subjects</a>
+                            </li>
+                            <li>
+                                <a href="#" ng-click="activeView.origin='GNDP'">GND People</a>
+                            </li>
+                            <li>
+                                <a href="#" ng-click="activeView.origin='DDC'">DDC</a>
+                            </li>
+                            <li>
+                                <a href="#" ng-click="activeView.origin='RVK'">RVK</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <div ng-if="activeView.origin.length" class="col-md-3" style="margin-top:8px;">
+                    <input class="form-control"
+                        suggest-typeahead="gndSubjectSuggest"
+                        typeahead-on-select="selectGndSubject($item)"
+                        ng-model="gndSubject"
+                        placeholder="Search"
+                        typeahead-loading="loadingLocations"
+                        typeahead-editable="false"
+                    />
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                </div>
+                <ul ng-if="activeView.origin.length" class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" type="button" class="dropdown-toggle">
+                            Target Scheme: {{activeView.target}}
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#" ng-click="activeView.target='GND'">GND</a>
+                            </li>
+                            <li>
+                                <a href="#" ng-click="activeView.target='GNDS'">GND Subjects</a>
+                            </li>
+                            <li>
+                                <a href="#" ng-click="activeView.target='GNDP'">GND People</a>
+                            </li>
+                            <li>
+                                <a href="#" ng-click="activeView.target='DDC'">DDC</a>
+                            </li>
+                            <li>
+                                <a href="#" ng-click="activeView.target='RVK'">RVK</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="main fixnav">
+        <div class="row">
+            <div class="col-md-3">
+                <div style="margin-left:15px;">
+                    <div ng-if="!subjectConcept" style="width:100%;min-width:450px;" class="tmpl-border" skos-concept="sampleConcept" language="language"></div>
+                    <div ng-if="origin != 'none' && subjectConcept" style="width:100%;min-width:450px;">
+                        <div class="tmpl-border" skos-concept="subjectConcept" skos-click="clickConcept" language="language"></div>
+                        <div><button ng-click="saveTerm(activeView.origin, activeView.target, subjectConcept)">Use Term</button></div>
+                    </div>
+                    <div ng-if="origin == 'DDC' || origin == 'RVK'" style="width:100%;min-width:450px;" class="tmpl-border" skos-tree="treeSample"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div ng-if="!activeView.origin.length" style="margin-top:50px;text-align:center;">
+                    <em>Please choose a concept scheme for mapping</em>
+                </div>
+                <div ng-if="activeView.origin.length && !subjectConcept" style="margin-top:50px;text-align:center;">
+                    <em>Please search for a term in the current concept scheme</em>
+                </div>
+                <div ng-if="!currentTerm.label.length && subjectConcept" style="margin-top:50px;text-align:center;">
+                    <em>Please choose a Term to work on</em>
+                </div>
+                <div ng-if="currentTerm.label.length" style="width:100%;" class="tmpl-border">
+                    <div style="text-align:center;width:80%;margin:0 auto;">
+                        <ul style="list-style-type:none;padding-left:0px;">
+                            <li style="border-bottom:1px solid black;">
+                                <h3><span class="notation">{{currentTerm.notation}}</span>  {{currentTerm.label}}</h3>
+                            </li>
+                            <li>
+                                Mapping from <span class="classification">{{currentTerm.origin}}</span> to <span class="classification">{{currentTerm.target}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div style="margin-right:15px;">
+                    <div style="width:340px;float:right;" class="tmpl-border" skos-mapping="mappingSample"></div>
+                    <div style="width:340px;float:right;" class="tmpl-border" skos-occurrences="occurrencesSample"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/angular-resource.min.js"></script>
+    <script src="lib/angular-sanitize.min.js"></script>
+    <script src="demo.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js"></script>
+</body>
+    <script src="../lib/ng-suggest.js"></script>
+    <script src="../src/json-text.js"></script>
+    <script src="../src/ng-skos.js"></script>
+    <script src="../src/services/SkosConceptProvider.js"></script>
+    <script src="../src/directives/skosLabel.js"></script>
+    <script src="../src/directives/skosConcept.js"></script>
+    <script src="../src/directives/skosTree.js"></script>
+    <script src="../src/directives/skosSearch.js"></script>
+    <script src="../src/directives/skosMapping.js"></script>
+    <script src="../src/directives/skosOccurrences.js"></script>
+    
+    <script src="cocoda.js"></script>
+</html>

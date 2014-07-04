@@ -205,6 +205,10 @@ ul.ancestors li {
 /* SKOS-occurences */
 /* template also uses: .notation, .classification, .dbase */
 
+.skos-occurrences{
+    min-width:200px;
+}
+
 .skos-occurrences table{
     margin-top:5px;
     margin-bottom:10px;
