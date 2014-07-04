@@ -99,12 +99,11 @@
         <div class="row">
             <div class="col-md-3">
                 <div style="margin-left:15px;">
-                    <div ng-if="!subjectConcept" style="width:100%;min-width:450px;" class="tmpl-border" skos-concept="sampleConcept" language="language"></div>
-                    <div ng-if="origin != 'none' && subjectConcept" style="width:100%;min-width:450px;">
+                    <div ng-if="activeView.origin.length && subjectConcept" style="width:100%;min-width:450px;">
                         <div class="tmpl-border" skos-concept="subjectConcept" skos-click="clickConcept" language="language"></div>
-                        <div><button ng-click="saveTerm(activeView.origin, activeView.target, subjectConcept)">Use Term</button></div>
+                        <div style="margin-bottom:5px;"><button ng-click="saveTerm(activeView.origin, activeView.target, subjectConcept)">Use Term</button></div>
                     </div>
-                    <div ng-if="origin == 'DDC' || origin == 'RVK'" style="width:100%;min-width:450px;" class="tmpl-border" skos-tree="treeSample"></div>
+                    <div ng-if="activeView.origin == 'DDC' || activeView.origin == 'RVK'" style="width:100%;min-width:450px;" class="tmpl-border" skos-tree="treeSample"></div>
                 </div>
             </div>
             <div class="col-md-6">
