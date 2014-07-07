@@ -99,10 +99,17 @@
         <div class="row">
             <div class="col-md-3">
                 <div style="margin-left:15px;">
+                    <div ng-if="!activeView.origin.length" style="width:100%;min-width:450px;">
+                        <div class="tmpl-border" skos-concept="sampleConcept" language="language"></div>
+                    </div>
                     <div ng-if="activeView.origin.length && subjectConcept" style="width:100%;min-width:450px;">
                         <div class="tmpl-border" skos-concept="subjectConcept" skos-click="clickConcept" language="language"></div>
-                        <div style="margin-bottom:5px;"><button ng-click="saveTerm(activeView.origin, activeView.target, subjectConcept)">Use Term</button></div>
+                        <div style="margin-bottom:5px;">
+                            <button ng-click="saveTerm(activeView.origin, activeView.target, subjectConcept)">Use Term</button>
+                            <button ng-click="addNot(subjectConcept)">Add Term</button>
+                        </div>
                     </div>
+                        <!-- Scheme specific -->
                     <div ng-if="activeView.origin == 'DDC' || activeView.origin == 'RVK'" style="width:100%;min-width:450px;" class="tmpl-border" skos-tree="treeSample"></div>
                 </div>
             </div>
@@ -117,8 +124,8 @@
                     <em>Please choose a Term to work on</em>
                 </div>
                 <div ng-if="currentTerm.label.length" style="width:100%;" class="tmpl-border">
-                    <div style="text-align:center;width:80%;margin:0 auto;">
-                        <ul style="list-style-type:none;padding-left:0px;">
+                    <div style="width:80%;margin:0 auto;">
+                        <ul style="text-align:center;list-style-type:none;padding-left:0px;">
                             <li style="border-bottom:1px solid black;">
                                 <h3><span class="notation">{{currentTerm.notation}}</span>  {{currentTerm.label}}</h3>
                             </li>
@@ -126,6 +133,29 @@
                                 Mapping from <span class="classification">{{currentTerm.origin}}</span> to <span class="classification">{{currentTerm.target}}</span>
                             </li>
                         </ul>
+                        <div style="width:90%;margin:0 auto;">
+                            <div class="tmpl-border mappingResults-from"  style="float:left;">
+                                <ul style="list-style-type:none;padding-left:0px;">
+                                    <li>
+                                        <span class="notation" popover="{{currentTerm.label}}" popover-trigger="mouseenter">{{currentTerm.notation}}</span>  <span>{{currentTerm.label}}</span>
+                                        <!-- GND specific! -->
+                                        <a href="#" ng-click="selectSampleConcept(currentTerm.label, 'http://d-nb.info/gnd/' + currentTerm.notation)"><span class="glyphicon glyphicon-search"></span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mappingResults-icon" style="position:relative;float:left;padding:20px 5% 30px 5%;">
+                                <big><span class="glyphicon glyphicon-arrow-right"></span></big>
+                            </div>
+                            <div class="tmpl-border mappingResults-to">
+                                <ul style="list-style-type:none;padding-left:0px;">
+                                    <li ng-repeat="t in targets">
+                                        <span class="notation" popover="{{t.prefLabel.de}}" popover-trigger="mouseenter">{{t.notation[0]}}</span>  <span>{{t.prefLabel.de}}</span>
+                                        <a href="#" ng-click="deleteTarget($index)"><span class="glyphicon glyphicon-trash"></span></a>
+                                        <a href="#" ng-click="selectSampleConcept(currentTerm.label, 'http://d-nb.info/gnd/' + t.notation[0])"><span class="glyphicon glyphicon-search"></span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

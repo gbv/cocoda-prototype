@@ -39,9 +39,23 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             origin: origin,
             target: target,
             label: item.prefLabel.de,
-            notation: item.notation[0]
+            notation: item.notation[0],
+            uri: item.uri
         };
     };
+    $scope.targets = 
+        [];
+    $scope.addNot = function(item){
+        $scope.targets.push({
+            prefLabel: { de: item.prefLabel.de },
+            notation: [ item.notation[0] ],
+            uri: item.uri
+        });
+        console.log($scope.targets);
+    };
+    $scope.deleteTarget = function(idx){
+        $scope.targets.splice(idx, 1);
+    }
     
     // Concept via lobid.org
     $scope.gndSubjectConcept = new SkosConceptProvider({
