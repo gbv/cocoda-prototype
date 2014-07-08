@@ -10,9 +10,6 @@
                 </li>
             </ul>
         </div>
-        <div class="mappingResults-icon">
-            <big><span ng-if="from.length" class="glyphicon glyphicon-arrow-right"></span></big>
-        </div>
         <div class="mappingResults-to">
             <div class="mapping-label">
                 <span class="classification">{{to[0].inScheme.notation[0]}}</span>
@@ -23,6 +20,9 @@
                 </li>
             </ul>
         </div>
+    </div>
+    <div class="mappingResults-icon">
+        <big><span ng-if="from.length || to.length" class="glyphicon glyphicon-arrow-right"></span></big>
     </div>
     <div class="mappingFoot">
         <ul ng-if="from.length">

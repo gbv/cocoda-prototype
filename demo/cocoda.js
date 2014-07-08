@@ -2,61 +2,124 @@ var cocoda = angular.module('Cocoda', ['ngSKOS','ui.bootstrap','ngSuggest']);
 
 function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggestions){
 
+    $scope.activeView = {
+        origin: '',
+        target: ''
+    };
+    $scope.setOrigin = function(scheme) {
+        if(scheme == ''){
+            $scope.activeView.origin = scheme;
+        }else if(scheme != $scope.activeView.origin){
+            $scope.originConcept = "";
+            $scope.originSubject = "";
+            $scope.deleteAll();
+            $scope.activeView.origin = scheme;
+        }
+    }
+    $scope.setTarget = function(scheme) {
+        if(scheme == ''){
+            $scope.activeView.target = scheme;
+        }else if(scheme != $scope.activeView.target){
+            $scope.targetConcept = "";
+            $scope.targetSubject = "";
+            $scope.deleteAll();
+            $scope.activeView.target = scheme;
+        }
+    }
+    $scope.SubjectOriginSuggest = function(scheme){
+        if(scheme == 'GND'){
+            return $scope.gndSubjectSuggest;
+        }else if(scheme == 'RVK'){
+            return $scope.rvkSubjectSuggest;
+        }
+    }
+    $scope.SubjectTargetSuggest = function(scheme){
+        if(scheme == 'GND'){
+            return $scope.gndSubjectSuggest;
+        }else if(scheme == 'RVK'){
+            return $scope.rvkSubjectSuggest;
+        }
+    }
     // Suggestions API via lobid.org
+    
     $scope.gndSubjectSuggest = new OpenSearchSuggestions({
+        
         url: "http://api.lobid.org/subject?format=ids&name=",
         transform: function(response) {
             return {
                 values: response.map(function(s) {
-                    return { label: s.label, uri: s.value }
+                    return {
+                        label: s.label,
+                        uri: s.value
+                    };
                 }),
             };
         },
         jsonp: true
     });
     
-    var rvkProvider = new SkosConceptProvider({
-        url:'data/rvk/{notation}.json',
-        jsonp: false
+    $scope.rvkSubjectSuggest = new OpenSearchSuggestions({
+        
+        url: "http://rvk.uni-regensburg.de/api/json/register/{searchTerms}?limit=20",
+        transform: function(response){
+            return {
+                values: response.Register.map(function(v) {
+                    return {
+                        label: v.begriff,
+                        uri: v.notation
+                    };
+                }),
+            };
+        },
+        jsonp: 'jsonp'
     });
+
 
     /*
     $scope.safeApply = function(fn) { 
         var phase = this.$root.$$phase; 
         if(phase == '$apply' || phase == '$digest') { if(fn) fn(); } else { this.$apply(fn); } };
     */
-
-    $scope.sampleConcept = { notation: ['UN'] };
-    rvkProvider.updateConcept($scope.sampleConcept);
-    
-    $scope.activeView = {
-        origin: '',
-        target: ''
-    };
-    
-    $scope.saveTerm = function(origin,target,item){
-        $scope.currentTerm = {
+    $scope.currentMapping = {
+        from: [],
+        targets: []
+    };    
+    $scope.saveFrom = function(origin,item){
+        $scope.deleteAll();
+        $scope.currentMapping.from[0] = {
             origin: origin,
-            target: target,
-            label: item.prefLabel.de,
-            notation: item.notation[0],
+            prefLabel: { de: item.prefLabel.de },
+            inScheme: { notation: [ $scope.activeView.origin ] },
+            notation: [ item.notation[0] ? item.notation[0] : originConcept.uri ],
             uri: item.uri
         };
     };
-    $scope.targets = 
-        [];
-    $scope.addNot = function(item){
-        $scope.targets.push({
+    $scope.addTo = function(target,item){
+        $scope.currentMapping.targets.push({
+            target: target,
             prefLabel: { de: item.prefLabel.de },
+            inScheme: { notation: [ $scope.activeView.target ] },
             notation: [ item.notation[0] ],
             uri: item.uri
         });
-        console.log($scope.targets);
     };
-    $scope.deleteTarget = function(idx){
-        $scope.targets.splice(idx, 1);
+    $scope.replaceTo = function(target,item){
+        $scope.currentMapping.targets = [];
+        $scope.currentMapping.targets.push({
+            target: target,
+            prefLabel: { de: item.prefLabel.de },
+            inScheme: { notation: [ $scope.activeView.target ] },
+            notation: [ item.notation[0] ],
+            uri: item.uri
+        });
     }
-    
+    $scope.deleteAll = function(){
+        $scope.currentMapping.targets = [];
+        $scope.currentMapping.from = [];
+    }
+    $scope.deleteTarget = function(idx){
+        $scope.currentMapping.targets.splice(idx, 1);
+    };
     // Concept via lobid.org
     $scope.gndSubjectConcept = new SkosConceptProvider({
         url: "http://lobid.org/subject?format=full&id={uri}",
@@ -96,43 +159,104 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         jsonp: true
     });
     // when item is selected
-    $scope.selectGndSubject = function(item) {
+
+    $scope.selectOriginSubject = function(item) {
 
         // populate with basic data
-        $scope.subjectConcept = {
-            uri: item.uri,
-            prefLabel: {
-                en: item.label
-            }
-        };
+        if($scope.activeView.origin == 'GND'){
 
-        // update
-        $scope.gndSubjectConcept.updateConcept($scope.subjectConcept).then(function() {
-            $scope.gndSubjectConcept.updateConnected($scope.subjectConcept)
-        });
-
-        // click
-        $scope.clickConcept = function(concept) {
-            console.log(concept);
-            $scope.gndSubjectConcept.updateConcept( $scope.subjectConcept = concept ).then(
-                function() {
-                    $scope.gndSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
-                    $scope.gndSubjectConcept.updateConnected($scope.subjectConcept)
+            $scope.originConcept = {
+                uri: item.uri,
+                prefLabel: {
+                    de: item.label
                 }
-            );
-        };
+            };
+            // update
+            $scope.gndSubjectConcept.updateConcept($scope.originConcept).then(function() {
+                $scope.gndSubjectConcept.updateConnected($scope.originConcept)
+            });
+
+            // click
+            $scope.clickOriginConcept = function(concept) {
+                console.log(concept);
+                $scope.gndSubjectConcept.updateConcept( $scope.originConcept = concept ).then(
+                    function() {
+                        $scope.originSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
+                        $scope.gndSubjectConcept.updateConnected($scope.originConcept)
+                    }
+                );
+            };
+        }else if($scope.activeView.origin == 'RVK'){
+            
+            $scope.originConcept = {
+                notation: [ item.uri ] ,
+                uri: [ item.uri ],
+                prefLabel: {
+                    de: item.label
+                }
+            };
+        }
+    };
+    $scope.selectTargetSubject = function(item) {
+
+        // populate with basic data
+        if($scope.activeView.target == 'GND'){
+
+            $scope.targetConcept = {
+                uri: item.uri,
+                prefLabel: {
+                    de: item.label
+                }
+            };
+            // update
+            $scope.gndSubjectConcept.updateConcept($scope.targetConcept).then(function() {
+                $scope.gndSubjectConcept.updateConnected($scope.targetConcept)
+            });
+
+            // click
+            $scope.clickTargetConcept = function(concept) {
+                console.log(concept);
+                $scope.gndSubjectConcept.updateConcept( $scope.targetConcept = concept ).then(
+                    function() {
+                        $scope.targetSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
+                        $scope.gndSubjectConcept.updateConnected($scope.targetConcept)
+                    }
+                );
+            };
+        }else if($scope.activeView.target == 'RVK'){
+            
+            $scope.targetConcept = {
+                notation: [ item.uri ],
+                uri: [ item.uri ],
+                prefLabel: {
+                    de: item.label
+                }
+            };
+        }
     };
     // for filling the concept directly
-    $scope.selectSampleConcept = function(label, uri){
+    $scope.selectSampleOriginConcept = function(label, uri){
         
-        $scope.subjectConcept = {
+        $scope.originConcept = {
             uri: uri,
             prefLabel: {
-                en: label
+                de: label
             }
         }
-        $scope.gndSubjectConcept.updateConcept($scope.subjectConcept).then(function() {
-            $scope.gndSubjectConcept.updateConnected($scope.subjectConcept)
+        $scope.gndSubjectConcept.updateConcept($scope.originConcept).then(function() {
+            $scope.gndSubjectConcept.updateConnected($scope.originConcept)
+        });
+    }
+    $scope.selectSampleTargetConcept = function(label, uri){
+        
+        $scope.targetConcept = {
+            uri: uri,
+            prefLabel: {
+                de: label
+            }
+        }
+        $scope.gndSubjectConcept.updateConcept($scope.targetConcept).then(function() {
+            $scope.gndSubjectConcept.updateConnected($scope.targetConcept)
         });
     }
 }

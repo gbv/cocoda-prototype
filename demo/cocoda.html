@@ -39,28 +39,19 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="#" ng-click="activeView.origin='GND'">GND</a>
+                                <a href="#" ng-click="setOrigin('GND')">GND</a>
                             </li>
                             <li>
-                                <a href="#" ng-click="activeView.origin='GNDS'">GND Subjects</a>
-                            </li>
-                            <li>
-                                <a href="#" ng-click="activeView.origin='GNDP'">GND People</a>
-                            </li>
-                            <li>
-                                <a href="#" ng-click="activeView.origin='DDC'">DDC</a>
-                            </li>
-                            <li>
-                                <a href="#" ng-click="activeView.origin='RVK'">RVK</a>
+                                <a href="#" ng-click="setOrigin('RVK')">RVK</a>
                             </li>
                         </ul>
                     </li>
                 </ul>
                 <div ng-if="activeView.origin.length" class="col-md-3" style="margin-top:8px;">
                     <input class="form-control"
-                        suggest-typeahead="gndSubjectSuggest"
-                        typeahead-on-select="selectGndSubject($item)"
-                        ng-model="gndSubject"
+                        suggest-typeahead="SubjectOriginSuggest(activeView.origin)"
+                        typeahead-on-select="selectOriginSubject($item)"
+                        ng-model="originSubject"
                         placeholder="Search"
                         typeahead-loading="loadingLocations"
                         typeahead-editable="false"
@@ -75,23 +66,25 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="#" ng-click="activeView.target='GND'">GND</a>
+                                <a href="#" ng-click="setTarget('GND')">GND</a>
                             </li>
                             <li>
-                                <a href="#" ng-click="activeView.target='GNDS'">GND Subjects</a>
-                            </li>
-                            <li>
-                                <a href="#" ng-click="activeView.target='GNDP'">GND People</a>
-                            </li>
-                            <li>
-                                <a href="#" ng-click="activeView.target='DDC'">DDC</a>
-                            </li>
-                            <li>
-                                <a href="#" ng-click="activeView.target='RVK'">RVK</a>
+                                <a href="#" ng-click="setTarget('RVK')">RVK</a>
                             </li>
                         </ul>
                     </li>
                 </ul>
+                <div ng-if="activeView.target.length" class="col-md-3" style="margin-top:8px;">
+                    <input class="form-control"
+                        suggest-typeahead="SubjectTargetSuggest(activeView.target)"
+                        typeahead-on-select="selectTargetSubject($item)"
+                        ng-model="targetSubject"
+                        placeholder="Search"
+                        typeahead-loading="loadingLocations"
+                        typeahead-editable="false"
+                    />
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                </div>
             </div>
         </nav>
     </header>
@@ -99,14 +92,10 @@
         <div class="row">
             <div class="col-md-3">
                 <div style="margin-left:15px;">
-                    <div ng-if="!activeView.origin.length" style="width:100%;min-width:450px;">
-                        <div class="tmpl-border" skos-concept="sampleConcept" language="language"></div>
-                    </div>
-                    <div ng-if="activeView.origin.length && subjectConcept" style="width:100%;min-width:450px;">
-                        <div class="tmpl-border" skos-concept="subjectConcept" skos-click="clickConcept" language="language"></div>
+                    <div ng-if="activeView.origin.length && originConcept" style="width:100%;min-width:450px;">
+                        <div class="tmpl-border" skos-concept="originConcept" skos-click="clickOriginConcept" language="language"></div>
                         <div style="margin-bottom:5px;">
-                            <button ng-click="saveTerm(activeView.origin, activeView.target, subjectConcept)">Use Term</button>
-                            <button ng-click="addNot(subjectConcept)">Add Term</button>
+                            <button ng-click="saveFrom(activeView.origin, originConcept)">Use term</button>
                         </div>
                     </div>
                         <!-- Scheme specific -->
@@ -117,52 +106,72 @@
                 <div ng-if="!activeView.origin.length" style="margin-top:50px;text-align:center;">
                     <em>Please choose a concept scheme for mapping</em>
                 </div>
-                <div ng-if="activeView.origin.length && !subjectConcept" style="margin-top:50px;text-align:center;">
-                    <em>Please search for a term in the current concept scheme</em>
+                <div ng-if="activeView.origin.length && !activeView.target.length" style="margin-top:50px;text-align:center;">
+                    <em>Please choose a concept scheme to map to</em>
                 </div>
-                <div ng-if="!currentTerm.label.length && subjectConcept" style="margin-top:50px;text-align:center;">
-                    <em>Please choose a Term to work on</em>
+                <div ng-if="activeView.origin.length && activeView.target.length && !originConcept && !targetConcept" style="margin-top:50px;text-align:center;">
+                    <em>Please search for terms in the current concept schemes</em>
                 </div>
-                <div ng-if="currentTerm.label.length" style="width:100%;" class="tmpl-border">
-                    <div style="width:80%;margin:0 auto;">
+                <div ng-if="originConcept && !currentMapping.from.length && !currentMapping.to.length" style="margin-top:50px;text-align:center;">
+                    <em>Please choose a term to work on</em>
+                </div>
+                <div ng-if="currentMapping.from[0].notation.length || currentMapping.targets[0].notation.length" style="width:100%;" class="tmpl-border">
+                    <div style="width:95%;margin:0 auto;">
                         <ul style="text-align:center;list-style-type:none;padding-left:0px;">
-                            <li style="border-bottom:1px solid black;">
-                                <h3><span class="notation">{{currentTerm.notation}}</span>  {{currentTerm.label}}</h3>
-                            </li>
                             <li>
-                                Mapping from <span class="classification">{{currentTerm.origin}}</span> to <span class="classification">{{currentTerm.target}}</span>
+                                Mapping from <span class="classification">{{activeView.origin}}</span> to <span class="classification">{{activeView.target}}</span>
                             </li>
                         </ul>
-                        <div style="width:90%;margin:0 auto;">
+                        <div class="mappingResults">
                             <div class="tmpl-border mappingResults-from"  style="float:left;">
                                 <ul style="list-style-type:none;padding-left:0px;">
-                                    <li>
-                                        <span class="notation" popover="{{currentTerm.label}}" popover-trigger="mouseenter">{{currentTerm.notation}}</span>  <span>{{currentTerm.label}}</span>
+                                    <li ng-if="currentMapping.from[0].notation.length" style="max-width:280px;display:block;overflow:hidden;">
+                                        <span class="notation" popover="{{currentMapping.from[0].prefLabel.de}}" popover-trigger="mouseenter">{{currentMapping.from[0].notation[0]}}</span>  <span>{{currentMapping.from[0].prefLabel.de}}</span>
                                         <!-- GND specific! -->
-                                        <a href="#" ng-click="selectSampleConcept(currentTerm.label, 'http://d-nb.info/gnd/' + currentTerm.notation)"><span class="glyphicon glyphicon-search"></span></a>
+                                        <a href="#" ng-click="selectSampleOriginConcept(currentMapping.from[0].prefLabel.de, 'http://d-nb.info/gnd/' + currentMapping.from[0].notation[0])"><span class="glyphicon glyphicon-search"></span></a>
+                                        <a href="#" ng-click="deleteAll()"><span class="glyphicon glyphicon-trash"></span></a>
+                                    </li>
+                                    <li ng-if="!currentMapping.from.length">
+                                        <em>Please select a base mapping term</em>
                                     </li>
                                 </ul>
                             </div>
-                            <div class="mappingResults-icon" style="position:relative;float:left;padding:20px 5% 30px 5%;">
-                                <big><span class="glyphicon glyphicon-arrow-right"></span></big>
-                            </div>
-                            <div class="tmpl-border mappingResults-to">
+
+                            <div class="tmpl-border mappingResults-to" style="float:right;">
                                 <ul style="list-style-type:none;padding-left:0px;">
-                                    <li ng-repeat="t in targets">
+                                    <li ng-if="currentMapping.targets[0].notation.length" ng-repeat="t in currentMapping.targets" style="max-width:280px;display:block;overflow:hidden;">
                                         <span class="notation" popover="{{t.prefLabel.de}}" popover-trigger="mouseenter">{{t.notation[0]}}</span>  <span>{{t.prefLabel.de}}</span>
+                                        <a href="#" ng-click="selectSampleTargetConcept(currentMapping.to[t].prefLabel.de, 'http://d-nb.info/gnd/' + t.notation[0])"><span class="glyphicon glyphicon-search"></span></a>
                                         <a href="#" ng-click="deleteTarget($index)"><span class="glyphicon glyphicon-trash"></span></a>
-                                        <a href="#" ng-click="selectSampleConcept(currentTerm.label, 'http://d-nb.info/gnd/' + t.notation[0])"><span class="glyphicon glyphicon-search"></span></a>
                                     </li>
+                                    <li ng-if="!currentMapping.targets.length">
+                                        <em>Please select a target mapping term</em>
+                                    </li>
+                                    
                                 </ul>
                             </div>
                         </div>
+                        <div class="mappingResults-icon">
+                            <big><span class="glyphicon glyphicon-arrow-right"></span></big>
+                        </div>
                     </div>
+                </div>
+                <div style="margin-top:40px;">
+                    <div style="width:340px;float:left;margin-left:30px;" class="tmpl-border" skos-mapping="mappingSample"></div>
+                    <div style="width:340px;float:right;margin-right:30px;" class="tmpl-border" skos-occurrences="occurrencesSample"></div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div style="margin-right:15px;">
-                    <div style="width:340px;float:right;" class="tmpl-border" skos-mapping="mappingSample"></div>
-                    <div style="width:340px;float:right;" class="tmpl-border" skos-occurrences="occurrencesSample"></div>
+                <div style="margin-left:15px;">
+                    <div ng-if="activeView.origin.length && targetConcept" style="width:100%;min-width:450px;">
+                        <div class="tmpl-border" skos-concept="targetConcept" skos-click="clickTargetConcept" language="language"></div>
+                        <div style="margin-bottom:5px;">
+                            <button ng-click="addTo(activeView.target, targetConcept)">Add target term</button>
+                            <button ng-click="replaceTo(activeView.target, targetConcept)">Replace current terms</button>
+                        </div>
+                    </div>
+                        <!-- Scheme specific -->
+                    <div ng-if="activeView.target == 'DDC' || activeView.target == 'RVK'" style="width:100%;min-width:450px;" class="tmpl-border" skos-tree="treeSample"></div>
                 </div>
             </div>
         </div>

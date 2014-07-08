@@ -159,7 +159,11 @@ ul.ancestors li {
 .mapping-label{
     margin-bottom: 10px;
 }
+.mappingResults{
+    position:relative;
+}
 .mappingResults-from{
+    margin-top:-35px;
     float:left;
     display:inline-block;
     padding:3px;
@@ -168,13 +172,16 @@ ul.ancestors li {
 .mappingResults-from ul{
     padding:3px 4px 3px 0px;
 }
+.mappingResults .mappingResults-icon{
+    position:absolute;
+}
 .mappingResults-icon{
-    position:relative;
-    float:left;
-    padding: 20px 15% 30px 15%;
+    width:30px;
+    margin: 30px auto;
 }
 .mappingResults-to{
-    float:left;
+    margin-top:-35px;
+    float:right;
     padding:3px;
     margin-bottom:10px;
 }
@@ -192,7 +199,8 @@ ul.ancestors li {
     margin-left:0px;
 }
 .mappingFoot{
-    clear:left;
+    margin-top:-35px;
+    clear:right;
 }
 .mappingFoot span{
     margin-right:5px; 
