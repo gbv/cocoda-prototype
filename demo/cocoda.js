@@ -60,12 +60,12 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     
     $scope.rvkSubjectSuggest = new OpenSearchSuggestions({
         
-        url: "http://rvk.uni-regensburg.de/api/json/register/{searchTerms}?limit=20",
+        url: "http://rvk.uni-regensburg.de/api/json/nodes/{searchTerms}",
         transform: function(response){
             return {
-                values: response.Register.map(function(v) {
+                values: response.node.map(function(v) {
                     return {
-                        label: v.begriff,
+                        label: v.benennung,
                         uri: v.notation
                     };
                 }),
@@ -124,6 +124,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     $scope.gndSubjectConcept = new SkosConceptProvider({
         url: "http://lobid.org/subject?format=full&id={uri}",
         transform: function(item) {
+            
             var graph = item[1]['@graph'][0];
             
             var concept = {
@@ -158,6 +159,68 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         },
         jsonp: true
     });
+    $scope.rvkSubjectConcept = new SkosConceptProvider({
+        url: "http://rvk.uni-regensburg.de/api/json/node/{uri}",
+        transform: function(item) {
+            var concept = {
+                notation: [ item.node.notation ],
+                uri: item.node.notation,
+                prefLabel: { de: item.node.benennung },
+                altLabel: "" ,
+                c: 0
+            }
+            if(angular.isArray(item.node.register)){
+                concept.altLabel = item.node.register;
+            }else if(angular.isString(item.node.register)){
+                concept.altLabel = [item.node.register];
+            }
+            if(item.node.has_children == 'yes'){
+                concept.c = 1;
+            }
+            return concept;
+        },
+        jsonp: 'jsonp'
+    });
+    $scope.rvkNarrowerConcepts = new SkosConceptProvider({
+        url: "http://rvk.uni-regensburg.de/api/json/children/{uri}",
+        transform: function(item) {
+            console.log(item);
+            var concept = {
+                notation: [ item.node.notation ],
+                uri: item.node.notation,
+                prefLabel: { de: item.node.benennung },
+                narrower: [],
+            };
+            if(!item.node.nochildren){
+                if(angular.isArray(item.node.children.node)){
+                    angular.forEach(item.node.children.node, function(nterm) {
+                        concept.narrower.push({uri: nterm.notation, prefLabel: { de: nterm.benennung }, notation: [ nterm.notation ] });
+                    });
+                } else if(angular.isString(item.node.children.node)){
+                    concept.narrower = [{uri: item.node.children.node.notation, prefLabel: { de: item.node.children.node.benennung }, notation: [ item.node.children.node.notation ] }];
+                }
+            }
+            return concept;
+        },
+        jsonp: 'jsonp'
+    });
+    $scope.rvkBroaderConcepts = new SkosConceptProvider({
+        url: "http://rvk.uni-regensburg.de/api/json/ancestors/{uri}",
+        transform: function(item) {
+            
+            var concept = {
+                notation: [ item.node.notation ],
+                uri: item.node.notation,
+                prefLabel: { de: item.node.benennung },
+                broader: [],
+            };
+            if(item.ancestor){
+                concept.broader = [{ uri: item.node.ancestor.node.notation, prefLabel:{de: item.node.ancestor.node.benennung}, notation: item.node.ancestor.node.notation }];
+            }
+            return concept;
+        },
+        jsonp: 'jsonp'
+    });
     // when item is selected
 
     $scope.selectOriginSubject = function(item) {
@@ -190,11 +253,18 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             
             $scope.originConcept = {
                 notation: [ item.uri ] ,
-                uri: [ item.uri ],
+                uri: item.uri ,
                 prefLabel: {
                     de: item.label
                 }
             };
+            // update
+            $scope.rvkSubjectConcept.updateConcept($scope.originConcept).then(function() {
+                if($scope.originConcept.c == 1){
+                    $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept);
+                }
+            });
+
         }
     };
     $scope.selectTargetSubject = function(item) {
@@ -227,11 +297,16 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             
             $scope.targetConcept = {
                 notation: [ item.uri ],
-                uri: [ item.uri ],
+                uri: item.uri ,
                 prefLabel: {
                     de: item.label
                 }
             };
+            // update
+            $scope.rvkSubjectConcept.updateConcept($scope.originConcept);
+            if($scope.originConcept.c == 1){
+                $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept);
+            }
         }
     };
     // for filling the concept directly

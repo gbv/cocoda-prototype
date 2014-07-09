@@ -45,7 +45,6 @@ angular.module('ngSKOS')
         },
         compile: function(tElement, tAttr, transclude) {
             var contents = tElement.contents().remove();
-            console.log(contents);
             var compiledContents;
             return function(scope, iElement, iAttr) {
                 if(!compiledContents) {
