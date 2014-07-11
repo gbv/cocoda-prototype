@@ -1,0 +1,12 @@
+<div>
+    <ul style="list-style-type:none;padding-left:0px;">
+        <li ng-if="concepts[0].notation.length" ng-repeat="c in concepts" style="max-width:280px;display:block;overflow:hidden;">
+            <span class="notation" popover="{{c.prefLabel.de}}" popover-trigger="mouseenter">{{c.notation[0]}}</span>  <span>{{c.prefLabel.de}}</span>
+            <a href="#" ng-click="sel(role, c)"><span class="glyphicon glyphicon-search"></span></a>
+            <a href="#" ng-click="del(role, $index)"><span class="glyphicon glyphicon-trash"></span></a>
+        </li>
+        <li ng-if="!concepts.length">
+            <em>Please select a mapping term</em>
+        </li>
+    </ul>
+</div>

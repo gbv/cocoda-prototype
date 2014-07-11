@@ -15,11 +15,15 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             $scope.deleteAll();
             $scope.activeView.origin = scheme;
         }
+        if(scheme != '' && scheme == $scope.activeView.target){
+            $scope.activeView.origin = scheme;
+            $scope.activeView.target = "";
+        }
     }
     $scope.setTarget = function(scheme) {
-        if(scheme == ''){
+        if(scheme == '' && scheme != $scope.activeView.origin){
             $scope.activeView.target = scheme;
-        }else if(scheme != $scope.activeView.target){
+        }else if(scheme != $scope.activeView.target && scheme != $scope.activeView.origin){
             $scope.targetConcept = "";
             $scope.targetSubject = "";
             $scope.deleteAll();
@@ -82,43 +86,45 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     */
     $scope.currentMapping = {
         from: [],
-        targets: []
+        to: []
     };    
-    $scope.saveFrom = function(origin,item){
+    $scope.saveFrom = function(origin, item){
         $scope.deleteAll();
         $scope.currentMapping.from[0] = {
-            origin: origin,
             prefLabel: { de: item.prefLabel.de },
-            inScheme: { notation: [ $scope.activeView.origin ] },
+            inScheme: { notation: [ origin ] },
             notation: [ item.notation[0] ? item.notation[0] : originConcept.uri ],
             uri: item.uri
         };
     };
-    $scope.addTo = function(target,item){
-        $scope.currentMapping.targets.push({
-            target: target,
+    $scope.addTo = function(target, item){
+        $scope.currentMapping.to.push({
             prefLabel: { de: item.prefLabel.de },
-            inScheme: { notation: [ $scope.activeView.target ] },
+            inScheme: { notation: [ target ] },
             notation: [ item.notation[0] ],
             uri: item.uri
         });
     };
-    $scope.replaceTo = function(target,item){
-        $scope.currentMapping.targets = [];
-        $scope.currentMapping.targets.push({
-            target: target,
+    $scope.replaceTo = function(target, item){
+        $scope.currentMapping.to = [];
+        $scope.currentMapping.to.push({
             prefLabel: { de: item.prefLabel.de },
-            inScheme: { notation: [ $scope.activeView.target ] },
+            inScheme: { notation: [ target ] },
             notation: [ item.notation[0] ],
             uri: item.uri
         });
     }
     $scope.deleteAll = function(){
-        $scope.currentMapping.targets = [];
+        $scope.currentMapping.to = [];
         $scope.currentMapping.from = [];
     }
-    $scope.deleteTarget = function(idx){
-        $scope.currentMapping.targets.splice(idx, 1);
+    $scope.removeConcept = function(role, idx){
+        if(role == 'target'){
+            $scope.currentMapping.to.splice(idx, 1);
+        }
+        else if(role == 'origin'){
+            $scope.currentMapping.from.splice(idx, 1);
+        }
     };
     // Concept via lobid.org
     $scope.gndSubjectConcept = new SkosConceptProvider({
@@ -209,9 +215,6 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         transform: function(item) {
             
             var concept = {
-                notation: [ item.node.notation ],
-                uri: item.node.notation,
-                prefLabel: { de: item.node.benennung },
                 broader: [],
             };
             if(item.ancestor){
@@ -264,6 +267,14 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                     $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept);
                 }
             });
+            $scope.clickOriginConcept = function(concept) {
+                $scope.rvkSubjectConcept.updateConcept( $scope.originConcept = concept ).then(
+                    function() {
+                        $scope.originSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
+                        $scope.rvkSubjectConcept.updateConnected($scope.originConcept)
+                    }
+                );
+            };
 
         }
     };
@@ -303,36 +314,42 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                 }
             };
             // update
-            $scope.rvkSubjectConcept.updateConcept($scope.originConcept);
-            if($scope.originConcept.c == 1){
-                $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept);
-            }
+            $scope.rvkSubjectConcept.updateConcept($scope.targetConcept).then(function() {
+                if($scope.targetConcept.c == 1){
+                    $scope.rvkNarrowerConcepts.updateConcept($scope.targetConcept);
+                }
+            });
+            $scope.clickTargetConcept = function(concept) {
+                console.log(concept);
+                $scope.rvkSubjectConcept.updateConcept( $scope.targetConcept = concept ).then(
+                    function() {
+                        $scope.targetSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
+                        $scope.rvkSubjectConcept.updateConnected($scope.targetConcept)
+                    }
+                );
+            };
         }
     };
     // for filling the concept directly
-    $scope.selectSampleOriginConcept = function(label, uri){
-        
-        $scope.originConcept = {
-            uri: uri,
-            prefLabel: {
-                de: label
-            }
+    $scope.reselectConcept = function(role, concept){
+        console.log(role);
+        console.log(concept);
+        if(role == 'origin'){
+            $scope.originConcept = {
+                uri: concept.uri,
+                label: concept.prefLabel.de
+                
+            };
+            $scope.selectOriginSubject($scope.originConcept)
         }
-        $scope.gndSubjectConcept.updateConcept($scope.originConcept).then(function() {
-            $scope.gndSubjectConcept.updateConnected($scope.originConcept)
-        });
-    }
-    $scope.selectSampleTargetConcept = function(label, uri){
-        
-        $scope.targetConcept = {
-            uri: uri,
-            prefLabel: {
-                de: label
-            }
+        else if(role == 'target'){
+            $scope.targetConcept = {
+                uri: concept.uri,
+                label: concept.prefLabel.de
+                
+            };
+            $scope.selectTargetSubject($scope.targetConcept);
         }
-        $scope.gndSubjectConcept.updateConcept($scope.targetConcept).then(function() {
-            $scope.gndSubjectConcept.updateConnected($scope.targetConcept)
-        });
     }
 }
 cocoda.run(function($rootScope,$http) {
