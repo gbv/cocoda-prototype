@@ -6,8 +6,8 @@ angular.module('ngSKOS')
             mapping: '=skosConceptMapping',
             from: '=mappingFrom',
             to: '=mappingTo',
-            remove: '=remove',
-            select: '=select'
+            select: '=select',
+            saveLocation: '=saveLocation'
            
         },
         templateUrl: function(elem, attrs) {
@@ -20,6 +20,9 @@ angular.module('ngSKOS')
             };
             scope.selectTo = function(concept) {
                 scope.select("target",concept); 
+            };
+            scope.save = function() {
+                // TODO: Save current mapping to 'saveLocation'
             };
             scope.$watch('mapping');
         }

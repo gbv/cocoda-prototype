@@ -1,37 +1,52 @@
 <div>
-    <div ng-if="!from.length" style="margin-top:50px;text-align:center;">
+    <div ng-if="!from.length && !to.length" style="margin-top:50px;margin-bottom:40px;text-align:center;">
         <em>Please choose a concept scheme for mapping</em>
     </div>
-    <div ng-if="from.length && !to.length" style="margin-top:50px;text-align:center;">
-        <em>Please choose a concept scheme to map to</em>
-    </div>
-    <div ng-if="from.length && to.length && !mapping.from.length && !mapping.to.length" style="margin-top:50px;text-align:center;">
+    <div ng-if="from.length && to.length && !mapping.from.length && !mapping.to.length" style="margin-top:10px;margin-bottom:5px;text-align:center;">
         <em>Please search for terms in the current concept schemes</em>
     </div>
-    <div ng-if="mapping.from && !from.length && !to.length" style="margin-top:50px;text-align:center;">
+    <div ng-if="mapping.from.length && !from.length && !to.length" style="margin-top:10px;margin-bottom:5px;text-align:center;">
         <em>Please choose a term to work on</em>
     </div>
-    <div ng-if="mapping.from[0].notation.length || mapping.to[0].notation.length" style="width:100%;">
-        <div style="width:95%;margin:0 auto;">
-            <ul style="text-align:center;list-style-type:none;padding-left:0px;">
-                <li>
-                    Mapping from <span class="classification">{{from}}</span> to <span class="classification">{{to}}</span>
-                </li>
-            </ul>
-            <div class="mappingResults">
-                <div class="tmpl-border mappingResults-from"  style="float:left;">
-                    <div skos-concept-list="mapping.from" 
-                         on-select="selectFrom" />
-                </div>
-
-                <div class="tmpl-border mappingResults-to" style="float:right;">
-                    <div skos-concept-list="mapping.to" 
-                         on-select="selectTo" />
-                </div>
-            </div>
-            <div class="mappingResults-icon">
-                <big><span class="glyphicon glyphicon-arrow-right"></span></big>
-            </div>
-        </div>
+    <div ng-if="from.length || mapping.to[0].notation.length" style="width:100%;">
+        <table style="width:95%;margin:0 auto;align:center;">
+            <thead style="text-align:center;list-style-type:none;padding-left:0px;">
+                <tr>
+                    <th style="width:400px;"><span class="classification">{{from}}</span></th><th style="width:24px"></th><th style="width:400px;text-align:right"><span ng-if="to.length" class="classification">{{to}}</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="tmpl-border mappingResults-from">
+                            <div ng-if="mapping.from.length" skos-concept-list="mapping.from" 
+                                on-select="selectFrom">
+                            </div>
+                            <div ng-if="!mapping.from.length">
+                                <em>Please select a mapping term</em>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="margin:30px auto">
+                            <big><span class="glyphicon glyphicon-arrow-right"></span></big>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="tmpl-border mappingResults-to" style="float:right;">
+                            <div ng-if="mapping.to.length" skos-concept-list="mapping.to" 
+                                on-select="selectTo" >
+                            </div>
+                            <div ng-if="!mapping.to.length">
+                                <em>Please select a mapping term</em>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div  style="width:95%;margin:0 auto;text-align:center;" ng-if="mapping.from.length">
+        <button style="margin: 0px auto 10px auto;" ng-click="save">Save current mapping</button>
     </div>
 </div>

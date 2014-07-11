@@ -259,11 +259,14 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                     $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept);
                 }
             });
+            //click
             $scope.clickOriginConcept = function(concept) {
                 $scope.rvkSubjectConcept.updateConcept( $scope.originConcept = concept ).then(
                     function() {
                         $scope.originSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
-                        $scope.rvkSubjectConcept.updateConnected($scope.originConcept)
+                        if($scope.originConcept.c == 1){
+                            $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept)
+                        }
                     }
                 );
             };
@@ -311,12 +314,15 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                     $scope.rvkNarrowerConcepts.updateConcept($scope.targetConcept);
                 }
             });
+            //click
             $scope.clickTargetConcept = function(concept) {
                 console.log(concept);
                 $scope.rvkSubjectConcept.updateConcept( $scope.targetConcept = concept ).then(
                     function() {
                         $scope.targetSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
-                        $scope.rvkSubjectConcept.updateConnected($scope.targetConcept)
+                        if($scope.targetConcept.c == 1){
+                            $scope.rvkNarrowerConcepts.updateConcept($scope.targetConcept)
+                        }
                     }
                 );
             };

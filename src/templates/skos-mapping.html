@@ -1,28 +1,45 @@
 <div class="skos-mapping">
-    <div class="mappingResults">
-        <div class="mappingResults-from">
-                <div class="mapping-label">
+    <table style="width:100%;">
+        <thead>
+            <tr style="width:100%">
+                <th style="width:45%">
                     <span class="classification">{{from[0].inScheme.notation[0]}}</span>
-                </div>
-            <ul>
-                <li ng-repeat="from in from">
-                    <span class="notation" popover="{{from.prefLabel.en}}" popover-trigger="mouseenter">{{from.notation[0]}}</span>
-                </li>
-            </ul>
-        </div>
-        <div class="mappingResults-to">
-            <div class="mapping-label">
-                <span class="classification">{{to[0].inScheme.notation[0]}}</span>
-            </div>
-            <ul>
-                <li ng-repeat="target in to">
-                    <span class="notation" popover="{{target.prefLabel.en}}" popover-trigger="mouseenter">{{target.notation[0]}}</span>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="mappingResults-icon">
-        <big><span ng-if="from.length || to.length" class="glyphicon glyphicon-arrow-right"></span></big>
+                </th>
+                <th style="width:10%">
+                </th>
+                <th style="width:45%;">
+                    <span class="classification">{{to[0].inScheme.notation[0]}}</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="mappingResults">
+            <tr style="vertical-align:top;">
+                <td>
+                    <div class="mappingResults-from">
+                        <ul>
+                            <li ng-repeat="from in from">
+                                <span class="notation" popover="{{from.prefLabel.en}}" popover-trigger="mouseenter">{{from.notation[0]}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+                <td>
+                    <div class="mappingResults-icon">
+                        <big><span ng-if="from.length || to.length" class="glyphicon glyphicon-arrow-right"></span></big>
+                    </div>
+                </td>
+                <td>
+                    <div class="mappingResults-to">
+                        <ul>
+                            <li ng-repeat="target in to">
+                                <span class="notation" popover="{{target.prefLabel.en}}" popover-trigger="mouseenter">{{target.notation[0]}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     </div>
     <div class="mappingFoot">
         <ul ng-if="from.length">

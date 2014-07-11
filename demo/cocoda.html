@@ -89,39 +89,49 @@
             </div>
         </nav>
     </header>
+    <div id="head" style="padding-top:30px;">
+    </div>
     <div class="main fixnav">
         <div class="row">
             <div class="col-md-3">
                 <div style="margin-left:15px;">
-                    <div ng-if="activeView.origin.length && originConcept" style="width:100%;min-width:450px;">
+                    <div ng-if="activeView.origin.length && originConcept">
                         <div class="tmpl-border" skos-concept="originConcept" skos-click="clickOriginConcept" language="language"></div>
                         <div style="margin-bottom:5px;">
                             <button ng-click="saveFrom(activeView.origin, originConcept)">Use term</button>
                         </div>
                     </div>
-                    <div ng-if="activeView.origin == 'DDC' || activeView.origin == 'RVK'" style="width:100%;min-width:450px;" class="tmpl-border" skos-tree="treeSample"></div>
+                    <div ng-if="activeView.origin == 'DDC' || activeView.origin == 'RVK'" class="tmpl-border" skos-tree="treeSample"></div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="tmpl-border" style="width:100%">
-                    <div skos-concept-mapping="currentMapping" remove="removeConcept" select="reselectConcept" mapping-from="activeView.origin" mapping-to="activeView.target"></div>
+                    <div skos-concept-mapping="currentMapping" select="reselectConcept" mapping-from="activeView.origin" mapping-to="activeView.target"></div>
                 </div>
-                <div style="margin-top:40px;">
+                <div style="margin-top:30px;">
                     <div style="width:340px;float:left;margin-left:30px;" class="tmpl-border" skos-mapping="mappingSample"></div>
                     <div style="width:340px;float:right;margin-right:30px;" class="tmpl-border" skos-occurrences="occurrencesSample"></div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div style="margin-left:15px;">
-                    <div ng-if="activeView.origin.length && targetConcept" style="width:100%;min-width:450px;">
+                <div style="width:400px;margin-right:15px;">
+                    <div ng-if="activeView.origin.length && targetConcept" style="min-width:350px">
                         <div class="tmpl-border" skos-concept="targetConcept" skos-click="clickTargetConcept" language="language"></div>
                         <div style="margin-bottom:5px;">
                             <button ng-click="addTo(activeView.target, targetConcept)">Add target term</button>
                             <button ng-click="replaceTo(activeView.target, targetConcept)">Replace current terms</button>
                         </div>
                     </div>
-                    <div ng-if="activeView.target == 'DDC' || activeView.target == 'RVK'" style="width:100%;min-width:450px;" class="tmpl-border" skos-tree="treeSample"></div>
+                    <div ng-if="activeView.target == 'DDC' || activeView.target == 'RVK'" style="min-width:350px;" class="tmpl-border" skos-tree="treeSample"></div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-3">
             </div>
         </div>
     </div>

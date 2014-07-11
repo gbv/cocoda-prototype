@@ -1,6 +1,6 @@
 <div>
     <ul ng-if="concepts.length" style="list-style-type:none;padding-left:0px;">
-        <li ng-repeat="c in concepts" style="max-width:280px;display:block;overflow:hidden;">
+        <li ng-repeat="c in concepts" style="max-width:280px;display:block;">
             <span class="notation" popover="{{c.prefLabel.de}}" popover-trigger="mouseenter">{{c.notation[0]}}</span>
             <span>{{c.prefLabel.de}}</span>
             <a href="#" ng-click="onSelect(c)">

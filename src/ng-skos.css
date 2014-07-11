@@ -161,28 +161,22 @@ ul.ancestors li {
 }
 .mappingResults{
     position:relative;
+    list-style-type:none;
 }
 .mappingResults-from{
-    margin-top:-35px;
     float:left;
     display:inline-block;
-    padding:3px;
     margin-bottom:10px;
 }
 .mappingResults-from ul{
     padding:3px 4px 3px 0px;
 }
 .mappingResults .mappingResults-icon{
-    position:absolute;
 }
 .mappingResults-icon{
-    width:30px;
-    margin: 30px auto;
+    margin: 10px auto;
 }
 .mappingResults-to{
-    margin-top:-35px;
-    float:right;
-    padding:3px;
     margin-bottom:10px;
 }
 .mappingResults-to ul{
@@ -199,7 +193,7 @@ ul.ancestors li {
     margin-left:0px;
 }
 .mappingFoot{
-    margin-top:-35px;
+
     clear:right;
 }
 .mappingFoot span{
