@@ -15,7 +15,12 @@ angular.module('ngSKOS')
                    attrs.templateUrl : 'template/skos-concept-mapping.html';
         },
         link: function link(scope, element, attr) {
-
+            scope.selectFrom = function(concept) {
+                scope.select("origin",concept); 
+            };
+            scope.selectTo = function(concept) {
+                scope.select("target",concept); 
+            };
             scope.$watch('mapping');
         }
     }

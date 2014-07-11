@@ -118,14 +118,6 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         $scope.currentMapping.to = [];
         $scope.currentMapping.from = [];
     }
-    $scope.removeConcept = function(role, idx){
-        if(role == 'target'){
-            $scope.currentMapping.to.splice(idx, 1);
-        }
-        else if(role == 'origin'){
-            $scope.currentMapping.from.splice(idx, 1);
-        }
-    };
     // Concept via lobid.org
     $scope.gndSubjectConcept = new SkosConceptProvider({
         url: "http://lobid.org/subject?format=full&id={uri}",

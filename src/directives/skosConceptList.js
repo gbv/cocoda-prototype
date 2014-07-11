@@ -4,15 +4,16 @@ angular.module('ngSKOS')
         restrict: 'A',
         scope: {
             concepts: '=skosConceptList',
-            role: '@currentRole',
-            del: '=onDelete',
-            sel: '=onSelect',
+            onSelect: '=onSelect',
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
                    attrs.templateUrl : 'template/skos-concept-list.html';
         },
         link: function link(scope, element, attr) {
+            scope.removeConcept = function(index) { 
+                scope.concepts.splice(index, 1);
+            };
             scope.$watch('concepts');
         }
     };

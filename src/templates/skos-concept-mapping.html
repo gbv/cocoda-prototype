@@ -20,11 +20,13 @@
             </ul>
             <div class="mappingResults">
                 <div class="tmpl-border mappingResults-from"  style="float:left;">
-                    <div skos-concept-list="mapping.from" on-delete="remove" current-role="origin" on-select="select"></div>
+                    <div skos-concept-list="mapping.from" 
+                         on-select="selectFrom" />
                 </div>
 
                 <div class="tmpl-border mappingResults-to" style="float:right;">
-                    <div skos-concept-list="mapping.to" on-delete="remove" current-role="target" on-select="select"></div>
+                    <div skos-concept-list="mapping.to" 
+                         on-select="selectTo" />
                 </div>
             </div>
             <div class="mappingResults-icon">
