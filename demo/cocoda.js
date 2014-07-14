@@ -1,6 +1,59 @@
 var cocoda = angular.module('Cocoda', ['ngSKOS','ui.bootstrap','ngSuggest']);
 
-function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggestions){
+/**
+ * Konfiguration aller unterstützen Concept Schemes
+ */
+function knownSchemes(OpenSearchSuggestions, SkosConceptProvider) {
+    this.gnd = {
+        name: 'GND',
+        // Suggestions API via lobid.org
+        suggest: new OpenSearchSuggestions({
+            url: "http://api.lobid.org/subject?format=ids&name=",
+            transform: function(response) {
+                return {
+                    values: response.map(function(s) {
+                        return {
+                            label: s.label,
+                            uri: s.value
+                        };
+                    }),
+                };
+            },
+            jsonp: true
+        }),
+        getNarrower: new SkosConceptProvider({
+            url: "http://lobid.org/subject?format=full&id={uri}"
+            // TODO: Alle SkosConceptProvider hierher verschieben
+        })
+    };
+    this.rvk = {
+        name: 'RVK',
+        suggest: new OpenSearchSuggestions({
+            url: "http://rvk.uni-regensburg.de/api/json/nodes/{searchTerms}",
+            transform: function(response){
+                return {
+                    values: response.node.map(function(v) {
+                        return {
+                            label: v.benennung,
+                            uri: v.notation
+                        };
+                    }),
+                };
+            },
+            jsonp: 'jsonp'
+        })
+    };
+    // TODO: this.ddc
+};
+
+cocoda.service('knownSchemes', ["OpenSearchSuggestions","SkosConceptProvider",knownSchemes]);
+
+/**
+ * Controller
+ */
+function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggestions, knownSchemes){
+
+    $scope.test = knownSchemes;
 
     $scope.activeView = {
         origin: '',
@@ -44,40 +97,9 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             return $scope.rvkSubjectSuggest;
         }
     }
-    // Suggestions API via lobid.org
     
-    $scope.gndSubjectSuggest = new OpenSearchSuggestions({
-        
-        url: "http://api.lobid.org/subject?format=ids&name=",
-        transform: function(response) {
-            return {
-                values: response.map(function(s) {
-                    return {
-                        label: s.label,
-                        uri: s.value
-                    };
-                }),
-            };
-        },
-        jsonp: true
-    });
-    
-    $scope.rvkSubjectSuggest = new OpenSearchSuggestions({
-        
-        url: "http://rvk.uni-regensburg.de/api/json/nodes/{searchTerms}",
-        transform: function(response){
-            return {
-                values: response.node.map(function(v) {
-                    return {
-                        label: v.benennung,
-                        uri: v.notation
-                    };
-                }),
-            };
-        },
-        jsonp: 'jsonp'
-    });
-
+    $scope.gndSubjectSuggest = knownSchemes.gnd.suggest;
+    $scope.rvkSubjectSuggest = knownSchemes.rvk.suggest;
 
     /*
     $scope.safeApply = function(fn) { 

@@ -3,8 +3,18 @@
  * @name ng-skos.service:SkosConceptProvider
  * @description
  * 
- * Get concepts via HTTP.
+ * Get concepts via HTTP. 
+ *
+ * The server to be queried with this service is expected to return a JSON
+ * object with one [concept](#/guide/concepts). The concept object may contain
+ * links to narrower and broader concepts, among other information.
  * 
+ * ## Configuration
+ * 
+ * * url: URL template to query
+ * * jsonp: enable JSONP
+ * * transform: custom transformation function to map expected response format
+ *
  * ## Methods
  *
  * * getConcept
