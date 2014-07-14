@@ -24,6 +24,44 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider) {
         getNarrower: new SkosConceptProvider({
             url: "http://lobid.org/subject?format=full&id={uri}"
             // TODO: Alle SkosConceptProvider hierher verschieben
+        }),
+        getConcept: new SkosConceptProvider({
+            url: "http://lobid.org/subject?format=full&id={uri}",
+            transform: function(item) {
+                
+                var graph = item[1]['@graph'][0];
+                
+                var concept = {
+                    notation: [ graph.gndIdentifier ],
+                    prefLabel: { de: graph.preferredName },
+                    altLabel: "",
+                    uri: graph['@id'],
+                    broader: [],
+                    related: [],
+                };
+                if(angular.isArray(graph.variantName)){
+                    concept.altLabel = graph.variantName;
+                }else if(angular.isString(graph.variantName)){
+                    concept.altLabel = [graph.variantName];
+                }
+                    
+                if(angular.isArray(graph.broaderTermGeneral)){
+                    angular.forEach(graph.broaderTermGeneral, function(bterm) {
+                        concept.broader.push({uri: bterm });
+                    });
+                } else if(angular.isString(graph.broaderTermGeneral)){
+                    concept.broader = [{uri: graph.broaderTermGeneral}];
+                }
+                if(angular.isArray(graph.relatedTerm)){
+                    angular.forEach(graph.relatedTerm, function(rterm) {
+                        concept.related.push({uri: rterm });
+                    });
+                } else if(angular.isString(graph.relatedTerm)){
+                    concept.related = [{uri: graph.relatedTerm}];
+                }
+                return concept;
+            },
+            jsonp: true
         })
     };
     this.rvk = {
@@ -41,7 +79,69 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider) {
                 };
             },
             jsonp: 'jsonp'
-        })
+        }),
+        getConcept: new SkosConceptProvider({
+            url: "http://rvk.uni-regensburg.de/api/json/node/{uri}",
+            transform: function(item) {
+                var concept = {
+                    notation: [ item.node.notation ],
+                    uri: item.node.notation,
+                    prefLabel: { de: item.node.benennung },
+                    altLabel: "" ,
+                    c: 0
+                }
+                if(angular.isArray(item.node.register)){
+                    concept.altLabel = item.node.register;
+                }else if(angular.isString(item.node.register)){
+                    concept.altLabel = [item.node.register];
+                }
+                if(item.node.has_children == 'yes'){
+                    concept.c = 1;
+                }
+                return concept;
+            },
+            jsonp: 'jsonp'
+        }),
+        getNarrower: new SkosConceptProvider({
+            url: "http://rvk.uni-regensburg.de/api/json/children/{uri}",
+            transform: function(item) {
+                console.log(item);
+                var concept = {
+                    notation: [ item.node.notation ],
+                    uri: item.node.notation,
+                    prefLabel: { de: item.node.benennung },
+                    narrower: [],
+                };
+                if(!item.node.nochildren){
+                    if(angular.isArray(item.node.children.node)){
+                        angular.forEach(item.node.children.node, function(nterm) {
+                            concept.narrower.push({uri: nterm.notation, prefLabel: { de: nterm.benennung }, notation: [ nterm.notation ] });
+                        });
+                    } else if(angular.isString(item.node.children.node)){
+                        concept.narrower = [{uri: item.node.children.node.notation, prefLabel: { de: item.node.children.node.benennung }, notation: [ item.node.children.node.notation ] }];
+                    }
+                }
+                return concept;
+            },
+            jsonp: 'jsonp'
+        }),
+        getBroader: new SkosConceptProvider({
+            url: "http://rvk.uni-regensburg.de/api/json/ancestors/{uri}",
+            transform: function(item) {
+                
+                var concept = {
+                    notation: [ item.node.notation ],
+                    prefLabel: { de: item.node.benennung },
+                    broader: [],
+                };
+                if(item.ancestor){
+                    concept.broader = [{ uri: item.node.ancestor.node.notation, prefLabel:{de: item.node.ancestor.node.benennung}, notation: item.node.ancestor.node.notation }];
+                }
+                return concept;
+            },
+            jsonp: 'jsonp'
+        }),
+        
     };
     // TODO: this.ddc
 };
@@ -99,8 +199,11 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     }
     
     $scope.gndSubjectSuggest = knownSchemes.gnd.suggest;
+    $scope.gndSubjectConcept = knownSchemes.gnd.getConcept;
     $scope.rvkSubjectSuggest = knownSchemes.rvk.suggest;
-
+    $scope.rvkSubjectConcept = knownSchemes.rvk.getConcept;
+    $scope.rvkNarrowerConcepts = knownSchemes.rvk.getNarrower;
+    $scope.rvkBroaderConcepts = knownSchemes.rvk.getBroader;
     /*
     $scope.safeApply = function(fn) { 
         var phase = this.$root.$$phase; 
@@ -140,103 +243,6 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         $scope.currentMapping.from = [];
     }
     // Concept via lobid.org
-    $scope.gndSubjectConcept = new SkosConceptProvider({
-        url: "http://lobid.org/subject?format=full&id={uri}",
-        transform: function(item) {
-            
-            var graph = item[1]['@graph'][0];
-            
-            var concept = {
-                notation: [ graph.gndIdentifier ],
-                prefLabel: { de: graph.preferredName },
-                altLabel: "",
-                uri: graph['@id'],
-                broader: [],
-                related: [],
-            };
-            if(angular.isArray(graph.variantName)){
-                concept.altLabel = graph.variantName;
-            }else if(angular.isString(graph.variantName)){
-                concept.altLabel = [graph.variantName];
-            }
-                
-            if(angular.isArray(graph.broaderTermGeneral)){
-                angular.forEach(graph.broaderTermGeneral, function(bterm) {
-                    concept.broader.push({uri: bterm });
-                });
-            } else if(angular.isString(graph.broaderTermGeneral)){
-                concept.broader = [{uri: graph.broaderTermGeneral}];
-            }
-            if(angular.isArray(graph.relatedTerm)){
-                angular.forEach(graph.relatedTerm, function(rterm) {
-                    concept.related.push({uri: rterm });
-                });
-            } else if(angular.isString(graph.relatedTerm)){
-                concept.related = [{uri: graph.relatedTerm}];
-            }
-            return concept;
-        },
-        jsonp: true
-    });
-    $scope.rvkSubjectConcept = new SkosConceptProvider({
-        url: "http://rvk.uni-regensburg.de/api/json/node/{uri}",
-        transform: function(item) {
-            var concept = {
-                notation: [ item.node.notation ],
-                uri: item.node.notation,
-                prefLabel: { de: item.node.benennung },
-                altLabel: "" ,
-                c: 0
-            }
-            if(angular.isArray(item.node.register)){
-                concept.altLabel = item.node.register;
-            }else if(angular.isString(item.node.register)){
-                concept.altLabel = [item.node.register];
-            }
-            if(item.node.has_children == 'yes'){
-                concept.c = 1;
-            }
-            return concept;
-        },
-        jsonp: 'jsonp'
-    });
-    $scope.rvkNarrowerConcepts = new SkosConceptProvider({
-        url: "http://rvk.uni-regensburg.de/api/json/children/{uri}",
-        transform: function(item) {
-            console.log(item);
-            var concept = {
-                notation: [ item.node.notation ],
-                uri: item.node.notation,
-                prefLabel: { de: item.node.benennung },
-                narrower: [],
-            };
-            if(!item.node.nochildren){
-                if(angular.isArray(item.node.children.node)){
-                    angular.forEach(item.node.children.node, function(nterm) {
-                        concept.narrower.push({uri: nterm.notation, prefLabel: { de: nterm.benennung }, notation: [ nterm.notation ] });
-                    });
-                } else if(angular.isString(item.node.children.node)){
-                    concept.narrower = [{uri: item.node.children.node.notation, prefLabel: { de: item.node.children.node.benennung }, notation: [ item.node.children.node.notation ] }];
-                }
-            }
-            return concept;
-        },
-        jsonp: 'jsonp'
-    });
-    $scope.rvkBroaderConcepts = new SkosConceptProvider({
-        url: "http://rvk.uni-regensburg.de/api/json/ancestors/{uri}",
-        transform: function(item) {
-            
-            var concept = {
-                broader: [],
-            };
-            if(item.ancestor){
-                concept.broader = [{ uri: item.node.ancestor.node.notation, prefLabel:{de: item.node.ancestor.node.benennung}, notation: item.node.ancestor.node.notation }];
-            }
-            return concept;
-        },
-        jsonp: 'jsonp'
-    });
     // when item is selected
 
     $scope.selectOriginSubject = function(item) {

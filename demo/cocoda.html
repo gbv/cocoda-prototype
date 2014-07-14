@@ -56,10 +56,10 @@
                                 <a href="#" ng-click="setTarget('')">none</a>
                             </li>
                             <li>
-                                <a href="#" ng-click="setTarget('GND')">GND</a>
+                                <a href="#" ng-if="activeView.origin != 'GND'" ng-click="setTarget('GND')">GND</a>
                             </li>
                             <li>
-                                <a href="#" ng-click="setTarget('RVK')">RVK</a>
+                                <a href="#" ng-if="activeView.origin != 'RVK'" ng-click="setTarget('RVK')">RVK</a>
                             </li>
                         </ul>
                     </li>
@@ -88,6 +88,7 @@
                         <div class="tmpl-border" skos-concept="originConcept" skos-click="clickOriginConcept" language="language"></div>
                         <div style="margin-bottom:5px;">
                             <button ng-click="saveFrom(activeView.origin, originConcept)">Use term</button>
+                            <button ng-click="searchOccurrence(activeView.origin, originConcept)">Look up mappings</button>
                         </div>
                     </div>
                     <div ng-if="activeView.origin == 'DDC' || activeView.origin == 'RVK'" class="tmpl-border" skos-tree="treeSample"></div>
