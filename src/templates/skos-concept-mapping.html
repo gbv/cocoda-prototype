@@ -46,7 +46,10 @@
             </tbody>
         </table>
     </div>
-    <div  style="width:95%;margin:0 auto;text-align:center;" ng-if="mapping.from.length">
+    <div  style="width:95%;margin:0 auto;text-align:center;" ng-if="mapping.from.length && mapping.to.length">
         <button style="margin: 0px auto 10px auto;" ng-click="save">Save current mapping</button>
+    </div>
+    <div  style="width:95%;margin:0 auto;text-align:center;" ng-if="!mapping.from.length || !mapping.to.length">
+        <button disabled="true" style="margin: 0px auto 10px auto;" ng-click="save">Save current mapping</button>
     </div>
 </div>

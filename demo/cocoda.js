@@ -9,7 +9,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     $scope.setOrigin = function(scheme) {
         if(scheme == ''){
             $scope.activeView.origin = scheme;
-        }else if(scheme != $scope.activeView.origin){
+        }else if(scheme != $scope.activeView.origin && scheme != ''){
             $scope.originConcept = "";
             $scope.originSubject = "";
             $scope.deleteAll();
@@ -87,9 +87,8 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     $scope.currentMapping = {
         from: [],
         to: []
-    };    
+    };
     $scope.saveFrom = function(origin, item){
-        $scope.deleteAll();
         $scope.currentMapping.from[0] = {
             prefLabel: { de: item.prefLabel.de },
             inScheme: { notation: [ origin ] },

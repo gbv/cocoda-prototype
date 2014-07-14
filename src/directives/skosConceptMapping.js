@@ -21,6 +21,12 @@ angular.module('ngSKOS')
             scope.selectTo = function(concept) {
                 scope.select("target",concept); 
             };
+            scope.clear = function(mapping){
+                scope.mapping = {
+                    from: [],
+                    to: []
+                };
+            };
             scope.save = function() {
                 // TODO: Save current mapping to 'saveLocation'
             };
