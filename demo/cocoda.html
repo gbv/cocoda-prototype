@@ -91,7 +91,13 @@
                             <button ng-click="searchOccurrence(activeView.origin, originConcept)">Look up mappings</button>
                         </div>
                     </div>
-                    <div ng-if="activeView.origin == 'DDC' || activeView.origin == 'RVK'" class="tmpl-border" skos-tree="treeSample"></div>
+                    <div ng-if="activeView.origin == 'DDC' || activeView.origin == 'RVK'" class="tmpl-border">
+                        <ul style="list-style-type:none;padding:0px">
+                            <li ng-repeat="v in rvkTop.values">
+                                <a style="text-decoration:none;" href="#" ng-click="reselectConcept('origin', v)"><span class="notation">{{v.uri}}</span>  <span>{{v.label}}</span></a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
@@ -112,7 +118,13 @@
                             <button ng-click="replaceTo(activeView.target, targetConcept)">Replace current terms</button>
                         </div>
                     </div>
-                    <div ng-if="activeView.target == 'DDC' || activeView.target == 'RVK'" style="min-width:350px;" class="tmpl-border" skos-tree="treeSample"></div>
+                    <div ng-if="activeView.target == 'DDC' || activeView.target == 'RVK'" class="tmpl-border">
+                        <ul style="list-style-type:none;padding:0px">
+                            <li ng-repeat="v in rvkTop.values">
+                                <a style="text-decoration:none;" href="#" ng-click="reselectConcept('target', v)"><span class="notation">{{v.uri}}</span>  <span>{{v.label}}</span></a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -135,7 +147,9 @@
     <script src="../lib/ng-suggest.js"></script>
     <script src="../src/json-text.js"></script>
     <script src="../src/ng-skos.js"></script>
+    <script src="../src/services/SkosProvider.js"></script>
     <script src="../src/services/SkosConceptProvider.js"></script>
+    <script src="../src/services/SkosConceptListProvider.js"></script>
     <script src="../src/directives/skosLabel.js"></script>
     <script src="../src/directives/skosConcept.js"></script>
     <script src="../src/directives/skosTree.js"></script>

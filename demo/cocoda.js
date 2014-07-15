@@ -3,7 +3,7 @@ var cocoda = angular.module('Cocoda', ['ngSKOS','ui.bootstrap','ngSuggest']);
 /**
  * Konfiguration aller unterstützen Concept Schemes
  */
-function knownSchemes(OpenSearchSuggestions, SkosConceptProvider) {
+function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptListProvider) {
     this.gnd = {
         name: 'GND',
         // Suggestions API via lobid.org
@@ -64,19 +64,32 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider) {
             jsonp: true
         })
     };
+
+    var rvkTransform = function(nodes) {
+        return {
+            values: nodes.map(function(v) {
+                return {
+                    label: v.benennung,
+                    uri: v.notation
+                };
+            }),
+        };
+    };
+
     this.rvk = {
         name: 'RVK',
+        topConcepts: new SkosConceptListProvider({
+            url: "http://rvk.uni-regensburg.de/api/json/children",
+            jsonp: 'jsonp',
+            transform: function(response) { 
+                return rvkTransform(response.node.children.node) 
+            },
+        }), 
         suggest: new OpenSearchSuggestions({
             url: "http://rvk.uni-regensburg.de/api/json/nodes/{searchTerms}",
-            transform: function(response){
-                return {
-                    values: response.node.map(function(v) {
-                        return {
-                            label: v.benennung,
-                            uri: v.notation
-                        };
-                    }),
-                };
+            jsonp: 'jsonp',
+            transform: function(response) { 
+                return rvkTransform(response.node) 
             },
             jsonp: 'jsonp'
         }),
@@ -142,19 +155,25 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider) {
             jsonp: 'jsonp'
         }),
         
+
     };
     // TODO: this.ddc
 };
 
-cocoda.service('knownSchemes', ["OpenSearchSuggestions","SkosConceptProvider",knownSchemes]);
+cocoda.service('knownSchemes', 
+        ["OpenSearchSuggestions","SkosConceptProvider","SkosConceptListProvider",
+        knownSchemes]);
 
 /**
  * Controller
  */
 function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggestions, knownSchemes){
 
-    $scope.test = knownSchemes;
+    knownSchemes.rvk.topConcepts.getConceptList().then(function(response){
+        $scope.rvkTop = response;
+    });
 
+    
     $scope.activeView = {
         origin: '',
         target: ''
@@ -360,19 +379,31 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         console.log(role);
         console.log(concept);
         if(role == 'origin'){
-            $scope.originConcept = {
-                uri: concept.uri,
-                label: concept.prefLabel.de
-                
-            };
+            if(concept.prefLabel){
+                $scope.originConcept = {
+                    uri: concept.uri,
+                    label: concept.prefLabel.de
+                };
+            }else if(concept.label){
+                $scope.originConcept = {
+                    uri: concept.uri,
+                    label: concept.label
+                };
+            }
             $scope.selectOriginSubject($scope.originConcept)
         }
         else if(role == 'target'){
-            $scope.targetConcept = {
-                uri: concept.uri,
-                label: concept.prefLabel.de
-                
-            };
+            if(concept.prefLabel){
+                $scope.targetConcept = {
+                    uri: concept.uri,
+                    label: concept.prefLabel.de
+                };
+            }else if(concept.label){
+                $scope.targetConcept = {
+                    uri: concept.uri,
+                    label: concept.label
+                };
+            }
             $scope.selectTargetSubject($scope.targetConcept);
         }
     }

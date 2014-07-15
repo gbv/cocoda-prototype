@@ -13,6 +13,7 @@
     padding-right:3px;
     color:black;
     cursor:default;
+    text-decoration:none;
 }
 /*  icon-style for concept-schemes */
 .classification{
@@ -90,6 +91,10 @@ ul.ancestors li {
 }
 /* 'skos-concept' template styles */
 /*  template also uses: .notation, .uri */
+.skos-concept-connected{
+    max-height:220px;
+    overflow:scroll;
+}
 
 .skos-concept ul{
     list-style-type:none;
