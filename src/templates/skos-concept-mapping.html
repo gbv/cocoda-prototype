@@ -48,6 +48,13 @@
     </div>
     <div ng-if="from.length && to.length">
         <div  style="width:95%;margin:0 auto;text-align:center;" ng-if="mapping.from.length && mapping.to.length">
+            <span>Strength: </span>
+            <select style="margin-right:10px;">
+                <option ng-click="setType('')">none</option>
+                <option ng-click="setType('strong')">strong</option>
+                <option ng-click="setType('medium')">medium</option>
+                <option ng-click="setType('weak')">weak</option>
+            </select>
             <button style="margin: 0px auto 10px auto;" ng-click="save">Save current mapping</button>
         </div>
         <div  style="width:95%;margin:0 auto;text-align:center;" ng-if="!mapping.from.length || !mapping.to.length">

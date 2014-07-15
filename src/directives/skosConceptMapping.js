@@ -27,7 +27,13 @@ angular.module('ngSKOS')
                     to: []
                 };
             };
+            scope.setType = function(type){
+                scope.mapping.type = type;
+            };
             scope.save = function() {
+                scope.mapping.timestamp = new Date();
+                // TODO: Use own database to specify 'source'
+                scope.mapping.source = function() {};
                 // TODO: Save current mapping to 'saveLocation'
             };
             scope.$watch('mapping');
