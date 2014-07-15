@@ -1,6 +1,12 @@
 /* Basic CSS for ng-skos default templates */
 /* in order of their occurrence in the demo */
 
+.tmpl-border {
+    border: 1px solid #999;
+    padding:10px 20px 5px 20px;
+    margin:5px 0px 10px 0px;
+    display:inline-block;
+}
 
 /* label styles */
 /* styles for identifiers */
@@ -179,7 +185,7 @@ ul.ancestors li {
 .mappingResults .mappingResults-icon{
 }
 .mappingResults-icon{
-    margin: 10px auto;
+    margin: 3px auto;
 }
 .mappingResults-to{
     margin-bottom:10px;

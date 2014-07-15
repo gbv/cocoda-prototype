@@ -409,7 +409,10 @@ cocoda.run(function($rootScope,$http) {
     $http.get('data/mapping-1.json').success(function(data){
         $rootScope.mappingSample = data;
     });
-
+    $rootScope.mappingSampleGND = {};
+    $http.get('data/mapping-2.json').success(function(data){
+        $rootScope.mappingSampleGND = data;
+    });
     $rootScope.occurrencesSample = {};
     $http.get('data/occurrences-1.json').success(function(data){
         $rootScope.occurrencesSample = data;

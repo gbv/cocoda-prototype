@@ -3,52 +3,69 @@
         <thead>
             <tr style="width:100%">
                 <th style="width:45%">
-                    <span class="classification">{{from[0].inScheme.notation[0]}}</span>
+                    <span class="classification">{{mapping[0].from[0].inScheme.notation[0]}}</span>
                 </th>
                 <th style="width:10%">
                 </th>
                 <th style="width:45%;">
-                    <span class="classification">{{to[0].inScheme.notation[0]}}</span>
+                    <span class="classification">{{mapping[0].to[0].inScheme.notation[0]}}</span>
                 </th>
             </tr>
         </thead>
-        <tbody class="mappingResults">
-            <tr style="vertical-align:top;">
-                <td>
-                    <div class="mappingResults-from">
-                        <ul>
-                            <li ng-repeat="from in from">
-                                <span class="notation" popover="{{from.prefLabel.en}}" popover-trigger="mouseenter">{{from.notation[0]}}</span>
-                            </li>
-                        </ul>
-                    </div>
-                </td>
-                <td>
-                    <div class="mappingResults-icon">
-                        <big><span ng-if="from.length || to.length" class="glyphicon glyphicon-arrow-right"></span></big>
-                    </div>
-                </td>
-                <td>
-                    <div class="mappingResults-to">
-                        <ul>
-                            <li ng-repeat="target in to">
-                                <span class="notation" popover="{{target.prefLabel.en}}" popover-trigger="mouseenter">{{target.notation[0]}}</span>
-                            </li>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
     </table>
-    </div>
-    <div class="mappingFoot">
-        <ul ng-if="from.length">
-            <li>
-                <span><b>Type:</b></span>
-                <span>{{type}}</span>
-                <span><b>Date added:</b></span>
-                <span> {{timestamp}} </span>
-            </li>
-        </ul>
+    <div ng-repeat="m in mapping">
+        <table style="width:100%;">
+            <thead>
+                <tr style="width:100%">
+                    <th style="width:45%">
+                    </th>
+                    <th style="width:10%">
+                    </th>
+                    <th style="width:45%;">
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="mappingResults">
+                <tr style="vertical-align:top;">
+                    <td>
+                        <div class="mappingResults-from">
+                            <ul>
+                                <li ng-repeat="from in m.from">
+                                    <span class="notation" popover="{{from.prefLabel.en}}" popover-trigger="mouseenter">{{from.notation[0]}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="mappingResults-icon">
+                            <big><span ng-if="m.from.length || m.to.length" class="glyphicon glyphicon-arrow-right"></span></big>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="mappingResults-to">
+                            <ul>
+                                <li ng-repeat="target in m.to">
+                                    <span class="notation" popover="{{target.prefLabel.en}}" popover-trigger="mouseenter">{{target.notation[0]}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="mappingFoot">
+            <ul ng-if="m.from.length">
+                <li>
+                    <span><b>Type:</b></span>
+                    <span>{{m.type}}</span>
+                    <span><b>Date added:</b></span>
+                    <span> {{m.timestamp}} </span>
+                    <span><b>Database:</b></span>
+                    <span> {{m.source}} </span>
+                </li>
+            </ul>
+        </div>
+        <div ng-if="$index < mapping.length-1" style="border-bottom:1px solid black;margin-bottom:5px;">
+        </div>
     </div>
 </div>

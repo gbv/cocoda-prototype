@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
     <link href="ng-skos.css" rel="stylesheet" />
-    <link href="demo.css" rel="stylesheet" />
+    <link href="cocoda.css" rel="stylesheet" />
 </head>
 <body ng-controller="myController">
     <header>
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <nav class="navbar navbar-default navbar-top" role="navigation">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">Cocoda</a>
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -78,9 +78,7 @@
             </div>
         </nav>
     </header>
-    <div id="head" style="padding-top:30px;">
-    </div>
-    <div class="main fixnav">
+    <div class="main">
         <div class="row">
             <div class="col-md-3">
                 <div style="margin-left:15px;">
@@ -88,7 +86,7 @@
                         <div class="tmpl-border" skos-concept="originConcept" skos-click="clickOriginConcept" language="language"></div>
                         <div style="margin-bottom:5px;">
                             <button ng-click="saveFrom(activeView.origin, originConcept)">Use term</button>
-                            <button ng-click="searchOccurrence(activeView.origin, originConcept)">Look up mappings</button>
+                            <button disabled="true" ng-click="searchOccurrence(activeView.origin, originConcept)">Look up mappings</button>
                         </div>
                     </div>
                     <div ng-if="activeView.origin == 'DDC' || activeView.origin == 'RVK'" class="tmpl-border">
@@ -105,7 +103,13 @@
                     <div skos-concept-mapping="currentMapping" select="reselectConcept" mapping-from="activeView.origin" mapping-to="activeView.target"></div>
                 </div>
                 <div style="margin-top:30px;">
-                    <div style="width:340px;float:left;margin-left:30px;" class="tmpl-border" skos-mapping="mappingSample"></div>
+                    <div style="width:340px;float:left;margin-left:30px;">
+                        <div class="tmpl-border" skos-mapping="mappingSample"></div>
+                        <div class="tmpl-border">
+                            <div style="background-color:#EEE;padding-left:5px;margin-bottom:5px;"><b>GND - DDC Cross Concordance</b></div>
+                            <div skos-mapping="mappingSampleGND"></div>
+                        </div>
+                    </div>
                     <div style="width:340px;float:right;margin-right:30px;" class="tmpl-border" skos-occurrences="occurrencesSample"></div>
                 </div>
             </div>

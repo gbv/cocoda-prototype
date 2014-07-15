@@ -1,0 +1,21 @@
+
+.tmpl-border {
+    border: 1px solid #999;
+    padding:10px 20px 5px 20px;
+    margin:5px 0px 10px 0px;
+    display:inline-block;
+}
+/* SKOS-label */
+/* show language attribute after element */
+
+.show-lang:after {
+    content: "@" attr(lang);
+    color: #999;
+    padding-left: 2px;
+}
+.nav, .pagination, .carousel, .panel-title a { 
+    cursor: pointer;
+}
+.affix,.navbar-fixed-top{
+-webkit-transform: scale3d(1,1,1);
+}
