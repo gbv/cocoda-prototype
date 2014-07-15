@@ -93,7 +93,7 @@ ul.ancestors li {
 /*  template also uses: .notation, .uri */
 .skos-concept-connected{
     max-height:220px;
-    overflow:scroll;
+    overflow:auto;
 }
 
 .skos-concept ul{

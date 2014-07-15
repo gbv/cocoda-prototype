@@ -82,6 +82,7 @@ angular.module('ngSKOS', ['ngSanitize']).value('version', '0.0.1');
  *      [concept](#/guide/concepts) to bind to
  * @param {string} language Assignable angular expression with 
  *      preferred language to be used as bounded `language` variable. 
+ * @param {string} skos-click function to call when a connected concept is clicked
  * @param {string} template-url URL of a template to display the concept
  *
  */
@@ -90,7 +91,8 @@ angular.module('ngSKOS').directive('skosConcept', function () {
     restrict: 'AE',
     scope: {
       concept: '=skosConcept',
-      language: '=language'
+      language: '=language',
+      click: '=skosClick'
     },
     templateUrl: function (elem, attrs) {
       return attrs.templateUrl ? attrs.templateUrl : 'template/skos-concept.html';
@@ -112,6 +114,56 @@ angular.module('ngSKOS').directive('skosConcept', function () {
           scope[field] = concept ? concept[field] : null;
         });
       }, true);
+    }
+  };
+});
+angular.module('ngSKOS').directive('skosConceptList', function () {
+  return {
+    restrict: 'A',
+    scope: {
+      concepts: '=skosConceptList',
+      onSelect: '=onSelect'
+    },
+    templateUrl: function (elem, attrs) {
+      return attrs.templateUrl ? attrs.templateUrl : 'template/skos-concept-list.html';
+    },
+    link: function link(scope, element, attr) {
+      scope.removeConcept = function (index) {
+        scope.concepts.splice(index, 1);
+      };
+      scope.$watch('concepts');
+    }
+  };
+});
+angular.module('ngSKOS').directive('skosConceptMapping', function () {
+  return {
+    restrict: 'A',
+    scope: {
+      mapping: '=skosConceptMapping',
+      from: '=mappingFrom',
+      to: '=mappingTo',
+      select: '=select',
+      saveLocation: '=saveLocation'
+    },
+    templateUrl: function (elem, attrs) {
+      return attrs.templateUrl ? attrs.templateUrl : 'template/skos-concept-mapping.html';
+    },
+    link: function link(scope, element, attr) {
+      scope.selectFrom = function (concept) {
+        scope.select('origin', concept);
+      };
+      scope.selectTo = function (concept) {
+        scope.select('target', concept);
+      };
+      scope.clear = function (mapping) {
+        scope.mapping = {
+          from: [],
+          to: []
+        };
+      };
+      scope.save = function () {
+      };
+      scope.$watch('mapping');
     }
   };
 });
@@ -164,7 +216,7 @@ angular.module('ngSKOS').directive('skosLabel', function () {
   return {
     restrict: 'A',
     scope: { concept: '=skosLabel' },
-    template: '{{concept.prefLabel[language]}}',
+    template: '{{concept.prefLabel[language] ? concept.prefLabel[language] : "???"}}',
     link: function (scope, element, attrs) {
       function updateLanguage(language) {
         scope.language = language ? language : attrs.lang;
@@ -379,7 +431,6 @@ angular.module('ngSKOS').directive('skosTree', [
       },
       compile: function (tElement, tAttr, transclude) {
         var contents = tElement.contents().remove();
-        console.log(contents);
         var compiledContents;
         return function (scope, iElement, iAttr) {
           if (!compiledContents) {
@@ -395,15 +446,67 @@ angular.module('ngSKOS').directive('skosTree', [
 ]);
 /**
  * @ngdoc service
+ * @name ng-skos.service:SkosConceptListProvider
+ * @description
+ * 
+ * Get an ordered list of concepts via HTTP.
+ *
+ * The server to be queried with this service is expected to return a list with
+ * [concept](#/guide/concepts) objects.
+ * 
+ * ## Configuration
+ * 
+ * * **`url`**: URL template to get the list from
+ * * **`jsonp`**: enable JSONP
+ * * **`transform`**: transformation function to map to expected response format
+ *
+ * ## Methods
+ *
+ * * **`getConceptList()`**
+ * * **`updateConceptList(list)`**
+ *
+ */
+angular.module('ngSKOS').factory('SkosConceptListProvider', [
+  'SkosProvider',
+  function (SkosProvider) {
+    // inherit from SkosProvider
+    var SkosConceptListProvider = function (args) {
+      SkosProvider.call(this, args);
+    };
+    SkosConceptListProvider.prototype = new SkosProvider();
+    SkosConceptListProvider.prototype.getConceptList = function () {
+      return this.get();
+    };
+    SkosConceptListProvider.prototype.updateConceptList = function () {
+      return this.getConceptList(list).then(function (response) {
+        angular.copy(response, list);
+      });
+    };
+    return SkosConceptListProvider;
+  }
+]);
+/**
+ * @ngdoc service
  * @name ng-skos.service:SkosConceptProvider
  * @description
  * 
- * Get concepts via HTTP.
+ * Get concepts via HTTP. 
+ *
+ * The server to be queried with this service is expected to return a JSON
+ * object with one [concept](#/guide/concepts). The concept object may contain
+ * links to narrower and broader concepts, among other information.
  * 
+ * ## Configuration
+ * 
+ * * **`url`**: URL template for requests
+ * * **`jsonp`**: enable JSONP
+ * * **`transform`**: custom transformation function to map expected response format
+ *
  * ## Methods
  *
- * * getConcept
- * * updateConcept
+ * * **`getConcept(concept)`**
+ * * **`updateConcept(concept)`**
+ * * **`updateConnected(concept)`**
  *
  * @example
  *  <example module="myApp">
@@ -422,11 +525,90 @@ angular.module('ngSKOS').directive('skosTree', [
  *  </example>
  */
 angular.module('ngSKOS').factory('SkosConceptProvider', [
+  'SkosProvider',
+  function (SkosProvider) {
+    // inherit from SkosProvider
+    var SkosConceptProvider = function (args) {
+      SkosProvider.call(this, args);
+    };
+    SkosConceptProvider.prototype = new SkosProvider();
+    SkosConceptProvider.prototype.getConcept = function (concept) {
+      var url;
+      // look up by uri / notation / prefLabel
+      if (this.url) {
+        if (angular.isFunction(this.url)) {
+          url = this.url(concept);
+        } else {
+          url = this.url;
+          if (concept.notation) {
+            var notation = concept.notation[0];
+            url = url.replace('{notation}', decodeURIComponent(notation));
+          }
+          url = url.replace('{uri}', decodeURIComponent(concept.uri));
+        }
+      } else {
+        url = concept.uri;
+      }
+      return this.get(url);
+    };
+    SkosConceptProvider.prototype.updateConcept = function (concept) {
+      return this.getConcept(concept).then(function (response) {
+        angular.copy(response, concept);
+      });
+    };
+    SkosConceptProvider.prototype.updateConnected = function (concept, which) {
+      if (angular.isString(which)) {
+        which = [which];
+      } else if (!angular.isArray(which)) {
+        which = [
+          'broader',
+          'narrower',
+          'related'
+        ];
+      }
+      var service = this;
+      angular.forEach(which, function (w) {
+        angular.forEach(concept[w], function (c) {
+          service.updateConcept(c);
+        });
+      });
+    };
+    return SkosConceptProvider;
+  }
+]);
+/**
+ * @ngdoc service
+ * @name ng-skos.service:SkosProvider
+ * @description
+ * 
+ * Utility service to facilitate HTTP requests. 
+ *
+ * This service implements use of URL templates to perform HTTP requests with 
+ * optional transformation of JSON responses and error handling. Directly use
+ * [SkosConceptProvider](#/api/ng-skos.service:SkosConceptProvider) and
+ * [SkosConceptListProvider](#/api/ng-skos.service:SkosConceptListProvider)
+ * instead.
+ * 
+ * ## Configuration
+ * 
+ * * **`url`**: URL template for requests
+ * * **`jsonp`**: enable JSONP
+ * * **`transform`**: custom transformation function to map expected response format
+ *
+ * ## Methods
+ *
+ * * **`get([url])`**: perform a HTTP request
+ *
+ */
+angular.module('ngSKOS').factory('SkosProvider', [
   '$http',
   '$q',
   function ($http, $q) {
     // constructor
-    var SkosConceptProvider = function (args) {
+    var SkosProvider = function (args) {
+      if (!args) {
+        args = {};
+      }
       this.transform = args.transform;
       this.url = args.url;
       var jsonp = args.jsonp;
@@ -435,23 +617,10 @@ angular.module('ngSKOS').factory('SkosConceptProvider', [
       }
       this.jsonp = jsonp;
     };
-    // methods
-    SkosConceptProvider.prototype = {
-      getConcept: function (concept) {
-        var url;
-        if (this.url) {
-          if (angular.isFunction(this.url)) {
-            url = this.url(concept);
-          } else {
-            url = this.url;
-            if (concept.notation) {
-              var notation = concept.notation[0];
-              url = url.replace('{notation}', decodeURIComponent(notation));
-            }
-            url = url.replace('{uri}', decodeURIComponent(concept.uri));
-          }
-        } else {
-          url = concept.uri;
+    SkosProvider.prototype = {
+      get: function (url) {
+        if (!url) {
+          url = this.url;
         }
         var transform = this.transform;
         var get = $http.get;
@@ -471,94 +640,22 @@ angular.module('ngSKOS').factory('SkosConceptProvider', [
           console.error(response);
           return $q.reject(response.data);
         });
-      },
-      updateConcept: function (concept) {
-        return this.getConcept(concept).then(function (response) {
-          angular.copy(response, concept);
-        });
       }
     };
-    return SkosConceptProvider;
+    return SkosProvider;
   }
 ]);
-'use strict';
-/**
- * @ngdoc service
- * @name ng-skos.skosAccess
- * @description
- * Look up concepts and terminologies by URI. 
- *
- * An skosAccess service should be used as layer to access concepts and
- * terminologies. The service adds caching and additional methods to expand
- * a list of URIs to a list of concept or terminology objects. 
- *
- * See CocodaClient for a sample source.
- *
- * <pre>
- * var ddc = CocodaTerminology("http://example.org/ddc/");
- * var ddcAccess = new skosAccess(ddc);
- * </pre>
- *
- * @example
- <example>
-  <file name="index.html">
-    ...
-  </file>
-  <file name="script.js">
-    var provider = new skosAccess({
-        concept: function(uri, cb) { ... };
-    });
-    var concepts = ["http://example.org/term1", "http://example.org/term2"];
-    provider.getConcepts(concepts);
-  </file>
-</example>
- */
-angular.module('ngSKOS').factory('skosAccess', function () {
-  // TODO: use $angularCacheFactory for caching
-  return function (source) {
-    var provider = this;
-    if (!source) {
-      source = {
-        concept: function (uri, callback) {
-          callback({ uri: uri });
-        },
-        terminology: function (uri, callback) {
-          callback({ uri: uri });
-        }
-      };
-    }
-    ;
-    this.source = source;
-    this.getConcept = function (uri, callback) {
-      // TODO: caching, use this
-      provider.source.concept(uri, callback);
-    };
-    this.getTerminology = function (uri) {
-      // TODO: caching, use this.
-      provider.source.terminology(uri, callback);
-    };
-    this.getConcepts = function (concepts) {
-      angular.forEach(concepts, function (key, value) {
-        if (typeof value !== 'object') {
-          // excludes null 
-          provider.getConcept(value, function (concept) {
-            concepts[key] = concept;
-          });
-        }
-      });
-    };
-    return provider;
-  };
-});
 angular.module('ngSKOS').run([
   '$templateCache',
   function ($templateCache) {
     'use strict';
-    $templateCache.put('template/skos-concept-thesaurus.html', '<div class="skos-concept-thesaurus"><ul ng-if="ancestors.length" class="ancestors"><span ng-if="inScheme" class="classification">{{inScheme}}</span><li class="ancestor" ng-repeat="a in ancestors"><span skos-label="a" lang="{{language}}" ng-click="update(a);reload();"></span></li></ul><div class="top top-classic"><span ng-if="notation" class="notation">{{notation[0]}}</span> <b><span skos-label="concept" lang="{{language}}"></span></b><a ng-if="notation" class="uri" href="{{uri}}"><span style="vertical-align:-10%" class="glyphicon glyphicon-globe"></span></a></div><div ng-if="broader.length" class="skos-concept-thesaurus-relation"><b>Broader Terms:</b><ul ng-repeat="b in broader" ng-click="update(b);reload();"><li><span skos-label="b" lang="{{language}}"></li></ul></div><div ng-if="narrower.length" class="skos-concept-thesaurus-relation"><b>Narrower Terms:</b><ul ng-repeat="n in narrower" ng-click="update(n);reload();"><li><span skos-label="n" lang="{{language}}"></li></ul></div><div ng-if="related.length" class="skos-concept-thesaurus-relation"><b>Related Terms:</b><ul ng-repeat="r in related" ng-click="update(r);reload();"><li><span skos-label="r" lang="{{language}}"></li></ul></div></div>');
-    $templateCache.put('template/skos-concept.html', '<div class="skos-concept"><div class="top top-alt"><span ng-if="notation" class="notation">{{notation[0]}}</span> <b><span skos-label="concept" lang="{{language}}"></span></b><a ng-if="notation" class="uri" href="{{uri[0]}}"><span class="glyphicon glyphicon-globe"></span></a></div><div ng-if="altLabel.length" style="margin-bottom:5px; border:1px solid #ddd"><ul><li ng-repeat="alt in altLabel"><span ng-if="$index < 5" style="display:inline">{{alt}}</span> <span style="margin-left:-4px" ng-if="$index < altLabel.length-1">,</span></li></ul></div><div ng-if="broader.length" class="skos-concept-relation"><ul ng-repeat="c in broader" ng-click="update(c);reload();"><li>&#8598; <span skos-label="c" lang="{{language}}"></span></li></ul></div><div ng-if="narrower.length" class="skos-concept-relation"><ul ng-repeat="c in narrower" ng-click="update(c);reload();"><li>&#8600; <span skos-label="c" lang="{{language}}"></span></li></ul></div><div ng-if="related.length" class="skos-concept-relation"><ul ng-repeat="c in related" ng-click="update(c);reload();"><li>&#10137; <span skos-label="c" lang="{{language}}"></span></li></ul></div></div>');
-    $templateCache.put('template/skos-mapping.html', '<div class="skos-mapping"><div class="mappingResults"><div class="mappingResults-from"><div class="mapping-label"><span class="classification">{{from[0].inScheme.notation[0]}}</span></div><ul><li ng-repeat="from in from"><span class="notation" popover="{{from.prefLabel.en}}" popover-trigger="mouseenter">{{from.notation[0]}}</span></li></ul></div><div class="mappingResults-icon"><big><span ng-if="from.length" class="glyphicon glyphicon-arrow-right"></span></big></div><div class="mappingResults-to"><div class="mapping-label"><span class="classification">{{to[0].inScheme.notation[0]}}</span></div><ul><li ng-repeat="target in to"><span class="notation" popover="{{target.prefLabel.en}}" popover-trigger="mouseenter">{{target.notation[0]}}</span></li></ul></div></div><div class="mappingFoot"><ul ng-if="from.length"><li><span><b>Type:</b></span> <span>{{type}}</span> <span><b>Date added:</b></span> <span>{{timestamp}}</span></li></ul></div></div>');
+    $templateCache.put('template/skos-concept-list.html', '<div><ul ng-if="concepts.length" style="list-style-type:none;padding-left:0px"><li ng-repeat="c in concepts" style="max-width:280px;display:block"><span class="notation" popover="{{c.prefLabel.de}}" popover-trigger="mouseenter">{{c.notation[0]}}</span> <span>{{c.prefLabel.de}}</span> <a href="#" ng-click="onSelect(c)"><span class="glyphicon glyphicon-search"></a> <a href="#" ng-click="removeConcept($index)"><span class="glyphicon glyphicon-trash"></a></li></ul></div>');
+    $templateCache.put('template/skos-concept-mapping.html', '<div><div ng-if="!from.length && !to.length" style="margin-top:50px;margin-bottom:40px;text-align:center"><em>Please choose a concept scheme for mapping</em></div><div ng-if="from.length && to.length && !mapping.from.length && !mapping.to.length" style="margin-top:10px;margin-bottom:5px;text-align:center"><em>Please search for terms in the current concept schemes</em></div><div ng-if="mapping.from.length && !from.length && !to.length" style="margin-top:10px;margin-bottom:5px;text-align:center"><em>Please choose a term to work on</em></div><div ng-if="from.length || mapping.to[0].notation.length" style="width:100%"><table style="width:95%;margin:0 auto;align:center"><thead style="text-align:center;list-style-type:none;padding-left:0px"><tr><th style="width:400px"><span class="classification">{{from}}</span></th><th style="width:24px"></th><th style="width:400px;text-align:right"><span ng-if="to.length" class="classification">{{to}}</span></th></tr></thead><tbody><tr><td><div class="tmpl-border mappingResults-from"><div ng-if="mapping.from.length" skos-concept-list="mapping.from" on-select="selectFrom"></div><div ng-if="!mapping.from.length"><em>Please select a mapping term</em></div></div></td><td><div style="margin:30px auto"><big><span class="glyphicon glyphicon-arrow-right"></span></big></div></td><td><div class="tmpl-border mappingResults-to" style="float:right"><div ng-if="mapping.to.length" skos-concept-list="mapping.to" on-select="selectTo"></div><div ng-if="!mapping.to.length"><em>Please select a mapping term</em></div></div></td></tr></tbody></table></div><div ng-if="from.length && to.length"><div style="width:95%;margin:0 auto;text-align:center" ng-if="mapping.from.length && mapping.to.length"><button style="margin: 0px auto 10px auto" ng-click="save">Save current mapping</button></div><div style="width:95%;margin:0 auto;text-align:center" ng-if="!mapping.from.length || !mapping.to.length"><button disabled style="margin: 0px auto 10px auto" ng-click="save">Save current mapping</button></div></div></div>');
+    $templateCache.put('template/skos-concept-thesaurus.html', '<div class="skos-concept-thesaurus"><ul ng-if="ancestors.length" class="ancestors"><span ng-if="inScheme" class="classification">{{inScheme}}</span><li class="ancestor" ng-repeat="a in ancestors"><span skos-label="a" lang="{{language}}" ng-click="update(a);reload();"></span></li></ul><div class="top top-classic"><span ng-if="notation" class="notation">{{notation[0]}}</span> <b><span skos-label="concept" lang="{{language}}"></span></b><a ng-if="notation" class="uri" href="{{uri}}"><span style="vertical-align:-10%" class="glyphicon glyphicon-globe"></span></a></div><div ng-if="altLabel.length" class="skos-concept-altlabel"><ul><li ng-repeat="alt in altLabel"><span ng-if="$index < 5" style="display:inline">{{alt}}</span> <span style="margin-left:-4px;margin-right:3px" ng-if="$index < 4 && $index < altLabel.length-1">,</span></li></ul></div><div ng-if="broader.length" class="skos-concept-thesaurus-relation"><b>Broader Terms:</b><ul ng-repeat="b in broader"><li><span skos-label="b" lang="{{language}}" ng-click="click(b)"></li></ul></div><div ng-if="narrower.length" class="skos-concept-thesaurus-relation"><b>Narrower Terms:</b><ul ng-repeat="n in narrower"><li><span skos-label="n" lang="{{language}}" ng-click="click(n)"></li></ul></div><div ng-if="related.length" class="skos-concept-thesaurus-relation"><b>Related Terms:</b><ul ng-repeat="r in related"><li><span skos-label="r" lang="{{language}}" ng-click="click(r)"></li></ul></div></div>');
+    $templateCache.put('template/skos-concept.html', '<div class="skos-concept"><div ng-if="uri" class="top top-alt"><span ng-if="notation" class="notation">{{notation[0]}}</span> <b><span skos-label="concept" lang="{{language}}"></span></b><a ng-if="notation" class="uri" href="{{uri}}" target="_blank"><span class="glyphicon glyphicon-globe"></span></a></div><div class="skos-concept-connected"><div class="skos-concept-altlabel"><ul><li ng-repeat="alt in altLabel"><span ng-if="$index < 5" style="display:inline">{{alt}}</span> <span style="margin-left:-4px;margin-right:3px" ng-if="$index < 4 && $index < altLabel.length-1">,</span></li></ul></div><div ng-if="broader.length" class="skos-concept-relation"><ul ng-repeat="c in broader"><li>&#8598; <span skos-label="c" lang="{{language}}" ng-click="click(c)"></span></li></ul></div><div ng-if="narrower.length" class="skos-concept-relation"><ul ng-repeat="c in narrower"><li>&#8600; <span skos-label="c" lang="{{language}}" ng-click="click(c)"></span></li></ul></div><div ng-if="related.length" class="skos-concept-relation"><ul ng-repeat="c in related"><li>&#10137; <span skos-label="c" lang="{{language}}" ng-click="click(c)"></span></li></ul></div><div ng-if="note">Note: <em>{{note.en[0]}}</em></div></div></div>');
+    $templateCache.put('template/skos-mapping.html', '<div class="skos-mapping"><table style="width:100%"><thead><tr style="width:100%"><th style="width:45%"><span class="classification">{{from[0].inScheme.notation[0]}}</span></th><th style="width:10%"></th><th style="width:45%"><span class="classification">{{to[0].inScheme.notation[0]}}</span></th></tr></thead><tbody class="mappingResults"><tr style="vertical-align:top"><td><div class="mappingResults-from"><ul><li ng-repeat="from in from"><span class="notation" popover="{{from.prefLabel.en}}" popover-trigger="mouseenter">{{from.notation[0]}}</span></li></ul></div></td><td><div class="mappingResults-icon"><big><span ng-if="from.length || to.length" class="glyphicon glyphicon-arrow-right"></span></big></div></td><td><div class="mappingResults-to"><ul><li ng-repeat="target in to"><span class="notation" popover="{{target.prefLabel.en}}" popover-trigger="mouseenter">{{target.notation[0]}}</span></li></ul></div></td></tr></tbody></table></div><div class="mappingFoot"><ul ng-if="from.length"><li><span><b>Type:</b></span> <span>{{type}}</span> <span><b>Date added:</b></span> <span>{{timestamp}}</span></li></ul></div>');
     $templateCache.put('template/skos-occurrences.html', '<div class="skos-occurrences"><div class="skos-occurrences occ-details"><table><tr><td>Used notation:</td><td><span ng-if="search.length" class="notation" popover="{{search[0].prefLabel.en}}" popover-trigger="mouseenter">{{search[0].notation[0]}}</span></td></tr><tr><td><b>Used</b> concept scheme:</td><td><span ng-if="search.length" class="classification">{{search[0].inScheme.notation[0]}}</span></td></tr><tr><td><b>Target</b> concept scheme:</td><td><span ng-if="search.length" class="classification">{{target.notation[0]}}</span></td></tr><tr><td>Used database:</td><td><span ng-if="search.length" class="dbase">{{database.notation[0]}}</span></td></tr><tr ng-if="search.length"><td>Results (total) for <span ng-if="search.length" class="notation" popover="{{search[0].prefLabel.en}}" popover-trigger="mouseenter">{{search[0].notation[0]}}</span>:</td><td>{{total}}</td></tr></table></div><div class="skos-occurrences occ-results">Corresponding notations in <span ng-if="search.length" class="classification">{{target.notation[0]}}</span>:<table ng-if="search.length" class="table table-hover table-striped table-condensed table-bordered"><thead><tr><th>Notation</th><th>total</th><th>% of total results</th></tr></thead><tbody><tr ng-repeat="not in hits"><td><span ng-if="not.length" class="notation" popover="{{not[0].prefLabel.en}}" popover-trigger="mouseenter">{{not[0].notation[0]}}</span></td><td>{{not[1]}}</td><td>{{not[1]/total*100 | number:1}} %</td></tr></tbody></table></div></div>');
     $templateCache.put('template/skos-search.html', '<div class="concept concept-search"></div>');
-    $templateCache.put('template/skos-tree.html', '<div class="skos-tree"><p class="set"><span ng-if="tree.notation" class="notation">{{tree.notation[0]}}</span> <span class="nlabel">{{ tree.prefLabel.en }}</span></p><ul><li ng-repeat="n in tree.narrower"><span skos-tree="n"></span></li></ul></div>');
+    $templateCache.put('template/skos-tree.html', '<div class="skos-tree"><p class="set"><span ng-if="tree.notation" class="notation">{{tree.notation[0]}}</span> <span class="nlabel">{{ tree.prefLabel.de }}</span></p><ul><li ng-repeat="n in tree.narrower"><span skos-tree="n"></span></li></ul></div>');
   }
 ]);

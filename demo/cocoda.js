@@ -118,7 +118,6 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
         getNarrower: new SkosConceptProvider({
             url: "http://rvk.uni-regensburg.de/api/json/children/{uri}",
             transform: function(item) {
-                console.log(item);
                 var concept = {
                     notation: [ item.node.notation ],
                     uri: item.node.notation,
@@ -282,7 +281,6 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
 
             // click
             $scope.clickOriginConcept = function(concept) {
-                console.log(concept);
                 $scope.gndSubjectConcept.updateConcept( $scope.originConcept = concept ).then(
                     function() {
                         $scope.originSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
@@ -337,7 +335,6 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
 
             // click
             $scope.clickTargetConcept = function(concept) {
-                console.log(concept);
                 $scope.gndSubjectConcept.updateConcept( $scope.targetConcept = concept ).then(
                     function() {
                         $scope.targetSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
@@ -362,7 +359,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             });
             //click
             $scope.clickTargetConcept = function(concept) {
-                console.log(concept);
+
                 $scope.rvkSubjectConcept.updateConcept( $scope.targetConcept = concept ).then(
                     function() {
                         $scope.targetSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
@@ -376,8 +373,6 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     };
     // for filling the concept directly
     $scope.reselectConcept = function(role, concept){
-        console.log(role);
-        console.log(concept);
         if(role == 'origin'){
             if(concept.prefLabel){
                 $scope.originConcept = {
