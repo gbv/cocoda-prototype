@@ -23,7 +23,6 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
         }),
         getNarrower: new SkosConceptProvider({
             url: "http://lobid.org/subject?format=full&id={uri}"
-            // TODO: Alle SkosConceptProvider hierher verschieben
         }),
         getConcept: new SkosConceptProvider({
             url: "http://lobid.org/subject?format=full&id={uri}",
@@ -94,7 +93,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             jsonp: 'jsonp'
         }),
         getConcept: new SkosConceptProvider({
-            url: "http://rvk.uni-regensburg.de/api/json/node/{uri}",
+            url: "http://rvk.uni-regensburg.de/api/json/node/{notation}",
             transform: function(item) {
                 var concept = {
                     notation: [ item.node.notation ],
@@ -116,7 +115,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             jsonp: 'jsonp'
         }),
         getNarrower: new SkosConceptProvider({
-            url: "http://rvk.uni-regensburg.de/api/json/children/{uri}",
+            url: "http://rvk.uni-regensburg.de/api/json/children/{notation}",
             transform: function(item) {
                 var concept = {
                     notation: [ item.node.notation ],
@@ -138,7 +137,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             jsonp: 'jsonp'
         }),
         getBroader: new SkosConceptProvider({
-            url: "http://rvk.uni-regensburg.de/api/json/ancestors/{uri}",
+            url: "http://rvk.uni-regensburg.de/api/json/ancestors/{notation}",
             transform: function(item) {
                 
                 var concept = {
@@ -171,7 +170,9 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     knownSchemes.rvk.topConcepts.getConceptList().then(function(response){
         $scope.rvkTop = response;
     });
-
+    $scope.insertMapping = function(mapping){
+        angular.copy(mapping, $scope.currentMapping);
+    };
     
     $scope.activeView = {
         origin: '',

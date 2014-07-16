@@ -1,0 +1,14 @@
+<div ng-repeat="s in mappings">
+    <span ng-repeat="(skey, source) in s">
+        <h3>{{skey}}</h3>
+            <div ng-repeat="f in source">
+                <span ng-repeat="(fkey, from) in f">
+                        <span ng-repeat="t in from">
+                            <span ng-repeat="(tkey, to) in t">
+                                <div skos-mapping-table="to"></div>
+                            </span>
+                        </span>
+                </span>
+            </div>
+    </span>
+</div>

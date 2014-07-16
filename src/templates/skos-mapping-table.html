@@ -1,0 +1,36 @@
+<table class="table table-hover table-striped table-condensed table-bordered">
+    <thead>
+        <tr>
+            <th><span class="classification">{{mapping[0].from[0].inScheme.notation[0]}}</span></th>
+            <th><span class="classification">{{mapping[0].to[0].inScheme.notation[0]}}</span></th>
+            <th><span>Type</span></th>
+            <th><span>Date</span></th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="m in mapping">
+            <td>
+                <ul style="list-style-type:none;padding-left:0px;margin-bottom:0px">
+                    <li ng-repeat="f in m.from">
+                        <span class="notation">{{f.notation[0]}}</span>
+                    </li>
+                </ul>
+            </td>
+            <td>
+                <ul style="list-style-type:none;padding-left:0px;margin-bottom:0px">
+                    <li ng-repeat="t in m.to">
+                        <span class="notation">{{t.notation[0]}}</span>
+                    </li>
+                </ul>
+            </td>
+            <td>{{m.type}}</td>
+            <td>{{m.timestamp}}</td>
+            <td style="text-align:center">
+                    <span class="glyphicon glyphicon-check"></span>
+                    <span class="glyphicon glyphicon-remove"></span>
+
+            </td>
+        </tr>
+    </tbody>
+</table>

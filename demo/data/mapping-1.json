@@ -1,56 +1,129 @@
-[
-    {
-        "from": [{
-            "notation": ["612.112"],
-            "prefLabel":{
-                "en":"ddcSample1",
-                "de":"ddcBeispiel1"
-            },
-            "inScheme": { "notation": ["DDC"] }
-        }],
-        "to": [
-            {
-                "notation": ["ABC 123"],
-                "prefLabel": {
-                    "en":"rvkSample1",
-                    "de":"rvkBeispiel1"
+[{
+    "vzg": 
+        [{
+        "ddc": 
+            [{
+            "rvk": [
+                {
+                    "from": [{
+                        "notation": ["612.112"],
+                        "prefLabel":{
+                            "en":"ddcSample1",
+                            "de":"ddcBeispiel1"
+                        },
+                        "inScheme": { "notation": ["DDC"] }
+                    }],
+                    "to": [
+                        {
+                            "notation": ["ABC 123"],
+                            "prefLabel": {
+                                "en":"rvkSample1",
+                                "de":"rvkBeispiel1"
+                            },
+                            "inScheme": { "notation": ["RVK"] }
+                        },
+                        {
+                            "notation": ["XX 33"],
+                            "prefLabel": {
+                                "en":"rvkSample2",
+                                "de":"rvkBeispiel2"
+                            },
+                            "inScheme": { "notation": ["RVK"] }
+                        }
+                    ],
+                    "type": "strong",
+                    "timestamp": "2014-01-01",
+                    "source": "VZG"
                 },
-                "inScheme": { "notation": ["RVK"] }
-            },
-            {
-                "notation": ["XX 33"],
-                "prefLabel": {
-                    "en":"rvkSample2",
-                    "de":"rvkBeispiel2"
+                {
+                    "from": [{
+                        "notation": ["612.112"],
+                        "prefLabel":{
+                            "en":"ddcSample1",
+                            "de":"ddcBeispiel1"
+                        },
+                        "inScheme": { "notation": ["DDC"] }
+                    }],
+                    "to": [
+                        {
+                            "notation": ["DEF 345"],
+                            "prefLabel": {
+                                "en":"rvkSample2",
+                                "de":"rvkBeispiel2"
+                            },
+                            "inScheme": { "notation": ["RVK"] }
+                        }
+                    ],
+                    "type": "strong",
+                    "timestamp": "2013-01-01",
+                    "source": "VZG"
+                }
+            ]
+        }]
+    }]
+},
+{
+    "tib": 
+        [{
+        "ddc": 
+            [{
+            "rvk": [
+                {
+                    "from": [{
+                        "notation": ["612.112"],
+                        "prefLabel":{
+                            "en":"ddcSample1",
+                            "de":"ddcBeispiel1"
+                        },
+                        "inScheme": { "notation": ["DDC"] }
+                    }],
+                    "to": [
+                        {
+                            "notation": ["ABC 123"],
+                            "prefLabel": {
+                                "en":"rvkSample1",
+                                "de":"rvkBeispiel1"
+                            },
+                            "inScheme": { "notation": ["RVK"] }
+                        },
+                        {
+                            "notation": ["XX 33"],
+                            "prefLabel": {
+                                "en":"rvkSample2",
+                                "de":"rvkBeispiel2"
+                            },
+                            "inScheme": { "notation": ["RVK"] }
+                        }
+                    ],
+                    "type": "strong",
+                    "timestamp": "2014-01-01",
+                    "source": "TIB"
                 },
-                "inScheme": { "notation": ["RVK"] }
-            }
-        ],
-        "type": "strong",
-        "timestamp": "2014-01-01",
-        "source": "VZG"
-    },
-    {
-        "from": [{
-            "notation": ["612.112"],
-            "prefLabel":{
-                "en":"ddcSample1",
-                "de":"ddcBeispiel1"
-            },
-            "inScheme": { "notation": ["DDC"] }
-        }],
-        "to": [
-            {
-                "notation": ["DEF 345"],
-                "prefLabel": {
-                    "en":"rvkSample2",
-                    "de":"rvkBeispiel2"
-                },
-                "inScheme": { "notation": ["RVK"] }
-            }
-        ],
-        "type": "strong",
-        "timestamp": "2013-01-01",
-        "source": "TIB"
-    }
+                {
+                    "from": [{
+                        "notation": ["612.112"],
+                        "prefLabel":{
+                            "en":"ddcSample1",
+                            "de":"ddcBeispiel1"
+                        },
+                        "inScheme": { "notation": ["DDC"] }
+                    }],
+                    "to": [
+                        {
+                            "notation": ["DEF 345"],
+                            "prefLabel": {
+                                "en":"rvkSample2",
+                                "de":"rvkBeispiel2"
+                            },
+                            "inScheme": { "notation": ["RVK"] }
+                        }
+                    ],
+                    "type": "strong",
+                    "timestamp": "2013-01-01",
+                    "source": "TIB"
+                }
+            ]
+        }]
+    }]
+}
 ]

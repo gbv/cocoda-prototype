@@ -18,7 +18,7 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a data-toggle="dropdown" type="button" class="dropdown-toggle">
-                            Concept Scheme: {{activeView.origin}}
+                            Source Scheme: {{activeView.origin}}
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu" role="menu">
@@ -101,17 +101,16 @@
             <div class="col-md-6">
                 <div class="tmpl-border" style="width:100%">
                     <div skos-concept-mapping="currentMapping" select="reselectConcept" mapping-from="activeView.origin" mapping-to="activeView.target"></div>
-                    {{currentMapping}}
                 </div>
                 <div style="margin-top:30px;">
-                    <div style="width:340px;float:left;margin-left:30px;">
-                        <div class="tmpl-border" skos-mapping="mappingSample"></div>
+                    <div style="">
+                        <div class="tmpl-border" use-mapping="insertMapping" skos-mapping-collection="mappingSample"></div>
                         <div class="tmpl-border">
                             <div style="background-color:#EEE;padding-left:5px;margin-bottom:5px;"><b>GND - DDC Cross Concordance</b></div>
-                            <div skos-mapping="mappingSampleGND"></div>
+                            <div skos-mapping-collection="mappingSampleGND"></div>
                         </div>
                     </div>
-                    <div style="width:340px;float:right;margin-right:30px;" class="tmpl-border" skos-occurrences="occurrencesSample"></div>
+                    <div style="margin-right:30px;" class="tmpl-border" skos-occurrences="occurrencesSample"></div>
                 </div>
             </div>
             <div class="col-md-3">
@@ -151,7 +150,8 @@
     <script src="../src/directives/skosConcept.js"></script>
     <script src="../src/directives/skosTree.js"></script>
     <script src="../src/directives/skosSearch.js"></script>
-    <script src="../src/directives/skosMapping.js"></script>
+    <script src="../src/directives/skosMappingCollection.js"></script>
+    <script src="../src/directives/skosMappingTable.js"></script>
     <script src="../src/directives/skosOccurrences.js"></script>
     <script src="../src/directives/skosConceptList.js"></script>
     <script src="../src/directives/skosConceptMapping.js"></script>

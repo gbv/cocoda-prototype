@@ -1,10 +1,10 @@
 /**
  * @ngdoc directive
- * @name ng-skos.directive:skosMapping
+ * @name ng-skos.directive:skosMappingCollection
  * @restrict A
  * @description
  *
- * This directive displays a [mapping](#/guide/mappings) between concepts of
+ * This directive displays [mappings](#/guide/mappings) between concepts of
  * two concept schemes.
  *
  * ## Source code
@@ -33,18 +33,18 @@
 </example>
  */
 angular.module('ngSKOS')
-.directive('skosMapping', function() {
+.directive('skosMappingCollection', function() {
     return {
         restrict: 'A',
         scope: {
-            mapping: '=skosMapping',
+            mappings: '=skosMappingCollection',
+            useMapping: '=useMapping'
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
-                   attrs.templateUrl : 'template/skos-mapping.html';
+                   attrs.templateUrl : 'template/skos-mapping-collection.html';
         },
         link: function(scope, element, attr, controller, transclude) {
-            
         }
             // ...
     };
