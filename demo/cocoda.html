@@ -75,11 +75,12 @@
                     />
                     <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                 </div>
+                <div class="navbar-brand" style="float:right;">Login: {{ownDB.name}}</div>
             </div>
         </nav>
     </header>
     <div class="main">
-        <div class="row">
+        <div class="row" style="margin-left:0px;margin-right:0px;">
             <div class="col-md-3">
                 <div style="margin-left:15px;">
                     <div ng-if="activeView.origin.length && originConcept">
@@ -102,23 +103,28 @@
                 <div class="tmpl-border" style="width:100%">
                     <div skos-concept-mapping="currentMapping" select="reselectConcept" mapping-from="activeView.origin" mapping-to="activeView.target"></div>
                 </div>
-                <div style="margin-top:30px;">
-                    <div style="">
-                        <div class="tmpl-border" use-mapping="insertMapping" skos-mapping-collection="mappingSample"></div>
-                        <div class="tmpl-border">
+                <div style="margin-top:30px;width:100%">
+                    <div style="position:relative;width:50%;float:left;">
+                        <div class="tmpl-border" style="overflow:auto">
+                            <div style="background-color:#EEE;padding-left:5px;margin-bottom:5px;"><b>Existing mappings</b></div>
+                            <div use-mapping="insertMapping" skos-mapping-collection="mappingSample"></div>
+                        </div>
+                        <div class="tmpl-border" style="overflow:auto">
                             <div style="background-color:#EEE;padding-left:5px;margin-bottom:5px;"><b>GND - DDC Cross Concordance</b></div>
                             <div skos-mapping-collection="mappingSampleGND"></div>
                         </div>
                     </div>
-                    <div style="margin-right:30px;" class="tmpl-border" skos-occurrences="occurrencesSample"></div>
+                    <div style="float:right;" class="tmpl-border">
+                        <div style="overflow:auto"  skos-occurrences="occurrencesSample"></div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div style="width:400px;margin-right:15px;">
+                <div style="width:400px;">
                     <div ng-if="activeView.origin.length && targetConcept" style="min-width:350px">
                         <div class="tmpl-border" skos-concept="targetConcept" skos-click="clickTargetConcept" language="language"></div>
                         <div style="margin-bottom:5px;">
-                            <button ng-click="addTo(activeView.target, targetConcept)">Add target term</button>
+                            <button ng-disabled="checkDuplicate()" ng-click="addTo(activeView.target, targetConcept)">Add target term</button>
                             <button ng-click="replaceTo(activeView.target, targetConcept)">Replace current terms</button>
                         </div>
                     </div>

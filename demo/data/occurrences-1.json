@@ -1,56 +1,56 @@
 {
-	"search": [ 
-	{ 
-		"notation": ["612.112"],
-	  "prefLabel":{
-			"en":"ddcSample1",
-			"de":"ddcBeispiel1"
-			},
-		"inScheme": { "notation": ["DDC"] }
-	} ],
-	"database": { "notation": ["GVK"] },
-  "target": { "notation": ["RVK"] }, 
-  "total": 42,
-  "hits": [
-						[
-							{
-								"notation": ["ABC 123"],
-								"prefLabel":{
-									"en":"rvkSample1",
-									"de":"rvkBeispiel1"
-								}
-							}, 
-							22
-						],
-						[
-							{
-								"notation": ["QR 13"],
-								"prefLabel":{
-									"en":"rvkSample2",
-									"de":"rvkBeispiel2"
-								}
-							},
-							11
-						],
-						[
-							{
-								"notation": ["QR 1355"],
-								"prefLabel":{
-									"en":"rvkSample3",
-									"de":"rvkBeispiel3"
-								}
-							},
-							8
-						],
-						[
-							{
-								"notation": ["XX 33"],
-								"prefLabel":{
-									"en":"rvkSample4",
-									"de":"rvkBeispiel4"
-								}
-							},
-							1
-						]
-	]
+    "search": [ 
+    {
+        "notation": ["612.112"],
+        "prefLabel":{
+            "en":"ddcSample1",
+            "de":"ddcBeispiel1"
+            },
+        "inScheme": { "notation": ["DDC"] }
+    }],
+    "database": { "notation": ["GVK"] },
+    "target": { "notation": ["RVK"] }, 
+    "total": 42,
+    "hits": [
+        [
+            {
+                "notation": ["ABC 123"],
+                "prefLabel":{
+                    "en":"rvkSample1",
+                    "de":"rvkBeispiel1"
+                }
+            },
+            22
+        ],
+        [
+            {
+                "notation": ["QR 13"],
+                "prefLabel":{
+                    "en":"rvkSample2",
+                    "de":"rvkBeispiel2"
+                }
+            },
+            11
+        ],
+        [
+            {
+                "notation": ["QR 1355"],
+                "prefLabel":{
+                    "en":"rvkSample3",
+                    "de":"rvkBeispiel3"
+                }
+            },
+            8
+        ],
+        [
+            {
+                "notation": ["XX 33"],
+                "prefLabel":{
+                    "en":"rvkSample4",
+                    "de":"rvkBeispiel4"
+                }
+            },
+            1
+        ]
+    ]
 }

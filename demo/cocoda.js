@@ -170,13 +170,20 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     knownSchemes.rvk.topConcepts.getConceptList().then(function(response){
         $scope.rvkTop = response;
     });
+
     $scope.insertMapping = function(mapping){
-        angular.copy(mapping, $scope.currentMapping);
+        if(mapping.from[0].inScheme.notation[0] == $scope.activeView.origin && mapping.to[0].inScheme.notation[0] == $scope.activeView.target){
+            $scope.currentMapping = angular.copy(mapping);
+            $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
+        }
     };
+    $scope.ownDB = {
+        name: "VZG"
+    }
     
     $scope.activeView = {
-        origin: '',
-        target: ''
+        origin: 'GND',
+        target: 'RVK'
     };
     $scope.setOrigin = function(scheme) {
         if(scheme == ''){
@@ -230,7 +237,10 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     */
     $scope.currentMapping = {
         from: [],
-        to: []
+        to: [],
+        type: '',
+        source: '',
+        timestamp: ''
     };
     $scope.saveFrom = function(origin, item){
         $scope.currentMapping.from[0] = {
@@ -239,6 +249,16 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             notation: [ item.notation[0] ? item.notation[0] : originConcept.uri ],
             uri: item.uri
         };
+    };
+    $scope.checkDuplicate = function(){
+        var res = false;
+        angular.forEach($scope.currentMapping.to, function(value,key) {
+            var map = value;
+            if($scope.targetConcept.uri == map.uri){
+                res = true;
+            }
+        });
+        return res;
     };
     $scope.addTo = function(target, item){
         $scope.currentMapping.to.push({

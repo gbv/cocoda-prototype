@@ -16,22 +16,13 @@ angular.module('ngSKOS')
         },
         link: function link(scope, element, attr) {
             scope.selectFrom = function(concept) {
-                scope.select("origin",concept); 
+                scope.select("origin",concept);
             };
             scope.selectTo = function(concept) {
-                scope.select("target",concept); 
+                scope.select("target",concept);
             };
-            scope.clear = function(mapping){
-                scope.mapping = {
-                    from: [],
-                    to: []
-                };
-            };
-            scope.setType = function(type){
-                scope.mapping.type = type;
-            };
-            scope.save = function() {
-                scope.mapping.timestamp = new Date();
+            scope.saveMapping = function() {
+                scope.mapping.timestamp = new Date().toISOString().slice(0, 10);
                 // TODO: Use own database to specify 'source'
                 scope.mapping.source = function() {};
                 // TODO: Save current mapping to 'saveLocation'

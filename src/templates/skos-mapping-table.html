@@ -1,4 +1,4 @@
-<table class="table table-hover table-striped table-condensed table-bordered">
+<table style="white-space:nowrap;" class="table table-hover table-striped table-condensed table-bordered">
     <thead>
         <tr>
             <th><span class="classification">{{mapping[0].from[0].inScheme.notation[0]}}</span></th>
@@ -13,23 +13,21 @@
             <td>
                 <ul style="list-style-type:none;padding-left:0px;margin-bottom:0px">
                     <li ng-repeat="f in m.from">
-                        <span class="notation">{{f.notation[0]}}</span>
+                        <span class="notation" popover="{{f.prefLabel.de}}" popover-trigger="mouseenter">{{f.notation[0]}}</span>
                     </li>
                 </ul>
             </td>
             <td>
                 <ul style="list-style-type:none;padding-left:0px;margin-bottom:0px">
                     <li ng-repeat="t in m.to">
-                        <span class="notation">{{t.notation[0]}}</span>
+                        <span class="notation" popover="{{t.prefLabel.de}}" popover-trigger="mouseenter">{{t.notation[0]}}</span>
                     </li>
                 </ul>
             </td>
             <td>{{m.type}}</td>
             <td>{{m.timestamp}}</td>
             <td style="text-align:center">
-                    <span class="glyphicon glyphicon-check"></span>
-                    <span class="glyphicon glyphicon-remove"></span>
-
+                    <a ng-if="select" style="cursor:pointer" ng-click="select(m)"><span class="glyphicon glyphicon-check"></span></a>
             </td>
         </tr>
     </tbody>

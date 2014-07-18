@@ -1,61 +1,64 @@
-[{
-    "gnd-ddc":
-        [{
-        "gnd":
-            [{
-            "ddc":
-                [
+[
+    {
+        "gnd-ddc": [
+            {
+                "gnd": [
                     {
-                        "from": [
+                        "ddc": [
                             {
-                                "notation": ["9876543"],
-                                "prefLabel": {
-                                    "en":"gndSample1",
-                                    "de":"gndBeispiel1"
-                                },
-                                "inScheme": { "notation": ["GND"] }
-                            }
-                        ],
-                        "to": [
+                                "from": [
+                                    {
+                                        "notation": ["9876543"],
+                                        "prefLabel": {
+                                            "en":"gndSample1",
+                                            "de":"gndBeispiel1"
+                                        },
+                                        "inScheme": { "notation": ["GND"] }
+                                    }
+                                ],
+                                "to": [
+                                    {
+                                        "notation": ["612.112"],
+                                        "prefLabel":{
+                                            "en":"ddcSample1",
+                                            "de":"ddcBeispiel1"
+                                        },
+                                        "inScheme": { "notation": ["DDC"] }
+                                    }
+                                ],
+                                "type": "strong",
+                                "timestamp": "2014-01-01",
+                                "source": "DDC-GND"
+                            },
                             {
-                                "notation": ["612.112"],
-                                "prefLabel":{
-                                    "en":"ddcSample1",
-                                    "de":"ddcBeispiel1"
-                                },
-                                "inScheme": { "notation": ["DDC"] }
+                                "from": [
+                                    {
+                                        "notation": ["1234567"],
+                                        "prefLabel": {
+                                            "en":"gndSample2",
+                                            "de":"gndBeispiel2"
+                                        },
+                                        "inScheme": { "notation": ["GND"] }
+                                    }
+                                ],
+                                "to": [
+                                    {
+                                        "notation": ["612.112"],
+                                        "prefLabel":{
+                                            "en":"ddcSample1",
+                                            "de":"ddcBeispiel1"
+                                        },
+                                        "inScheme": { "notation": ["DDC"] }
+                                    }
+                                ],
+                                "type": "medium",
+                                "timestamp": "2014-01-01",
+                                "source": "DDC-GND"
                             }
-                        ],
-                        "type": "strong",
-                        "timestamp": "2014-01-01",
-                        "source": "DDC-GND"
-                    },
-                    {
-                        "from": [
-                            {
-                                "notation": ["1234567"],
-                                "prefLabel": {
-                                    "en":"gndSample2",
-                                    "de":"gndBeispiel2"
-                                },
-                                "inScheme": { "notation": ["GND"] }
-                            }
-                        ],
-                        "to": [
-                            {
-                                "notation": ["612.112"],
-                                "prefLabel":{
-                                    "en":"ddcSample1",
-                                    "de":"ddcBeispiel1"
-                                },
-                                "inScheme": { "notation": ["DDC"] }
-                            }
-                        ],
-                        "type": "medium",
-                        "timestamp": "2014-01-01",
-                        "source": "DDC-GND"
+                        ]
                     }
                 ]
-            }]
-        }]
-}]
+            }
+        ]
+    }
+]
