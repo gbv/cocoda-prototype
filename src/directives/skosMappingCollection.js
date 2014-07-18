@@ -4,7 +4,7 @@
  * @restrict A
  * @description
  *
- * This directive displays mapping tables between concepts of
+ * This directive displays mapping tables between [concepts](#/guide/concepts) of
  * two concept schemes.
  *
  * ## Source code

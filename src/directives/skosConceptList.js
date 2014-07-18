@@ -4,7 +4,7 @@
  * @restrict A
  * @description
  *
- * This directive displays a list of concepts with options to manipulate those lists.
+ * This directive displays a list of [concepts](#/guide/concepts) with options to manipulate those lists.
  *
  * ## Source code
  *

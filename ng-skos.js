@@ -123,7 +123,7 @@ angular.module('ngSKOS').directive('skosConcept', function () {
  * @restrict A
  * @description
  *
- * This directive displays a list of concepts with options to manipulate those lists.
+ * This directive displays a list of [concepts](#/guide/concepts) with options to manipulate those lists.
  *
  * ## Source code
  *
@@ -160,7 +160,7 @@ angular.module('ngSKOS').directive('skosConceptList', function () {
  * @restrict A
  * @description
  *
- * This directive displays two lists of concepts for the purpose of mapping from one concept scheme to another. In addition, it provides tools to customize and export those mappings.
+ * This directive displays two lists of [concepts](#/guide/concepts) for the purpose of mapping from one concept scheme to another. In addition, it provides tools to customize and export those [mappings](#/guide/mappings).
  *
  * ## Source code
  *
@@ -293,7 +293,7 @@ angular.module('ngSKOS').directive('skosLabel', function () {
  * @restrict A
  * @description
  *
- * This directive displays mapping tables between concepts of
+ * This directive displays mapping tables between [concepts](#/guide/concepts) of
  * two concept schemes.
  *
  * ## Source code
