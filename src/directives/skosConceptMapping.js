@@ -1,3 +1,25 @@
+/**
+ * @ngdoc directive
+ * @name ng-skos.directive:skosConceptMapping
+ * @restrict A
+ * @description
+ *
+ * This directive displays two lists of concepts for the purpose of mapping from one concept scheme to another. In addition, it provides tools to customize and export those mappings.
+ *
+ * ## Source code
+ *
+ * The most recent [source 
+ * code](https://github.com/gbv/ng-skos/blob/master/src/directives/skosConceptMapping.js)
+ * of this directive is available at GitHub.
+ *
+ * @param {string} mapping Mapping to display
+ * @param {string} from Name of the current source scheme
+ * @param {string} to Name of the current target scheme
+ * @param {string} select function to export a single concept scheme
+ * @param {string} saveLocation function to save the current mapping
+ * @param {string} templateUrl URL of a template to display the mapping
+ *
+*/
 angular.module('ngSKOS')
 .directive('skosConceptMapping', function(){
     return{
