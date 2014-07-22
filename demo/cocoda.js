@@ -336,10 +336,10 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
 
                 // update
                 $scope.rvkSubjectConcept.updateConcept($scope.originConcept).then(function() {
+                    $scope.tempConcept = angular.copy($scope.originConcept);
                     if($scope.originConcept.hasChildren == true){
                         $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept).then(function(){
                             $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
-                                console.log($scope.tempConcept.broader);
                                 $scope.originConcept.broader = $scope.tempConcept.broader;
                             })
                         });
@@ -349,7 +349,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                 });
             //click
             $scope.clickOriginConcept = function(concept) {
-                console.log(concept);
+                
                 $scope.rvkSubjectConcept.updateConcept( $scope.originConcept = concept ).then(
                     function() {
                         $scope.tempConcept = angular.copy($scope.originConcept);
@@ -405,10 +405,11 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             };
             // update
             $scope.rvkSubjectConcept.updateConcept($scope.targetConcept).then(function() {
+                $scope.tempConcept = angular.copy($scope.targetConcept);
                 if($scope.targetConcept.hasChildren == true){
                     $scope.rvkNarrowerConcepts.updateConcept($scope.targetConcept).then(function(){
                         $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
-                            console.log($scope.tempConcept.broader);
+
                             $scope.targetConcept.broader = $scope.tempConcept.broader;
                         })
                     });
