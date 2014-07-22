@@ -701,8 +701,9 @@ angular.module('ngSKOS').factory('SkosConceptProvider', [
           if (concept.notation) {
             var notation = concept.notation[0];
             url = url.replace('{notation}', decodeURIComponent(notation));
+          } else {
+            url = url.replace('{uri}', decodeURIComponent(concept.uri));
           }
-          url = url.replace('{uri}', decodeURIComponent(concept.uri));
         }
       } else {
         url = concept.uri;

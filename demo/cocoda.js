@@ -100,7 +100,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
                     uri: item.node.notation,
                     prefLabel: { de: item.node.benennung },
                     altLabel: "" ,
-                    c: 0
+                    hasChildren: false
                 }
                 if(angular.isArray(item.node.register)){
                     concept.altLabel = item.node.register;
@@ -108,7 +108,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
                     concept.altLabel = [item.node.register];
                 }
                 if(item.node.has_children == 'yes'){
-                    concept.c = 1;
+                    concept.hasChildren = true;
                 }
                 return concept;
             },
@@ -122,6 +122,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
                     uri: item.node.notation,
                     prefLabel: { de: item.node.benennung },
                     narrower: [],
+                    broader: [],
                 };
                 if(!item.node.nochildren){
                     if(angular.isArray(item.node.children.node)){
@@ -139,14 +140,14 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
         getBroader: new SkosConceptProvider({
             url: "http://rvk.uni-regensburg.de/api/json/ancestors/{notation}",
             transform: function(item) {
-                
-                var concept = {
+                var concept = { 
                     notation: [ item.node.notation ],
+                    uri: item.node.notation,
                     prefLabel: { de: item.node.benennung },
                     broader: [],
                 };
-                if(item.ancestor){
-                    concept.broader = [{ uri: item.node.ancestor.node.notation, prefLabel:{de: item.node.ancestor.node.benennung}, notation: item.node.ancestor.node.notation }];
+                if(item.node.ancestor){
+                    concept.broader.push({ notation: [ item.node.ancestor.node.notation ], uri: item.node.ancestor.node.notation, prefLabel: { de: item.node.ancestor.node.benennung } })
                 }
                 return concept;
             },
@@ -188,6 +189,8 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     $scope.setOrigin = function(scheme) {
         if(scheme == ''){
             $scope.activeView.origin = scheme;
+            $scope.activeView.target = scheme;
+            $scope.deleteAll();
         }else if(scheme != $scope.activeView.origin && scheme != ''){
             $scope.originConcept = "";
             $scope.originSubject = "";
@@ -202,6 +205,8 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     $scope.setTarget = function(scheme) {
         if(scheme == '' && scheme != $scope.activeView.origin){
             $scope.activeView.target = scheme;
+            $scope.deleteAll();
+            
         }else if(scheme != $scope.activeView.target && scheme != $scope.activeView.origin){
             $scope.targetConcept = "";
             $scope.targetSubject = "";
@@ -281,10 +286,20 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         $scope.currentMapping.to = [];
         $scope.currentMapping.from = [];
     }
+    $scope.tempConcept = {
+            notation: [] ,
+            uri: "",
+            prefLabel: {
+                de:""
+            },
+            broader:"",
+        };
     // Concept via lobid.org
     // when item is selected
 
     $scope.selectOriginSubject = function(item) {
+        
+        
 
         // populate with basic data
         if($scope.activeView.origin == 'GND'){
@@ -311,26 +326,42 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             };
         }else if($scope.activeView.origin == 'RVK'){
             
-            $scope.originConcept = {
-                notation: [ item.uri ] ,
-                uri: item.uri ,
-                prefLabel: {
-                    de: item.label
-                }
-            };
-            // update
-            $scope.rvkSubjectConcept.updateConcept($scope.originConcept).then(function() {
-                if($scope.originConcept.c == 1){
-                    $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept);
-                }
-            });
+                $scope.originConcept = {
+                    notation: [ item.uri ] ,
+                    uri: item.uri ,
+                    prefLabel: {
+                        de: item.label
+                    },
+                };
+
+                // update
+                $scope.rvkSubjectConcept.updateConcept($scope.originConcept).then(function() {
+                    if($scope.originConcept.hasChildren == true){
+                        $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept).then(function(){
+                            $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
+                                console.log($scope.tempConcept.broader);
+                                $scope.originConcept.broader = $scope.tempConcept.broader;
+                            })
+                        });
+                    }else{
+                        $scope.rvkBroaderConcepts.updateConcept($scope.originConcept);
+                    }
+                });
             //click
             $scope.clickOriginConcept = function(concept) {
+                console.log(concept);
                 $scope.rvkSubjectConcept.updateConcept( $scope.originConcept = concept ).then(
                     function() {
+                        $scope.tempConcept = angular.copy($scope.originConcept);
                         $scope.originSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
-                        if($scope.originConcept.c == 1){
-                            $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept)
+                        if($scope.originConcept.hasChildren == true){
+                            $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept).then(function(){
+                                $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
+                                    $scope.originConcept.broader = $scope.tempConcept.broader;
+                                })
+                            });
+                        }else{
+                            $scope.rvkBroaderConcepts.updateConcept($scope.originConcept);
                         }
                     }
                 );
@@ -374,8 +405,15 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             };
             // update
             $scope.rvkSubjectConcept.updateConcept($scope.targetConcept).then(function() {
-                if($scope.targetConcept.c == 1){
-                    $scope.rvkNarrowerConcepts.updateConcept($scope.targetConcept);
+                if($scope.targetConcept.hasChildren == true){
+                    $scope.rvkNarrowerConcepts.updateConcept($scope.targetConcept).then(function(){
+                        $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
+                            console.log($scope.tempConcept.broader);
+                            $scope.targetConcept.broader = $scope.tempConcept.broader;
+                        })
+                    });
+                }else{
+                    $scope.rvkBroaderConcepts.updateConcept($scope.originConcept);
                 }
             });
             //click
@@ -383,9 +421,16 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
 
                 $scope.rvkSubjectConcept.updateConcept( $scope.targetConcept = concept ).then(
                     function() {
+                        $scope.tempConcept = angular.copy($scope.targetConcept);
                         $scope.targetSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
-                        if($scope.targetConcept.c == 1){
-                            $scope.rvkNarrowerConcepts.updateConcept($scope.targetConcept)
+                        if($scope.targetConcept.hasChildren == true){
+                            $scope.rvkNarrowerConcepts.updateConcept($scope.targetConcept).then(function(){
+                                $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
+                                    $scope.targetConcept.broader = $scope.tempConcept.broader;
+                                })
+                            });
+                        }else{
+                            $scope.rvkBroaderConcepts.updateConcept($scope.targetConcept);
                         }
                     }
                 );
