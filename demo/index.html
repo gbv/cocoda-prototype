@@ -162,17 +162,27 @@
         </section>
         <section id="mapping" class="fixnav">
             <div class="page-header">
-                <h2>skos-mapping</h2>
+                <h2>skos-mapping-collection</h2>
             </div>
             <div class="row">
                 <div class="col-md-5">
-                    <div class="tmpl-border" skos-mapping="mappingSample">
+                    <div class="tmpl-border" skos-mapping-collection="mappingSample" use-mapping="insertMapping">
                     </div>
                 </div>
                 <div class="col-md-1">
                 </div>
                 <div class="col-md-6">
-                skosMapping is a directive for displaying existing mappings between the notations of different concept schemes.
+                <b>skosMappingCollection</b> is a directive for displaying a collection of existing mappings between the notations of different concept schemes. In this example, the used template sorts the mappings into lists and passes those on to <b>skosMappingTable</b>, which displays each table structure.
+                <br>
+                The directive also supports an additional parameter "use-mapping", with which a function controlling the selection of a mapping in the "Actions" column can be handled.
+                
+                <div style="margin-top:10px;">
+                    <div><b>Current mapping:</b></div>
+                    <div ng-if="currentMapping.from.length || currentMapping.to.length" class="tmpl-border">{{currentMapping}}</div>
+                    <div ng-if="!currentMapping.from.length && !currentMapping.to.length">
+                        <span>Please select a mapping</span>
+                    </div>
+                </div>
                 </div>
             </div>
             <div class="row">
@@ -196,7 +206,7 @@
                 <div class="col-md-1">
                 </div>
                 <div class="col-md-6">
-                    skosOccurrences is a directive for displaying results of a search in catalogues for specific notations of one concept scheme and the corresponding notations in another scheme.
+                    <b>skosOccurrences</b> is a directive for displaying results of a search in catalogues for specific notations of one concept scheme and the corresponding notations in another scheme.
                 </div>
             </div>
             <div class="row">
@@ -234,7 +244,8 @@
     <script src="../src/directives/skosConcept.js"></script>
     <script src="../src/directives/skosTree.js"></script>
     <script src="../src/directives/skosSearch.js"></script>
-    <script src="../src/directives/skosMapping.js"></script>
+    <script src="../src/directives/skosMappingCollection.js"></script>
+    <script src="../src/directives/skosMappingTable.js"></script>
     <script src="../src/directives/skosOccurrences.js"></script>
 </body>
 </html>

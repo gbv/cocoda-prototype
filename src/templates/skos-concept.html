@@ -1,5 +1,5 @@
 <div class="skos-concept">
-    <div ng-if="uri" class="top top-alt">
+    <div ng-if="uri || notation" class="top top-alt">
         <span ng-if="notation" class="notation">{{notation[0]}}</span>
         <b><span skos-label="concept" lang="{{language}}"></span></b><a  ng-if="notation" class="uri" href="{{uri}}" target="_blank">
         <span class="glyphicon glyphicon-globe"></span></a>

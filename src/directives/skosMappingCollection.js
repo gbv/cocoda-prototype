@@ -80,14 +80,29 @@ angular.module('ngSKOS')
         restrict: 'A',
         scope: {
             mappings: '=skosMappingCollection',
-            useMapping: '=useMapping'
+            useMapping: '=useMapping',
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
                    attrs.templateUrl : 'template/skos-mapping-collection.html';
         },
         link: function(scope, element, attr, controller, transclude) {
+            scope.$watch('hidden');
+        },
+        controller: function($scope){
+            $scope.hidden = {};
+            angular.forEach($scope.mappings, function(key,value){
+                angular.forEach(key, function(key,value){
+                    
+                    $scope.hidden[value] = false;
+                });
+            });
+            $scope.hide = function(key){
+                $scope.hidden[key] = true;
+            }
+            $scope.show = function(key){
+                $scope.hidden[key] = false;
+            }
         }
-            // ...
     };
 });

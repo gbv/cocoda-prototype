@@ -15,6 +15,14 @@ function myController($scope, SkosConceptProvider) {
 
     $scope.sampleConcept = { notation: ['UN'] };
     rvkProvider.updateConcept($scope.sampleConcept);
+    
+    $scope.currentMapping = {
+        from: [],
+        to: [],
+    }
+    $scope.insertMapping = function(mapping){
+        $scope.currentMapping = mapping;
+    }
 }
 
 cocodaDemo.run(function($rootScope,$http) {

@@ -1,14 +1,24 @@
 <div ng-repeat="s in mappings">
-    <span ng-repeat="(skey, source) in s">
-        <span style="font-variant:small-caps;"><big><b>{{skey}}</b></big></span>
-            <div ng-repeat="f in source">
-                <span ng-repeat="(fkey, from) in f">
-                        <span ng-repeat="t in from">
-                            <span ng-repeat="(tkey, to) in t">
-                                <div skos-mapping-table="to" select-mapping="useMapping"></div>
-                            </span>
+    <div ng-repeat="(skey, source) in s">
+        <div style="margin-bottom:6px;">
+            <span>
+                <big><b>{{skey | uppercase}}</b></big>
+            </span>
+            <span style="margin-left:10px;">
+                <button style="line-height:90%" ng-if="hidden[skey] == false" ng-click="hide(skey)">Hide</button>
+                <button style="line-height:90%" ng-if="hidden[skey] == true" ng-click="show(skey)">Show</button>
+            </span>
+        </div>
+        <div ng-if="hidden[skey] == false" ng-repeat="f in source">
+            <span ng-repeat="(fkey, from) in f">
+                    <span ng-repeat="t in from">
+                        <span ng-repeat="(tkey, to) in t">
+                            <div skos-mapping-table="to" select-mapping="useMapping"></div>
                         </span>
-                </span>
-            </div>
-    </span>
+                    </span>
+            </span>
+        </div>
+    </div>
+    <div ng-if="$index < mappings.length-1" style="margin-bottom:6px;border-bottom:1px solid #CCC">
+    </div>
 </div>

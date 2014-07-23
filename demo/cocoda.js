@@ -247,6 +247,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         source: '',
         timestamp: ''
     };
+    // Choose origin mapping concept
     $scope.saveFrom = function(origin, item){
         $scope.currentMapping.from[0] = {
             prefLabel: { de: item.prefLabel.de },
@@ -255,6 +256,16 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             uri: item.uri
         };
     };
+    // Add target mapping concept to list
+    $scope.addTo = function(target, item){
+        $scope.currentMapping.to.push({
+            prefLabel: { de: item.prefLabel.de },
+            inScheme: { notation: [ target ] },
+            notation: [ item.notation[0] ],
+            uri: item.uri
+        });
+    };
+    // check, if the chosen mapping concept is already in the list
     $scope.checkDuplicate = function(){
         var res = false;
         angular.forEach($scope.currentMapping.to, function(value,key) {
@@ -265,14 +276,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         });
         return res;
     };
-    $scope.addTo = function(target, item){
-        $scope.currentMapping.to.push({
-            prefLabel: { de: item.prefLabel.de },
-            inScheme: { notation: [ target ] },
-            notation: [ item.notation[0] ],
-            uri: item.uri
-        });
-    };
+    // replace all target mappings with selected one
     $scope.replaceTo = function(target, item){
         $scope.currentMapping.to = [];
         $scope.currentMapping.to.push({
@@ -281,11 +285,13 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             notation: [ item.notation[0] ],
             uri: item.uri
         });
-    }
+    };
+    // clear all origin and target mappings
     $scope.deleteAll = function(){
         $scope.currentMapping.to = [];
         $scope.currentMapping.from = [];
-    }
+    };
+    // used for buffering broader terms in RVK
     $scope.tempConcept = {
             notation: [] ,
             uri: "",
@@ -294,16 +300,14 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             },
             broader:"",
         };
-    // Concept via lobid.org
-    // when item is selected
+    
+    // when item on the origin side is selected
 
     $scope.selectOriginSubject = function(item) {
         
-        
-
-        // populate with basic data
         if($scope.activeView.origin == 'GND'){
-
+        
+            // populate with basic data
             $scope.originConcept = {
                 uri: item.uri,
                 prefLabel: {
@@ -336,6 +340,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
 
                 // update
                 $scope.rvkSubjectConcept.updateConcept($scope.originConcept).then(function() {
+                    // fill buffer concept, so originConcept won't be overwritten
                     $scope.tempConcept = angular.copy($scope.originConcept);
                     if($scope.originConcept.hasChildren == true){
                         $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept).then(function(){
@@ -352,7 +357,9 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                 
                 $scope.rvkSubjectConcept.updateConcept( $scope.originConcept = concept ).then(
                     function() {
+                        // fill buffer concept, so originConcept won't be overwritten
                         $scope.tempConcept = angular.copy($scope.originConcept);
+                        
                         $scope.originSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
                         if($scope.originConcept.hasChildren == true){
                             $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept).then(function(){
@@ -369,6 +376,9 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
 
         }
     };
+    
+    // when item on the target side is selected
+    
     $scope.selectTargetSubject = function(item) {
 
         // populate with basic data
