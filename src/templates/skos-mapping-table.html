@@ -11,14 +11,14 @@
     <tbody>
         <tr ng-repeat="m in mapping">
             <td>
-                <ul style="list-style-type:none;padding-left:0px;margin-bottom:0px">
+                <ul class="simple-list" style="margin-bottom:0px">
                     <li ng-repeat="f in m.from">
                         <span class="notation" popover="{{f.prefLabel.de}}" popover-trigger="mouseenter">{{f.notation[0]}}</span>
                     </li>
                 </ul>
             </td>
             <td>
-                <ul style="list-style-type:none;padding-left:0px;margin-bottom:0px">
+                <ul class="simple-list" style="margin-bottom:0px">
                     <li ng-repeat="t in m.to">
                         <span class="notation" popover="{{t.prefLabel.de}}" popover-trigger="mouseenter">{{t.notation[0]}}</span>
                     </li>

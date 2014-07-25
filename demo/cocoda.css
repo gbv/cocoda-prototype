@@ -7,6 +7,10 @@
 }
 /* SKOS-label */
 /* show language attribute after element */
+.simple-list{
+    list-style-type:none;
+    padding:0px;
+}
 
 .show-lang:after {
     content: "@" attr(lang);
@@ -18,4 +22,25 @@
 }
 .affix,.navbar-fixed-top{
 -webkit-transform: scale3d(1,1,1);
+}
+.search-top{
+    margin: 0px 0px 10px 0px;
+}
+.search-top:after{
+    clear:both;
+}
+.search-top-button{
+    float:left;
+    margin:10px 0px 10px 10px;
+    padding:5px 3px;
+    width:80px;
+}
+.search-top-input{
+    width:250px;
+    margin:10px 0px;
+}
+.mapping-header{
+    background-color:#EEE;
+    padding:0px 5px;
+    margin-bottom:5px;
 }

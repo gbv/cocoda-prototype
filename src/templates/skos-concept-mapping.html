@@ -10,7 +10,7 @@
     </div>
     <div ng-if="from.length || mapping.to[0].notation.length" style="width:100%;">
         <table style="width:95%;margin:0 auto;align:center;">
-            <thead style="text-align:center;list-style-type:none;padding-left:0px;">
+            <thead class="simple-list" style="text-align:center;">
                 <tr>
                     <th style="width:400px;"><span ng-if="from.length" class="classification">{{from}}</span></th><th style="width:24px"></th><th style="width:400px;text-align:right"><span ng-if="to.length" class="classification">{{to}}</span></th>
                 </tr>
@@ -19,7 +19,8 @@
                 <tr>
                     <td>
                         <div class="tmpl-border mappingResults-from">
-                            <div ng-if="mapping.from.length" skos-concept-list="mapping.from" 
+                            <div ng-if="mapping.from.length" 
+                                skos-concept-list="mapping.from" 
                                 on-select="selectFrom">
                             </div>
                             <div ng-if="!mapping.from.length">
@@ -34,7 +35,8 @@
                     </td>
                     <td>
                         <div class="tmpl-border mappingResults-to" style="float:right;">
-                            <div ng-if="mapping.to.length" skos-concept-list="mapping.to" 
+                            <div ng-if="mapping.to.length"
+                                skos-concept-list="mapping.to" 
                                 on-select="selectTo" >
                             </div>
                             <div ng-if="!mapping.to.length">
@@ -48,15 +50,15 @@
     </div>
     <div ng-if="from.length && to.length">
         <div style="width:95%;margin:0 auto;">
-            <div style="border:1px solid #eee;float:left;margin-bottom:5px;padding:4px;">
+            <div style="border:1px solid #EEE;float:left;margin-bottom:5px;padding:4px;">
                 <div>
                     <span style="margin-left:12px;">Choose mapping strength:</span>
                 </div>
                 <form style="margin-right:10px;display:inline">
-                    <input style="margin-right:12px;margin-left:12px;" type="radio" name="strengthtype" ng-model="mapping.type" value="">none</input>
-                    <input style="margin-right:12px;margin-left:12px;" type="radio" name="strengthtype" ng-model="mapping.type" value="strong">strong</input>
-                    <input style="margin-right:12px;margin-left:12px;" type="radio" name="strengthtype" ng-model="mapping.type" value="medium">medium</input>
-                    <input style="margin-right:12px;margin-left:12px;" type="radio" name="strengthtype" ng-model="mapping.type" value="weak">weak</input>
+                    <input style="margin: 0px 12px;" type="radio" name="strengthtype" ng-model="mapping.type" value="">none</input>
+                    <input style="margin: 0px 12px;" type="radio" name="strengthtype" ng-model="mapping.type" value="strong">strong</input>
+                    <input style="margin: 0px 12px;" type="radio" name="strengthtype" ng-model="mapping.type" value="medium">medium</input>
+                    <input style="margin: 0px 12px;" type="radio" name="strengthtype" ng-model="mapping.type" value="weak">weak</input>
                 </form>
             </div>
             <div style="float:right;margin-top:10px;">

@@ -92,6 +92,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             },
             jsonp: 'jsonp'
         }),
+        // get main concept
         getConcept: new SkosConceptProvider({
             url: "http://rvk.uni-regensburg.de/api/json/node/{notation}",
             transform: function(item) {
@@ -114,9 +115,11 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             },
             jsonp: 'jsonp'
         }),
+        // get all direct children of the concept
         getNarrower: new SkosConceptProvider({
             url: "http://rvk.uni-regensburg.de/api/json/children/{notation}",
             transform: function(item) {
+
                 var concept = {
                     notation: [ item.node.notation ],
                     uri: item.node.notation,
@@ -137,6 +140,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             },
             jsonp: 'jsonp'
         }),
+        // get the direct ancestor of the concept
         getBroader: new SkosConceptProvider({
             url: "http://rvk.uni-regensburg.de/api/json/ancestors/{notation}",
             transform: function(item) {
@@ -167,25 +171,28 @@ cocoda.service('knownSchemes',
  * Controller
  */
 function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggestions, knownSchemes){
-
+    
+    // get RVK top concepts
     knownSchemes.rvk.topConcepts.getConceptList().then(function(response){
         $scope.rvkTop = response;
     });
-
+    // used in mapping templates to transfer existing mappings into active state
     $scope.insertMapping = function(mapping){
         if(mapping.from[0].inScheme.notation[0] == $scope.activeView.origin && mapping.to[0].inScheme.notation[0] == $scope.activeView.target){
             $scope.currentMapping = angular.copy(mapping);
             $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
         }
     };
+    // possible profile scope
     $scope.ownDB = {
         name: "VZG"
     }
-    
+    // active source and target schemes
     $scope.activeView = {
         origin: 'GND',
         target: 'RVK'
     };
+    // source scheme selection behavior
     $scope.setOrigin = function(scheme) {
         if(scheme == ''){
             $scope.activeView.origin = scheme;
@@ -202,6 +209,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             $scope.activeView.target = "";
         }
     }
+    // target scheme selection behavior
     $scope.setTarget = function(scheme) {
         if(scheme == '' && scheme != $scope.activeView.origin){
             $scope.activeView.target = scheme;
@@ -214,6 +222,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             $scope.activeView.target = scheme;
         }
     }
+    // decide which suggest function to call
     $scope.SubjectOriginSuggest = function(scheme){
         if(scheme == 'GND'){
             return $scope.gndSubjectSuggest;
@@ -228,7 +237,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             return $scope.rvkSubjectSuggest;
         }
     }
-    
+    // references to the http-calls
     $scope.gndSubjectSuggest = knownSchemes.gnd.suggest;
     $scope.gndSubjectConcept = knownSchemes.gnd.getConcept;
     $scope.rvkSubjectSuggest = knownSchemes.rvk.suggest;
@@ -240,6 +249,8 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         var phase = this.$root.$$phase; 
         if(phase == '$apply' || phase == '$digest') { if(fn) fn(); } else { this.$apply(fn); } };
     */
+    
+    // scope for the created mapping
     $scope.currentMapping = {
         from: [],
         to: [],
@@ -300,11 +311,14 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             },
             broader:"",
         };
+    // scope for notation inputs in topConcepts
+    $scope.originNotation = {};
+    $scope.targetNotation = {};
     
-    // when item on the origin side is selected
-
+    // fill origin concept
     $scope.selectOriginSubject = function(item) {
         
+        // check for selected concept scheme
         if($scope.activeView.origin == 'GND'){
         
             // populate with basic data
@@ -314,12 +328,12 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                     de: item.label
                 }
             };
-            // update
+            // update concept
             $scope.gndSubjectConcept.updateConcept($scope.originConcept).then(function() {
                 $scope.gndSubjectConcept.updateConnected($scope.originConcept)
             });
 
-            // click
+            // when concept node is clicked
             $scope.clickOriginConcept = function(concept) {
                 $scope.gndSubjectConcept.updateConcept( $scope.originConcept = concept ).then(
                     function() {
@@ -338,37 +352,47 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                     },
                 };
 
-                // update
+                // update concept
                 $scope.rvkSubjectConcept.updateConcept($scope.originConcept).then(function() {
                     // fill buffer concept, so originConcept won't be overwritten
                     $scope.tempConcept = angular.copy($scope.originConcept);
+                    $scope.originSubject = $scope.originConcept.prefLabel.de;
                     if($scope.originConcept.hasChildren == true){
                         $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept).then(function(){
+                            $scope.originConcept.altLabel = angular.copy($scope.tempConcept.altLabel);
                             $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
                                 $scope.originConcept.broader = $scope.tempConcept.broader;
                             })
                         });
                     }else{
-                        $scope.rvkBroaderConcepts.updateConcept($scope.originConcept);
+                        $scope.tempConcept = angular.copy($scope.originConcept);
+
+                        $scope.rvkBroaderConcepts.updateConcept($scope.originConcept).then(function(){
+                            $scope.originConcept.altLabel = $scope.tempConcept.altLabel;
+                        });
                     }
                 });
-            //click
+            // when concept node is clicked
             $scope.clickOriginConcept = function(concept) {
                 
                 $scope.rvkSubjectConcept.updateConcept( $scope.originConcept = concept ).then(
                     function() {
                         // fill buffer concept, so originConcept won't be overwritten
                         $scope.tempConcept = angular.copy($scope.originConcept);
-                        
-                        $scope.originSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
+                        $scope.originSubject = $scope.originConcept.prefLabel.de; // TODO: nur wenn vorhanden
                         if($scope.originConcept.hasChildren == true){
                             $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept).then(function(){
+                                $scope.originConcept.altLabel = angular.copy($scope.tempConcept.altLabel);
                                 $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
                                     $scope.originConcept.broader = $scope.tempConcept.broader;
                                 })
                             });
                         }else{
-                            $scope.rvkBroaderConcepts.updateConcept($scope.originConcept);
+                            $scope.tempConcept = angular.copy($scope.originConcept);
+                            
+                            $scope.rvkBroaderConcepts.updateConcept($scope.originConcept).then(function(){
+                                $scope.originConcept.altLabel = $scope.tempConcept.altLabel;
+                    });
                         }
                     }
                 );
@@ -377,25 +401,25 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         }
     };
     
-    // when item on the target side is selected
-    
+    // fill target concept
     $scope.selectTargetSubject = function(item) {
-
-        // populate with basic data
+        
+        // check for selected concept scheme
         if($scope.activeView.target == 'GND'){
 
+            // populate with basic data
             $scope.targetConcept = {
                 uri: item.uri,
                 prefLabel: {
                     de: item.label
                 }
             };
-            // update
+            // update concept
             $scope.gndSubjectConcept.updateConcept($scope.targetConcept).then(function() {
                 $scope.gndSubjectConcept.updateConnected($scope.targetConcept)
             });
 
-            // click
+            // when concept node is clicked
             $scope.clickTargetConcept = function(concept) {
                 $scope.gndSubjectConcept.updateConcept( $scope.targetConcept = concept ).then(
                     function() {
@@ -405,7 +429,8 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                 );
             };
         }else if($scope.activeView.target == 'RVK'){
-            
+
+            // populate with basic data
             $scope.targetConcept = {
                 notation: [ item.uri ],
                 uri: item.uri ,
@@ -413,42 +438,56 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                     de: item.label
                 }
             };
-            // update
+            // update concept
             $scope.rvkSubjectConcept.updateConcept($scope.targetConcept).then(function() {
+                // fill buffer concept, so originConcept won't be overwritten
                 $scope.tempConcept = angular.copy($scope.targetConcept);
+                $scope.targetSubject = $scope.targetConcept.prefLabel.de;
                 if($scope.targetConcept.hasChildren == true){
                     $scope.rvkNarrowerConcepts.updateConcept($scope.targetConcept).then(function(){
-                        $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
 
+                        $scope.targetConcept.altLabel = angular.copy($scope.tempConcept.altLabel);
+                        $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
                             $scope.targetConcept.broader = $scope.tempConcept.broader;
                         })
                     });
                 }else{
-                    $scope.rvkBroaderConcepts.updateConcept($scope.originConcept);
+                    $scope.tempConcept = angular.copy($scope.targetConcept);
+
+                    $scope.rvkBroaderConcepts.updateConcept($scope.targetConcept).then(function(){
+                        $scope.targetConcept.altLabel = $scope.tempConcept.altLabel;
+                    });
                 }
             });
-            //click
+            // when concept node is clicked
             $scope.clickTargetConcept = function(concept) {
 
-                $scope.rvkSubjectConcept.updateConcept( $scope.targetConcept = concept ).then(
-                    function() {
+                $scope.rvkSubjectConcept.updateConcept( $scope.targetConcept = concept ).then(function() {
+                    // fill buffer concept, so originConcept won't be overwritten
+                    $scope.tempConcept = angular.copy($scope.targetConcept);
+                    $scope.targetSubject = $scope.targetConcept.prefLabel.de; // TODO: nur wenn vorhanden
+                    if($scope.targetConcept.hasChildren == true){
+                        $scope.rvkNarrowerConcepts.updateConcept($scope.targetConcept).then(function(){
+
+                            $scope.targetConcept.altLabel = angular.copy($scope.tempConcept.altLabel);
+                            $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
+                                $scope.targetConcept.broader = $scope.tempConcept.broader;
+                            })
+                        });
+                    }else{
                         $scope.tempConcept = angular.copy($scope.targetConcept);
-                        $scope.targetSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
-                        if($scope.targetConcept.hasChildren == true){
-                            $scope.rvkNarrowerConcepts.updateConcept($scope.targetConcept).then(function(){
-                                $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
-                                    $scope.targetConcept.broader = $scope.tempConcept.broader;
-                                })
-                            });
-                        }else{
-                            $scope.rvkBroaderConcepts.updateConcept($scope.targetConcept);
-                        }
+
+                        $scope.rvkBroaderConcepts.updateConcept($scope.targetConcept).then(function(){
+                            $scope.targetConcept.altLabel = $scope.tempConcept.altLabel;
+                        });
+
                     }
-                );
+                });
             };
         }
     };
-    // for filling the concept directly
+    // for filling the concept directly on selection
+    
     $scope.reselectConcept = function(role, concept){
         if(role == 'origin'){
             if(concept.prefLabel){
@@ -475,12 +514,18 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                     uri: concept.uri,
                     label: concept.label
                 };
+            }else{
+                $scope.targetConcept = {
+                    uri: concept.uri,
+                };
             }
             $scope.selectTargetSubject($scope.targetConcept);
         }
     }
 }
 cocoda.run(function($rootScope,$http) {
+    
+    // load placeholder samples
 
     $rootScope.mappingSample = {};
     $http.get('data/mapping-1.json').success(function(data){
