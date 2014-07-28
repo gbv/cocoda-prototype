@@ -79,6 +79,9 @@ angular.module('ngSKOS')
                    attrs.templateUrl : 'template/skos-mapping-table.html';
         },
         link: function(scope, element, attr, controller, transclude) {
+        },
+        controller: function($scope) {
+            $scope.predicate = '-type.value';
         }
             // ...
     };

@@ -26,7 +26,7 @@
                                         "inScheme": { "notation": ["DDC"] }
                                     }
                                 ],
-                                "type": "strong",
+                                "type": { "prefLabel": { "en":"strong"}, "value": 3},
                                 "timestamp": "2014-01-01",
                                 "source": "DDC-GND"
                             },
@@ -51,7 +51,7 @@
                                         "inScheme": { "notation": ["DDC"] }
                                     }
                                 ],
-                                "type": "medium",
+                                "type": { "prefLabel": { "en":"medium"}, "value": 2},
                                 "timestamp": "2014-01-01",
                                 "source": "DDC-GND"
                             }

@@ -34,7 +34,7 @@
                                         "inScheme": { "notation": ["RVK"] }
                                     }
                                 ],
-                                "type": "strong",
+                                "type": { "prefLabel": { "en":"strong"}, "value": 3},
                                 "timestamp": "2014-01-01",
                                 "source": "VZG"
                             },
@@ -59,7 +59,7 @@
                                         "inScheme": { "notation": ["RVK"] }
                                     }
                                 ],
-                                "type": "strong",
+                                "type": { "prefLabel": { "en":"medium"}, "value": 2},
                                 "timestamp": "2013-01-01",
                                 "source": "VZG"
                             }
@@ -100,7 +100,7 @@
                                         "inScheme": { "notation": ["RVK"] }
                                     }
                                 ],
-                                "type": "strong",
+                                "type": { "prefLabel": { "en":"strong"}, "value": 3},
                                 "timestamp": "2014-01-01",
                                 "source": "VZG"
                             },
@@ -109,8 +109,8 @@
                                         {
                                         "notation": ["534242"],
                                         "prefLabel":{
-                                            "en":"gndSample1",
-                                            "de":"gndBeispiel1"
+                                            "en":"gndSample2",
+                                            "de":"gndBeispiel2"
                                         },
                                         "inScheme": { "notation": ["GND"] }
                                     }
@@ -125,7 +125,7 @@
                                         "inScheme": { "notation": ["RVK"] }
                                     }
                                 ],
-                                "type": "strong",
+                                "type": { "prefLabel": { "en":"medium"}, "value": 2},
                                 "timestamp": "2013-01-01",
                                 "source": "VZG"
                             }
@@ -170,7 +170,7 @@
                                         "inScheme": { "notation": ["RVK"] }
                                     }
                                 ],
-                                "type": "strong",
+                                "type": { "prefLabel": { "en":"strong"}, "value": 3},
                                 "timestamp": "2014-01-01",
                                 "source": "TIB"
                             },
@@ -195,7 +195,7 @@
                                         "inScheme": { "notation": ["RVK"] }
                                     }
                                 ],
-                                "type": "strong",
+                                "type": { "prefLabel": { "en":"medium"}, "value": 2},
                                 "timestamp": "2013-01-01",
                                 "source": "TIB"
                             }

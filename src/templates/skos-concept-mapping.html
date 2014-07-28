@@ -24,7 +24,7 @@
                                 on-select="selectFrom">
                             </div>
                             <div ng-if="!mapping.from.length">
-                                <em>Please select a mapping term</em>
+                                <em>Please select a source mapping term</em>
                             </div>
                         </div>
                     </td>
@@ -40,7 +40,7 @@
                                 on-select="selectTo" >
                             </div>
                             <div ng-if="!mapping.to.length">
-                                <em>Please select a mapping term</em>
+                                <em>Please select a target mapping term</em>
                             </div>
                         </div>
                     </td>
@@ -55,10 +55,10 @@
                     <span style="margin-left:12px;">Choose mapping strength:</span>
                 </div>
                 <form style="margin-right:10px;display:inline">
-                    <input style="margin: 0px 12px;" type="radio" name="strengthtype" ng-model="mapping.type" value="">none</input>
-                    <input style="margin: 0px 12px;" type="radio" name="strengthtype" ng-model="mapping.type" value="strong">strong</input>
-                    <input style="margin: 0px 12px;" type="radio" name="strengthtype" ng-model="mapping.type" value="medium">medium</input>
-                    <input style="margin: 0px 12px;" type="radio" name="strengthtype" ng-model="mapping.type" value="weak">weak</input>
+                    <input style="margin: 0px 12px;" type="radio" name="strengthtype" ng-model="mapping.type.value" value="0">none</input>
+                    <input style="margin: 0px 12px;" type="radio" name="strengthtype" ng-model="mapping.type.value" value="3">strong</input>
+                    <input style="margin: 0px 12px;" type="radio" name="strengthtype" ng-model="mapping.type.value" value="2">medium</input>
+                    <input style="margin: 0px 12px;" type="radio" name="strengthtype" ng-model="mapping.type.value" value="1">weak</input>
                 </form>
             </div>
             <div style="float:right;margin-top:10px;">

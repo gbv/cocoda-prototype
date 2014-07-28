@@ -85,7 +85,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             },
         }), 
         suggest: new OpenSearchSuggestions({
-            url: "http://rvk.uni-regensburg.de/api/json/nodes/{searchTerms}",
+            url: "http://rvk.uni-regensburg.de/api/json/nodes/{searchTerms}?limit=20",
             jsonp: 'jsonp',
             transform: function(response) { 
                 return rvkTransform(response.node) 
