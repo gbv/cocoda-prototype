@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="Cocoda">
 <head>
+    <title>Cocoda Concordance App</title>
     <meta charset="utf-8">
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
     <link href="ng-skos.css" rel="stylesheet" />
@@ -43,7 +44,7 @@
                         typeahead-loading="loadingLocations"
                         typeahead-editable="false"
                     />
-                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                    <i style="position:absolute;right:22px;top:10px;" ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                 </div>
                 <ul ng-if="activeView.origin.length" class="nav navbar-nav">
                     <li class="dropdown">
@@ -73,7 +74,7 @@
                         typeahead-loading="loadingLocations"
                         typeahead-editable="false"
                     />
-                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                    <i style="position:absolute;right:22px;top:10px;" ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                 </div>
             </div>
         </nav>
@@ -169,8 +170,7 @@
     <script src="lib/angular.min.js"></script>
     <script src="lib/angular-resource.min.js"></script>
     <script src="lib/angular-sanitize.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="../lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
 </body>
     <script src="../lib/ng-suggest.js"></script>
     <script src="../src/json-text.js"></script>

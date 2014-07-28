@@ -53,8 +53,8 @@
                                     {
                                         "notation": ["DEF 345"],
                                         "prefLabel": {
-                                            "en":"rvkSample2",
-                                            "de":"rvkBeispiel2"
+                                            "en":"rvkSample3",
+                                            "de":"rvkBeispiel3"
                                         },
                                         "inScheme": { "notation": ["RVK"] }
                                     }
@@ -119,8 +119,8 @@
                                     {
                                         "notation": ["DEF 345"],
                                         "prefLabel": {
-                                            "en":"rvkSample2",
-                                            "de":"rvkBeispiel2"
+                                            "en":"rvkSample3",
+                                            "de":"rvkBeispiel3"
                                         },
                                         "inScheme": { "notation": ["RVK"] }
                                     }
@@ -189,8 +189,8 @@
                                     {
                                         "notation": ["DEF 345"],
                                         "prefLabel": {
-                                            "en":"rvkSample2",
-                                            "de":"rvkBeispiel2"
+                                            "en":"rvkSample3",
+                                            "de":"rvkBeispiel3"
                                         },
                                         "inScheme": { "notation": ["RVK"] }
                                     }

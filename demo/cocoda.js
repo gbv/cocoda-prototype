@@ -500,6 +500,10 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                     uri: concept.uri,
                     label: concept.label
                 };
+            }else{
+                $scope.originConcept = {
+                    uri: concept.uri,
+                };
             }
             $scope.selectOriginSubject($scope.originConcept)
         }
