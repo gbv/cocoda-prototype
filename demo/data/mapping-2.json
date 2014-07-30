@@ -20,8 +20,8 @@
                                     {
                                         "notation": ["612.112"],
                                         "prefLabel":{
-                                            "en":"ddcSample1",
-                                            "de":"ddcBeispiel1"
+                                            "en":"Leukocytes (White corpuscles)",
+                                            "de":"Leukozyten (Weiße Blutkörperchen)"
                                         },
                                         "inScheme": { "notation": ["DDC"] }
                                     }
@@ -45,8 +45,8 @@
                                     {
                                         "notation": ["612.112"],
                                         "prefLabel":{
-                                            "en":"ddcSample1",
-                                            "de":"ddcBeispiel1"
+                                            "en":"Leukocytes (White corpuscles)",
+                                            "de":"Leukozyten (Weiße Blutkörperchen)"
                                         },
                                         "inScheme": { "notation": ["DDC"] }
                                     }

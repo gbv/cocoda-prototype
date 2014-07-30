@@ -2,7 +2,7 @@
     <div class="skos-occurrences occ-details">
         <table>
             <tr>
-                <td>Used notation:</td><td><span ng-if="search.length" class="notation" popover="{{search[0].prefLabel.en}}" popover-trigger="mouseenter">{{search[0].notation[0]}}</span></td>
+                <td>Used notation:</td><td><span ng-if="search.length" class="notation" popover="{{search[0].prefLabel.de}}" popover-trigger="mouseenter">{{search[0].notation[0]}}</span></td>
             </tr>
             <tr>
                 <td><b>Used</b> concept scheme:</td><td><span ng-if="search.length" class="classification">{{search[0].inScheme.notation[0]}}</span></td>
@@ -15,7 +15,7 @@
             </tr>
             <tr ng-if="search.length">
                 <td>Results (total) for 
-                    <span ng-if="search.length" class="notation" popover="{{search[0].prefLabel.en}}" popover-trigger="mouseenter">{{search[0].notation[0]}}</span>:
+                    <span ng-if="search.length" class="notation" popover="{{search[0].prefLabel.de}}" popover-trigger="mouseenter">{{search[0].notation[0]}}</span>:
                 </td>
                 <td>{{total}}</td>
             </tr>
@@ -33,7 +33,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="not in hits">
-                    <td><span ng-if="not.length" class="notation" popover="{{not[0].prefLabel.en}}" popover-trigger="mouseenter">{{not[0].notation[0]}}</span></td>
+                    <td><span ng-if="not.length" class="notation" popover="{{not[0].prefLabel.de}}" popover-trigger="mouseenter">{{not[0].notation[0]}}</span></td>
                     <td>{{not[1]}}</td>
                     <td>{{not[1]/total*100 | number:1}} %</td>
                 </tr>

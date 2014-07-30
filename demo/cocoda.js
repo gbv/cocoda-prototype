@@ -32,24 +32,73 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
                 
                 var concept = {
                     notation: [ graph.gndIdentifier ],
-                    prefLabel: { de: graph.preferredName },
+                    prefLabel: { de: "" },
                     altLabel: "",
                     uri: graph['@id'],
                     broader: [],
                     related: [],
                 };
-                if(angular.isArray(graph.variantName)){
-                    concept.altLabel = graph.variantName;
-                }else if(angular.isString(graph.variantName)){
-                    concept.altLabel = [graph.variantName];
+
+                if(graph.preferredName) {
+                    concept.prefLabel.de = graph.preferredName;
+                }else if(graph.preferredNameForThePlaceOrGeographicName){
+                    concept.prefLabel.de = graph.preferredNameForThePlaceOrGeographicName;
+                }else if(graph.preferredNameOfThePerson){
+                    concept.prefLabel.de = graph.preferredNameOfThePerson;
+                }else if(graph.preferredNameEntityForThePerson){
+                    concept.prefLabel.de = graph.preferredNameEntityForThePerson;
+                }else if(graph.preferredNameForTheConferenceOrEvent){
+                    concept.prefLabel.de = graph.preferredNameForTheConferenceOrEvent;
+                }else if(graph.preferredNameForTheCorporateBody){
+                    concept.prefLabel.de = graph.preferredNameForTheCorporateBody;
+                }else if(graph.preferredNameForTheFamily){
+                    concept.prefLabel.de = graph.preferredNameForTheFamily;
+                }else if(graph.preferredNameForThePerson){
+                    concept.prefLabel.de = graph.preferredNameForThePerson;
+                }else if(graph.preferredNameForTheSubjectHeading){
+                    concept.prefLabel.de = graph.preferredNameForTheSubjectHeading;
+                }else if(graph.preferredNameForTheWork){
+                    concept.prefLabel.de = graph.preferredNameForTheWork;
                 }
-                    
-                if(angular.isArray(graph.broaderTermGeneral)){
-                    angular.forEach(graph.broaderTermGeneral, function(bterm) {
+
+                if(graph.variantName){
+                    concept.altLabel = graph.variantName;
+                }else if(graph.variantNameForThePlaceOrGeographicName){
+                    concept.altLabel = graph.variantNameForThePlaceOrGeographicName;
+                }else if(graph.variantNameEntityForThePerson){
+                    concept.altLabel = graph.variantNameEntityForThePerson;
+                }else if(graph.variantNameForTheConferenceOrEvent){
+                    concept.altLabel = graph.variantNameForTheConferenceOrEvent;
+                }else if(graph.variantNameForTheCorporateBody){
+                    concept.altLabel = graph.variantNameForTheCorporateBody;
+                }else if(graph.variantNameForTheFamily){
+                    concept.altLabel = graph.variantNameForTheFamily;
+                }else if(graph.variantNameForThePerson){
+                    concept.altLabel = graph.variantNameForThePerson;
+                }else if(graph.variantNameForTheSubjectHeading){
+                    concept.altLabel = graph.variantNameForTheSubjectHeading;
+                }else if(graph.variantNameForTheWork){
+                    concept.altLabel = graph.variantNameForTheWork;
+                }
+                if(angular.isString(concept.altLabel)){
+                    concept.altLabel = [ concept.altLabel ];
+                }
+
+                var broader = [];
+                
+                if(graph.broaderTermGeneral){
+                    broader = (graph.broaderTermGeneral);
+                }
+                if(graph.broaderTermPartitive){
+                    broader = (graph.broaderTermPartitive);
+                }
+
+                if(angular.isArray(broader)){
+                    angular.forEach(broader, function(bterm) {
                         concept.broader.push({uri: bterm });
                     });
-                } else if(angular.isString(graph.broaderTermGeneral)){
-                    concept.broader = [{uri: graph.broaderTermGeneral}];
+                } else if(angular.isString(broader)){
+                    concept.broader = [{uri: broader}];
                 }
                 if(angular.isArray(graph.relatedTerm)){
                     angular.forEach(graph.relatedTerm, function(rterm) {
@@ -69,7 +118,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             values: nodes.map(function(v) {
                 return {
                     label: v.benennung,
-                    uri: v.notation
+                    notation: v.notation
                 };
             }),
         };
@@ -345,8 +394,8 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         }else if($scope.activeView.origin == 'RVK'){
             
                 $scope.originConcept = {
-                    notation: [ item.uri ] ,
-                    uri: item.uri ,
+                    notation: [ item.notation ] ,
+                    uri: item.notation ,
                     prefLabel: {
                         de: item.label
                     },
@@ -432,8 +481,8 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
 
             // populate with basic data
             $scope.targetConcept = {
-                notation: [ item.uri ],
-                uri: item.uri ,
+                notation: [ item.notation ],
+                uri: item.notation ,
                 prefLabel: {
                     de: item.label
                 }
@@ -492,17 +541,20 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         if(role == 'origin'){
             if(concept.prefLabel){
                 $scope.originConcept = {
-                    uri: concept.uri,
+                    notation: concept.notation ? concept.notation : "",
+                    uri: concept.uri ? concept.uri : concept.notation,
                     label: concept.prefLabel.de
                 };
             }else if(concept.label){
                 $scope.originConcept = {
-                    uri: concept.uri,
+                    notation: concept.notation ? concept.notation : "",
+                    uri: concept.uri ? concept.uri : concept.notation,
                     label: concept.label
                 };
             }else{
                 $scope.originConcept = {
-                    uri: concept.uri,
+                    notation: concept.notation ? concept.notation : "",
+                    uri: concept.uri ? concept.uri : concept.notation,
                 };
             }
             $scope.selectOriginSubject($scope.originConcept)
@@ -510,17 +562,20 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         else if(role == 'target'){
             if(concept.prefLabel){
                 $scope.targetConcept = {
-                    uri: concept.uri,
+                    notation: concept.notation ? concept.notation : "",
+                    uri: concept.uri ? concept.uri : concept.notation,
                     label: concept.prefLabel.de
                 };
             }else if(concept.label){
                 $scope.targetConcept = {
-                    uri: concept.uri,
+                    notation: concept.notation ? concept.notation : "",
+                    uri: concept.uri ? concept.uri : concept.notation,
                     label: concept.label
                 };
             }else{
                 $scope.targetConcept = {
-                    uri: concept.uri,
+                    notation: concept.notation ? concept.notation : "",
+                    uri: concept.uri ? concept.uri : concept.notation,
                 };
             }
             $scope.selectTargetSubject($scope.targetConcept);

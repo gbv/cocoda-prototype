@@ -235,6 +235,9 @@ ul.ancestors li {
     border:1px solid none;
     padding: 3px 7px 3px 7px;
 }
-
+.simple-list{
+    list-style-type:none;
+    padding:0px;
+}
 
 
