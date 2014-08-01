@@ -24,13 +24,13 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="" ng-click="setOrigin('')">none</a>
+                                <a href="#" ng-click="setOrigin('')">none</a>
                             </li>
                             <li>
-                                <a href="" ng-click="setOrigin('GND')">GND</a>
+                                <a href="#" ng-click="setOrigin('GND')">GND</a>
                             </li>
                             <li>
-                                <a href="" ng-click="setOrigin('RVK')">RVK</a>
+                                <a href="#" ng-click="setOrigin('RVK')">RVK</a>
                             </li>
                         </ul>
                     </li>
@@ -54,13 +54,13 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="" ng-click="setTarget('')">none</a>
+                                <a href="#" ng-click="setTarget('')">none</a>
                             </li>
                             <li>
-                                <a href="" ng-if="activeView.origin != 'GND'" ng-click="setTarget('GND')">GND</a>
+                                <a href="#" ng-if="activeView.origin != 'GND'" ng-click="setTarget('GND')">GND</a>
                             </li>
                             <li>
-                                <a href="" ng-if="activeView.origin != 'RVK'" ng-click="setTarget('RVK')">RVK</a>
+                                <a href="#" ng-if="activeView.origin != 'RVK'" ng-click="setTarget('RVK')">RVK</a>
                             </li>
                         </ul>
                     </li>
@@ -124,7 +124,7 @@
                             <div use-mapping="insertMapping" skos-mapping-collection="mappingSample"></div>
                         </div>
                         <div class="tmpl-border" style="overflow:auto">
-                            <div class="mapping-header"><b>GND - DDC Cross Concordance</b></div>
+                            <div class="mapping-header"><b>"CrissCross" Concordance</b></div>
                             <div skos-mapping-collection="mappingSampleGND"></div>
                         </div>
                     </div>

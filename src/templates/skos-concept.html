@@ -5,7 +5,7 @@
         <span class="glyphicon glyphicon-globe"></span></a>
     </div>
     <div class="skos-concept-connected">
-        <div class="skos-concept-altlabel">
+        <div ng-if="altLabel.length" class="skos-concept-altlabel">
             <ul>
                 <li ng-repeat="alt in altLabel">
                     <span ng-if="$index < 5" style="display:inline">{{alt}}</span>

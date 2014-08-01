@@ -33,7 +33,6 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
                 var concept = {
                     notation: [ graph.gndIdentifier ],
                     prefLabel: { de: "" },
-                    altLabel: "",
                     uri: graph['@id'],
                     broader: [],
                     related: [],
@@ -87,10 +86,16 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
                 var broader = [];
                 
                 if(graph.broaderTermGeneral){
-                    broader = (graph.broaderTermGeneral);
+                    broader = graph.broaderTermGeneral;
                 }
                 if(graph.broaderTermPartitive){
-                    broader = (graph.broaderTermPartitive);
+                    if(broader.length){
+                        angular.forEach(graph.broaderTermPartitive, function(bterm){
+                            broader.push(bterm);
+                        });
+                    }else{
+                    broader = graph.broaderTermPartitive;
+                    }
                 }
 
                 if(angular.isArray(broader)){
@@ -100,6 +105,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
                 } else if(angular.isString(broader)){
                     concept.broader = [{uri: broader}];
                 }
+                
                 if(angular.isArray(graph.relatedTerm)){
                     angular.forEach(graph.relatedTerm, function(rterm) {
                         concept.related.push({uri: rterm });
