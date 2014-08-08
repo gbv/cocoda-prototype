@@ -1,192 +1,228 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="Cocoda">
-<head>
-    <title>Cocoda Concordance App</title>
-    <meta charset="utf-8">
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="ng-skos.css" rel="stylesheet" />
-    <link href="cocoda.css" rel="stylesheet" />
-</head>
-<body ng-controller="myController">
-    <header>
-        <nav class="navbar navbar-default navbar-top" role="navigation">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Cocoda</a>
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                </button>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" type="button" class="dropdown-toggle">
-                            Source Scheme: {{activeView.origin}}
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="#" ng-click="setOrigin('')">none</a>
-                            </li>
-                            <li>
-                                <a href="#" ng-click="setOrigin('GND')">GND</a>
-                            </li>
-                            <li>
-                                <a href="#" ng-click="setOrigin('RVK')">RVK</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                <div ng-if="activeView.origin.length" class="col-md-3" style="margin-top:8px;">
-                    <input class="form-control"
-                        suggest-typeahead="SubjectOriginSuggest(activeView.origin)"
-                        typeahead-on-select="selectOriginSubject($item)"
-                        ng-model="originSubject"
-                        placeholder="Search by terms"
-                        typeahead-loading="loadingLocations"
-                        typeahead-editable="false"
-                    />
-                    <i style="position:absolute;right:22px;top:10px;" ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+    <head>
+        <title>Cocoda - Concordance App</title>
+        <meta charset="utf-8">
+        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="ng-skos.css" rel="stylesheet" />
+        <link href="cocoda.css" rel="stylesheet" />
+            <!-- Used external sources -->
+        <script src="lib/angular.min.js"></script>
+        <script src="lib/angular-resource.min.js"></script>
+        <script src="lib/angular-sanitize.min.js"></script>
+        <script src="../lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
+        <script src="../lib/ng-suggest.js"></script>
+        
+            <!-- ng-skos modules -->
+        <script src="../src/json-text.js"></script>
+        <script src="../src/ng-skos.js"></script>
+        <script src="../src/services/SkosProvider.js"></script>
+        <script src="../src/services/SkosConceptProvider.js"></script>
+        <script src="../src/services/SkosConceptListProvider.js"></script>
+        <script src="../src/directives/skosLabel.js"></script>
+        <script src="../src/directives/skosConcept.js"></script>
+        <script src="../src/directives/skosTree.js"></script>
+        <script src="../src/directives/skosSearch.js"></script>
+        <script src="../src/directives/skosMappingCollection.js"></script>
+        <script src="../src/directives/skosMappingTable.js"></script>
+        <script src="../src/directives/skosOccurrences.js"></script>
+        <script src="../src/directives/skosConceptList.js"></script>
+        <script src="../src/directives/skosConceptMapping.js"></script>
+        <!-- Controller -->
+        <script src="cocoda.js"></script>
+    </head>
+    <body ng-controller="myController">
+        <header>
+            <nav class="navbar navbar-default navbar-top" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    </button>
                 </div>
-                <ul ng-if="activeView.origin.length" class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" type="button" class="dropdown-toggle">
-                            Target Scheme: {{activeView.target}}
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="#" ng-click="setTarget('')">none</a>
-                            </li>
-                            <li>
-                                <a href="#" ng-if="activeView.origin != 'GND'" ng-click="setTarget('GND')">GND</a>
-                            </li>
-                            <li>
-                                <a href="#" ng-if="activeView.origin != 'RVK'" ng-click="setTarget('RVK')">RVK</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                <div ng-if="activeView.target.length" class="col-md-3" style="margin-top:8px;">
-                    <input class="form-control"
-                        suggest-typeahead="SubjectTargetSuggest(activeView.target)"
-                        typeahead-on-select="selectTargetSubject($item)"
-                        ng-model="targetSubject"
-                        placeholder="Search by terms"
-                        typeahead-loading="loadingLocations"
-                        typeahead-editable="false"
-                    />
-                    <i style="position:absolute;right:22px;top:10px;" ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="main">
-        <div class="row" style="margin-left:0px;margin-right:0px;">
-            <div class="col-md-3">
-                <div>
-                    <span style="width:100%;border-bottom: 1px solid #CCC"><big>Source Scheme</big></span>
-                    <div ng-if="activeView.origin.length && originConcept">
-                        <div class="tmpl-border" skos-concept="originConcept" skos-click="clickOriginConcept" language="language"></div>
-                        <div style="margin-bottom:5px;">
-                            <button ng-click="saveFrom(activeView.origin, originConcept)">Use term</button>
-                            <button disabled="true" ng-click="searchOccurrence(activeView.origin, originConcept)">Look up mappings</button>
-                        </div>
-                    </div>
-                    <div ng-if="activeView.origin == 'DDC' || activeView.origin == 'RVK'" class="tmpl-border">
-                        <div class="search-top">
-                            <form ng-submit="reselectConcept('origin', originNotation)">
-                                <span style="float:left;">
-                                    <input class="form-control search-top-input"
-                                        ng-model="originNotation.uri"
-                                        placeholder="Enter full notation"
-                                    />
-                                </span>
-                                <input type="submit" value="Select" class="search-top-button" ng-disabled="!targetNotation.uri.length" />
-                            </form>
-                        </div>
-                        <div>
-                            <ul class="simple-list" style="clear:left">
-                                <li ng-repeat="v in rvkTop.values">
-                                    <a style="text-decoration:none;" href="" ng-click="reselectConcept('origin', v)"><span class="notation">{{v.uri}}</span>  <span>{{v.label}}</span></a>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a class="navbar-brand" href=""><big>Cocoda</big></a>
+                        </li>
+                        <!-- Origin scheme selection -->
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" type="button" class="dropdown-toggle">
+                                Source Scheme: {{activeView.origin}}
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="#" ng-click="setOrigin('')">none</a>
+                                </li>
+                                <li>
+                                    <a href="#" ng-click="setOrigin('GND')">GND</a>
+                                </li>
+                                <li>
+                                    <a href="#" ng-click="setOrigin('RVK')">RVK</a>
                                 </li>
                             </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="tmpl-border" style="width:100%">
-                    <div skos-concept-mapping="currentMapping" select="reselectConcept" mapping-from="activeView.origin" mapping-to="activeView.target"></div>
-                </div>
-                <div style="margin-top:10px;width:100%">
-                    <div style="position:relative;width:50%;float:left;">
-                        <div class="tmpl-border" style="overflow:auto">
-                            <div class="mapping-header"><b>Existing mappings</b></div>
-                            <div use-mapping="insertMapping" skos-mapping-collection="mappingSample"></div>
-                        </div>
-                        <div class="tmpl-border" style="overflow:auto">
-                            <div class="mapping-header"><b>"CrissCross" Concordance</b></div>
-                            <div skos-mapping-collection="mappingSampleGND"></div>
-                        </div>
-                    </div>
-                    <div style="float:right;" class="tmpl-border">
-                        <div style="overflow:auto" skos-occurrences="occurrencesSample"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div style="width:400px;">
-                    <span style="width:100%;border-bottom: 1px solid #CCC"><big>Target Scheme</big></span>
-                    <div ng-if="activeView.origin.length && targetConcept" style="min-width:350px">
-                        <div class="tmpl-border" skos-concept="targetConcept" skos-click="clickTargetConcept" language="language"></div>
-                        <div style="margin-bottom:5px;">
-                            <button ng-disabled="checkDuplicate()" ng-click="addTo(activeView.target, targetConcept)">Add target term</button>
-                            <button ng-click="replaceTo(activeView.target, targetConcept)">Replace current terms</button>
-                        </div>
-                    </div>
-                    <div ng-if="activeView.target == 'DDC' || activeView.target == 'RVK'" class="tmpl-border">
-                        <div class="search-top">
-                            <form ng-submit="reselectConcept('target', targetNotation)">
-                                <span style="float:left;">
-                                    <input class="form-control search-top-input"
-                                        ng-model="targetNotation.uri"
-                                        placeholder="Enter full notation"
-                                    />
-                                </span>
-                                <input type="submit" value="Select" class="search-top-button" ng-disabled="!targetNotation.uri.length" />
-                            </form>
-                        </div>
-                        <div>
-                            <ul class="simple-list" style="clear:left">
-                                <li ng-repeat="v in rvkTop.values">
-                                    <a style="text-decoration:none;" href="" ng-click="reselectConcept('target', v)"><span class="notation">{{v.notation}}</span>  <span>{{v.label}}</span></a>
+                        </li>
+                        <!-- Origin term search w/ typeahead -->
+                        <li ng-if="activeView.origin.length" style="min-width:400px;margin:8px;">
+                            <input class="form-control"
+                                suggest-typeahead="SubjectOriginSuggest(activeView.origin)"
+                                typeahead-on-select="selectOriginSubject($item)"
+                                ng-model="originSubject"
+                                placeholder="Search by terms"
+                                typeahead-loading="loadingLocations"
+                                typeahead-editable="false"
+                            />
+                            <i style="position:absolute;right:22px;top:10px;" ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                        </li>
+                        <!-- Target scheme selection -->
+                        <li ng-if="activeView.origin.length" class="dropdown">
+                            <a data-toggle="dropdown" type="button" class="dropdown-toggle">
+                                Target Scheme: {{activeView.target}}
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="#" ng-click="setTarget('')">none</a>
+                                </li>
+                                <li>
+                                    <a href="#" ng-if="activeView.origin != 'GND'" ng-click="setTarget('GND')">GND</a>
+                                </li>
+                                <li>
+                                    <a href="#" ng-if="activeView.origin != 'RVK'" ng-click="setTarget('RVK')">RVK</a>
                                 </li>
                             </ul>
+                        </li>
+                        <!-- Target term search w/ typeahead -->
+                        <li ng-if="activeView.target.length" style="min-width:400px;margin:8px;">
+                            <input class="form-control"
+                                suggest-typeahead="SubjectTargetSuggest(activeView.target)"
+                                typeahead-on-select="selectTargetSubject($item)"
+                                ng-model="targetSubject"
+                                placeholder="Search by terms"
+                                typeahead-loading="loadingLocations"
+                                typeahead-editable="false"
+                            />
+                            <i style="position:absolute;right:22px;top:10px;" ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div class="main">
+            <div class="row" style="margin-left:0px;margin-right:0px;">
+                <!-- Left/Origin concept column-->
+                <div class="col-md-3">
+                    <div>
+                        <span style="width:100%;border-bottom: 1px solid #CCC"><big>Source Scheme</big></span>
+                        <!-- Origin concept scheme template -->
+                        <div ng-if="activeView.origin.length && originConcept">
+                            <div class="tmpl-border" skos-concept="originConcept" skos-click="clickOriginConcept" language="language"></div>
+                            <div style="margin-bottom:5px;">
+                                <button ng-click="saveFrom(activeView.origin, originConcept)">Use term</button>
+                                <button disabled="true" ng-click="searchOccurrence(activeView.origin, originConcept)">Look up mappings</button>
+                            </div>
+                        </div>
+                        <!-- Origin top concept display -->
+                        <div ng-if="activeView.origin.length" class="tmpl-border">
+                            <div class="search-top">
+                                <form ng-submit="reselectConcept('origin', originNotation)">
+                                    <span style="float:left;">
+                                        <input class="form-control search-top-input"
+                                            ng-model="originNotation.notation"
+                                            placeholder="Enter full notation"
+                                        />
+                                    </span>
+                                    <input type="submit" value="Select" class="search-top-button" ng-disabled="!originNotation.notation.length" />
+                                </form>
+                            </div>
+                            <div ng-if="topOriginConcept">
+                                <div style="margin-bottom:10px;">
+                                    <span><b>Origin Scheme Top Concepts</b></span>
+                                    <span>
+                                        <button style="margin-left:53px;" ng-click="showTopConcepts.origin = !showTopConcepts.origin">
+                                            <span ng-if="showTopConcepts.origin == false">Show</span>
+                                            <span ng-if="showTopConcepts.origin == true">Hide</span>
+                                        </button>
+                                    </span>
+                                </div>
+                                <ul ng-if="showTopConcepts.origin == true" class="simple-list" style="clear:left">
+                                    <li ng-repeat="v in topOriginConcept.values">
+                                        <a style="text-decoration:none;" href="" ng-click="reselectConcept('origin', v)"><span class="notation">{{v.notation}}</span>  <span>{{v.label}}</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Middle/Mapping and context column -->
+                <div class="col-md-6">
+                    <!-- Active mapping template -->
+                    <div class="tmpl-border" style="width:100%">
+                        <div skos-concept-mapping="currentMapping" select="reselectConcept" mapping-from="activeView.origin" mapping-to="activeView.target"></div>
+                    </div>
+                    <!-- context templates -->
+                    <div class="context">
+                        <!-- Existing mappings templates -->
+                        <div style="position:relative;width:50%;float:left;">
+                            <div ng-if="mappingSample" class="tmpl-border" style="overflow:auto">
+                                <div class="mapping-header"><b>Existing mappings</b></div>
+                                <div use-mapping="insertMapping" skos-mapping-collection="mappingSample"></div>
+                            </div>
+                            <div ng-if="mappingSampleGND" class="tmpl-border" style="overflow:auto">
+                                <div class="mapping-header"><b>"CrissCross" Concordance</b></div>
+                                <div skos-mapping-collection="mappingSampleGND"></div>
+                            </div>
+                        </div>
+                        <!-- Occurrences display -->
+                        <div ng-if="occurrencesSample" style="width:50%float:left;margin-left:15px;" class="tmpl-border">
+                            <div style="overflow:auto" skos-occurrences="occurrencesSample"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right/Target concept column-->
+                <div class="col-md-3">
+                    <div style="width:400px;">
+                        <span style="width:100%;border-bottom: 1px solid #CCC"><big>Target Scheme</big></span>
+                        <!-- Target concept scheme template -->
+                        <div ng-if="activeView.origin.length && targetConcept" style="min-width:350px">
+                            <div class="tmpl-border" skos-concept="targetConcept" skos-click="clickTargetConcept" language="language"></div>
+                            <div style="margin-bottom:5px;">
+                                <button ng-disabled="checkDuplicate()" ng-click="addTo(activeView.target, targetConcept)">Add target term</button>
+                                <button ng-click="replaceTo(activeView.target, targetConcept)">Replace current terms</button>
+                            </div>
+                        </div>
+                        <!-- Target top concept display -->
+                        <div ng-if="activeView.target.length" class="tmpl-border">
+                            <div class="search-top">
+                                <form ng-submit="reselectConcept('target', targetNotation)">
+                                    <span style="float:left;">
+                                        <input class="form-control search-top-input"
+                                            ng-model="targetNotation.notation"
+                                            placeholder="Enter full notation"
+                                        />
+                                    </span>
+                                    <input type="submit" value="Select" class="search-top-button" ng-disabled="!targetNotation.notation.length" />
+                                </form>
+                            </div>
+                            <div ng-if="topTargetConcept">
+                                <div style="margin-bottom:10px;">
+                                    <span><b>Target Scheme Top Concepts</b></span>
+                                    <span>
+                                        <button style="margin-left:53px;" ng-click="showTopConcepts.target = !showTopConcepts.target">
+                                            <span ng-if="showTopConcepts.target == false">Show</span>
+                                            <span ng-if="showTopConcepts.target == true">Hide</span>
+                                        </button>
+                                    </span>
+                                </div>
+                                <ul ng-if="showTopConcepts.target == true" class="simple-list" style="clear:left">
+                                    <li ng-repeat="v in topTargetConcept.values">
+                                        <a style="text-decoration:none;" href="" ng-click="reselectConcept('target', v)"><span class="notation">{{v.notation}}</span>  <span>{{v.label}}</span></a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="lib/angular.min.js"></script>
-    <script src="lib/angular-resource.min.js"></script>
-    <script src="lib/angular-sanitize.min.js"></script>
-    <script src="../lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
-</body>
-    <script src="../lib/ng-suggest.js"></script>
-    <script src="../src/json-text.js"></script>
-    <script src="../src/ng-skos.js"></script>
-    <script src="../src/services/SkosProvider.js"></script>
-    <script src="../src/services/SkosConceptProvider.js"></script>
-    <script src="../src/services/SkosConceptListProvider.js"></script>
-    <script src="../src/directives/skosLabel.js"></script>
-    <script src="../src/directives/skosConcept.js"></script>
-    <script src="../src/directives/skosTree.js"></script>
-    <script src="../src/directives/skosSearch.js"></script>
-    <script src="../src/directives/skosMappingCollection.js"></script>
-    <script src="../src/directives/skosMappingTable.js"></script>
-    <script src="../src/directives/skosOccurrences.js"></script>
-    <script src="../src/directives/skosConceptList.js"></script>
-    <script src="../src/directives/skosConceptMapping.js"></script>
-    
-    <script src="cocoda.js"></script>
+    </body>
 </html>

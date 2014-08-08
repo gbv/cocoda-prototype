@@ -25,7 +25,7 @@
                     />
                     <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                 </div>
-                <div class="tmpl-border" skos-concept="subjectConcept" skos-click="clickConcept">
+                <div ng-if="subjectConcept" class="tmpl-border" skos-concept="subjectConcept" skos-click="clickConcept">
                 </div>
             </div>
             <div class="col-md-4">
@@ -57,10 +57,10 @@
     <!-- ng-skos -->
     <script src="../src/ng-skos.js"></script>
     <script src="../src/services/SkosConceptProvider.js"></script>
+    <script src="../src/services/SkosProvider.js"></script>
+    <script src="../src/services/SkosConceptListProvider.js"></script>
     <script src="../src/directives/skosLabel.js"></script>
     <script src="../src/directives/skosConcept.js"></script>
-    <script src="../src/directives/skosMapping.js"></script>
-    <script src="../src/directives/skosTree.js"></script>
 
     <!-- app -->
     <script src="skos-suggest.js"></script>

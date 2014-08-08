@@ -32,8 +32,8 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
                 
                 var concept = {
                     notation: [ graph.gndIdentifier ],
-                    prefLabel: { de: "" },
                     uri: graph['@id'],
+                    prefLabel: { de: ""},
                     broader: [],
                     related: [],
                 };
@@ -97,15 +97,15 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
                     broader = graph.broaderTermPartitive;
                     }
                 }
-
                 if(angular.isArray(broader)){
-                    angular.forEach(broader, function(bterm) {
-                        concept.broader.push({uri: bterm });
-                    });
+                    if(broader.length != 0){
+                        angular.forEach(broader, function(bterm) {
+                            concept.broader.push({uri: bterm });
+                        });
+                    }
                 } else if(angular.isString(broader)){
                     concept.broader = [{uri: broader}];
                 }
-                
                 if(angular.isArray(graph.relatedTerm)){
                     angular.forEach(graph.relatedTerm, function(rterm) {
                         concept.related.push({uri: rterm });
@@ -226,22 +226,24 @@ cocoda.service('knownSchemes',
  * Controller
  */
 function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggestions, knownSchemes){
+
+    // references to the http-calls
+    $scope.gndSubjectSuggest = knownSchemes.gnd.suggest;
+    $scope.gndSubjectConcept = knownSchemes.gnd.getConcept;
+    $scope.rvkSubjectSuggest = knownSchemes.rvk.suggest;
+    $scope.rvkSubjectConcept = knownSchemes.rvk.getConcept;
+    $scope.rvkNarrowerConcepts = knownSchemes.rvk.getNarrower;
+    $scope.rvkBroaderConcepts = knownSchemes.rvk.getBroader;
     
-    // get RVK top concepts
-    knownSchemes.rvk.topConcepts.getConceptList().then(function(response){
-        $scope.rvkTop = response;
-    });
-    // used in mapping templates to transfer existing mappings into active state
-    $scope.insertMapping = function(mapping){
-        if(mapping.from[0].inScheme.notation[0] == $scope.activeView.origin && mapping.to[0].inScheme.notation[0] == $scope.activeView.target){
-            $scope.currentMapping = angular.copy(mapping);
-            $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
-        }
-    };
+    // NG-SUGGEST & NAVBAR FUNCTIONALITY
+    
     // possible profile scope
+    
+    /*
     $scope.ownDB = {
-        name: "VZG"
+       name: "VZG"
     }
+    */
     // active source and target schemes
     $scope.activeView = {
         origin: 'GND',
@@ -253,17 +255,21 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             $scope.activeView.origin = scheme;
             $scope.activeView.target = scheme;
             $scope.deleteAll();
+            $scope.originConcept = "";
+            $scope.originSubject = "";
         }else if(scheme != $scope.activeView.origin && scheme != ''){
+            $scope.activeView.origin = scheme;
             $scope.originConcept = "";
             $scope.originSubject = "";
             $scope.deleteAll();
-            $scope.activeView.origin = scheme;
+            $scope.changeTopOrigin(scheme);
         }
         if(scheme != '' && scheme == $scope.activeView.target){
             $scope.activeView.origin = scheme;
             $scope.activeView.target = "";
+            $scope.changeTopOrigin(scheme);
         }
-    }
+    };
     // target scheme selection behavior
     $scope.setTarget = function(scheme) {
         if(scheme == '' && scheme != $scope.activeView.origin){
@@ -275,8 +281,9 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             $scope.targetSubject = "";
             $scope.deleteAll();
             $scope.activeView.target = scheme;
+            $scope.changeTopTarget(scheme);
         }
-    }
+    };
     // decide which suggest function to call
     $scope.SubjectOriginSuggest = function(scheme){
         if(scheme == 'GND'){
@@ -284,27 +291,77 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         }else if(scheme == 'RVK'){
             return $scope.rvkSubjectSuggest;
         }
-    }
+    };
     $scope.SubjectTargetSuggest = function(scheme){
         if(scheme == 'GND'){
             return $scope.gndSubjectSuggest;
         }else if(scheme == 'RVK'){
             return $scope.rvkSubjectSuggest;
         }
-    }
-    // references to the http-calls
-    $scope.gndSubjectSuggest = knownSchemes.gnd.suggest;
-    $scope.gndSubjectConcept = knownSchemes.gnd.getConcept;
-    $scope.rvkSubjectSuggest = knownSchemes.rvk.suggest;
-    $scope.rvkSubjectConcept = knownSchemes.rvk.getConcept;
-    $scope.rvkNarrowerConcepts = knownSchemes.rvk.getNarrower;
-    $scope.rvkBroaderConcepts = knownSchemes.rvk.getBroader;
+    };
     /*
     $scope.safeApply = function(fn) { 
         var phase = this.$root.$$phase; 
         if(phase == '$apply' || phase == '$digest') { if(fn) fn(); } else { this.$apply(fn); } };
     */
     
+    // TOP CONCEPTS
+    
+    if($scope.activeView.origin == 'RVK'){
+        knownSchemes.rvk.topConcepts.getConceptList().then(function(response){
+            $scope.topOriginConcept = response;
+        });
+    }else if($scope.activeView.origin == 'DDC'){
+        
+    }
+    if($scope.activeView.target == 'RVK'){
+        knownSchemes.rvk.topConcepts.getConceptList().then(function(response){
+            $scope.topTargetConcept = response;
+        });
+    }else if($scope.activeView.target == 'DDC'){
+        
+    }
+    $scope.changeTopOrigin = function(scheme){
+        if(scheme == 'RVK'){
+            knownSchemes.rvk.topConcepts.getConceptList().then(function(response){
+                $scope.topOriginConcept = response;
+            });
+        }else if(scheme == 'DDC'){
+            
+        }else{
+            $scope.topOriginConcept = "";
+        }
+    }
+    $scope.changeTopTarget = function(scheme){
+        if(scheme == 'RVK'){
+            knownSchemes.rvk.topConcepts.getConceptList().then(function(response){
+                $scope.topTargetConcept = response;
+            });
+        }else if(scheme == 'DDC'){
+            
+        }else{
+            $scope.topTargetConcept = "";
+        }
+       
+    }
+    
+    
+    // show/hide top concepts
+    $scope.showTopConcepts = {
+        origin:true,
+        target:true
+    };
+    
+    
+    // SKOS-MAPPING-COLLECTION/TABLE TO SKOS-CONCEPT-MAPPING
+    
+    // used in mapping templates to transfer existing mappings into active state
+    $scope.insertMapping = function(mapping){
+        if(mapping.from[0].inScheme.notation[0] == $scope.activeView.origin && mapping.to[0].inScheme.notation[0] == $scope.activeView.target){
+            $scope.currentMapping = angular.copy(mapping);
+            $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
+        }
+    };
     // scope for the created mapping
     $scope.currentMapping = {
         from: [],
@@ -313,6 +370,9 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         source: '',
         timestamp: ''
     };
+    
+    // SKOS-CONCEPT TO SKOS-CONCEPT-MAPPING FUNCTIONS
+    
     // Choose origin mapping concept
     $scope.saveFrom = function(origin, item){
         $scope.currentMapping.from[0] = {
@@ -357,6 +417,9 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         $scope.currentMapping.to = [];
         $scope.currentMapping.from = [];
     };
+    
+    // SKOS-CONCEPT
+    
     // used for buffering broader terms in RVK
     $scope.tempConcept = {
             notation: [] ,
@@ -542,7 +605,6 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         }
     };
     // for filling the concept directly on selection
-    
     $scope.reselectConcept = function(role, concept){
         if(role == 'origin'){
             if(concept.prefLabel){

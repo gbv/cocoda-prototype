@@ -60,7 +60,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         $scope.subjectConcept = {
             uri: item.uri,
             prefLabel: {
-                en: item.label
+                de: item.label
             }
         };
 
@@ -86,7 +86,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         $scope.subjectConcept = {
             uri: uri,
             prefLabel: {
-                en: label
+                de: label
             }
         }
         $scope.gndSubjectConcept.updateConcept($scope.subjectConcept).then(function() {

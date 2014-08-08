@@ -97,12 +97,6 @@ angular.module('ngSKOS')
                     $scope.hidden[value] = false;
                 });
             });
-            $scope.hide = function(key){
-                $scope.hidden[key] = true;
-            }
-            $scope.show = function(key){
-                $scope.hidden[key] = false;
-            }
         }
     };
 });

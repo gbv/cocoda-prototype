@@ -5,8 +5,10 @@
                 <big><b>{{skey | uppercase}}</b></big>
             </span>
             <span style="margin-left:10px;">
-                <button style="line-height:90%" ng-if="hidden[skey] == false" ng-click="hide(skey)">Hide</button>
-                <button style="line-height:90%" ng-if="hidden[skey] == true" ng-click="show(skey)">Show</button>
+                <button style="line-height:90%" ng-click="hidden[skey] = !hidden[skey]">
+                    <span ng-if="hidden[skey] == false">Hide</span>
+                    <span ng-if="hidden[skey] == true">Show</span>
+                </button>
             </span>
         </div>
         <div ng-if="hidden[skey] == false" ng-repeat="f in source">
