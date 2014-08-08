@@ -112,7 +112,9 @@
                 <!-- Left/Origin concept column-->
                 <div class="col-md-3">
                     <div>
-                        <span style="width:100%;border-bottom: 1px solid #CCC"><big>Source Scheme</big></span>
+                        <div class="mapping-header">
+                        <span><big><b>Source Scheme</b></big></span>
+                        </div>
                         <!-- Origin concept scheme template -->
                         <div ng-if="activeView.origin.length && originConcept">
                             <div class="tmpl-border" skos-concept="originConcept" skos-click="clickOriginConcept" language="language"></div>
@@ -136,7 +138,7 @@
                             </div>
                             <div ng-if="topOriginConcept">
                                 <div style="margin-bottom:10px;">
-                                    <span><b>Origin Scheme Top Concepts</b></span>
+                                    <span><b>Top Concepts</b></span>
                                     <span>
                                         <button style="margin-left:53px;" ng-click="showTopConcepts.origin = !showTopConcepts.origin">
                                             <span ng-if="showTopConcepts.origin == false">Show</span>
@@ -154,17 +156,22 @@
                     </div>
                 </div>
                 <!-- Middle/Mapping and context column -->
-                <div class="col-md-6">
-                    <!-- Active mapping template -->
+                <div class="col-md-6" style="overflow:hidden;">
+                    <div class="mapping-header">
+                        <span style="margin:0 auto;"><big><b>Active Mapping View</b></big></span>
+                    </div>                    <!-- Active mapping template -->
                     <div class="tmpl-border" style="width:100%">
                         <div skos-concept-mapping="currentMapping" select="reselectConcept" mapping-from="activeView.origin" mapping-to="activeView.target"></div>
                     </div>
                     <!-- context templates -->
                     <div class="context">
+                        <div class="mapping-header">
+                        <span style="margin:0 auto;"><big><b>Reference Mappings</b></big></span>
+                        </div>
                         <!-- Existing mappings templates -->
                         <div style="position:relative;width:50%;float:left;">
                             <div ng-if="mappingSample" class="tmpl-border" style="overflow:auto">
-                                <div class="mapping-header"><b>Existing mappings</b></div>
+                                <div class="mapping-header"><b>Existing mappings in database</b></div>
                                 <div use-mapping="insertMapping" skos-mapping-collection="mappingSample"></div>
                             </div>
                             <div ng-if="mappingSampleGND" class="tmpl-border" style="overflow:auto">
@@ -180,8 +187,10 @@
                 </div>
                 <!-- Right/Target concept column-->
                 <div class="col-md-3">
-                    <div style="width:400px;">
-                        <span style="width:100%;border-bottom: 1px solid #CCC"><big>Target Scheme</big></span>
+                    <div>
+                        <div class="mapping-header">
+                        <span><big><b>Target Scheme</b></big></span>
+                        </div>
                         <!-- Target concept scheme template -->
                         <div ng-if="activeView.origin.length && targetConcept" style="min-width:350px">
                             <div class="tmpl-border" skos-concept="targetConcept" skos-click="clickTargetConcept" language="language"></div>
@@ -205,7 +214,7 @@
                             </div>
                             <div ng-if="topTargetConcept">
                                 <div style="margin-bottom:10px;">
-                                    <span><b>Target Scheme Top Concepts</b></span>
+                                    <span><b>Top Concepts</b></span>
                                     <span>
                                         <button style="margin-left:53px;" ng-click="showTopConcepts.target = !showTopConcepts.target">
                                             <span ng-if="showTopConcepts.target == false">Show</span>
