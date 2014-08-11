@@ -1,15 +1,15 @@
 <div>
     <div ng-if="!from.length && !to.length" style="margin-top:50px;margin-bottom:40px;text-align:center;">
-        <em>Please choose a concept scheme for mapping</em>
+        <em class="notification">Please choose a concept scheme for mapping</em>
     </div>
     <div ng-if="mapping.from.length && !from.length && !to.length" style="margin-top:10px;margin-bottom:5px;text-align:center;">
-        <em>Please choose a term to work on</em>
+        <em class="notification">Please choose a term to work on</em>
     </div>
     <div ng-if="from.length || mapping.to[0].notation.length" style="width:100%;">
         <table style="width:95%;margin:0 auto;align:center;">
             <thead class="simple-list" style="text-align:center;">
                 <tr>
-                    <th style="width:400px;"><span ng-if="from.length" class="classification">{{from}}</span></th><th style="width:24px"></th><th style="width:400px;text-align:right"><span ng-if="to.length" class="classification">{{to}}</span></th>
+                    <th style="width:400px;"></th><th style="width:24px"></th><th style="width:400px;text-align:right"></th>
                 </tr>
             </thead>
             <tbody>
@@ -21,7 +21,7 @@
                                 on-select="selectFrom">
                             </div>
                             <div ng-if="!mapping.from.length">
-                                <em>Please select a source mapping term</em>
+                                <em class="notification">Please select a source mapping term</em>
                             </div>
                         </div>
                     </td>
@@ -37,7 +37,7 @@
                                 on-select="selectTo" >
                             </div>
                             <div ng-if="!mapping.to.length">
-                                <em>Please select a target mapping term</em>
+                                <em class="notification">Please select a target mapping term</em>
                             </div>
                         </div>
                     </td>

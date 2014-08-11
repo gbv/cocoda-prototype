@@ -5,7 +5,7 @@
             <th><span class="classification">{{mapping[0].to[0].inScheme.notation[0]}}</span></th>
             <th><span>Type</span><a href="" style="text-decoration:none" ng-click="predicate = 'type.value';reverse = !reverse">  <small><span class="glyphicon glyphicon-sort"></span></small></a></th>
             <th><span>Date</span><a href="" style="text-decoration:none" ng-click="predicate = 'timestamp';reverse = !reverse">  <small><span class="glyphicon glyphicon-sort"></span></small></a></th>
-            <th>Actions</th>
+            <th ng-if="select">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -24,10 +24,10 @@
                     </li>
                 </ul>
             </td>
-            <td>{{m.type.prefLabel.en}} ({{m.type.value}})</td>
+            <td>{{m.type.prefLabel.en}}</td>
             <td>{{m.timestamp}}</td>
-            <td style="text-align:center">
-                    <a ng-if="select" style="cursor:pointer" ng-click="select(m)"><span class="glyphicon glyphicon-check"></span></a>
+            <td ng-if="select" style="text-align:center">
+                    <a style="cursor:pointer" ng-click="select(m)"><span class="glyphicon glyphicon-check"></span></a>
             </td>
         </tr>
     </tbody>

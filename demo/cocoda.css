@@ -31,7 +31,6 @@
     width:80px;
 }
 .search-top-input{
-    width:250px;
     margin:10px 0px;
 }
 .mapping-header{
@@ -40,6 +39,10 @@
     margin-bottom:5px;
     width:100%;
     text-align:center;
+}
+.mapping-header a{
+    color:#333;
+    cursor:pointer;
 }
 .context{
     margin-top:10px;

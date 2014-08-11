@@ -1,26 +1,21 @@
-<div ng-repeat="s in mappings">
-    <div ng-repeat="(skey, source) in s">
-        <div style="margin-bottom:6px;">
-            <span>
-                <big><b>{{skey | uppercase}}</b></big>
-            </span>
-            <span style="margin-left:10px;">
-                <button style="line-height:90%" ng-click="hidden[skey] = !hidden[skey]">
-                    <span ng-if="hidden[skey] == false">Hide</span>
-                    <span ng-if="hidden[skey] == true">Show</span>
-                </button>
-            </span>
-        </div>
-        <div ng-if="hidden[skey] == false" ng-repeat="f in source">
-            <span ng-repeat="(fkey, from) in f">
-                    <span ng-repeat="t in from">
-                        <span ng-repeat="(tkey, to) in t">
-                            <div skos-mapping-table="to" select-mapping="useMapping"></div>
+<accordion close-others="false">
+    <div ng-repeat="s in mappings">
+        <div ng-repeat="(skey, source) in s">
+            <accordion-group is-open="status[skey].open" style="margin-bottom:6px;">
+                
+                <accordion-heading>
+                    <b>{{skey | uppercase}}</b><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status[skey].open, 'glyphicon-chevron-right': !status[skey].open}"></i>
+                </accordion-heading>
+                <div ng-repeat="f in source">
+                    <span ng-repeat="(fkey, from) in f">
+                        <span ng-repeat="t in from">
+                            <span ng-repeat="(tkey, to) in t">
+                                <div skos-mapping-table="to" select-mapping="useMapping"></div>
+                            </span>
                         </span>
                     </span>
-            </span>
+                </div>
+            </accordion-group>
         </div>
     </div>
-    <div ng-if="$index < mappings.length-1" style="margin-bottom:6px;border-bottom:1px solid #CCC">
-    </div>
-</div>
+</accordion>

@@ -90,11 +90,11 @@ angular.module('ngSKOS')
             scope.$watch('hidden');
         },
         controller: function($scope){
-            $scope.hidden = {};
+            $scope.status = {};
             angular.forEach($scope.mappings, function(key,value){
                 angular.forEach(key, function(key,value){
                     
-                    $scope.hidden[value] = false;
+                    $scope.status[value] =  { open: true };
                 });
             });
         }

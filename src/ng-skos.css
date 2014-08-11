@@ -117,8 +117,9 @@ ul.ancestors li {
 }
 /* 'skos-concept' relations (broader, narrower, related) display*/
 .skos-concept-relation li:hover {
-    background-color:lightgrey;
+    background-color:#ddd;
     border-radius:3px;
+    color:#2a6496;
 }
 .skos-concept-relation li{
     text-decoration:none;
@@ -127,8 +128,7 @@ ul.ancestors li {
     padding: 0px 4px 0px 4px;
 }
 .skos-concept-relation span{
-    color:#803A22;
-    font-weight:bold;
+    color:#428bca;
 }
 /* styles for header, containing notation, prefLabel and uri-link */
 .top-alt{
@@ -238,4 +238,7 @@ ul.ancestors li {
 .simple-list{
     list-style-type:none;
     padding:0px;
+}
+.notification{
+    color:red;
 }
