@@ -13,7 +13,7 @@
 
 /*  icon-style for notations*/
 .notation{
-    background-color:lightgrey;
+    background-color:#CCC;
     border-radius:3px;
     padding-left:3px;
     padding-right:3px;
@@ -125,10 +125,25 @@ ul.ancestors li {
     text-decoration:none;
     cursor:pointer;
     display:inline-block;
-    padding: 0px 4px 0px 4px;
+    margin: 0 0 0 1em;
+}
+.skos-concept-relation ul{
+    margin: 0;
+    padding: 0 0 0 1.2em;
+    list-style: none;
+    text-indent: -1.1em;
 }
 .skos-concept-relation span{
     color:#428bca;
+}
+.skos-concept-relation-broader li:before{
+    content:'\2196';
+}
+.skos-concept-relation-narrower li:before{
+    content:'\2198';
+}
+.skos-concept-relation-related li:before{
+    content:'\2799';
 }
 /* styles for header, containing notation, prefLabel and uri-link */
 .top-alt{
@@ -241,4 +256,7 @@ ul.ancestors li {
 }
 .notification{
     color:red;
+}
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: #EEE;
 }

@@ -1,4 +1,4 @@
-<table style="white-space:nowrap;" class="table table-hover table-striped table-condensed table-bordered">
+<table style="white-space:nowrap;" class="table table-hover table-condensed table-bordered">
     <thead>
         <tr>
             <th><span class="classification">{{mapping[0].from[0].inScheme.notation[0]}}</span></th>
@@ -27,7 +27,7 @@
             <td>{{m.type.prefLabel.en}}</td>
             <td>{{m.timestamp}}</td>
             <td ng-if="select" style="text-align:center">
-                    <a style="cursor:pointer" ng-click="select(m)"><span class="glyphicon glyphicon-check"></span></a>
+                    <a style="cursor:pointer" ng-click="select(m)" title="Select mapping"><span class="glyphicon glyphicon-check"></span></a>
             </td>
         </tr>
     </tbody>

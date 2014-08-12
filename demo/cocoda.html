@@ -138,7 +138,8 @@
                 <div class="col-md-6">
                     <div class="mapping-header">
                         <span style="margin:0 auto;"><big><b>Active Mapping View</b></big></span>
-                    </div>                    <!-- Active mapping template -->
+                    </div>                    
+                    <!-- Active mapping template -->
                     <div class="tmpl-border" style="width:100%">
                         <div skos-concept-mapping="currentMapping" select="reselectConcept" mapping-from="activeView.origin" mapping-to="activeView.target"></div>
                     </div>
@@ -149,7 +150,7 @@
                         </div>
                         <div class="context-body">
                             <!-- Existing mappings templates -->
-                            <div ng-if="mappingSample" class="tmpl-border" style="margin-right:10px;float:left;">
+                            <div ng-if="mappingSample" class="tmpl-border" style="margin-right:20px;float:left;">
                                 <div class="mapping-header"><b>Existing mappings in database</b></div>
                                 <div use-mapping="insertMapping" skos-mapping-collection="mappingSample"></div>
                             </div>
@@ -233,7 +234,7 @@
                                             </accordion-heading>
                                             <ul ng-if="showTopConcepts.target == true" class="simple-list">
                                                 <li ng-repeat="v in topTargetConcept.values">
-                                                    <a style="text-decoration:none;" href="" ng-click="reselectConcept('target', v)"><span class="notation">{{v.notation}}</span>  <span>{{v.label}}</span></a>
+                                                    <a style="text-decoration:none;" href="" ng-click="reselectConcept('target', v)"><span class="notation">{{v.notation}}</span>  <span style="">{{v.label}}</span></a>
                                                 </li>
                                             </ul>
                                         </accordion-group>
