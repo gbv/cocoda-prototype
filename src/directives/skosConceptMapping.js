@@ -29,8 +29,7 @@ angular.module('ngSKOS')
             from: '=mappingFrom',
             to: '=mappingTo',
             select: '=select',
-            saveLocation: '=saveLocation'
-           
+            save: '=saveMapping',
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?

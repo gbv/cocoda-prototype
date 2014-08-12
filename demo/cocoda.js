@@ -239,11 +239,9 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     
     // possible profile scope
     
-    /*
-    $scope.ownDB = {
-       name: "VZG"
-    }
-    */
+
+    $scope.loggedIn = false;
+
     // active source and target schemes
     $scope.activeView = {
         origin: 'GND',
@@ -359,7 +357,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     $scope.insertMapping = function(mapping){
         if(mapping.from[0].inScheme.notation[0] == $scope.activeView.origin && mapping.to[0].inScheme.notation[0] == $scope.activeView.target){
             $scope.currentMapping = angular.copy(mapping);
-            $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
+            // $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
         }
     };
     // scope for the created mapping

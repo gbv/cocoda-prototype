@@ -43,19 +43,14 @@
                         <li>
                             <a class="navbar-brand" href=""><big>Cocoda</big></a>
                         </li>
-                        <!-- Origin scheme selection -->
-
-                        <!-- Origin term search w/ typeahead -->
-                        <li ng-if="activeView.origin.length" style="min-width:400px;margin:8px;">
-
-                        </li>
-                        <!-- Target scheme selection -->
-
-                        <!-- Target term search w/ typeahead -->
-                        <li ng-if="activeView.target.length" style="min-width:400px;margin:8px;">
-
-                        </li>
                     </ul>
+                    <div style="margin:13px;float:right;">
+                        <a ng-click="loggedIn = !loggedIn" href="">
+                            <span ng-if="!loggedIn">Log in</span>
+                            <span ng-if="loggedIn">Log out</span>
+                        </a>
+
+                    </div>
                 </div>
             </nav>
         </header>
@@ -71,7 +66,7 @@
                                         <big><b>Source Scheme: {{activeView.origin}}</b></big>
                                         <b class="caret"></b>
                                     </a>
-                                    <ul class="dropdown-menu" role="menu" style="margin-left:190px;">
+                                    <ul class="dropdown-menu" role="menu" style="margin-left:280px;float:none;min-width:0px;">
                                         <li>
                                             <a href="#" ng-click="setOrigin('')">none</a>
                                         </li>
@@ -137,11 +132,11 @@
                 <!-- Middle/Mapping and context column -->
                 <div class="col-md-6">
                     <div class="mapping-header">
-                        <span style="margin:0 auto;"><big><b>Active Mapping View</b></big></span>
+                        <span style="margin:0 auto;"><big><b>Mapping</b></big></span>
                     </div>                    
                     <!-- Active mapping template -->
-                    <div class="tmpl-border" style="width:100%">
-                        <div skos-concept-mapping="currentMapping" select="reselectConcept" mapping-from="activeView.origin" mapping-to="activeView.target"></div>
+                    <div class="tmpl-border" style="width:100%;">
+                        <div skos-concept-mapping="currentMapping" select="reselectConcept" mapping-from="activeView.origin" mapping-to="activeView.target" save-mapping="loggedIn"></div>
                     </div>
                     <!-- context templates -->
                     <div class="context">
@@ -150,20 +145,15 @@
                         </div>
                         <div class="context-body">
                             <!-- Existing mappings templates -->
-                            <div ng-if="mappingSample" class="tmpl-border" style="margin-right:20px;float:left;">
-                                <div class="mapping-header"><b>Existing mappings in database</b></div>
+                            <div ng-if="mappingSample" class="tmpl-border" style="width:100%">
                                 <div use-mapping="insertMapping" skos-mapping-collection="mappingSample"></div>
                             </div>
-                            <div style="max-width:45%;vertical-align:top;float:left;">
-                                <div ng-if="mappingSampleGND" class="tmpl-border">
-                                    <div class="mapping-header"><b>"CrissCross" Concordance</b></div>
+                            <div style="vertical-align:top;">
+                                <div ng-if="mappingSampleGND" class="tmpl-border" style="width:100%">
                                     <div skos-mapping-collection="mappingSampleGND"></div>
                                 </div>
                             <!-- Occurrences display -->
                                 <div ng-if="occurrencesSample" class="tmpl-border">
-                                    <div class="mapping-header">
-                                        <span><b>Catalog Occurences</b></span>
-                                    </div>
                                     <div style="overflow:auto" skos-occurrences="occurrencesSample"></div>
                                 </div>
                             </div>
@@ -180,7 +170,7 @@
                                         <big><b>Target Scheme: {{activeView.target}}</b></big>
                                         <b class="caret"></b>
                                     </a>
-                                    <ul class="dropdown-menu" role="menu" style="margin-left:190px;">
+                                    <ul class="dropdown-menu" role="menu" style="margin-left:280px;float:none;min-width:0px;">
                                         <li>
                                             <a href="#" ng-click="setTarget('')">none</a>
                                         </li>

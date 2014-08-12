@@ -4,7 +4,7 @@
             <accordion-group is-open="status[skey].open" style="margin-bottom:6px;">
                 
                 <accordion-heading>
-                    <b>{{skey | uppercase}}</b><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status[skey].open, 'glyphicon-chevron-right': !status[skey].open}"></i>
+                    <b>{{skey}}</b><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status[skey].open, 'glyphicon-chevron-right': !status[skey].open}"></i>
                 </accordion-heading>
                 <div ng-repeat="f in source">
                     <span ng-repeat="(fkey, from) in f">

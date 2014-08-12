@@ -28,7 +28,7 @@
                                 ],
                                 "type": { "prefLabel": { "en":"strong"}, "value": 3},
                                 "timestamp": "2014-01-01",
-                                "source": "DDC-GND"
+                                "source": "GND-DDC"
                             },
                             {
                                 "from": [
@@ -53,7 +53,7 @@
                                 ],
                                 "type": { "prefLabel": { "en":"medium"}, "value": 2},
                                 "timestamp": "2014-01-01",
-                                "source": "DDC-GND"
+                                "source": "GND-DDC"
                             }
                         ]
                     }

@@ -44,6 +44,9 @@ angular.module('ngSKOS')
                     // TODO: add watcher/trigger
                 }
             );
+        },
+        controller: function($scope){
+            $scope.status = {open: true};
         }
     };
 });
