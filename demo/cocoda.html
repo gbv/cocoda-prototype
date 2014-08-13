@@ -133,7 +133,7 @@
                 <div class="col-md-6">
                     <div class="mapping-header">
                         <span style="margin:0 auto;"><big><b>Mapping</b></big></span>
-                    </div>                    
+                    </div>
                     <!-- Active mapping template -->
                     <div class="tmpl-border" style="width:100%;">
                         <div skos-concept-mapping="currentMapping" select="reselectConcept" mapping-from="activeView.origin" mapping-to="activeView.target" save-mapping="loggedIn"></div>
@@ -143,19 +143,21 @@
                         <div class="mapping-header">
                             <span style="margin:0 auto;"><big><b>Reference Mappings</b></big></span>
                         </div>
-                        <div class="context-body">
+                        <div class="context-body" style="overflow:hidden">
                             <!-- Existing mappings templates -->
-                            <div ng-if="mappingSample" class="tmpl-border" style="width:100%">
-                                <div use-mapping="insertMapping" skos-mapping-collection="mappingSample"></div>
-                            </div>
-                            <div style="vertical-align:top;">
-                                <div ng-if="mappingSampleGND" class="tmpl-border" style="width:100%">
+                            <div style="float:left;">
+                                <div ng-if="mappingSample" class="tmpl-border" style="">
+                                    <div use-mapping="insertMapping" skos-mapping-collection="mappingSample"></div>
+                                </div>
+                                <p>
+                                <div ng-if="mappingSampleGND" class="tmpl-border" style="">
                                     <div skos-mapping-collection="mappingSampleGND"></div>
                                 </div>
-                            <!-- Occurrences display -->
-                                <div ng-if="occurrencesSample" class="tmpl-border">
-                                    <div style="overflow:auto" skos-occurrences="occurrencesSample"></div>
-                                </div>
+                                </p>
+                            </div>
+                        <!-- Occurrences display -->
+                            <div ng-if="occurrencesSample" class="tmpl-border" style="float:right;margin-left:10px;">
+                                <div style="overflow:auto" skos-occurrences="occurrencesSample" select-occurrence="insertMapping"></div>
                             </div>
                         </div>
                     </div>

@@ -122,7 +122,7 @@ ul.ancestors li {
 }
 /* 'skos-concept' altLabel display*/
 .skos-concept-altlabel{
-    margin-bottom:5px;
+    margin:4px 0px 5px 6px;
     font-style:italic;
 }
 /* 'skos-concept' relations (broader, narrower, related) display*/

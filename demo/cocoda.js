@@ -355,11 +355,28 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     
     // used in mapping templates to transfer existing mappings into active state
     $scope.insertMapping = function(mapping){
-        if(mapping.from[0].inScheme.notation[0] == $scope.activeView.origin && mapping.to[0].inScheme.notation[0] == $scope.activeView.target){
-            $scope.currentMapping = angular.copy(mapping);
-            // $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
+        if(mapping.from){
+            if(mapping.from[0].inScheme.notation[0] == $scope.activeView.origin && mapping.to[0].inScheme.notation[0] == $scope.activeView.target){
+                $scope.currentMapping = angular.copy(mapping);
+                // $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
+            }
+        }else if(mapping.notation){
+            if(mapping.inScheme.notation[0] == $scope.activeView.target){
+                var dupes = false;
+                angular.forEach($scope.currentMapping.to, function(value,key){
+                    if(value.notation[0] == mapping.notation[0]){
+                        dupes = true;
+                    }
+                });
+                if(dupes == 0){
+                    $scope.currentMapping.to.push(mapping);
+                }
+            }
         }
     };
+    // SKOS-OCCURRENCES TO SKOS-CONCEPT-MAPPING
+    
+    
     // scope for the created mapping
     $scope.currentMapping = {
         from: [],

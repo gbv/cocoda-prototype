@@ -5,7 +5,7 @@
         "prefLabel":{
             "en":"Leukocytes (White corpuscles)",
             "de":"Leukozyten (Weiße Blutkörperchen)"
-            },
+        },
         "inScheme": { "notation": ["DDC"] }
     }],
     "database": { "notation": ["GVK"] },
@@ -18,7 +18,8 @@
                 "prefLabel":{
                     "en":"rvkSample1",
                     "de":"rvkBeispiel1"
-                }
+                },
+                "inScheme": { "notation": ["RVK"] }
             },
             22
         ],
@@ -28,7 +29,8 @@
                 "prefLabel":{
                     "en":"rvkSample2",
                     "de":"rvkBeispiel2"
-                }
+                },
+                "inScheme": { "notation": ["RVK"] }
             },
             11
         ],
@@ -38,7 +40,8 @@
                 "prefLabel":{
                     "en":"rvkSample3",
                     "de":"rvkBeispiel3"
-                }
+                },
+                "inScheme": { "notation": ["RVK"] }
             },
             8
         ],
@@ -48,7 +51,8 @@
                 "prefLabel":{
                     "en":"rvkSample4",
                     "de":"rvkBeispiel4"
-                }
+                },
+                "inScheme": { "notation": ["RVK"] }
             },
             1
         ]

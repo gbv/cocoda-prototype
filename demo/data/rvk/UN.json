@@ -15,7 +15,6 @@
         "en": "nuclear physics", 
         "de": "Kernphysik" 
     },
-    "altLabel":[""],
     "note": { "en": ["this is a note"] },
     "narrower": [
         {

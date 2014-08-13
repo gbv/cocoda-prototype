@@ -31,6 +31,7 @@ angular.module('ngSKOS')
         restrict: 'A',
         scope: {
             occurrence:'=skosOccurrences',
+            select:'=selectOccurrence',
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ? 
