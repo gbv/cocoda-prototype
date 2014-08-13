@@ -38,7 +38,12 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="not in hits">
-                            <td><span ng-if="not.length" class="notation" popover="{{not[0].prefLabel.de}}" popover-trigger="mouseenter" ng-click="select(not[0])" style="cursor:pointer;">{{not[0].notation[0]}}</span></td>
+                            <td>
+                                <div style="width:100%;clear:both;">
+                                    <span ng-if="not.length" class="notation" popover="{{not[0].prefLabel.de}}" popover-trigger="mouseenter" ng-click="select(not[0])" style="cursor:pointer;">{{not[0].notation[0]}}</span>
+                                    <span style="color:#428bca;float:right;font-size:0.8em;margin-top:4px;"><span class="glyphicon glyphicon-plus"></span></span>
+                                </div>
+                            </td>
                             <td>{{not[1]}}</td>
                             <td>{{not[1]/total*100 | number:1}} %</td>
                         </tr>

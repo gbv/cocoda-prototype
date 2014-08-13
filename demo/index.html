@@ -108,8 +108,12 @@
                                         <div skos-concept="originConcept" skos-click="clickOriginConcept" language="language">
                                         </div>
                                         <div style="margin-bottom:5px;">
-                                            <button ng-click="saveFrom(activeView.origin, originConcept)">Use term</button>
-                                            <button disabled="true" ng-click="searchOccurrence(activeView.origin, originConcept)">Look up mappings</button>
+                                        <span style="margin-left:20px;width:10em;margin-right:10px;">
+                                            <button ng-click="saveFrom(activeView.origin, originConcept)" title="Use term">
+                                                <span style="" class="glyphicon glyphicon-share-alt"></span>
+                                            </button>
+                                        </span>
+                                            <button disabled="true" ng-click="searchOccurrence(activeView.origin, originConcept)">Look up mappings <span class="glyphicon glyphicon-stats"></span></button>
                                         </div>
                                     </div>
                                 </div>

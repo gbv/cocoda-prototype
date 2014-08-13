@@ -21,11 +21,10 @@
             <td>
                 <ul class="simple-list" style="margin-bottom:0px">
                     <li ng-repeat="t in m.to">
-                        <span ng-click="select(t)" style="cursor:pointer;" title="Add mapping term">
-
-                            <span class="notation" popover="{{t.prefLabel.de}}" style="cursor:pointer;" popover-trigger="mouseenter">{{t.notation[0]}}</span>
-                            <span style="color:#428bca;margin-right:3px;font-size:0.8em;" class="glyphicon glyphicon-plus"></span>
-                        </span>
+                        <div ng-click="select(t)" style="cursor:pointer;width:100%;overflow:hidden;margin-bottom:3px;" title="Add mapping term">
+                            <span class="notation" popover="{{t.prefLabel.de}}" style="cursor:pointer;float:left;margin-right:5px;" popover-trigger="mouseenter">{{t.notation[0]}}</span>
+                            <a style="color:#428bca;float:right;margin-top:3px;font-size:0.8em;"><span class="glyphicon glyphicon-plus"></span></a>
+                        </div>
                     </li>
                 </ul>
             </td>
