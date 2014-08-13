@@ -215,7 +215,20 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
         
 
     };
+    
     // TODO: this.ddc
+    
+    this.wikidata = {
+        name: 'Wikidata',
+        getConcept: new SkosConceptProvider({
+            url: "http://www.wikidata.org/w/api.php?action=wbgetentities&ids={notation}&props=info|labels|descriptions|aliases",
+            jsonp: true,
+            transform: function(item) {
+                console.log(item);
+                // TODO
+            }
+        })
+    };
 };
 
 cocoda.service('knownSchemes', 
@@ -228,13 +241,14 @@ cocoda.service('knownSchemes',
 function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggestions, knownSchemes){
 
     // references to the http-calls
-    $scope.gndSubjectSuggest = knownSchemes.gnd.suggest;
+    $scope.schemes = knownSchemes;
+
     $scope.gndSubjectConcept = knownSchemes.gnd.getConcept;
-    $scope.rvkSubjectSuggest = knownSchemes.rvk.suggest;
     $scope.rvkSubjectConcept = knownSchemes.rvk.getConcept;
+
     $scope.rvkNarrowerConcepts = knownSchemes.rvk.getNarrower;
     $scope.rvkBroaderConcepts = knownSchemes.rvk.getBroader;
-    
+
     // NG-SUGGEST & NAVBAR FUNCTIONALITY
     
     // possible profile scope
@@ -283,18 +297,10 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         }
     };
     // decide which suggest function to call
-    $scope.SubjectOriginSuggest = function(scheme){
-        if(scheme == 'GND'){
-            return $scope.gndSubjectSuggest;
-        }else if(scheme == 'RVK'){
-            return $scope.rvkSubjectSuggest;
-        }
-    };
-    $scope.SubjectTargetSuggest = function(scheme){
-        if(scheme == 'GND'){
-            return $scope.gndSubjectSuggest;
-        }else if(scheme == 'RVK'){
-            return $scope.rvkSubjectSuggest;
+    $scope.SuggestConcept = function(scheme){
+        scheme = scheme.toLowerCase();
+        if ($scope.schemes[scheme]) {
+            return $scope.schemes[scheme].suggest;
         }
     };
     /*
