@@ -82,7 +82,7 @@
                         </div>
                         <div ng-if="activeView.origin.length">
                             <input class="form-control"
-                                    suggest-typeahead="SubjectOriginSuggest(activeView.origin)"
+                                    suggest-typeahead="SuggestConcept(activeView.origin)"
                                     typeahead-on-select="selectOriginSubject($item)"
                                     ng-model="originSubject"
                                     placeholder="Search by terms"
@@ -197,7 +197,7 @@
                         </div>
                         <div ng-if="activeView.origin.length">
                             <input class="form-control"
-                                suggest-typeahead="SubjectTargetSuggest(activeView.target)"
+                                suggest-typeahead="SuggestConcept(activeView.target)"
                                 typeahead-on-select="selectTargetSubject($item)"
                                 ng-model="targetSubject"
                                 placeholder="Search by terms"
