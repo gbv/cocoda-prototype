@@ -54,4 +54,14 @@
     margin:5px 0px 10px 0px;
     display:inline-block;
 }
+.skos-concept{
+    border:none;
+}
+.skos-concept-border{
+    background-color:#f5f5f5;
+    border:1px solid #DDD;
+    border-radius:3px;
+    padding:10px 15px;
+}
+
 
