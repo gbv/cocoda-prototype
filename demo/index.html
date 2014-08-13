@@ -85,11 +85,11 @@
                                     suggest-typeahead="SuggestConcept(activeView.origin)"
                                     typeahead-on-select="selectOriginSubject($item)"
                                     ng-model="originSubject"
-                                    placeholder="Search by terms"
+                                    placeholder="Search by terms (typeahead)"
                                     typeahead-loading="loadingLocations"
                                     typeahead-editable="false"
                             />
-                            <i style="position:absolute;right:22px;top:10px;" ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                            <i style="position:absolute;right:22px;top:45px;" ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                             <div class="search-top">
                                 <form ng-submit="reselectConcept('origin', originNotation)">
                                     <span style="float:left;">
@@ -108,7 +108,7 @@
                                         <div skos-concept="originConcept" skos-click="clickOriginConcept" language="language">
                                         </div>
                                         <div style="margin-bottom:5px;">
-                                        <span style="margin-left:20px;width:10em;margin-right:10px;">
+                                        <span style="margin-left:18px;width:10em;margin-right:10px;">
                                             <button ng-click="saveFrom(activeView.origin, originConcept)" title="Use term">
                                                 <span style="" class="glyphicon glyphicon-share-alt"></span>
                                             </button>
@@ -176,7 +176,7 @@
                     <div>
                         <div class="mapping-header">
                             <ul class="simple-list">
-                                <li ng-if="activeView.origin.length" class="dropdown">
+                                <li class="dropdown">
                                     <a data-toggle="dropdown" type="button" class="dropdown-toggle">
                                         <big><b>Target Scheme: {{activeView.target}}</b></big>
                                         <b class="caret"></b>
@@ -195,16 +195,16 @@
                                 </li>
                             </ul>
                         </div>
-                        <div ng-if="activeView.origin.length">
+                        <div ng-if="activeView.target.length">
                             <input class="form-control"
                                 suggest-typeahead="SuggestConcept(activeView.target)"
                                 typeahead-on-select="selectTargetSubject($item)"
                                 ng-model="targetSubject"
-                                placeholder="Search by terms"
+                                placeholder="Search by terms (typeahead)"
                                 typeahead-loading="loadingLocations"
                                 typeahead-editable="false"
                             />
-                            <i style="position:absolute;right:22px;top:10px;" ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                            <i style="position:absolute;right:22px;top:45px;" ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                             <div class="search-top">
                                 <form ng-submit="reselectConcept('target', targetNotation)">
                                     <span style="float:left;">
@@ -223,7 +223,7 @@
                                     <div class="skos-concept-border">
                                         <div skos-concept="targetConcept" skos-click="clickTargetConcept" language="language"></div>
                                         <div style="margin-bottom:5px;">
-                                            <span style="margin-left:20px;width:10em;margin-right:10px;">
+                                            <span style="margin-left:16px;width:10em;margin-right:10px;">
                                                 <button ng-disabled="checkDuplicate()" ng-click="addTo(activeView.target, targetConcept)" title="Add target term"><span style="" class="glyphicon glyphicon-plus"></span></button>
                                             </span>
                                             <button ng-click="replaceTo(activeView.target, targetConcept)" title="Replace current terms"><span class="glyphicon glyphicon-share-alt"></span></button>

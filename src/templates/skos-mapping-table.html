@@ -3,9 +3,24 @@
         <tr>
             <th><span class="classification">{{mapping[0].from[0].inScheme.notation[0]}}</span></th>
             <th><span class="classification">{{mapping[0].to[0].inScheme.notation[0]}}</span></th>
-            <th ng-if="mapping[0].type"><span>Type</span><a href="" style="text-decoration:none" ng-click="predicate = 'type.value';reverse = !reverse">  <small><span class="glyphicon glyphicon-sort"></span></small></a></th>
-            <th><span>Creator</span><a href="" style="text-decoration:none" ng-click="predicate = 'creator';reverse = !reverse">  <small><span class="glyphicon glyphicon-sort"></span></small></a></th>
-            <th style="width:100px;"><span>Date</span><a href="" style="text-decoration:none" ng-click="predicate = 'timestamp';reverse = !reverse">  <small><span class="glyphicon glyphicon-sort"></span></small></a></th>
+            <th ng-if="mapping[0].type" style="cursor:pointer;">
+                <span style="margin-right:3px;">Type</span>
+                <a ng-click="predicate = 'type.value';reverse = !reverse" href="" style="text-decoration:none;font-size:0.8em;">  
+                    <span class="glyphicon glyphicon-sort"></span>
+                </a>
+            </th>
+            <th>
+                <span style="margin-right:3px;">Creator</span>
+                <a ng-click="predicate = 'creator';reverse = !reverse" href="" style="text-decoration:none;font-size:0.8em;">
+                    <span class="glyphicon glyphicon-sort"></span>
+                </a>
+            </th>
+            <th style="width:100px;">
+                <span style="margin-right:3px;">Date</span>
+                <a ng-click="predicate = 'timestamp';reverse = !reverse" href="" style="text-decoration:none;font-size:0.8em;">
+                    <small><span class="glyphicon glyphicon-sort"></span></small>
+                </a>
+            </th>
             <th ng-if="select"></th>
         </tr>
     </thead>
@@ -22,7 +37,7 @@
                 <ul class="simple-list" style="margin-bottom:0px">
                     <li ng-repeat="t in m.to">
                         <div ng-click="select(t)" style="cursor:pointer;width:100%;overflow:hidden;margin-bottom:3px;" title="Add mapping term">
-                            <span class="notation" popover="{{t.prefLabel.de}}" style="cursor:pointer;float:left;margin-right:5px;" popover-trigger="mouseenter">{{t.notation[0]}}</span>
+                            <span class="notation" popover="{{t.prefLabel.de}}" style="cursor:pointer;float:left;margin-right:5px;line-height:1.15em;margin-top:2px;" popover-trigger="mouseenter">{{t.notation[0]}}</span>
                             <a style="color:#428bca;float:right;margin-top:3px;font-size:0.8em;"><span class="glyphicon glyphicon-plus"></span></a>
                         </div>
                     </li>
@@ -31,7 +46,7 @@
             <td ng-if="mapping[0].type">{{m.type.prefLabel.en}}</td>
             <td style="vertical-align:middle"><span>{{m.creator}}</span></td>
             <td style="vertical-align:middle;max-width:100px;">{{m.timestamp}}</td>
-            <td ng-if="select" style="text-align:center;vertical-align:middle"">
+            <td ng-if="select" style="text-align:center;vertical-align:middle">
                     <a style="cursor:pointer" ng-click="select(m)" title="Select mapping"><span class="glyphicon glyphicon-open"></span></a>
             </td>
         </tr>

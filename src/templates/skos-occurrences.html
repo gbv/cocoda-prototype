@@ -39,9 +39,9 @@
                     <tbody>
                         <tr ng-repeat="not in hits">
                             <td>
-                                <div style="width:100%;clear:both;">
-                                    <span ng-if="not.length" class="notation" popover="{{not[0].prefLabel.de}}" popover-trigger="mouseenter" ng-click="select(not[0])" style="cursor:pointer;">{{not[0].notation[0]}}</span>
-                                    <span style="color:#428bca;float:right;font-size:0.8em;margin-top:4px;"><span class="glyphicon glyphicon-plus"></span></span>
+                                <div ng-click="select(not[0])" style="width:100%;clear:both;cursor:pointer">
+                                    <span ng-if="not.length" class="notation" popover="{{not[0].prefLabel.de}}" popover-trigger="mouseenter" style="cursor:pointer;">{{not[0].notation[0]}}</span>
+                                    <span style="color:#428bca;float:right;font-size:0.8em;margin-top:3px;" style="cursor:pointer;"><span class="glyphicon glyphicon-plus"></span></span>
                                 </div>
                             </td>
                             <td>{{not[1]}}</td>

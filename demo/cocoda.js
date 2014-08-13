@@ -284,15 +284,16 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     };
     // target scheme selection behavior
     $scope.setTarget = function(scheme) {
-        if(scheme == '' && scheme != $scope.activeView.origin){
+        if(scheme == ''){
             $scope.activeView.target = scheme;
+            $scope.targetConcept = "";
             $scope.deleteAll();
             
         }else if(scheme != $scope.activeView.target && scheme != $scope.activeView.origin){
+            $scope.activeView.target = scheme;
             $scope.targetConcept = "";
             $scope.targetSubject = "";
             $scope.deleteAll();
-            $scope.activeView.target = scheme;
             $scope.changeTopTarget(scheme);
         }
     };
@@ -349,7 +350,6 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
        
     }
     
-    
     // show/hide top concepts
     $scope.showTopConcepts = {
         origin:true,
@@ -361,11 +361,13 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     
     // used in mapping templates to transfer existing mappings into active state
     $scope.insertMapping = function(mapping){
+        //complete mappings
         if(mapping.from){
             if(mapping.from[0].inScheme.notation[0] == $scope.activeView.origin && mapping.to[0].inScheme.notation[0] == $scope.activeView.target){
                 $scope.currentMapping = angular.copy(mapping);
                 // $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
             }
+        // single target terms
         }else if(mapping.notation){
             if(mapping.inScheme.notation[0] == $scope.activeView.target){
                 var dupes = false;
@@ -443,13 +445,14 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     
     // used for buffering broader terms in RVK
     $scope.tempConcept = {
-            notation: [] ,
-            uri: "",
-            prefLabel: {
-                de:""
-            },
-            broader:"",
-        };
+        notation: [] ,
+        uri: "",
+        prefLabel: {
+            de:""
+        },
+        broader:"",
+    };
+    
     // scope for notation inputs in topConcepts
     $scope.originNotation = {};
     $scope.targetNotation = {};
@@ -476,41 +479,40 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             $scope.clickOriginConcept = function(concept) {
                 $scope.gndSubjectConcept.updateConcept( $scope.originConcept = concept ).then(
                     function() {
-                        $scope.originSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
                         $scope.gndSubjectConcept.updateConnected($scope.originConcept)
                     }
                 );
             };
         }else if($scope.activeView.origin == 'RVK'){
             
-                $scope.originConcept = {
-                    notation: [ item.notation ] ,
-                    uri: item.notation ,
-                    prefLabel: {
-                        de: item.label
-                    },
-                };
+            $scope.originConcept = {
+                notation: [ item.notation ] ,
+                uri: item.notation ,
+                prefLabel: {
+                    de: item.label
+                },
+            };
 
-                // update concept
-                $scope.rvkSubjectConcept.updateConcept($scope.originConcept).then(function() {
-                    // fill buffer concept, so originConcept won't be overwritten
+            // update concept
+            $scope.rvkSubjectConcept.updateConcept($scope.originConcept).then(function() {
+                // fill buffer concept, so originConcept won't be overwritten
+                $scope.tempConcept = angular.copy($scope.originConcept);
+                $scope.originSubject = $scope.originConcept.prefLabel.de;
+                if($scope.originConcept.hasChildren == true){
+                    $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept).then(function(){
+                        $scope.originConcept.altLabel = angular.copy($scope.tempConcept.altLabel);
+                        $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
+                            $scope.originConcept.broader = $scope.tempConcept.broader;
+                        })
+                    });
+                }else{
                     $scope.tempConcept = angular.copy($scope.originConcept);
-                    $scope.originSubject = $scope.originConcept.prefLabel.de;
-                    if($scope.originConcept.hasChildren == true){
-                        $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept).then(function(){
-                            $scope.originConcept.altLabel = angular.copy($scope.tempConcept.altLabel);
-                            $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
-                                $scope.originConcept.broader = $scope.tempConcept.broader;
-                            })
-                        });
-                    }else{
-                        $scope.tempConcept = angular.copy($scope.originConcept);
 
-                        $scope.rvkBroaderConcepts.updateConcept($scope.originConcept).then(function(){
-                            $scope.originConcept.altLabel = $scope.tempConcept.altLabel;
-                        });
-                    }
-                });
+                    $scope.rvkBroaderConcepts.updateConcept($scope.originConcept).then(function(){
+                        $scope.originConcept.altLabel = $scope.tempConcept.altLabel;
+                    });
+                }
+            });
             // when concept node is clicked
             $scope.clickOriginConcept = function(concept) {
                 
@@ -518,7 +520,6 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                     function() {
                         // fill buffer concept, so originConcept won't be overwritten
                         $scope.tempConcept = angular.copy($scope.originConcept);
-                        $scope.originSubject = $scope.originConcept.prefLabel.de; // TODO: nur wenn vorhanden
                         if($scope.originConcept.hasChildren == true){
                             $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept).then(function(){
                                 $scope.originConcept.altLabel = angular.copy($scope.tempConcept.altLabel);
@@ -562,7 +563,6 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             $scope.clickTargetConcept = function(concept) {
                 $scope.gndSubjectConcept.updateConcept( $scope.targetConcept = concept ).then(
                     function() {
-                        $scope.targetSubject = concept.prefLabel.de; // TODO: nur wenn vorhanden
                         $scope.gndSubjectConcept.updateConnected($scope.targetConcept)
                     }
                 );
@@ -581,7 +581,6 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             $scope.rvkSubjectConcept.updateConcept($scope.targetConcept).then(function() {
                 // fill buffer concept, so originConcept won't be overwritten
                 $scope.tempConcept = angular.copy($scope.targetConcept);
-                $scope.targetSubject = $scope.targetConcept.prefLabel.de;
                 if($scope.targetConcept.hasChildren == true){
                     $scope.rvkNarrowerConcepts.updateConcept($scope.targetConcept).then(function(){
 
@@ -604,7 +603,6 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                 $scope.rvkSubjectConcept.updateConcept( $scope.targetConcept = concept ).then(function() {
                     // fill buffer concept, so originConcept won't be overwritten
                     $scope.tempConcept = angular.copy($scope.targetConcept);
-                    $scope.targetSubject = $scope.targetConcept.prefLabel.de; // TODO: nur wenn vorhanden
                     if($scope.targetConcept.hasChildren == true){
                         $scope.rvkNarrowerConcepts.updateConcept($scope.targetConcept).then(function(){
 
