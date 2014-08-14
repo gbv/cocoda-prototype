@@ -420,14 +420,20 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     };
     // check, if the chosen mapping concept is already in the list
     $scope.checkDuplicate = function(){
-        var res = false;
+        var dupes = false;
         angular.forEach($scope.currentMapping.to, function(value,key) {
             var map = value;
-            if($scope.targetConcept.uri == map.uri){
-                res = true;
+            if($scope.targetConcept.uri && map.uri){
+                if($scope.targetConcept.uri == map.uri){
+                    dupes = true;
+                }
+            }else{
+                if($scope.targetConcept.notation[0] == map.notation[0]){
+                    dupes = true;
+                }
             }
         });
-        return res;
+        return dupes;
     };
     // replace all target mappings with selected one
     $scope.replaceTo = function(target, item){

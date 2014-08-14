@@ -14,10 +14,9 @@
     "hits": [
         [
             {
-                "notation": ["ABC 123"],
+                "notation": ["WW 8840"],
                 "prefLabel":{
-                    "en":"rvkSample1",
-                    "de":"rvkBeispiel1"
+                    "de":"Blutkörperchen (Erythrozyt, Leukozyt), Hämoglobin / Allgemeines"
                 },
                 "inScheme": { "notation": ["RVK"] }
             },
@@ -25,10 +24,9 @@
         ],
         [
             {
-                "notation": ["QR 13"],
+                "notation": ["YC 2500 - YC 2599"],
                 "prefLabel":{
-                    "en":"rvkSample2",
-                    "de":"rvkBeispiel2"
+                    "de":"Leukozytäres System: Leukämie (Leukose), Myelose, Agranulozytose, Tumorbildende Leukämieformen, Lymphatische Leukämie, Chronische Lymphadenose, Chlorom / Schlüssel zur Theoretischen und Klinischen Medizin"
                 },
                 "inScheme": { "notation": ["RVK"] }
             },
@@ -36,10 +34,9 @@
         ],
         [
             {
-                "notation": ["QR 1355"],
+                "notation": ["WF 9895"],
                 "prefLabel":{
-                    "en":"rvkSample3",
-                    "de":"rvkBeispiel3"
+                    "de":"T-Lymphozyten, T-Lymphozyten-Rezeptor"
                 },
                 "inScheme": { "notation": ["RVK"] }
             },
@@ -47,10 +44,10 @@
         ],
         [
             {
-                "notation": ["XX 33"],
+                "notation": ["XG 6700 - XG 6728"],
                 "prefLabel":{
                     "en":"rvkSample4",
-                    "de":"rvkBeispiel4"
+                    "de":"Lymphknoten, Milz / Formalschlüssel zur Theoretischen und Klinischen Medizin"
                 },
                 "inScheme": { "notation": ["RVK"] }
             },

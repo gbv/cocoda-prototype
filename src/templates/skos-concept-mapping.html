@@ -61,7 +61,7 @@
             </div>
             -->
             <div style="float:right;margin-top:10px;">
-                <button ng-if="save" ng-click="saveMapping()" ng-disabled="!mapping.from.length || !mapping.to.length" title="Save current mapping"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+                <button ng-if="save" ng-click="saveMapping()" ng-disabled="!mapping.from.length || !mapping.to.length" title="Save current mapping"><span style="margin-right:5px;">Save</span><span class="glyphicon glyphicon-floppy-disk"></span></button>
             </div>
             <div ng-if="mapping.timestamp" style="float:right;margin-top:13px;margin-right:15px;">
                 Created: <span>{{mapping.timestamp}}</span>

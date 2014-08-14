@@ -110,10 +110,10 @@
                                         <div style="margin-bottom:5px;">
                                         <span style="margin-left:18px;width:10em;margin-right:10px;">
                                             <button ng-click="saveFrom(activeView.origin, originConcept)" title="Use term">
-                                                <span style="" class="glyphicon glyphicon-share-alt"></span>
+                                                <span style="margin-right:5px;">Use</span><span class="glyphicon glyphicon-share-alt"></span>
                                             </button>
                                         </span>
-                                            <button disabled="true" ng-click="searchOccurrence(activeView.origin, originConcept)">Look up mappings <span class="glyphicon glyphicon-stats"></span></button>
+                                            <button disabled="true" ng-click="searchOccurrence(activeView.origin, originConcept)"><span style="margin-right:5px;">Look up mappings</span><span class="glyphicon glyphicon-stats"></span></button>
                                         </div>
                                     </div>
                                 </div>
@@ -224,9 +224,15 @@
                                         <div skos-concept="targetConcept" skos-click="clickTargetConcept" language="language"></div>
                                         <div style="margin-bottom:5px;">
                                             <span style="margin-left:16px;width:10em;margin-right:10px;">
-                                                <button ng-disabled="checkDuplicate()" ng-click="addTo(activeView.target, targetConcept)" title="Add target term"><span style="" class="glyphicon glyphicon-plus"></span></button>
+                                                <button ng-disabled="checkDuplicate()" ng-click="addTo(activeView.target, targetConcept)" title="Add target term">
+                                                    <span style="margin-right:5px;">Add</span>
+                                                    <span style="" class="glyphicon glyphicon-plus"></span>
+                                                </button>
                                             </span>
-                                            <button ng-click="replaceTo(activeView.target, targetConcept)" title="Replace current terms"><span class="glyphicon glyphicon-share-alt"></span></button>
+                                            <button ng-click="replaceTo(activeView.target, targetConcept)" title="Replace current terms">
+                                                <span style="margin-right:5px;">Replace all</span>
+                                                <span class="glyphicon glyphicon-share-alt"></span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

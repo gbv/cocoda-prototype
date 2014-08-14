@@ -38,7 +38,7 @@
                     <li ng-repeat="t in m.to">
                         <div ng-click="select(t)" style="cursor:pointer;width:100%;overflow:hidden;margin-bottom:3px;" title="Add mapping term">
                             <span class="notation" popover="{{t.prefLabel.de}}" style="cursor:pointer;float:left;margin-right:5px;line-height:1.15em;margin-top:2px;" popover-trigger="mouseenter">{{t.notation[0]}}</span>
-                            <a style="color:#428bca;float:right;margin-top:3px;font-size:0.8em;"><span class="glyphicon glyphicon-plus"></span></a>
+                            <a ng-if="select" style="color:#428bca;float:right;margin-top:3px;font-size:0.8em;"><span class="glyphicon glyphicon-plus"></span></a>
                         </div>
                     </li>
                 </ul>

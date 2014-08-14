@@ -8,10 +8,9 @@
                             {
                                 "from": [
                                     {
-                                        "notation": ["9876543"],
+                                        "notation": ["4074195-3"],
                                         "prefLabel": {
-                                            "en":"gndSample1",
-                                            "de":"gndBeispiel1"
+                                            "de":"Leukozyt"
                                         },
                                         "inScheme": { "notation": ["GND"] }
                                     }
@@ -33,10 +32,9 @@
                             {
                                 "from": [
                                     {
-                                        "notation": ["1234567"],
+                                        "notation": ["4290011-6"],
                                         "prefLabel": {
-                                            "en":"gndSample2",
-                                            "de":"gndBeispiel2"
+                                            "de":"Leukozytenelastase"
                                         },
                                         "inScheme": { "notation": ["GND"] }
                                     }

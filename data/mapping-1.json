@@ -18,18 +18,16 @@
                                 ],
                                 "to": [
                                     {
-                                        "notation": ["ABC 123"],
-                                        "prefLabel": {
-                                            "en":"rvkSample1",
-                                            "de":"rvkBeispiel1"
+                                        "notation": ["WW 8840"],
+                                        "prefLabel":{
+                                            "de":"Blutkörperchen (Erythrozyt, Leukozyt), Hämoglobin / Allgemeines"
                                         },
                                         "inScheme": { "notation": ["RVK"] }
                                     },
                                     {
-                                        "notation": ["XX 33"],
-                                        "prefLabel": {
-                                            "en":"rvkSample2",
-                                            "de":"rvkBeispiel2"
+                                        "notation": ["YC 2500 - YC 2599"],
+                                        "prefLabel":{
+                                            "de":"Leukozytäres System: Leukämie (Leukose), Myelose, Agranulozytose, Tumorbildende Leukämieformen, Lymphatische Leukämie, Chronische Lymphadenose, Chlorom / Schlüssel zur Theoretischen und Klinischen Medizin"
                                         },
                                         "inScheme": { "notation": ["RVK"] }
                                     }
@@ -50,10 +48,9 @@
                                 ],
                                 "to": [
                                     {
-                                        "notation": ["DEF 345"],
-                                        "prefLabel": {
-                                            "en":"rvkSample3",
-                                            "de":"rvkBeispiel3"
+                                        "notation": ["WW 8840"],
+                                        "prefLabel":{
+                                            "de":"Blutkörperchen (Erythrozyt, Leukozyt), Hämoglobin / Allgemeines"
                                         },
                                         "inScheme": { "notation": ["RVK"] }
                                     }
@@ -72,28 +69,25 @@
                             {
                                 "from": [
                                     {
-                                        "notation": ["126534"],
+                                        "notation": ["4036762-9"],
                                         "prefLabel":{
-                                            "en":"gndSample1",
-                                            "de":"gndBeispiel1"
+                                            "de":"Lymphozyt"
                                         },
                                         "inScheme": { "notation": ["GND"] }
                                     }
                                 ],
                                 "to": [
                                     {
-                                        "notation": ["ABC 123"],
+                                        "notation": ["WF 9880"],
                                         "prefLabel": {
-                                            "en":"rvkSample1",
-                                            "de":"rvkBeispiel1"
+                                            "de":"B-Lymphozyten"
                                         },
                                         "inScheme": { "notation": ["RVK"] }
                                     },
                                     {
-                                        "notation": ["XX 33"],
+                                        "notation": ["WW 9120"],
                                         "prefLabel": {
-                                            "en":"rvkSample2",
-                                            "de":"rvkBeispiel2"
+                                            "de":"Lymphsystem (Lymphozyt), Milz, Thymus / Allgemeines"
                                         },
                                         "inScheme": { "notation": ["RVK"] }
                                     }
@@ -104,20 +98,18 @@
                             {
                                 "from": [
                                         {
-                                        "notation": ["534242"],
+                                        "notation": ["4127387-4"],
                                         "prefLabel":{
-                                            "en":"gndSample2",
-                                            "de":"gndBeispiel2"
+                                            "de":"T-Lymphozyt"
                                         },
                                         "inScheme": { "notation": ["GND"] }
                                     }
                                 ],
                                 "to": [
                                     {
-                                        "notation": ["DEF 345"],
+                                        "notation": ["WF 9895"],
                                         "prefLabel": {
-                                            "en":"rvkSample3",
-                                            "de":"rvkBeispiel3"
+                                            "de":"T-Lymphozyten, T-Lymphozyten-Rezeptor"
                                         },
                                         "inScheme": { "notation": ["RVK"] }
                                     }
