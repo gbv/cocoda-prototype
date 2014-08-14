@@ -39,8 +39,8 @@ module.exports = function(grunt) {
                 navTemplate: 'src/docs-nav.html',
                 scripts: [ 
                     'angular.js',
-                    'demo/lib/angular-resource.min.js',
-                    'demo/lib/angular-sanitize.min.js',
+                    'lib/angular-resource.min.js',
+                    'lib/angular-sanitize.min.js',
                     'ng-skos.js',
                     'src/json-text.js',
                 ]
