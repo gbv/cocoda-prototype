@@ -34,7 +34,7 @@ angular.module('ngSKOS')
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ? 
-                   attrs.templateUrl : 'template/skos-search.html';
+                   attrs.templateUrl : 'src/templates/skos-search.html';
         },
         link: function(scope, element, attrs) {
             // ...

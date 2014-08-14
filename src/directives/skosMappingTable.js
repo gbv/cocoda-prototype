@@ -76,12 +76,12 @@ angular.module('ngSKOS')
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
-                   attrs.templateUrl : 'template/skos-mapping-table.html';
+                   attrs.templateUrl : 'src/templates/skos-mapping-table.html';
         },
         link: function(scope, element, attr, controller, transclude) {
         },
         controller: function($scope) {
-            $scope.predicate = '-type.value';
+            $scope.predicate = '-timestamp';
         }
             // ...
     };

@@ -41,7 +41,7 @@ angular.module('ngSKOS')
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ? 
-                   attrs.templateUrl : 'template/skos-tree.html';
+                   attrs.templateUrl : 'src/templates/skos-tree.html';
         },
         compile: function(tElement, tAttr, transclude) {
             var contents = tElement.contents().remove();

@@ -3,7 +3,7 @@
         <tr>
             <th><span class="classification">{{mapping[0].from[0].inScheme.notation[0]}}</span></th>
             <th><span class="classification">{{mapping[0].to[0].inScheme.notation[0]}}</span></th>
-            <th ng-if="mapping[0].type" style="cursor:pointer;">
+            <th>
                 <span style="margin-right:3px;">Type</span>
                 <a ng-click="predicate = 'type.value';reverse = !reverse" href="" style="text-decoration:none;font-size:0.8em;">  
                     <span class="glyphicon glyphicon-sort"></span>
@@ -18,7 +18,7 @@
             <th style="width:100px;">
                 <span style="margin-right:3px;">Date</span>
                 <a ng-click="predicate = 'timestamp';reverse = !reverse" href="" style="text-decoration:none;font-size:0.8em;">
-                    <small><span class="glyphicon glyphicon-sort"></span></small>
+                    <span class="glyphicon glyphicon-sort"></span>
                 </a>
             </th>
             <th ng-if="select"></th>
@@ -43,9 +43,9 @@
                     </li>
                 </ul>
             </td>
-            <td ng-if="mapping[0].type">{{m.type.prefLabel.en}}</td>
-            <td style="vertical-align:middle"><span>{{m.creator}}</span></td>
-            <td style="vertical-align:middle;max-width:100px;">{{m.timestamp}}</td>
+            <td>{{m.type.prefLabel.en}}</td>
+            <td style="vertical-align:middle;text-align:center;"><span>{{m.creator}}</span></td>
+            <td style="vertical-align:middle;text-align:center;max-width:100px;">{{m.timestamp}}</td>
             <td ng-if="select" style="text-align:center;vertical-align:middle">
                     <a style="cursor:pointer" ng-click="select(m)" title="Select mapping"><span class="glyphicon glyphicon-open"></span></a>
             </td>

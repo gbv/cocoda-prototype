@@ -35,7 +35,7 @@ angular.module('ngSKOS')
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ? 
-                   attrs.templateUrl : 'template/skos-occurrences.html';
+                   attrs.templateUrl : 'src/templates/skos-occurrences.html';
         },
         link: function link(scope, element, attr, controller, transclude) {
             angular.forEach(

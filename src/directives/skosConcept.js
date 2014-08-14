@@ -49,7 +49,7 @@ angular.module('ngSKOS')
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ? 
-                   attrs.templateUrl : 'template/skos-concept.html';
+                   attrs.templateUrl : 'src/templates/skos-concept.html';
         },
         link: function link(scope, element, attr) {
             scope.$watch('concept',function(concept) {

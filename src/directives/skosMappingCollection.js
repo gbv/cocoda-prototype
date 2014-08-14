@@ -84,7 +84,7 @@ angular.module('ngSKOS')
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
-                   attrs.templateUrl : 'template/skos-mapping-collection.html';
+                   attrs.templateUrl : 'src/templates/skos-mapping-collection.html';
         },
         link: function(scope, element, attr, controller, transclude) {
             scope.$watch('hidden');

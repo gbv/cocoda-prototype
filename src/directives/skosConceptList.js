@@ -28,7 +28,7 @@ angular.module('ngSKOS')
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
-                   attrs.templateUrl : 'template/skos-concept-list.html';
+                   attrs.templateUrl : 'src/templates/skos-concept-list.html';
         },
         link: function link(scope, element, attr) {
             scope.removeConcept = function(index) { 

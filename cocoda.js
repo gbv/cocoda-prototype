@@ -269,6 +269,8 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             $scope.deleteAll();
             $scope.originConcept = "";
             $scope.originSubject = "";
+            $scope.targetConcept = "";
+            $scope.targetSubject = "";
         }else if(scheme != $scope.activeView.origin && scheme != ''){
             $scope.activeView.origin = scheme;
             $scope.originConcept = "";
@@ -279,6 +281,8 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         if(scheme != '' && scheme == $scope.activeView.target){
             $scope.activeView.origin = scheme;
             $scope.activeView.target = "";
+            $scope.targetConcept = "";
+            $scope.targetSubject = "";
             $scope.changeTopOrigin(scheme);
         }
     };

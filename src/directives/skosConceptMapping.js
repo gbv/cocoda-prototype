@@ -33,7 +33,7 @@ angular.module('ngSKOS')
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
-                   attrs.templateUrl : 'template/skos-concept-mapping.html';
+                   attrs.templateUrl : 'src/templates/skos-concept-mapping.html';
         },
         link: function link(scope, element, attr) {
             scope.selectFrom = function(concept) {
