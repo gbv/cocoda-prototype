@@ -1,9 +1,14 @@
 <div class="skos-concept">
     <div class="top top-alt">
         <span ng-if="notation.length" class="notation">{{notation[0]}}</span>
-        <b><span ng-if="prefLabel" skos-label="concept" lang="{{language}}"></span></b><a  ng-if="uri && uri != notation" class="uri" href="{{uri}}" target="_blank">
-        <span class="glyphicon glyphicon-globe"></span></a>
+        <b>
+            <span ng-if="prefLabel" skos-label="concept" lang="{{language}}"></span>
+        </b>
+        <a ng-if="uri && uri != notation" class="uri" href="{{uri}}">
+            <span class="glyphicon glyphicon-globe"></span>
+        </a>
     </div>
+    <!-- TODO: use language, too -->
     <div ng-if="altLabel.length" class="skos-concept-altlabel">
         <ul>
             <li ng-repeat="alt in altLabel">
@@ -35,8 +40,11 @@
             </ul>
         </div>
     </div>
-    <div ng-if="note" style="margin-top:10px;">
-        Notes:
-        <div ng-repeat="note in note.en" style="width:100%;padding:4px 6px;border:1px solid #ddd;margin-top:8px;"><em>{{note}}</em></div>
+    <!-- TODO: select by language, only show a limited number -->
+    <div ng-if="!isEmptyObject(note)" style="margin-top:10px;">
+        <div ng-repeat="note in note.en" 
+            style="width:100%;padding:4px 6px;border:1px solid #ddd;margin-top:8px;">
+            <em>{{note}}</em>
+        </div>
     </div>
 </div>
