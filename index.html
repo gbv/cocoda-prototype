@@ -70,11 +70,8 @@
                                         <li>
                                             <a href="#" ng-click="setOrigin('')">none</a>
                                         </li>
-                                        <li>
-                                            <a href="#" ng-click="setOrigin('GND')">GND</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" ng-click="setOrigin('RVK')">RVK</a>
+                                        <li ng-repeat="s in schemes">
+                                            <a href="#" ng-click="setOrigin(s.name)">{{s.name}}</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -110,10 +107,14 @@
                                         <div style="margin-bottom:5px;">
                                         <span style="margin-left:18px;width:10em;margin-right:10px;">
                                             <button ng-click="saveFrom(activeView.origin, originConcept)" title="Use term">
-                                                <span style="margin-right:5px;">Use</span><span class="glyphicon glyphicon-share-alt"></span>
+                                                <span style="margin-right:5px;">Use</span>
+                                                <span class="glyphicon glyphicon-share-alt"></span>
                                             </button>
                                         </span>
-                                            <button disabled="true" ng-click="searchOccurrence(activeView.origin, originConcept)"><span style="margin-right:5px;">Look up mappings</span><span class="glyphicon glyphicon-stats"></span></button>
+                                            <button disabled="true" ng-click="searchOccurrence(activeView.origin, originConcept)">
+                                                <span style="margin-right:5px;">Look up mappings</span>
+                                                <span class="glyphicon glyphicon-stats"></span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -124,11 +125,15 @@
                                     <accordion>
                                         <accordion-group is-open="showTopConcepts.origin">
                                             <accordion-heading>
-                                                <b>Top Concepts</b><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTopConcepts.origin, 'glyphicon-chevron-right': !showTopConcepts.origin}"></i>
+                                                <b>Top Concepts</b>
+                                                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTopConcepts.origin, 'glyphicon-chevron-right': !showTopConcepts.origin}"></i>
                                             </accordion-heading>
                                             <ul ng-if="showTopConcepts.origin == true" class="simple-list">
                                                 <li ng-repeat="v in topOriginConcept.values">
-                                                    <a style="text-decoration:none;" href="" ng-click="reselectConcept('origin', v)"><span class="notation">{{v.notation}}</span>  <span>{{v.label}}</span></a>
+                                                    <a style="text-decoration:none;" href="" ng-click="reselectConcept('origin', v)">
+                                                        <span class="notation">{{v.notation}}</span>
+                                                        <span>{{v.label}}</span>
+                                                    </a>
                                                 </li>
                                             </ul>
                                         </accordion-group>
@@ -145,7 +150,12 @@
                     </div>
                     <!-- Active mapping template -->
                     <div class="tmpl-border" style="width:100%;">
-                        <div skos-concept-mapping="currentMapping" select="reselectConcept" mapping-from="activeView.origin" mapping-to="activeView.target" save-mapping="loggedIn"></div>
+                        <div skos-concept-mapping="currentMapping"
+                            select="reselectConcept"
+                            mapping-from="activeView.origin"
+                            mapping-to="activeView.target"
+                            save-mapping="loggedIn">
+                        </div>
                     </div>
                     <!-- context templates -->
                     <div class="context">
@@ -185,11 +195,8 @@
                                         <li>
                                             <a href="#" ng-click="setTarget('')">none</a>
                                         </li>
-                                        <li>
-                                            <a href="#" ng-if="activeView.origin != 'GND'" ng-click="setTarget('GND')">GND</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" ng-if="activeView.origin != 'RVK'" ng-click="setTarget('RVK')">RVK</a>
+                                        <li ng-repeat="s in schemes">
+                                            <a href="#" ng-click="setTarget(s.name)" ng-if="s.name != activeView.origin">{{s.name}}</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -226,7 +233,7 @@
                                             <span style="margin-left:16px;width:10em;margin-right:10px;">
                                                 <button ng-disabled="checkDuplicate()" ng-click="addTo(activeView.target, targetConcept)" title="Add target term">
                                                     <span style="margin-right:5px;">Add</span>
-                                                    <span style="" class="glyphicon glyphicon-plus"></span>
+                                                    <span class="glyphicon glyphicon-plus"></span>
                                                 </button>
                                             </span>
                                             <button ng-click="replaceTo(activeView.target, targetConcept)" title="Replace current terms">
@@ -243,11 +250,15 @@
                                     <accordion>
                                         <accordion-group is-open="showTopConcepts.target">
                                             <accordion-heading>
-                                                <b>Top Concepts</b><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTopConcepts.target, 'glyphicon-chevron-right': !showTopConcepts.target}"></i>
+                                                <b>Top Concepts</b>
+                                                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTopConcepts.target, 'glyphicon-chevron-right': !showTopConcepts.target}"></i>
                                             </accordion-heading>
                                             <ul ng-if="showTopConcepts.target == true" class="simple-list">
                                                 <li ng-repeat="v in topTargetConcept.values">
-                                                    <a style="text-decoration:none;" href="" ng-click="reselectConcept('target', v)"><span class="notation">{{v.notation}}</span>  <span style="">{{v.label}}</span></a>
+                                                    <a style="text-decoration:none;" href="" ng-click="reselectConcept('target', v)">
+                                                        <span class="notation">{{v.notation}}</span>
+                                                        <span style="">{{v.label}}</span>
+                                                    </a>
                                                 </li>
                                             </ul>
                                         </accordion-group>
