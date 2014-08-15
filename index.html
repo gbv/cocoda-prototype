@@ -44,110 +44,109 @@
                             <a class="navbar-brand" href=""><big>Cocoda</big></a>
                         </li>
                     </ul>
-                    <div style="margin:13px;float:right;">
+                    <div id="login">
                         <a ng-click="loggedIn = !loggedIn" href="">
                             <span ng-if="!loggedIn">Log in</span>
                             <span ng-if="loggedIn">Log out</span>
                         </a>
-
                     </div>
                 </div>
             </nav>
         </header>
         <div class="main">
-            <div class="row" style="margin-left:0px;margin-right:0px;">
+            <div class="row">
         <!-- Left/Origin concept column-->
                 <div class="col-md-3">
                     <div>
-                        <div class="mapping-header">
-                            <ul class="simple-list">
-                                <li class="dropdown">
-                                    <a data-toggle="dropdown" type="button" class="dropdown-toggle">
-                                        <big><b>Source Scheme: {{activeView.origin}}</b></big>
-                                        <b class="caret"></b>
-                                    </a>
-                                    <ul class="dropdown-menu" role="menu" style="margin-left:280px;float:none;min-width:0px;">
-                                        <li>
-                                            <a href="#" ng-click="setOrigin('')">none</a>
-                                        </li>
-                                        <li ng-repeat="s in schemes">
-                                            <a href="#" ng-click="setOrigin(s.name)">{{s.name}}</a>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="mapping-header">
+                                    <ul class="simple-list">
+                                        <li class="dropdown">
+                                            <a data-toggle="dropdown" type="button" class="dropdown-toggle">
+                                                <span>Source Scheme: {{activeView.origin}}</span>
+                                                <b class="caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu scheme-dropdown" role="menu">
+                                                <li>
+                                                    <a href="#" ng-click="setOrigin('')">none</a>
+                                                </li>
+                                                <li ng-repeat="s in schemes">
+                                                    <a href="#" ng-click="setOrigin(s.name)">{{s.name}}</a>
+                                                </li>
+                                            </ul>
                                         </li>
                                     </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <div ng-if="activeView.origin.length">
-                            <input class="form-control"
-                                    suggest-typeahead="SuggestConcept(activeView.origin)"
-                                    typeahead-on-select="selectOriginSubject($item)"
-                                    ng-model="originSubject"
-                                    placeholder="Search by terms (typeahead)"
-                                    typeahead-loading="loadingLocations"
-                                    typeahead-editable="false"
-                            />
-                            <i style="position:absolute;right:22px;top:45px;" ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-                            <div class="search-top">
-                                <form ng-submit="reselectConcept('origin', originNotation)">
-                                    <span style="float:left;">
-                                        <input class="form-control search-top-input"
-                                            ng-model="originNotation.notation"
-                                            placeholder="Enter full notation"
-                                        />
-                                    </span>
-                                    <input type="submit" value="Select" class="search-top-button" ng-disabled="!originNotation.notation.length" />
-                                </form>
+                                </div>
                             </div>
-                            <!-- Origin concept scheme template -->
-                            <div ng-if="activeView.origin.length && originConcept">
-                                <div class="tmpl-border">
-                                    <div class="skos-concept-border">
-                                        <div skos-concept="originConcept" skos-click="clickOriginConcept" language="language">
-                                        </div>
-                                        <div style="margin-bottom:5px;">
-                                        <span style="margin-left:18px;width:10em;margin-right:10px;">
-                                            <button ng-click="saveFrom(activeView.origin, originConcept)" title="Use term">
-                                                <span style="margin-right:5px;">Use</span>
-                                                <span class="glyphicon glyphicon-share-alt"></span>
-                                            </button>
+                            <div ng-if="activeView.origin.length" class="panel-body">
+                                <input class="form-control"
+                                        suggest-typeahead="SuggestConcept(activeView.origin)"
+                                        typeahead-on-select="selectOriginSubject($item)"
+                                        ng-model="originSubject"
+                                        placeholder="Search by terms (typeahead)"
+                                        typeahead-loading="loadingLocations"
+                                        typeahead-editable="false"
+                                        tabindex=1
+                                />
+                                <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh typeahead-loading"></i>
+                                <div class="search-top">
+                                    <form ng-submit="reselectConcept('origin', originNotation)">
+                                        <span style="float:left;">
+                                            <input class="form-control search-top-input"
+                                                ng-model="originNotation.notation"
+                                                placeholder="Enter full notation"
+                                                tabindex=3
+                                            />
                                         </span>
-                                            <button disabled="true" ng-click="searchOccurrence(activeView.origin, originConcept)">
-                                                <span style="margin-right:5px;">Look up mappings</span>
-                                                <span class="glyphicon glyphicon-stats"></span>
-                                            </button>
+                                        <input type="submit" value="Select" class="search-top-button" ng-disabled="!originNotation.notation.length" />
+                                    </form>
+                                </div>
+                                <!-- Origin concept scheme template -->
+                                <div ng-if="activeView.origin.length && originConcept">
+                                    <div class="tmpl-border">
+                                        <div>
+                                            <div skos-concept="originConcept" skos-click="clickOriginConcept" language="language"></div>
+                                            <span class="concept-buttons">
+                                                <button ng-click="saveFrom(activeView.origin, originConcept)" title="Use term">
+                                                    <span>Use</span>
+                                                    <i class="glyphicon glyphicon-share-alt"></i>
+                                                </button>
+                                                <button disabled="true" ng-click="searchOccurrence(activeView.origin, originConcept)">
+                                                    <span>Look up mappings</span>
+                                                    <i class="glyphicon glyphicon-stats"></i>
+                                                </button>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Origin top concept display -->
-                            <div ng-if="activeView.origin.length && topOriginConcept">
-                                <div ng-if="topOriginConcept" style="margin-bottom:10px;">
-                                    <accordion>
-                                        <accordion-group is-open="showTopConcepts.origin">
-                                            <accordion-heading>
-                                                <b>Top Concepts</b>
-                                                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTopConcepts.origin, 'glyphicon-chevron-right': !showTopConcepts.origin}"></i>
-                                            </accordion-heading>
-                                            <ul ng-if="showTopConcepts.origin == true" class="simple-list">
-                                                <li ng-repeat="v in topOriginConcept.values">
-                                                    <a style="text-decoration:none;" href="" ng-click="reselectConcept('origin', v)">
-                                                        <span class="notation">{{v.notation}}</span>
-                                                        <span>{{v.label}}</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </accordion-group>
-                                    </accordion>
-                                </div>
+                        </div>
+                    <!-- Origin top concept display -->
+                        <div ng-if="activeView.origin.length && topOriginConcept">
+                            <div ng-if="topOriginConcept" class="top-concept">
+                                <accordion>
+                                    <accordion-group is-open="showTopConcepts.origin">
+                                        <accordion-heading>
+                                            <b>Top Concepts</b>
+                                            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTopConcepts.origin, 'glyphicon-chevron-right': !showTopConcepts.origin}"></i>
+                                        </accordion-heading>
+                                        <ul ng-if="showTopConcepts.origin == true" class="simple-list">
+                                            <li ng-repeat="v in topOriginConcept.values">
+                                                <a style="text-decoration:none;" href="" ng-click="reselectConcept('origin', v)">
+                                                    <span class="notation">{{v.notation}}</span>
+                                                    <span>{{v.label}}</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </accordion-group>
+                                </accordion>
                             </div>
                         </div>
                     </div>
                 </div>
         <!-- Middle/Mapping and context column -->
                 <div class="col-md-6">
-                    <div class="mapping-header">
-                        <span style="margin:0 auto;"><big><b>Mapping</b></big></span>
-                    </div>
                     <!-- Active mapping template -->
                     <div class="tmpl-border" style="width:100%;">
                         <div skos-concept-mapping="currentMapping"
@@ -159,20 +158,12 @@
                     </div>
                     <!-- context templates -->
                     <div class="context">
-                        <div class="mapping-header">
-                            <span style="margin:0 auto;"><big><b>Reference Mappings</b></big></span>
-                        </div>
                         <div class="context-body" style="overflow:hidden">
                             <!-- Existing mappings templates -->
                             <div style="float:left;">
                                 <div ng-if="mappingSample" class="tmpl-border" style="">
                                     <div use-mapping="insertMapping" skos-mapping-collection="mappingSample"></div>
                                 </div>
-                                <p>
-                                <div ng-if="mappingSampleGND" class="tmpl-border" style="">
-                                    <div skos-mapping-collection="mappingSampleGND"></div>
-                                </div>
-                                </p>
                             </div>
                         <!-- Occurrences display -->
                             <div ng-if="occurrencesSample" class="tmpl-border" style="float:right;margin-left:10px;">
@@ -184,86 +175,90 @@
         <!-- Right/Target concept column-->
                 <div class="col-md-3">
                     <div>
-                        <div class="mapping-header">
-                            <ul class="simple-list">
-                                <li class="dropdown">
-                                    <a data-toggle="dropdown" type="button" class="dropdown-toggle">
-                                        <big><b>Target Scheme: {{activeView.target}}</b></big>
-                                        <b class="caret"></b>
-                                    </a>
-                                    <ul class="dropdown-menu" role="menu" style="margin-left:280px;float:none;min-width:0px;">
-                                        <li>
-                                            <a href="#" ng-click="setTarget('')">none</a>
-                                        </li>
-                                        <li ng-repeat="s in schemes">
-                                            <a href="#" ng-click="setTarget(s.name)" ng-if="s.name != activeView.origin">{{s.name}}</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <div ng-if="activeView.target.length">
-                            <input class="form-control"
-                                suggest-typeahead="SuggestConcept(activeView.target)"
-                                typeahead-on-select="selectTargetSubject($item)"
-                                ng-model="targetSubject"
-                                placeholder="Search by terms (typeahead)"
-                                typeahead-loading="loadingLocations"
-                                typeahead-editable="false"
-                            />
-                            <i style="position:absolute;right:22px;top:45px;" ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-                            <div class="search-top">
-                                <form ng-submit="reselectConcept('target', targetNotation)">
-                                    <span style="float:left;">
-                                        <input class="form-control search-top-input"
-                                            ng-model="targetNotation.notation"
-                                            placeholder="Enter full notation"
-                                        />
-                                    </span>
-                                    <input type="submit" value="Select" class="search-top-button" ng-disabled="!targetNotation.notation.length" />
-                                </form>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                    <div class="mapping-header">
+                                        <ul class="simple-list">
+                                            <li class="dropdown">
+                                                <a data-toggle="dropdown" type="button" class="dropdown-toggle">
+                                                    <span>Target Scheme: {{activeView.target}}</span>
+                                                    <b class="caret"></b>
+                                                </a>
+                                                <ul class="dropdown-menu scheme-dropdown" role="menu">
+                                                    <li>
+                                                        <a href="#" ng-click="setTarget('')">none</a>
+                                                    </li>
+                                                    <li ng-repeat="s in schemes">
+                                                        <a href="#" ng-click="setTarget(s.name)" ng-if="s.name != activeView.origin">{{s.name}}</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
                             </div>
-                            </div>
-                            <!-- Target concept scheme template -->
-                            <div ng-if="activeView.origin.length && targetConcept" style="min-width:350px">
-                                <div class="tmpl-border">
-                                    <div class="skos-concept-border">
-                                        <div skos-concept="targetConcept" skos-click="clickTargetConcept" language="language"></div>
-                                        <div style="margin-bottom:5px;">
-                                            <span style="margin-left:16px;width:10em;margin-right:10px;">
+                            <div ng-if="activeView.target.length" class="panel-body">
+                                <input class="form-control"
+                                    suggest-typeahead="SuggestConcept(activeView.target)"
+                                    typeahead-on-select="selectTargetSubject($item)"
+                                    ng-model="targetSubject"
+                                    placeholder="Search by terms (typeahead)"
+                                    typeahead-loading="loadingLocations"
+                                    typeahead-editable="false"
+                                    tabindex=2
+                                />
+                                <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh typeahead-loading"></i>
+                                <div class="search-top">
+                                    <form ng-submit="reselectConcept('target', targetNotation)">
+                                        <span style="float:left;">
+                                            <input class="form-control search-top-input"
+                                                ng-model="targetNotation.notation"
+                                                placeholder="Enter full notation"
+                                                tabindex=4
+                                            />
+                                        </span>
+                                        <input type="submit" value="Select" class="search-top-button" ng-disabled="!targetNotation.notation.length" />
+                                    </form>
+                                </div>
+                                </div>
+                                <!-- Target concept scheme template -->
+                                <div ng-if="activeView.origin.length && targetConcept" style="min-width:350px">
+                                    <div class="tmpl-border">
+                                        <div>
+                                            <div skos-concept="targetConcept" skos-click="clickTargetConcept" language="language"></div>
+                                            <span class="concept-buttons">
                                                 <button ng-disabled="checkDuplicate()" ng-click="addTo(activeView.target, targetConcept)" title="Add target term">
-                                                    <span style="margin-right:5px;">Add</span>
-                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                    <span>Add</span>
+                                                    <i class="glyphicon glyphicon-plus"></i>
+                                                </button>
+                                                <button ng-click="replaceTo(activeView.target, targetConcept)" title="Replace current terms">
+                                                    <span>Replace all</span>
+                                                    <i class="glyphicon glyphicon-share-alt"></i>
                                                 </button>
                                             </span>
-                                            <button ng-click="replaceTo(activeView.target, targetConcept)" title="Replace current terms">
-                                                <span style="margin-right:5px;">Replace all</span>
-                                                <span class="glyphicon glyphicon-share-alt"></span>
-                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Target top concept display -->
-                            <div ng-if="activeView.target.length">
-                                <div ng-if="topTargetConcept" style="margin-bottom:10px;">
-                                    <accordion>
-                                        <accordion-group is-open="showTopConcepts.target">
-                                            <accordion-heading>
-                                                <b>Top Concepts</b>
-                                                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTopConcepts.target, 'glyphicon-chevron-right': !showTopConcepts.target}"></i>
-                                            </accordion-heading>
-                                            <ul ng-if="showTopConcepts.target == true" class="simple-list">
-                                                <li ng-repeat="v in topTargetConcept.values">
-                                                    <a style="text-decoration:none;" href="" ng-click="reselectConcept('target', v)">
-                                                        <span class="notation">{{v.notation}}</span>
-                                                        <span style="">{{v.label}}</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </accordion-group>
-                                    </accordion>
-                                </div>
+                        </div>
+                <!-- Target top concept display -->
+                        <div ng-if="activeView.target.length">
+                            <div ng-if="topTargetConcept" class="top-concept">
+                                <accordion>
+                                    <accordion-group is-open="showTopConcepts.target">
+                                        <accordion-heading>
+                                            <b>Top Concepts</b>
+                                            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTopConcepts.target, 'glyphicon-chevron-right': !showTopConcepts.target}"></i>
+                                        </accordion-heading>
+                                        <ul ng-if="showTopConcepts.target == true" class="simple-list">
+                                            <li ng-repeat="v in topTargetConcept.values">
+                                                <a style="text-decoration:none;" href="" ng-click="reselectConcept('target', v)">
+                                                    <span class="notation">{{v.notation}}</span>
+                                                    <span>{{v.label}}</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </accordion-group>
+                                </accordion>
                             </div>
                         </div>
                     </div>

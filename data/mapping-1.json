@@ -118,6 +118,58 @@
                                 "creator": "VZG"
                             }
                         ]
+                    },
+                    {
+                        "ddc": [
+                            {
+                                "from": [
+                                    {
+                                        "notation": ["4074195-3"],
+                                        "prefLabel": {
+                                            "de":"Leukozyt"
+                                        },
+                                        "inScheme": { "notation": ["GND"] }
+                                    }
+                                ],
+                                "to": [
+                                    {
+                                        "notation": ["612.112"],
+                                        "prefLabel":{
+                                            "en":"Leukocytes (White corpuscles)",
+                                            "de":"Leukozyten (Weiße Blutkörperchen)"
+                                        },
+                                        "inScheme": { "notation": ["DDC"] }
+                                    }
+                                ],
+                                "type": { "prefLabel": { "en":"strong"}, "value": 3},
+                                "timestamp": "2014-01-01",
+                                "creator": "dnb"
+                            },
+                            {
+                                "from": [
+                                    {
+                                        "notation": ["4290011-6"],
+                                        "prefLabel": {
+                                            "de":"Leukozytenelastase"
+                                        },
+                                        "inScheme": { "notation": ["GND"] }
+                                    }
+                                ],
+                                "to": [
+                                    {
+                                        "notation": ["612.112"],
+                                        "prefLabel":{
+                                            "en":"Leukocytes (White corpuscles)",
+                                            "de":"Leukozyten (Weiße Blutkörperchen)"
+                                        },
+                                        "inScheme": { "notation": ["DDC"] }
+                                    }
+                                ],
+                                "type": { "prefLabel": { "en":"medium"}, "value": 2},
+                                "timestamp": "2014-01-01",
+                                "creator": "dnb"
+                            }
+                        ]
                     }
                 ]
             }
