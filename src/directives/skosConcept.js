@@ -23,6 +23,9 @@
  * <li>related (array of concepts)
  * </ul>
  *
+ * In addition the helper method `isEmptyObject` is provided to check whether an object
+ * is empty.
+ *
  * ## Source code
  *
  * The most recent 
@@ -52,9 +55,15 @@ angular.module('ngSKOS')
                    attrs.templateUrl : 'src/templates/skos-concept.html';
         },
         link: function link(scope, element, attr) {
+            scope.isEmptyObject = function(object) { 
+                var keys = Object.keys;
+                return !(keys && keys.length);
+            };
             scope.$watch('concept',function(concept) {
-                angular.forEach(['uri','inScheme','ancestors','prefLabel',
-                    'altLabel','note','notation','narrower','broader','related'],
+                angular.forEach([
+                        'uri','inScheme','ancestors','prefLabel',
+                        'altLabel','note','notation','narrower','broader','related'
+                    ],
                     function(field) {
                         scope[field] = concept ? concept[field] : null;
                     }
