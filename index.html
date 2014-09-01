@@ -133,8 +133,8 @@
                                         </accordion-heading>
                                         <ul ng-if="showTopConcepts.origin == true" class="simple-list">
                                             <li ng-repeat="v in topOriginConcept.values">
-                                                <a style="text-decoration:none;" href="" ng-click="reselectConcept('origin', v)">
-                                                    <span class="notation">{{v.notation}}</span>
+                                                <a style="text-decoration:none;" href="" ng-click="reselectConcept('origin', v)" title="Show concept">
+                                                    <span class="notation" style="cursor:pointer;">{{v.notation}}</span>
                                                     <span>{{v.label}}</span>
                                                 </a>
                                             </li>
@@ -148,7 +148,7 @@
         <!-- Middle/Mapping and context column -->
                 <div class="col-md-6">
                     <!-- Active mapping template -->
-                    <div class="tmpl-border" style="width:100%;">
+                    <div class="tmpl-border" style="width:100%;min-height:140px;">
                         <div skos-concept-mapping="currentMapping"
                             select="reselectConcept"
                             mapping-from="activeView.origin"
@@ -251,8 +251,8 @@
                                         </accordion-heading>
                                         <ul ng-if="showTopConcepts.target == true" class="simple-list">
                                             <li ng-repeat="v in topTargetConcept.values">
-                                                <a style="text-decoration:none;" href="" ng-click="reselectConcept('target', v)">
-                                                    <span class="notation">{{v.notation}}</span>
+                                                <a style="text-decoration:none;" href="" ng-click="reselectConcept('target', v)" title="Show concept">
+                                                    <span class="notation" style="cursor:pointer;">{{v.notation}}</span>
                                                     <span>{{v.label}}</span>
                                                 </a>
                                             </li>

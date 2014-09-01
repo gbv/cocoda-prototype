@@ -222,6 +222,30 @@ ul.ancestors li {
     color:#666;
     font-weight:bold;
 }
+.skos-mapping-cell{
+    vertical-align:middle;
+    text-align:center;
+}
+.skos-mapping-target{
+    cursor:pointer;
+    width:100%;
+    overflow:hidden;
+    margin-bottom:3px;
+}
+.skos-mapping-target span{
+    cursor:pointer;
+    float:left;
+    margin-right:5px;
+    line-height:1.15em;
+    margin-top:2px;
+}
+.skos-mapping-target a{
+    color:#428bca;
+    float:right;
+    margin-top:1px;
+    margin-right:-5px;
+    font-size:0.8em;
+}
 .mappingResults ul{
     list-style-type:none;
 }
