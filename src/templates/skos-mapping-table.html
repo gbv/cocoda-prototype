@@ -29,7 +29,7 @@
             <td>
                 <ul class="simple-list" style="margin-bottom:0px">
                     <li ng-repeat="f in m.from">
-                        <span class="notation" popover="{{f.prefLabel.de}}" popover-trigger="mouseenter">{{f.notation[0]}}</span>
+                        <span class="notation" style="max-width:85px;white-space:pre-line" popover="{{f.prefLabel.de}}" popover-trigger="mouseenter">{{f.notation[0]}}</span>
                     </li>
                 </ul>
             </td>
@@ -37,7 +37,7 @@
                 <ul class="simple-list" style="margin-bottom:0px">
                     <li ng-repeat="t in m.to">
                         <div ng-click="select(t)" class="skos-mapping-target" title="Add mapping term">
-                            <span class="notation" popover="{{t.prefLabel.de}}" popover-trigger="mouseenter">{{t.notation[0]}}</span>
+                            <span class="notation" style="white-space:pre-line" popover="{{t.prefLabel.de}}" popover-trigger="mouseenter">{{t.notation[0]}}</span>
                             <a ng-if="select"><span class="glyphicon glyphicon-plus"></span></a>
                         </div>
                     </li>

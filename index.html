@@ -21,8 +21,6 @@
         <script src="src/services/SkosConceptListProvider.js"></script>
         <script src="src/directives/skosLabel.js"></script>
         <script src="src/directives/skosConcept.js"></script>
-        <script src="src/directives/skosTree.js"></script>
-        <script src="src/directives/skosSearch.js"></script>
         <script src="src/directives/skosMappingCollection.js"></script>
         <script src="src/directives/skosMappingTable.js"></script>
         <script src="src/directives/skosOccurrences.js"></script>
@@ -35,8 +33,6 @@
         <header>
             <nav class="navbar navbar-default navbar-top" role="navigation">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    </button>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
@@ -56,9 +52,9 @@
         <div class="main">
             <div class="row">
         <!-- Left/Origin concept column-->
-                <div class="col-md-3">
-                    <div>
-                        <div class="panel panel-default">
+                <div class="col-md-3" style="min-width:310px;">
+                    <div style="">
+                        <div class="panel panel-default" style="margin-bottom:0px;">
                             <div class="panel-heading">
                                 <div class="mapping-header">
                                     <ul class="simple-list">
@@ -90,7 +86,7 @@
                                         tabindex=1
                                 />
                                 <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh typeahead-loading"></i>
-                                <div class="search-top">
+                                <div style="overflow:hidden;" class="search-top">
                                     <form ng-submit="reselectConcept('origin', originNotation)">
                                         <span style="float:left;">
                                             <input class="form-control search-top-input"
@@ -99,25 +95,25 @@
                                                 tabindex=3
                                             />
                                         </span>
-                                        <input type="submit" value="Select" class="search-top-button" ng-disabled="!originNotation.notation.length" />
+                                        <button type="submit" class="search-top-button" ng-disabled="!originNotation.notation.length" />
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
                                     </form>
                                 </div>
                                 <!-- Origin concept scheme template -->
                                 <div ng-if="activeView.origin.length && originConcept">
                                     <div class="tmpl-border">
-                                        <div>
-                                            <div skos-concept="originConcept" skos-click="clickOriginConcept" language="language"></div>
-                                            <span class="concept-buttons">
-                                                <button ng-click="saveFrom(activeView.origin, originConcept)" title="Use term">
-                                                    <span>Use</span>
-                                                    <i class="glyphicon glyphicon-share-alt"></i>
-                                                </button>
-                                                <button disabled="true" ng-click="searchOccurrence(activeView.origin, originConcept)">
-                                                    <span>Look up mappings</span>
-                                                    <i class="glyphicon glyphicon-stats"></i>
-                                                </button>
-                                            </span>
-                                        </div>
+                                        <div skos-concept="originConcept" skos-click="clickOriginConcept" language="language"></div>
+                                        <span class="concept-buttons">
+                                            <button ng-click="saveFrom(activeView.origin, originConcept)" title="Use term">
+                                                <span>Use</span>
+                                                <i class="glyphicon glyphicon-share-alt"></i>
+                                            </button>
+                                            <button disabled="true" ng-click="searchOccurrence(activeView.origin, originConcept)">
+                                                <span>Look up mappings</span>
+                                                <i class="glyphicon glyphicon-stats"></i>
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -146,55 +142,57 @@
                     </div>
                 </div>
         <!-- Middle/Mapping and context column -->
-                <div class="col-md-6">
-                    <!-- Active mapping template -->
-                    <div class="tmpl-border" style="width:100%;min-height:140px;">
-                        <div skos-concept-mapping="currentMapping"
-                            select="reselectConcept"
-                            mapping-from="activeView.origin"
-                            mapping-to="activeView.target"
-                            save-mapping="loggedIn">
-                        </div>
-                    </div>
-                    <!-- context templates -->
-                    <div class="context">
-                        <div class="context-body" style="overflow:hidden">
-                            <!-- Existing mappings templates -->
-                            <div style="float:left;">
-                                <div ng-if="mappingSample" class="tmpl-border" style="">
-                                    <div use-mapping="insertMapping" skos-mapping-collection="mappingSample"></div>
-                                </div>
+                <div class="col-md-6" style="overflow:visible">
+                    <div>
+                        <!-- Active mapping template -->
+                        <div class="tmpl-border" style="width:100%;min-height:140px;">
+                            <div skos-concept-mapping="currentMapping"
+                                select="reselectConcept"
+                                mapping-from="activeView.origin"
+                                mapping-to="activeView.target"
+                                save-mapping="loggedIn">
                             </div>
-                        <!-- Occurrences display -->
-                            <div ng-if="occurrencesSample" class="tmpl-border" style="float:right;margin-left:10px;">
-                                <div style="overflow:auto" skos-occurrences="occurrencesSample" select-occurrence="insertMapping"></div>
+                        </div>
+                        <!-- context templates -->
+                        <div class="context">
+                            <div class="context-body" style="overflow:hidden">
+                                <!-- Existing mappings templates -->
+                                <div style="float:left;">
+                                    <div ng-if="mappingSample" class="tmpl-border" style="">
+                                        <div use-mapping="insertMapping" skos-mapping-collection="mappingSample"></div>
+                                    </div>
+                                </div>
+                            <!-- Occurrences display -->
+                                <div ng-if="occurrencesSample" class="tmpl-border" style="float:right;margin-left:10px;">
+                                    <div style="overflow:auto" skos-occurrences="occurrencesSample" select-occurrence="insertMapping"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
         <!-- Right/Target concept column-->
                 <div class="col-md-3">
-                    <div>
-                        <div class="panel panel-default">
+                    <div style="">
+                        <div class="panel panel-default" style="margin-bottom:0px;">
                             <div class="panel-heading">
-                                    <div class="mapping-header">
-                                        <ul class="simple-list">
-                                            <li class="dropdown">
-                                                <a data-toggle="dropdown" type="button" class="dropdown-toggle">
-                                                    <span>Target Scheme: {{activeView.target}}</span>
-                                                    <b class="caret"></b>
-                                                </a>
-                                                <ul class="dropdown-menu scheme-dropdown" role="menu">
-                                                    <li>
-                                                        <a href="#" ng-click="setTarget('')">none</a>
-                                                    </li>
-                                                    <li ng-repeat="s in schemes">
-                                                        <a href="#" ng-click="setTarget(s.name)" ng-if="s.name != activeView.origin">{{s.name}}</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                <div class="mapping-header">
+                                    <ul class="simple-list">
+                                        <li class="dropdown">
+                                            <a data-toggle="dropdown" type="button" class="dropdown-toggle">
+                                                <span>Target Scheme: {{activeView.target}}</span>
+                                                <b class="caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu scheme-dropdown" role="menu">
+                                                <li>
+                                                    <a href="#" ng-click="setTarget('')">none</a>
+                                                </li>
+                                                <li ng-repeat="s in schemes">
+                                                    <a href="#" ng-click="setTarget(s.name)" ng-if="s.name != activeView.origin">{{s.name}}</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                             <div ng-if="activeView.target.length" class="panel-body">
                                 <input class="form-control"
@@ -207,7 +205,7 @@
                                     tabindex=2
                                 />
                                 <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh typeahead-loading"></i>
-                                <div class="search-top">
+                                <div class="search-top" style="white-space: nowrap;">
                                     <form ng-submit="reselectConcept('target', targetNotation)">
                                         <span style="float:left;">
                                             <input class="form-control search-top-input"
@@ -216,26 +214,25 @@
                                                 tabindex=4
                                             />
                                         </span>
-                                        <input type="submit" value="Select" class="search-top-button" ng-disabled="!targetNotation.notation.length" />
+                                        <button type="submit" class="search-top-button" ng-disabled="!targetNotation.notation.length">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </button>
                                     </form>
                                 </div>
-                                </div>
                                 <!-- Target concept scheme template -->
-                                <div ng-if="activeView.origin.length && targetConcept" style="min-width:350px">
+                                <div ng-if="activeView.origin.length && targetConcept">
                                     <div class="tmpl-border">
-                                        <div>
-                                            <div skos-concept="targetConcept" skos-click="clickTargetConcept" language="language"></div>
-                                            <span class="concept-buttons">
-                                                <button ng-disabled="checkDuplicate()" ng-click="addTo(activeView.target, targetConcept)" title="Add target term">
-                                                    <span>Add</span>
-                                                    <i class="glyphicon glyphicon-plus"></i>
-                                                </button>
-                                                <button ng-click="replaceTo(activeView.target, targetConcept)" title="Replace current terms">
-                                                    <span>Replace all</span>
-                                                    <i class="glyphicon glyphicon-share-alt"></i>
-                                                </button>
-                                            </span>
-                                        </div>
+                                        <div skos-concept="targetConcept" skos-click="clickTargetConcept" language="language"></div>
+                                        <span class="concept-buttons">
+                                            <button ng-disabled="checkDuplicate()" ng-click="addTo(activeView.target, targetConcept)" title="Add target term">
+                                                <span>Add</span>
+                                                <i class="glyphicon glyphicon-plus"></i>
+                                            </button>
+                                            <button ng-click="replaceTo(activeView.target, targetConcept)" title="Replace current terms">
+                                                <span>Replace all</span>
+                                                <i class="glyphicon glyphicon-share-alt"></i>
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
