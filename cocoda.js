@@ -361,7 +361,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     };
     
     
-    // SKOS-MAPPING-COLLECTION/TABLE TO SKOS-CONCEPT-MAPPING
+    // SKOS-MAPPING-COLLECTION/TABLE/OCCURRENCES TO SKOS-CONCEPT-MAPPING
     
     // used in mapping templates to transfer existing mappings into active state
     $scope.insertMapping = function(mapping){
@@ -380,7 +380,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                         dupes = true;
                     }
                 });
-                if(dupes == 0){
+                if(dupes == false){
                     $scope.currentMapping.to.push(mapping);
                 }
             }
@@ -647,7 +647,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                     uri: concept.uri ? concept.uri : concept.notation,
                 };
             }
-            $scope.selectOriginSubject($scope.originConcept)
+            $scope.selectOriginSubject($scope.originConcept);
         }
         else if(role == 'target'){
             if(concept.prefLabel){

@@ -21,21 +21,21 @@
         <div ng-if="broader.length" class="skos-concept-relation skos-concept-relation-broader">
             <ul ng-repeat="c in broader">
                 <li>
-                    <span skos-label="c" lang="{{language}}" ng-click="click(c)"></span>
+                    <span skos-label="c" lang="{{language}}" ng-click="click(c)" title="{{c.notation[0]}}"></span>
                 </li>
             </ul>
         </div>
         <div ng-if="narrower.length" class="skos-concept-relation skos-concept-relation-narrower">
             <ul ng-repeat="c in narrower">
                 <li>
-                    <span skos-label="c" lang="{{language}}" ng-click="click(c)"></span>
+                    <span skos-label="c" lang="{{language}}" ng-click="click(c)" title="{{c.notation[0]}}"></span>
                 </li>
             </ul>
         </div>
         <div ng-if="related.length" class="skos-concept-relation skos-concept-relation-related">
             <ul ng-repeat="c in related">
                 <li>
-                    <span skos-label="c" lang="{{language}}" ng-click="click(c)"></span>
+                    <span skos-label="c" lang="{{language}}" ng-click="click(c)" title="{{c.notation[0]}}"></span>
                 </li>
             </ul>
         </div>
