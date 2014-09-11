@@ -22,10 +22,10 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             jsonp: true
         }),
         getNarrower: new SkosConceptProvider({
-            url: "http://lobid.org/subject?format=full&id={notation}"
+            url: "http://lobid.org/subject?format=full&id={uri}"
         }),
         getConcept: new SkosConceptProvider({
-            url: "http://lobid.org/subject?format=full&id={notation}",
+            url: "http://lobid.org/subject?format=full&id={uri}",
             transform: function(item) {
                 
                 var graph = item[1]['@graph'][0];
@@ -470,16 +470,16 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     // fill origin concept
     $scope.selectOriginSubject = function(item) {
          
-        // populate with basic data
-        $scope.originConcept = {
-            notation: [ item.notation ],
-            prefLabel: {
-                de: item.label
-            }
-        };
-       
         // check for selected concept scheme
         if($scope.activeView.origin == 'GND'){
+            
+            // populate with basic data
+            $scope.originConcept = {
+                uri: item.uri,
+                prefLabel: {
+                    de: item.label
+                }
+            };
         
             // update concept
             $scope.gndSubjectConcept.updateConcept($scope.originConcept).then(function() {
@@ -496,6 +496,14 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             };
         }else if($scope.activeView.origin == 'RVK'){
             
+            // populate with basic data
+            $scope.originConcept = {
+                notation: [ item.notation ],
+                uri: item.notation ,
+                prefLabel: {
+                    de: item.label
+                }
+            };
             // update concept
             $scope.rvkSubjectConcept.updateConcept($scope.originConcept).then(function() {
                 // fill buffer concept, so originConcept won't be overwritten
