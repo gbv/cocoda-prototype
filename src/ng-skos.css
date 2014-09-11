@@ -162,10 +162,11 @@ ul.ancestors li {
 
 /* SKOS-tree */
 /*  template also uses: .notation*/
-
+.skos-tree{
+    margin-left:-20px;
+}
 .skos-tree ul{
     list-style-type:none;
-    padding-left:30px;
 }
 .skos-tree li{
     padding-right:8px;

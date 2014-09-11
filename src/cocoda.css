@@ -87,6 +87,16 @@
     margin-bottom:10px;
     margin-top:20px;
 }
+.toplabel{
+    color:#428bca;
+    cursor:pointer;
+    display:table-cell;
+    padding-left:4px;
+}
+.top-notation{
+    cursor:pointer;
+    white-space:nowrap;
+}
 #login{
     margin:13px;
     float:right;

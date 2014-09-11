@@ -129,10 +129,10 @@
                                         </accordion-heading>
                                         <ul ng-if="showTopConcepts.origin == true" class="simple-list">
                                             <li ng-repeat="v in topOriginConcept.values">
-                                                <a style="text-decoration:none;" href="" ng-click="reselectConcept('origin', v)" title="Show concept">
-                                                    <span class="notation" style="cursor:pointer;">{{v.notation}}</span>
-                                                    <span>{{v.label}}</span>
-                                                </a>
+                                                <div class="set" href="" ng-click="reselectConcept('origin', v)" title="Show concept">
+                                                    <span class="notation top-notation">{{v.notation}}</span>
+                                                    <span class="toplabel">{{v.label}}</span>
+                                                </div>
                                             </li>
                                         </ul>
                                     </accordion-group>
@@ -248,10 +248,10 @@
                                         </accordion-heading>
                                         <ul ng-if="showTopConcepts.target == true" class="simple-list">
                                             <li ng-repeat="v in topTargetConcept.values">
-                                                <a style="text-decoration:none;" href="" ng-click="reselectConcept('target', v)" title="Show concept">
-                                                    <span class="notation" style="cursor:pointer;">{{v.notation}}</span>
-                                                    <span>{{v.label}}</span>
-                                                </a>
+                                                <div class="set" href="" ng-click="reselectConcept('target', v)" title="Show concept">
+                                                    <span class="notation top-notation">{{v.notation}}</span>
+                                                    <span class="toplabel">{{v.label}}</span>
+                                                </div>
                                             </li>
                                         </ul>
                                     </accordion-group>
