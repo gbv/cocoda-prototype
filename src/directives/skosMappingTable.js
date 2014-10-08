@@ -72,7 +72,8 @@ angular.module('ngSKOS')
         restrict: 'A',
         scope: {
             mapping: '=skosMappingTable',
-            select: '=selectMapping'
+            select: '=selectMapping',
+            lookup: '=lookupMapping'
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?

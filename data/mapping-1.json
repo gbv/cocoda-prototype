@@ -2,67 +2,6 @@
     {
         "VZG-Konkordanz": [
             {
-                "ddc": [
-                    {
-                        "rvk": [
-                            {
-                                "from": [
-                                    {
-                                        "notation": ["612.112"],
-                                        "prefLabel":{
-                                                "en":"Leukocytes (White corpuscles)",
-                                                "de":"Leukozyten (Weiße Blutkörperchen)"
-                                        },
-                                        "inScheme": { "notation": ["DDC"] }
-                                    }
-                                ],
-                                "to": [
-                                    {
-                                        "notation": ["WW 8840"],
-                                        "prefLabel":{
-                                            "de":"Blutkörperchen (Erythrozyt, Leukozyt), Hämoglobin / Allgemeines"
-                                        },
-                                        "inScheme": { "notation": ["RVK"] }
-                                    },
-                                    {
-                                        "notation": ["YC 2500 - YC 2599"],
-                                        "prefLabel":{
-                                            "de":"Leukozytäres System: Leukämie (Leukose), Myelose, Agranulozytose, Tumorbildende Leukämieformen, Lymphatische Leukämie, Chronische Lymphadenose, Chlorom / Schlüssel zur Theoretischen und Klinischen Medizin"
-                                        },
-                                        "inScheme": { "notation": ["RVK"] }
-                                    }
-                                ],
-                                "timestamp": "2014-01-01",
-                                "creator": "VZG"
-                            },
-                            {
-                                "from": [
-                                    {
-                                        "notation": ["612.112"],
-                                        "prefLabel":{
-                                            "en":"Leukocytes (White corpuscles)",
-                                            "de":"Leukozyten (Weiße Blutkörperchen)"
-                                        },
-                                        "inScheme": { "notation": ["DDC"] }
-                                    }
-                                ],
-                                "to": [
-                                    {
-                                        "notation": ["WW 8840"],
-                                        "prefLabel":{
-                                            "de":"Blutkörperchen (Erythrozyt, Leukozyt), Hämoglobin / Allgemeines"
-                                        },
-                                        "inScheme": { "notation": ["RVK"] }
-                                    }
-                                ],
-                                "timestamp": "2013-01-01",
-                                "creator": "VZG"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
                 "gnd": [
                     {
                         "rvk": [
@@ -116,58 +55,6 @@
                                 ],
                                 "timestamp": "2013-01-01",
                                 "creator": "VZG"
-                            }
-                        ]
-                    },
-                    {
-                        "ddc": [
-                            {
-                                "from": [
-                                    {
-                                        "notation": ["4074195-3"],
-                                        "prefLabel": {
-                                            "de":"Leukozyt"
-                                        },
-                                        "inScheme": { "notation": ["GND"] }
-                                    }
-                                ],
-                                "to": [
-                                    {
-                                        "notation": ["612.112"],
-                                        "prefLabel":{
-                                            "en":"Leukocytes (White corpuscles)",
-                                            "de":"Leukozyten (Weiße Blutkörperchen)"
-                                        },
-                                        "inScheme": { "notation": ["DDC"] }
-                                    }
-                                ],
-                                "type": { "prefLabel": { "en":"strong"}, "value": 3},
-                                "timestamp": "2014-01-01",
-                                "creator": "dnb"
-                            },
-                            {
-                                "from": [
-                                    {
-                                        "notation": ["4290011-6"],
-                                        "prefLabel": {
-                                            "de":"Leukozytenelastase"
-                                        },
-                                        "inScheme": { "notation": ["GND"] }
-                                    }
-                                ],
-                                "to": [
-                                    {
-                                        "notation": ["612.112"],
-                                        "prefLabel":{
-                                            "en":"Leukocytes (White corpuscles)",
-                                            "de":"Leukozyten (Weiße Blutkörperchen)"
-                                        },
-                                        "inScheme": { "notation": ["DDC"] }
-                                    }
-                                ],
-                                "type": { "prefLabel": { "en":"medium"}, "value": 2},
-                                "timestamp": "2014-01-01",
-                                "creator": "dnb"
                             }
                         ]
                     }

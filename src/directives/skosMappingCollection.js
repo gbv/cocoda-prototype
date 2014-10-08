@@ -81,6 +81,7 @@ angular.module('ngSKOS')
         scope: {
             mappings: '=skosMappingCollection',
             useMapping: '=useMapping',
+            lookUp: '=lookUpMapping'
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
