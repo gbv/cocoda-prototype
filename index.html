@@ -200,7 +200,7 @@
                                 </div>
                             </div>
                             <div ng-if="activeView.target.length" class="panel-body">
-                                <accordion>
+                                <accordion ng-if="targetConcept">
                                     <accordion-group is-open="showTargetSearch">
                                         <accordion-heading>
                                             <b>Search Tools</b>
