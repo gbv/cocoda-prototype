@@ -235,14 +235,13 @@ ul.ancestors li {
     float:left;
     margin-right:5px;
     line-height:1.15em;
-    margin-top:2px;
 }
 .skos-mapping-target a{
     color:#428bca;
     float:right;
-    margin-top:1px;
     margin-right:-5px;
     font-size:0.8em;
+    line-height:1.15em;
 }
 .mappingResults ul{
     list-style-type:none;

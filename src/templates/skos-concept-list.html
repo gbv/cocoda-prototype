@@ -1,14 +1,14 @@
 <div style="font-size:1.5em;">
     <ul ng-if="concepts.length" style="list-style-type:none;padding-left:0px;">
-        <li ng-repeat="c in concepts" style="max-width:320px;display:block;">
-            <div tabindex="0">
+        <li ng-repeat="c in concepts" style="max-width:320px;display:block;" tabindex="0">
+            <div style="text-align:right">
                 <span class="notation">{{c.notation[0]}}</span>
-                <div style="display:inline-table">
-                    <a href="" ng-click="onSelect(c)" style="text-decoration:none">
-                        <span class="glyphicon glyphicon-info-sign"></span>
+                <div style="display:inline-table;">
+                    <a href="" ng-click="onSelect(c)" style="text-decoration:none;">
+                        <span style="vertical-align:text-top;" class="glyphicon glyphicon-info-sign"></span>
                     </a>
                     <a href="" ng-click="removeConcept($index)" style="text-decoration:none">
-                        <span class="glyphicon glyphicon-trash"></span>
+                        <span style="vertical-align:text-top;" class="glyphicon glyphicon-trash"></span>
                     </a>
                 </div>
             </div>

@@ -357,7 +357,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     // show/hide top concepts
     $scope.showTopConcepts = {
         origin:true,
-        target:true
+        target:false
     };
     
     

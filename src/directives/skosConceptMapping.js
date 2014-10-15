@@ -48,6 +48,9 @@ angular.module('ngSKOS')
                 scope.mapping.source = function() {};
                 // TODO: Save current mapping to 'saveLocation'
             };
+	    scope.clearTargets = function() {
+		scope.mapping.to = [];
+	    };
             scope.$watch('mapping');
         }
     }
