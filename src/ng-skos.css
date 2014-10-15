@@ -105,6 +105,9 @@ ul.ancestors li {
     padding:3px;
     min-width:250px;
 }
+.connected-notation{
+  margin-right:3px;
+}
 .skos-concept{
     border:none;
     background-color:#FFF;
@@ -126,7 +129,7 @@ ul.ancestors li {
 }
 /* 'skos-concept' relations (broader, narrower, related) display*/
 .skos-concept-relation li:hover {
-    background-color:#ddd;
+    background-color:#eee;
     border-radius:3px;
     color:#2a6496;
 }
