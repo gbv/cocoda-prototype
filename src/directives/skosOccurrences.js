@@ -32,6 +32,7 @@ angular.module('ngSKOS')
         scope: {
             occurrence:'=skosOccurrences',
             select:'=selectOccurrence',
+            lookup: '=lookUpOccurrence'
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ? 

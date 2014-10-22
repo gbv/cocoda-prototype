@@ -391,7 +391,6 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     $scope.lookUpMapping = function(mapping){
         $scope.reselectConcept('target', mapping);
     };
-    
     // SKOS-OCCURRENCES TO SKOS-CONCEPT-MAPPING
     
     
@@ -408,6 +407,11 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     
     // Choose origin mapping concept
     $scope.saveFrom = function(origin, item){
+        if($scope.currentMapping.from[0]){
+            if($scope.currentMapping.from[0].notation[0] != item.notation[0]) { 
+            $scope.currentMapping.to = [];
+            };
+        };
         $scope.currentMapping.from[0] = {
             prefLabel: { de: item.prefLabel.de },
             inScheme: { notation: [ origin ] },

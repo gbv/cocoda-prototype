@@ -107,6 +107,7 @@ ul.ancestors li {
 }
 .connected-notation{
   margin-right:3px;
+  white-space:nowrap;
 }
 .skos-concept{
     border:none;

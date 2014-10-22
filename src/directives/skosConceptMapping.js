@@ -47,9 +47,11 @@ angular.module('ngSKOS')
                 // TODO: Use own database to specify 'source'
                 scope.mapping.source = function() {};
                 // TODO: Save current mapping to 'saveLocation'
+		scope.saved = true;
             };
 	    scope.clearTargets = function() {
 		scope.mapping.to = [];
+		scope.saved = false;
 	    };
             scope.$watch('mapping');
         }
