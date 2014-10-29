@@ -78,7 +78,12 @@
 .typeahead-loading{
     position:absolute;
     right:40px;
-    top:67px;
+    top:70px;
+}
+.typeahead-loading-right{
+    position:absolute;
+    top:123px;
+    right:55px;
 }
 .concept-buttons{
     margin-left:16px;

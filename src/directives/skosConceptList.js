@@ -25,16 +25,39 @@ angular.module('ngSKOS')
         scope: {
             concepts: '=skosConceptList',
             onSelect: '=onSelect',
+            focus: '@focusOn'
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
                    attrs.templateUrl : 'src/templates/skos-concept-list.html';
         },
-        link: function link(scope, element, attr) {
+        link: function link(scope, $scope, element, attrs) {
             scope.removeConcept = function(index) { 
                 scope.concepts.splice(index, 1);
             };
+            scope.tabFocus = 0;
             scope.$watch('concepts');
-        }
+            scope.onKeyDown = function($event, first, last) {
+                console.log($event.keyCode);
+                var key = $event.keyCode;
+                if(key == 38){
+                    if(!first){
+                        scope.tabFocus--;
+                    }
+                    console.log(scope.tabFocus);
+                }
+                if(key == 40){
+                    if(!last){
+                        scope.tabFocus++;
+                    }
+                    console.log(scope.tabFocus);
+                }
+            };
+            scope.$watch('focus', function(value){
+                console.log(value); // ?!
+                if(value === "true"){
+                }
+            });
+        },
     };
 });

@@ -239,7 +239,14 @@ cocoda.service('knownSchemes',
  * Controller
  */
 function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggestions, knownSchemes){
-
+    
+    window.addEventListener("keydown", function(e) {
+        // space and arrow keys
+        if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+            e.preventDefault();
+        }
+    }, false);
+    
     // references to the http-calls
     $scope.schemes = knownSchemes;
 
