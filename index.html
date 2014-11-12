@@ -85,8 +85,9 @@
                                         placeholder="Search by terms (typeahead)"
                                         typeahead-loading="loadingLocations"
                                         typeahead-editable="false"
-                                        tabindex=1
-                                        autofocus
+                                        tabindex=1 
+                                        autofocus 
+                                        accesskey="s"
                                 />
                                 <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh typeahead-loading"></i>
                                 <div style="padding-top:8px;">
@@ -98,7 +99,8 @@
                                             <input class="form-control search-top-input"
                                                 ng-model="originNotation.notation"
                                                 placeholder="Enter full notation"
-                                                tabindex=3
+                                                tabindex=3 
+                                                accesskey="n"
                                             />
                                         </span>
                                         <button type="submit" class="search-top-button" ng-disabled="!originNotation.notation.length" />

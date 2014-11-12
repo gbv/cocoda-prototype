@@ -19,7 +19,7 @@
 */
 
 angular.module('ngSKOS')
-.directive('skosConceptList', function(){
+.directive('skosConceptList', function($timeout, $parse){
     return {
         restrict: 'A',
         scope: {
@@ -31,18 +31,20 @@ angular.module('ngSKOS')
             return attrs.templateUrl ?
                    attrs.templateUrl : 'src/templates/skos-concept-list.html';
         },
-        link: function link(scope, $scope, element, attrs) {
+        link: function link(scope, element, attrs) {
             scope.removeConcept = function(index) { 
                 scope.concepts.splice(index, 1);
             };
             scope.tabFocus = 0;
             scope.$watch('concepts');
+            console.log(element[0]);
             scope.onKeyDown = function($event, first, last) {
                 console.log($event.keyCode);
                 var key = $event.keyCode;
                 if(key == 38){
                     if(!first){
                         scope.tabFocus--;
+                        console.log(element[0]);
                     }
                     console.log(scope.tabFocus);
                 }
@@ -53,11 +55,6 @@ angular.module('ngSKOS')
                     console.log(scope.tabFocus);
                 }
             };
-            scope.$watch('focus', function(value){
-                console.log(value); // ?!
-                if(value === "true"){
-                }
-            });
         },
     };
 });
