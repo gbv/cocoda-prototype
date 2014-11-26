@@ -379,7 +379,6 @@ function myController($scope, $http, $q, $timeout, SkosConceptProvider, OpenSear
                 // $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
                 $timeout(function(){
                     setf = angular.element("[list-id='0']");
-                    console.log(setf);
                     setf.focus();
                 },50);
             }
@@ -396,7 +395,6 @@ function myController($scope, $http, $q, $timeout, SkosConceptProvider, OpenSear
                     $scope.currentMapping.to.push(mapping);
                     $timeout(function(){
                         setf = angular.element("[list-id='0']");
-                        console.log(setf);
                         setf.focus();
                     },50);
                 }

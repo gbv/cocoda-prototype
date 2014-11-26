@@ -39,27 +39,30 @@ angular.module('ngSKOS')
             scope.onKeyDown = function($event, first, last, index) {
                 var key = $event.keyCode;
                 scope.tabFocus = index;
-                console.log(scope.tabFocus);
                 if(key == 38){
                     $event.preventDefault();
                     if(!first){
                         scope.tabFocus--;
-                        fc = angular.element("[list-id=" + scope.tabFocus + "]");
-                        fc.focus();
                     }
-                    console.log("up:" + scope.tabFocus);
+                    else{
+                        scope.tabFocus = scope.concepts.length - 1;
+                    }
+                    fc = angular.element("[list-id=" + scope.tabFocus + "]");
+                    fc.focus();
                 }
                 if(key == 40){
                     $event.preventDefault();
-                    if(!last){
-                        scope.tabFocus++;
-                        fc = angular.element("[list-id=" + scope.tabFocus + "]");
-                        fc.focus();
+                    if(last){
+                        scope.tabFocus = 0;
                     }
-                    console.log("down:" + scope.tabFocus);
+                    else{
+                        scope.tabFocus++;
+                    }
+                    fc = angular.element("[list-id=" + scope.tabFocus + "]");
+                    fc.focus();
                 }
                 if(key == 13){
-                    
+                    scope.onSelect(scope.concepts[index]);
                 }
                 if(key == 82){
                     $event.preventDefault();
@@ -67,7 +70,6 @@ angular.module('ngSKOS')
                         scope.tabFocus--;
                     }
                     scope.removeConcept(index);
-                    console.log("r:" + scope.tabFocus);
                     $timeout(function(){
                         fc = angular.element("[list-id=" + scope.tabFocus + "]");
                         fc.focus();
