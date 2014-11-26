@@ -19,7 +19,7 @@
 */
 
 angular.module('ngSKOS')
-.directive('skosConceptList', function($timeout, $parse){
+.directive('skosConceptList', function($timeout){
     return {
         restrict: 'A',
         scope: {
@@ -61,7 +61,7 @@ angular.module('ngSKOS')
                     fc = angular.element("[list-id=" + scope.tabFocus + "]");
                     fc.focus();
                 }
-                if(key == 13){
+                if(key == 13 || key == 73){
                     scope.onSelect(scope.concepts[index]);
                 }
                 if(key == 82){

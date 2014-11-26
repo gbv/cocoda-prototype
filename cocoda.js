@@ -389,10 +389,15 @@ function myController($scope, $http, $q, $timeout, SkosConceptProvider, OpenSear
                 angular.forEach($scope.currentMapping.to, function(value,key){
                     if(value.notation[0] == mapping.notation[0]){
                         dupes = true;
+                        $timeout(function(){
+                            setf = angular.element("[list-id='0']");
+                            setf.focus();
+                        },50);
                     }
                 });
                 if(dupes == false){
                     $scope.currentMapping.to.push(mapping);
+                    $scope.currentMapping.timestamp = "";
                     $timeout(function(){
                         setf = angular.element("[list-id='0']");
                         setf.focus();

@@ -72,7 +72,7 @@
                     <span class="glyphicon glyphicon-remove"></span>
                 </button>
             </div>
-            <div ng-if="mapping.timestamp" style="float:right;margin-top:13px;margin-right:15px;">
+            <div ng-if="mapping.timestamp && mapping.to.length" style="float:right;margin-top:13px;margin-right:15px;">
                 Created: <span>{{mapping.timestamp}}</span>
             </div>
             <div ng-if="saved" style="float:left;margin-top:5px;">
