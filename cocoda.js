@@ -238,7 +238,7 @@ cocoda.service('knownSchemes',
 /**
  * Controller
  */
-function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggestions, knownSchemes){
+function myController($scope, $http, $q, $timeout, SkosConceptProvider, OpenSearchSuggestions, knownSchemes){
     
     window.addEventListener("keydown", function(e) {
         // space and arrow keys
@@ -377,6 +377,11 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
             if(mapping.from[0].inScheme.notation[0] == $scope.activeView.origin && mapping.to[0].inScheme.notation[0] == $scope.activeView.target){
                 $scope.currentMapping = angular.copy(mapping);
                 // $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
+                $timeout(function(){
+                    setf = angular.element("[list-id='0']");
+                    console.log(setf);
+                    setf.focus();
+                },50);
             }
         // single target terms
         }else if(mapping.notation){
@@ -389,6 +394,11 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                 });
                 if(dupes == false){
                     $scope.currentMapping.to.push(mapping);
+                    $timeout(function(){
+                        setf = angular.element("[list-id='0']");
+                        console.log(setf);
+                        setf.focus();
+                    },50);
                 }
             }
         }

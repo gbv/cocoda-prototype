@@ -1,7 +1,7 @@
 <div style="font-size:1.5em;">
     <ul ng-if="concepts.length" style="list-style-type:none;padding-left:0px;">
         <li ng-repeat="c in concepts" style="max-width:320px;display:block;">
-            <div style="text-align:right;padding-left:3px;padding-right:3px;" tabindex="0" ng-focus="onSelect(c)" ng-keydown="onKeyDown($event, $first, $last)" focus-on="{{tabFocus == $index}}" autofocus>
+            <div style="text-align:right;padding-left:3px;padding-right:3px;" tabindex="0" ng-keydown="onKeyDown($event, $first, $last, $index)" list-id="{{$index}}">
                 <span class="notation" style="whitespace:nowrap;" title="{{c.prefLabel.de}}">{{c.notation[0]}}</span>
                 <div style="display:inline-table;">
                     <a href="" ng-click="onSelect(c)" style="text-decoration:none;">

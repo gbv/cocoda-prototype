@@ -25,7 +25,6 @@ angular.module('ngSKOS')
         scope: {
             concepts: '=skosConceptList',
             onSelect: '=onSelect',
-            focus: '@focusOn'
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
@@ -37,22 +36,42 @@ angular.module('ngSKOS')
             };
             scope.tabFocus = 0;
             scope.$watch('concepts');
-            console.log(element[0]);
-            scope.onKeyDown = function($event, first, last) {
-                console.log($event.keyCode);
+            scope.onKeyDown = function($event, first, last, index) {
                 var key = $event.keyCode;
+                scope.tabFocus = index;
+                console.log(scope.tabFocus);
                 if(key == 38){
+                    $event.preventDefault();
                     if(!first){
                         scope.tabFocus--;
-                        console.log(element[0]);
+                        fc = angular.element("[list-id=" + scope.tabFocus + "]");
+                        fc.focus();
                     }
-                    console.log(scope.tabFocus);
+                    console.log("up:" + scope.tabFocus);
                 }
                 if(key == 40){
+                    $event.preventDefault();
                     if(!last){
                         scope.tabFocus++;
+                        fc = angular.element("[list-id=" + scope.tabFocus + "]");
+                        fc.focus();
                     }
-                    console.log(scope.tabFocus);
+                    console.log("down:" + scope.tabFocus);
+                }
+                if(key == 13){
+                    
+                }
+                if(key == 82){
+                    $event.preventDefault();
+                    if(last){
+                        scope.tabFocus--;
+                    }
+                    scope.removeConcept(index);
+                    console.log("r:" + scope.tabFocus);
+                    $timeout(function(){
+                        fc = angular.element("[list-id=" + scope.tabFocus + "]");
+                        fc.focus();
+                    },50);
                 }
             };
         },
