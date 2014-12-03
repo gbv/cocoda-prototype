@@ -21,10 +21,12 @@
 angular.module('ngSKOS')
 .directive('skosConceptList', function($timeout){
     return {
-        restrict: 'A',
+        restrict: 'AE',
         scope: {
             concepts: '=skosConceptList',
             onSelect: '=onSelect',
+            canRemove: '=removeable',
+            showLabels: '=showLabels'
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
@@ -34,8 +36,15 @@ angular.module('ngSKOS')
             scope.removeConcept = function(index) { 
                 scope.concepts.splice(index, 1);
             };
-            scope.tabFocus = 0;
+            scope.tabFocus = null;
             scope.$watch('concepts');
+            scope.clicked = function(index){
+                scope.tabFocus = index;
+                scope.onSelect(scope.concepts[index]);
+            };
+            scope.focused = function(index){
+                scope.tabFocus = index;
+            };
             scope.onKeyDown = function($event, first, last, index) {
                 var key = $event.keyCode;
                 scope.tabFocus = index;
@@ -43,37 +52,37 @@ angular.module('ngSKOS')
                     $event.preventDefault();
                     if(!first){
                         scope.tabFocus--;
-                    }
-                    else{
+                    } else {
                         scope.tabFocus = scope.concepts.length - 1;
                     }
-                    fc = angular.element("[list-id=" + scope.tabFocus + "]");
+                    $timeout(function(){
+                    var fc = angular.element("[list-id=" + scope.tabFocus + "]");
                     fc.focus();
-                }
-                if(key == 40){
+                    },0,false);
+                } else if(key == 40){
                     $event.preventDefault();
                     if(last){
                         scope.tabFocus = 0;
-                    }
-                    else{
+                    } else {
                         scope.tabFocus++;
                     }
-                    fc = angular.element("[list-id=" + scope.tabFocus + "]");
-                    fc.focus();
-                }
-                if(key == 13 || key == 73){
-                    scope.onSelect(scope.concepts[index]);
-                }
-                if(key == 82){
+                    $timeout(function(){
+                        var fc = angular.element("[list-id=" + scope.tabFocus + "]");
+                        fc.focus();
+                    },0,false);
+                } else if(key == 46){
                     $event.preventDefault();
                     if(last){
                         scope.tabFocus--;
                     }
                     scope.removeConcept(index);
                     $timeout(function(){
-                        fc = angular.element("[list-id=" + scope.tabFocus + "]");
+                        var fc = angular.element("[list-id=" + scope.tabFocus + "]");
                         fc.focus();
-                    },50);
+                    },0);
+                } else if(key == 13){
+                    $event.preventDefault();
+                    scope.onSelect(scope.concepts[index]);
                 }
             };
         },

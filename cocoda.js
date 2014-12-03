@@ -240,13 +240,7 @@ cocoda.service('knownSchemes',
  */
 function myController($scope, $http, $q, $timeout, SkosConceptProvider, OpenSearchSuggestions, knownSchemes){
     
-    window.addEventListener("keydown", function(e) {
-        // space and arrow keys
-        if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-            e.preventDefault();
-        }
-    }, false);
-    
+
     // references to the http-calls
     $scope.schemes = knownSchemes;
 
@@ -380,7 +374,7 @@ function myController($scope, $http, $q, $timeout, SkosConceptProvider, OpenSear
                 $timeout(function(){
                     setf = angular.element("[list-id='0']");
                     setf.focus();
-                },50);
+                },0);
             }
         // single target terms
         }else if(mapping.notation){
@@ -389,10 +383,6 @@ function myController($scope, $http, $q, $timeout, SkosConceptProvider, OpenSear
                 angular.forEach($scope.currentMapping.to, function(value,key){
                     if(value.notation[0] == mapping.notation[0]){
                         dupes = true;
-                        $timeout(function(){
-                            setf = angular.element("[list-id='0']");
-                            setf.focus();
-                        },50);
                     }
                 });
                 if(dupes == false){
@@ -401,7 +391,7 @@ function myController($scope, $http, $q, $timeout, SkosConceptProvider, OpenSear
                     $timeout(function(){
                         setf = angular.element("[list-id='0']");
                         setf.focus();
-                    },50);
+                    },0);
                 }
             }
         }

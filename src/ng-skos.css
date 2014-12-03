@@ -302,3 +302,6 @@ ul.ancestors li {
     margin:3px 2px 2px auto;
     cursor:pointer;
 }
+.list-item-selected{
+    background-color: #C6E2FF;
+}

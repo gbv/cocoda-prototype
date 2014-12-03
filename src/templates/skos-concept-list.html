@@ -1,8 +1,13 @@
 <div style="font-size:1.5em;">
     <ul ng-if="concepts.length" style="list-style-type:none;padding-left:0px;">
         <li ng-repeat="c in concepts" style="max-width:320px;display:block;">
-            <div style="text-align:right;padding-left:3px;padding-right:3px;" tabindex="0" ng-keydown="onKeyDown($event, $first, $last, $index)" list-id="{{$index}}">
-                <span class="notation" style="whitespace:nowrap;" title="{{c.prefLabel.de}}">{{c.notation[0]}}</span>
+            <div style="text-align:right;padding-left:3px;padding-right:3px;"
+                tabindex="0"
+                ng-keydown="onKeyDown($event, $first, $last, $index)"
+                list-id="{{$index}}"
+                ng-class="tabFocus == $index || (tabFocus === null && $index == 0) ? 'list-item-selected' : ''" ng-focus="focused($index)">
+                <span class="notation" style="whitespace:nowrap;" title="{{c.prefLabel.de}}" ng-click="clicked($index)">{{c.notation[0]}}</span>
+                <span ng-if="showLabels" skos-label="c" lang="{{language}}" class="skos-list-label" ng-click="clicked($index)"></span>
                 <div style="display:inline-table;">
                     <a href="" ng-click="onSelect(c)" style="text-decoration:none;">
                         <span style="vertical-align:middle;top:0px;" class="glyphicon glyphicon-info-sign"></span>
