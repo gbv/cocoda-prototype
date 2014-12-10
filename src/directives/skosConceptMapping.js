@@ -51,9 +51,10 @@ angular.module('ngSKOS')
             };
 	    scope.clearTargets = function() {
 		scope.mapping.to = [];
-		scope.saved = false;
 	    };
-            scope.$watch('mapping');
+            scope.$watch('mapping.to', function(){
+                scope.saved = false;
+            },true);
         }
     }
 });

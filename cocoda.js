@@ -238,7 +238,7 @@ cocoda.service('knownSchemes',
 /**
  * Controller
  */
-function myController($scope, $http, $q, $timeout, SkosConceptProvider, OpenSearchSuggestions, knownSchemes){
+function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggestions, knownSchemes){
     
 
     // references to the http-calls
@@ -371,10 +371,6 @@ function myController($scope, $http, $q, $timeout, SkosConceptProvider, OpenSear
             if(mapping.from[0].inScheme.notation[0] == $scope.activeView.origin && mapping.to[0].inScheme.notation[0] == $scope.activeView.target){
                 $scope.currentMapping = angular.copy(mapping);
                 // $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
-                $timeout(function(){
-                    setf = angular.element("[list-id='0']");
-                    setf.focus();
-                },0);
             }
         // single target terms
         }else if(mapping.notation){
@@ -388,10 +384,6 @@ function myController($scope, $http, $q, $timeout, SkosConceptProvider, OpenSear
                 if(dupes == false){
                     $scope.currentMapping.to.push(mapping);
                     $scope.currentMapping.timestamp = "";
-                    $timeout(function(){
-                        setf = angular.element("[list-id='0']");
-                        setf.focus();
-                    },0);
                 }
             }
         }
