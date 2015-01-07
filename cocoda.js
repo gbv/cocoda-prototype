@@ -252,6 +252,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
 
     // NG-SUGGEST & NAVBAR FUNCTIONALITY
     $scope.showTargetSearch = false;
+    $scope.showOriginSearch = true;
     // possible profile scope
     
 

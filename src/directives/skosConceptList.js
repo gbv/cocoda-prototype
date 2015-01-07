@@ -35,13 +35,15 @@ angular.module('ngSKOS')
                    attrs.templateUrl : 'src/templates/skos-concept-list.html';
         },
         link: function link(scope, element, attrs) {
+            
             scope.$watch('concepts');
             scope.ID = Math.random().toString(36).slice(2);
+            
             scope.removeConcept = function(index) { 
                 scope.concepts.splice(index, 1);
             };
             scope.focusConcept = function(index) {
-                // TODO: remove depenency on jQuery
+                // TODO: remove dependency on jQuery
                 var fc = angular.element("[list-id=" + scope.ID + "_" + index + "]");
                 fc.focus();
             };
@@ -52,7 +54,6 @@ angular.module('ngSKOS')
             };
             scope.onFocus = function(index){
                 scope.tabFocus = index;
-                scope.hasFocus = true;
             };
             scope.onKeyDown = function($event, first, last, index) {
                 var key = $event.keyCode;
@@ -61,19 +62,23 @@ angular.module('ngSKOS')
 
                 if ([38,40,46,13].indexOf(key) == -1 || length == 0) return;
                 $event.preventDefault();
-
+                
+                // up
                 if(key == 38){
                     scope.tabFocus = (scope.tabFocus + length - 1) % length;
                     $timeout(function(){ scope.focusConcept(scope.tabFocus) },0,false);
+                // down
                 } else if(key == 40){
                     scope.tabFocus = (scope.tabFocus + 1) % length;
                     $timeout(function(){ scope.focusConcept(scope.tabFocus) },0,false);
-                } else if(key == 46){
+                // del
+                } else if(key == 46 && scope.canRemove == true){
                     if(last){
                         scope.tabFocus--;
                     }
                     scope.removeConcept(index);
                     $timeout(function(){ scope.focusConcept(scope.tabFocus) },0,false);
+                // enter
                 } else if(key == 13){
                     $event.preventDefault();
                     scope.onSelect(scope.concepts[index]);

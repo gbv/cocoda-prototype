@@ -79,36 +79,44 @@
                                 </div>
                             </div>
                             <div ng-if="activeView.origin.length" class="panel-body">
-                                <input class="form-control"
-                                        suggest-typeahead="SuggestConcept(activeView.origin)"
-                                        typeahead-on-select="selectOriginSubject($item)"
-                                        ng-model="originSubject"
-                                        placeholder="Search by terms (typeahead)"
-                                        typeahead-loading="loadingLocations"
-                                        typeahead-editable="false"
-                                        tabindex=1 
-                                        autofocus 
-                                        accesskey="s"
-                                />
-                                <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh typeahead-loading"></i>
-                                <div style="padding-top:8px;">
-                                    <span style="font-size:1.4em;font-weight:bold;">OR</span>
-                                </div>
-                                <div style="overflow:hidden;" class="search-top">
-                                    <form ng-submit="reselectConcept('origin', originNotation)">
-                                        <span style="float:left;">
-                                            <input class="form-control search-top-input"
-                                                ng-model="originNotation.notation"
-                                                placeholder="Enter full notation"
-                                                tabindex=3 
-                                                accesskey="n"
-                                            />
-                                        </span>
-                                        <button type="submit" class="search-top-button" ng-disabled="!originNotation.notation.length" />
-                                            <span class="glyphicon glyphicon-search"></span>
-                                        </button>
-                                    </form>
-                                </div>
+                                <accordion>
+                                    <accordion-group is-open="showOriginSearch">
+                                        <accordion-heading>
+                                            <b>Search Tools</b>
+                                            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showOriginSearch, 'glyphicon-chevron-right': !showOriginSearch}"></i>
+                                        </accordion-heading>
+                                        <input class="form-control"
+                                                suggest-typeahead="SuggestConcept(activeView.origin)"
+                                                typeahead-on-select="selectOriginSubject($item)"
+                                                ng-model="originSubject"
+                                                placeholder="Search by terms (typeahead)"
+                                                typeahead-loading="loadingLocations"
+                                                typeahead-editable="false"
+                                                tabindex=1 
+                                                autofocus 
+                                                accesskey="s"
+                                        />
+                                        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh typeahead-loading"></i>
+                                        <div style="padding-top:8px;">
+                                            <span style="font-size:1.4em;font-weight:bold;">OR</span>
+                                        </div>
+                                        <div style="overflow:hidden;" class="search-top">
+                                            <form ng-submit="reselectConcept('origin', originNotation)">
+                                                <span style="float:left;">
+                                                    <input class="form-control search-top-input"
+                                                        ng-model="originNotation.notation"
+                                                        placeholder="Enter full notation"
+                                                        tabindex=3 
+                                                        accesskey="n"
+                                                    />
+                                                </span>
+                                                <button type="submit" class="search-top-button" ng-disabled="!originNotation.notation.length" />
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </accordion-group>
+                                </accordion>
                                 <!-- Origin concept scheme template -->
                                 <div ng-if="activeView.origin.length && originConcept">
                                     <div class="tmpl-border">
