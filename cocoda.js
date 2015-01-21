@@ -694,7 +694,7 @@ cocoda.run(function($rootScope,$http) {
     // load placeholder samples
 
     $rootScope.mappingSample = {};
-    $http.get('data/mapping-1.json').success(function(data){
+    $http.get('data/gnd-rvk.json').success(function(data){
         $rootScope.mappingSample = data;
     });
     $rootScope.mappingSampleGND = {};
