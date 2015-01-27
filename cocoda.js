@@ -8,7 +8,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
         name: 'GND',
         // Suggestions API via lobid.org
         suggest: new OpenSearchSuggestions({
-            url: "//api.lobid.org/subject?format=ids&name=",
+            url: "http://api.lobid.org/subject?format=ids&name=",
             transform: function(response) {
                 return {
                     values: response.map(function(s) {
@@ -22,10 +22,10 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             jsonp: true
         }),
         getNarrower: new SkosConceptProvider({
-            url: "//lobid.org/subject?format=full&id={uri}"
+            url: "http://lobid.org/subject?format=full&id={uri}"
         }),
         getConcept: new SkosConceptProvider({
-            url: "//lobid.org/subject?format=full&id={uri}",
+            url: "http://lobid.org/subject?format=full&id={uri}",
             transform: function(item) {
                 
                 var graph = item[1]['@graph'][0];
@@ -133,14 +133,14 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
     this.rvk = {
         name: 'RVK',
         topConcepts: new SkosConceptListProvider({
-            url: "//rvk.uni-regensburg.de/api/json/children",
+            url: "http://rvk.uni-regensburg.de/api/json/children",
             jsonp: 'jsonp',
             transform: function(response) { 
                 return rvkTransform(response.node.children.node) 
             },
         }), 
         suggest: new OpenSearchSuggestions({
-            url: "//rvk.uni-regensburg.de/api/json/nodes/{searchTerms}",
+            url: "http://rvk.uni-regensburg.de/api/json/nodes/{searchTerms}",
             jsonp: 'jsonp',
             transform: function(response) { 
                 return rvkTransform(response.node) 
@@ -149,7 +149,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
         }),
         // get main concept
         getConcept: new SkosConceptProvider({
-            url: "//rvk.uni-regensburg.de/api/json/node/{notation}",
+            url: "http://rvk.uni-regensburg.de/api/json/node/{notation}",
             transform: function(item) {
                 var concept = {
                     notation: [ item.node.notation ],
@@ -172,7 +172,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
         }),
         // get all direct children of the concept
         getNarrower: new SkosConceptProvider({
-            url: "//rvk.uni-regensburg.de/api/json/children/{notation}",
+            url: "http://rvk.uni-regensburg.de/api/json/children/{notation}",
             transform: function(item) {
 
                 var concept = {
@@ -197,7 +197,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
         }),
         // get the direct ancestor of the concept
         getBroader: new SkosConceptProvider({
-            url: "//rvk.uni-regensburg.de/api/json/ancestors/{notation}",
+            url: "http://rvk.uni-regensburg.de/api/json/ancestors/{notation}",
             transform: function(item) {
                 var concept = { 
                     notation: [ item.node.notation ],
@@ -221,7 +221,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
     this.wikidata = {
         name: 'Wikidata',
         getConcept: new SkosConceptProvider({
-            url: "//www.wikidata.org/w/api.php?action=wbgetentities&ids={notation}&props=info|labels|descriptions|aliases",
+            url: "http://www.wikidata.org/w/api.php?action=wbgetentities&ids={notation}&props=info|labels|descriptions|aliases",
             jsonp: true,
             transform: function(item) {
                 console.log(item);
