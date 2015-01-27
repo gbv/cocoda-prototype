@@ -1,4 +1,4 @@
-var cocoda = angular.module('Cocoda', ['ngSKOS','ui.bootstrap','ngSuggest','cfp.hotkeys']);
+var cocoda = angular.module('Cocoda', ['ngSKOS','ui.bootstrap','ngSuggest']);
 
 /**
  * Konfiguration aller unterstützen Concept Schemes
