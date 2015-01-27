@@ -16,9 +16,8 @@
                 <tr>
                     <td>
                         <div class="tmpl-border mappingResults-from">
-                            <div ng-if="mapping.from.length" 
-                                skos-concept-list="mapping.from" 
-                                on-select="selectFrom">
+                            <div ng-if="mapping.from.length" style="font-size:1.5em;">
+                                <skos-list concepts="mapping.from" on-select="selectFrom" removeable="true" class="mapping-list">
                             </div>
                             <div ng-if="!mapping.from.length">
                                 <alert type="danger">Please select a source mapping term</alert>
@@ -32,9 +31,8 @@
                     </td>
                     <td>
                         <div class="tmpl-border mappingResults-to" style="float:right;">
-                            <div ng-if="mapping.to.length"
-                                skos-concept-list="mapping.to" 
-                                on-select="selectTo" >
+                            <div ng-if="mapping.to.length" style="font-size:1.5em;">
+                                <skos-list concepts="mapping.to" on-select="selectTo" removeable="true" class="mapping-list mapping-target-list">
                             </div>
                             <div ng-if="!mapping.to.length && mapping.from.length">
                                 <alert style="margin-bottom:0px;" type="danger">Add target mapping terms (<span style="color:#428bca" class="glyphicon glyphicon-plus"></span>)</alert>

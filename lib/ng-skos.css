@@ -3,7 +3,7 @@
 
 .tmpl-border {
     border: 1px solid #999;
-    padding:10px 0px 5px 0px;
+    padding:10px 20px 5px 20px;
     margin:5px 0px 10px 0px;
     display:inline-block;
 }
@@ -20,7 +20,6 @@
     color:black;
     cursor:default;
     text-decoration:none;
-    white-space:nowrap !important;
 }
 /*  icon-style for concept-schemes */
 .classification{
@@ -105,13 +104,8 @@ ul.ancestors li {
     padding:3px;
     min-width:250px;
 }
-.connected-notation{
-  margin-right:3px;
-  white-space:nowrap;
-}
 .skos-concept{
-    border:none;
-    background-color:#FFF;
+    padding:10px 15px;
     margin-bottom:8px;
 }
 
@@ -130,7 +124,7 @@ ul.ancestors li {
 }
 /* 'skos-concept' relations (broader, narrower, related) display*/
 .skos-concept-relation li:hover {
-    background-color:#eee;
+    background-color:#ddd;
     border-radius:3px;
     color:#2a6496;
 }
@@ -171,6 +165,7 @@ ul.ancestors li {
 }
 .skos-tree ul{
     list-style-type:none;
+
 }
 .skos-tree li{
     padding-right:8px;
@@ -190,77 +185,7 @@ ul.ancestors li {
     color:#803A22;
     font-weight:bold;
     cursor:pointer;
-    margin-left:3px;
-}
-
-/* skos-mapping-table */
-/* template also uses: .notation, .classification */
-
-.mapping-label{
-    margin-bottom: 10px;
-}
-.skos-mapping .mlabel{
-    color:#666;
-    font-weight:bold;
-}
-.skos-mapping-cell{
-    vertical-align:middle;
-    text-align:center;
-}
-.skos-mapping-target{
-    width:100%;
-    overflow:hidden;
-    margin-bottom:3px;
-}
-.skos-mapping-target span{
-    float:left;
-    margin-right:5px;
-    line-height:1.15em;
-}
-.skos-mapping-target a{
-    color:#428bca;
-    float:right;
-    margin-right:-5px;
-    font-size:0.8em;
-    line-height:1.15em;
-}
-.mappingResults ul{
-    list-style-type:none;
-}
-.mappingResults li{
-    margin-left:0px;
-}
-.mappingFoot{
-
-    clear:right;
-}
-.mappingFoot span{
-    margin-right:5px; 
-}
-.mappingFoot ul{
-    list-style-type:none;
-    -webkit-padding-start: 0;
-    padding-left:0px;
-}
-/* SKOS-occurences */
-/* template also uses: .notation, .classification, .dbase */
-
-.skos-occurrences{
-    min-width:200px;
-}
-
-.skos-occurrences table{
-    margin-top:5px;
-    margin-bottom:10px;
-    width:auto;
-    min-width:300px;
-}
-.skos-occurrences td, .skos-occurrences th {
-    padding:3px 10px 3px 5px;
-}
-.occ-details td{
-    border:1px solid none;
-    padding: 3px 7px 3px 7px;
+    padding-left:3px;
 }
 .simple-list{
     list-style-type:none;
@@ -272,12 +197,19 @@ ul.ancestors li {
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
     background-color: #EEE;
 }
-.skos-link-icon{
-    color:#428bca;
-    float:right;
-    font-size:0.85em;
-    margin:3px 2px 2px auto;
+/* SKOS-list*/
+.skos-simple-list{
+    list-style-type:none;
+    padding:0px;
+    margin-bottom:0px;
+}
+.skos-list-notation{
     cursor:pointer;
+    white-space:nowrap;
+}
+.skos-list-label{
+    cursor:pointer;
+    padding-left:4px;
 }
 .list-item-selected{
     background-color: #C6E2FF;

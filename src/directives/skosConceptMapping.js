@@ -28,7 +28,8 @@ angular.module('ngSKOS')
             mapping: '=skosConceptMapping',
             from: '=mappingFrom',
             to: '=mappingTo',
-            select: '=select',
+            selectO: '=selectOriginConcept',
+            selectT: '=selectTargetConcept',
             save: '=saveMapping',
         },
         templateUrl: function(elem, attrs) {
@@ -37,10 +38,10 @@ angular.module('ngSKOS')
         },
         link: function link(scope, element, attr) {
             scope.selectFrom = function(concept) {
-                scope.select("origin",concept);
+                scope.selectO(concept);
             };
             scope.selectTo = function(concept) {
-                scope.select("target",concept);
+                scope.selectT(concept);
             };
             scope.saveMapping = function() {
                 scope.mapping.timestamp = new Date().toISOString().slice(0, 10);

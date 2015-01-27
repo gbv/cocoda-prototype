@@ -3,9 +3,9 @@
     <head>
         <title>Cocoda - Concordance App</title>
         <meta charset="utf-8">
-        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
         <link href="lib/hotkeys.min.css" rel="stylesheet" />
-        <link href="src/ng-skos.css" rel="stylesheet" />
+        <link href="lib/ng-skos.css" rel="stylesheet" />
         <link href="src/cocoda.css" rel="stylesheet" />
             <!-- Used external sources -->
         <script src="lib/jquery-2.1.1.min.js"></script>
@@ -18,12 +18,10 @@
         
             <!-- ng-skos modules -->
         <script src="src/json-text.js"></script>
-        <script src="src/ng-skos.js"></script>
+        <script src="ng-skos.js"></script>
         <script src="src/services/SkosProvider.js"></script>
         <script src="src/services/SkosConceptProvider.js"></script>
         <script src="src/services/SkosConceptListProvider.js"></script>
-        <script src="src/directives/skosLabel.js"></script>
-        <script src="src/directives/skosConcept.js"></script>
         <script src="src/directives/skosMappingCollection.js"></script>
         <script src="src/directives/skosMappingTable.js"></script>
         <script src="src/directives/skosOccurrences.js"></script>
@@ -96,7 +94,7 @@
                                                 autofocus 
                                                 accesskey="s"
                                         />
-                                        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh typeahead-loading"></i>
+                                        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh typeahead-loading-right"></i>
                                         <div style="padding-top:8px;">
                                             <span style="font-size:1.4em;font-weight:bold;">OR</span>
                                         </div>
@@ -144,14 +142,7 @@
                                             <b>Top Concepts</b>
                                             <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTopConcepts.origin, 'glyphicon-chevron-right': !showTopConcepts.origin}"></i>
                                         </accordion-heading>
-                                        <ul ng-if="showTopConcepts.origin == true" class="simple-list">
-                                            <li ng-repeat="v in topOriginConcept.values">
-                                                <div class="set" href="" ng-click="reselectConcept('origin', v)" title="Show concept">
-                                                    <span class="notation top-notation">{{v.notation}}</span>
-                                                    <span class="toplabel">{{v.label}}</span>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                        <skos-list concepts="topOriginConcept.values" show-labels="true" language="language" on-select="reselectOriginConcept"></skos-list>
                                     </accordion-group>
                                 </accordion>
                             </div>
@@ -164,7 +155,8 @@
                         <!-- Active mapping template -->
                         <div class="tmpl-border" style="width:100%;min-height:140px;">
                             <div skos-concept-mapping="currentMapping"
-                                select="reselectConcept"
+                                select-origin-concept="reselectOriginConcept"
+                                select-target-concept="reselectTargetConcept"
                                 mapping-from="activeView.origin"
                                 mapping-to="activeView.target"
                                 save-mapping="loggedIn">
@@ -211,7 +203,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div ng-if="activeView.target.length" class="panel-body">
+                            <div ng-if="activeView.target" class="panel-body">
                                 <accordion>
                                     <accordion-group is-open="showTargetSearch">
                                         <accordion-heading>
@@ -274,14 +266,7 @@
                                             <b>Top Concepts</b>
                                             <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTopConcepts.target, 'glyphicon-chevron-right': !showTopConcepts.target}"></i>
                                         </accordion-heading>
-                                        <ul ng-if="showTopConcepts.target == true" class="simple-list">
-                                            <li ng-repeat="v in topTargetConcept.values">
-                                                <div class="set" ng-click="reselectConcept('target', v)" title="Show concept">
-                                                    <span class="notation top-notation">{{v.notation}}</span>
-                                                    <span class="toplabel">{{v.label}}</span>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                        <skos-list concepts="topTargetConcept.values" show-labels="true" language="language" on-select="reselectTargetConcept"></skos-list>
                                     </accordion-group>
                                 </accordion>
                             </div>

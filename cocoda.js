@@ -123,8 +123,8 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
         return {
             values: nodes.map(function(v) {
                 return {
-                    label: v.benennung,
-                    notation: v.notation
+                    prefLabel: { de: v.benennung },
+                    notation: [ v.notation ]
                 };
             }),
         };
@@ -143,7 +143,14 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             url: "http://rvk.uni-regensburg.de/api/json/nodes/{searchTerms}",
             jsonp: 'jsonp',
             transform: function(response) { 
-                return rvkTransform(response.node) 
+                return {
+                    values: response.node.map(function(node) {
+                        return {
+                            label: node.benennung,
+                            notation: node.notation
+                        };
+                    })
+                };
             },
             jsonp: 'jsonp'
         }),
@@ -240,7 +247,6 @@ cocoda.service('knownSchemes',
  */
 function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggestions, knownSchemes){
     
-
     // references to the http-calls
     $scope.schemes = knownSchemes;
 
@@ -392,7 +398,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     // SKOS-MAPPING-COLLECTION/TABLE/OCCURRENCES TO SKOS-CONCEPT
     
     $scope.lookUpMapping = function(mapping){
-        $scope.reselectConcept('target', mapping);
+        $scope.reselectTargetConcept(mapping);
     };
     // SKOS-OCCURRENCES TO SKOS-CONCEPT-MAPPING
     
@@ -644,50 +650,49 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
         }
     };
     // for filling the concept directly on selection
-    $scope.reselectConcept = function(role, concept){
-        if(role == 'origin'){
-            if(concept.prefLabel){
-                $scope.originConcept = {
-                    notation: concept.notation ? concept.notation : "",
-                    uri: concept.uri ? concept.uri : concept.notation,
-                    label: concept.prefLabel.de
-                };
-            }else if(concept.label){
-                $scope.originConcept = {
-                    notation: concept.notation ? concept.notation : "",
-                    uri: concept.uri ? concept.uri : concept.notation,
-                    label: concept.label
-                };
-            }else{
-                $scope.originConcept = {
-                    notation: concept.notation ? concept.notation : "",
-                    uri: concept.uri ? concept.uri : concept.notation,
-                };
-            }
-            $scope.selectOriginSubject($scope.originConcept);
+    $scope.reselectOriginConcept = function(concept){
+        if(concept.prefLabel){
+            $scope.originConcept = {
+                notation: concept.notation ? concept.notation : "",
+                uri: concept.uri ? concept.uri : concept.notation,
+                label: concept.prefLabel.de
+            };
+        }else if(concept.label){
+            $scope.originConcept = {
+                notation: concept.notation ? concept.notation : "",
+                uri: concept.uri ? concept.uri : concept.notation,
+                label: concept.label
+            };
+        }else{
+            $scope.originConcept = {
+                notation: concept.notation ? concept.notation : "",
+                uri: concept.uri ? concept.uri : concept.notation,
+            };
         }
-        else if(role == 'target'){
-            if(concept.prefLabel){
-                $scope.targetConcept = {
-                    notation: concept.notation ? concept.notation : "",
-                    uri: concept.uri ? concept.uri : concept.notation,
-                    label: concept.prefLabel.de
-                };
-            }else if(concept.label){
-                $scope.targetConcept = {
-                    notation: concept.notation ? concept.notation : "",
-                    uri: concept.uri ? concept.uri : concept.notation,
-                    label: concept.label
-                };
-            }else{
-                $scope.targetConcept = {
-                    notation: concept.notation ? concept.notation : "",
-                    uri: concept.uri ? concept.uri : concept.notation,
-                };
-            }
-            $scope.selectTargetSubject($scope.targetConcept);
+        $scope.selectOriginSubject($scope.originConcept);
+    };
+        
+    $scope.reselectTargetConcept = function(concept){
+        if(concept.prefLabel){
+            $scope.targetConcept = {
+                notation: concept.notation ? concept.notation : "",
+                uri: concept.uri ? concept.uri : concept.notation,
+                label: concept.prefLabel.de
+            };
+        }else if(concept.label){
+            $scope.targetConcept = {
+                notation: concept.notation ? concept.notation : "",
+                uri: concept.uri ? concept.uri : concept.notation,
+                label: concept.label
+            };
+        }else{
+            $scope.targetConcept = {
+                notation: concept.notation ? concept.notation : "",
+                uri: concept.uri ? concept.uri : concept.notation,
+            };
         }
-    }
+        $scope.selectTargetSubject($scope.targetConcept);
+    };
 }
 cocoda.run(function($rootScope,$http) {
     
@@ -698,7 +703,7 @@ cocoda.run(function($rootScope,$http) {
         $rootScope.mappingSample = data;
     });
     $rootScope.mappingSampleGND = {};
-    $http.get('data/mapping-2.json').success(function(data){
+    $http.get('data/gnd-ddc.json').success(function(data){
         $rootScope.mappingSampleGND = data;
     });
     $rootScope.occurrencesSample = {};
