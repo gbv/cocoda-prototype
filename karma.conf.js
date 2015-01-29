@@ -1,7 +1,7 @@
 module.exports = function(config) {
     config.set({
         files: [
-            'lib/angular.min.js',
+            'lib/angular/angular.min.js',
             'lib/angular-*.js',
             'src/*.js',
             'src/**/*.js',

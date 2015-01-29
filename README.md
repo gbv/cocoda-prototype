@@ -18,8 +18,9 @@ Second, install Node.js unless it is already installed. Node.js includes `npm`
 to install additional packages. Locally **install all required packages**
 listed in `package.json` (for global installation call `npm` via `sudo -H`):
 
-    npm install -g grunt-cli
+    npm install -g grunt-cli bower
     npm install
+    bower install
 
 Testing is configured in `karma.conf.js` and **unit tests** are located in
 directory `test` written with [Jasmine](http://pivotal.github.io/jasmine/). 
