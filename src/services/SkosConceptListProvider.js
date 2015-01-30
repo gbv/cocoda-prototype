@@ -21,13 +21,13 @@
  *
  */
 angular.module('ngSKOS')
-.factory('SkosConceptListProvider',['SkosProvider',function(SkosProvider) {
+.factory('SkosConceptListProvider',['SkosHTTPProvider',function(SkosHTTPProvider) {
 
-    // inherit from SkosProvider
+    // inherit from SkosHTTPProvider
     var SkosConceptListProvider = function(args) {
-        SkosProvider.call(this, args);
+        SkosHTTPProvider.call(this, args);
     };
-    SkosConceptListProvider.prototype = new SkosProvider();
+    SkosConceptListProvider.prototype = new SkosHTTPProvider();
     
     SkosConceptListProvider.prototype.getConceptList = function() {
         return this.get();
