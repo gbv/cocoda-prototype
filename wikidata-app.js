@@ -1,14 +1,14 @@
 var wikidataApp = angular.module('WikidataApp', ['ngSKOS','ui.bootstrap','ngSuggest']);
 
-function schemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptListProvider) {
-    this.wikidata = wikidataScheme(OpenSearchSuggestions, SkosConceptProvider, SkosConceptListProvider);
+function schemes(OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
+    this.wikidata = wikidataScheme(OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource);
 }
 
 wikidataApp.service('schemes', 
-        ["OpenSearchSuggestions","SkosConceptProvider","SkosConceptListProvider",
+        ["OpenSearchSuggestions","SkosConceptSource","SkosConceptListSource",
         schemes]);
 
-function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggestions, schemes){
+function myController($scope, $http, $q, SkosConceptSource, OpenSearchSuggestions, schemes){
     $scope.schemes = schemes;
 
     $scope.suggestConcept = $scope.schemes.wikidata.suggest;

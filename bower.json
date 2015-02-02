@@ -16,7 +16,7 @@
   ],
   "dependencies": {
     "angular": "~1.2.0",
-    "ng-skos": "~0.0.6",
+    "ng-skos": "=0.0.8",
     "jquery": "~1.2.2",
     "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.4.5",
     "angular-bootstrap": "~0.12.0"

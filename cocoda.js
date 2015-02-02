@@ -4,8 +4,8 @@ var cocoda = angular.module('Cocoda', ['ngSKOS','ui.bootstrap','ngSuggest']);
  * Konfiguration aller unterstützen Concept Schemes
  */
 cocoda.service('cocodaSchemes', 
-    ["OpenSearchSuggestions","SkosConceptProvider","SkosConceptListProvider",
-function (OpenSearchSuggestions, SkosConceptProvider, SkosConceptListProvider) {
+    ["OpenSearchSuggestions","SkosConceptSource","SkosConceptListSource",
+function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
     this.gnd = {
         name: 'GND',
         // Suggestions API via lobid.org
@@ -23,10 +23,10 @@ function (OpenSearchSuggestions, SkosConceptProvider, SkosConceptListProvider) {
             },
             jsonp: true
         }),
-        getNarrower: new SkosConceptProvider({
+        getNarrower: new SkosConceptSource({
             url: "http://lobid.org/subject?format=full&id={uri}"
         }),
-        getConcept: new SkosConceptProvider({
+        getConcept: new SkosConceptSource({
             url: "http://lobid.org/subject?format=full&id={uri}",
             transform: function(item) {
                 
@@ -134,7 +134,7 @@ function (OpenSearchSuggestions, SkosConceptProvider, SkosConceptListProvider) {
 
     this.rvk = {
         name: 'RVK',
-        topConcepts: new SkosConceptListProvider({
+        topConcepts: new SkosConceptListSource({
             url: "http://rvk.uni-regensburg.de/api/json/children",
             jsonp: 'jsonp',
             transform: function(response) { 
@@ -157,7 +157,7 @@ function (OpenSearchSuggestions, SkosConceptProvider, SkosConceptListProvider) {
             jsonp: 'jsonp'
         }),
         // get main concept
-        getConcept: new SkosConceptProvider({
+        getConcept: new SkosConceptSource({
             url: "http://rvk.uni-regensburg.de/api/json/node/{notation}",
             transform: function(item) {
                 var concept = {
@@ -180,7 +180,7 @@ function (OpenSearchSuggestions, SkosConceptProvider, SkosConceptListProvider) {
             jsonp: 'jsonp'
         }),
         // get all direct children of the concept
-        getNarrower: new SkosConceptProvider({
+        getNarrower: new SkosConceptSource({
             url: "http://rvk.uni-regensburg.de/api/json/children/{notation}",
             transform: function(item) {
 
@@ -205,7 +205,7 @@ function (OpenSearchSuggestions, SkosConceptProvider, SkosConceptListProvider) {
             jsonp: 'jsonp'
         }),
         // get the direct ancestor of the concept
-        getBroader: new SkosConceptProvider({
+        getBroader: new SkosConceptSource({
             url: "http://rvk.uni-regensburg.de/api/json/ancestors/{notation}",
             transform: function(item) {
                 var concept = { 
@@ -229,7 +229,7 @@ function (OpenSearchSuggestions, SkosConceptProvider, SkosConceptListProvider) {
     
     this.wikidata = {
         name: 'Wikidata',
-        getConcept: new SkosConceptProvider({
+        getConcept: new SkosConceptSource({
             url: "http://www.wikidata.org/w/api.php?action=wbgetentities&ids={notation}&props=info|labels|descriptions|aliases",
             jsonp: true,
             transform: function(item) {
@@ -245,8 +245,8 @@ function (OpenSearchSuggestions, SkosConceptProvider, SkosConceptListProvider) {
  * Controller
  */
 cocoda.controller('myController',[
-    '$scope','$http','$q','SkosConceptProvider','OpenSearchSuggestions','cocodaSchemes',
-    function ($scope, $http, $q, SkosConceptProvider, OpenSearchSuggestions, cocodaSchemes){
+    '$scope','$http','$q','SkosConceptSource','OpenSearchSuggestions','cocodaSchemes',
+    function ($scope, $http, $q, SkosConceptSource, OpenSearchSuggestions, cocodaSchemes){
     
     // references to the http-calls
     $scope.schemes = cocodaSchemes;
