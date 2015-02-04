@@ -1,62 +1,62 @@
 [
     {
         "prefLabel":{
-            "de":"Informatik, Informationswissenschaft & allgemeine Werke",
+            "de":"Informatik, Informationswissenschaft & allgemeine Werke"
         },
-        "notation":["0"],
+        "notation":["0"]
     },
     {
         "prefLabel":{
             "de":"Philosophie & Psychologie"
         },
-        "notation":["1"],
+        "notation":["1"]
     },
     {
         "prefLabel":{
             "de":"Religion"
         },
-        "notation":["2"],
+        "notation":["2"]
     },
     {
         "prefLabel":{
             "de":"Sozialwissenschaften"
         },
-        "notation":["3"],
+        "notation":["3"]
     },
     {
         "prefLabel":{
             "de":"Sprache"
         },
-        "notation":["4"],
+        "notation":["4"]
     },
     {
         "prefLabel":{
             "de":"Naturwissenschaften"
         },
-        "notation":["5"],
+        "notation":["5"]
     },
     {
         "prefLabel":{
             "de":"Technik, Medizin, angewandte Wissenschaften"
         },
-        "notation":["6"],
+        "notation":["6"]
     },
     {
         "prefLabel":{
             "de":"Künste und Unterhaltung"
         },
-        "notation":["7"],
+        "notation":["7"]
     },
     {
         "prefLabel":{
             "de":"Literatur"
         },
-        "notation":["8"],
+        "notation":["8"]
     },
     {
         "prefLabel":{
             "de":"Geschichte und Geografie"
         },
-        "notation":["9"],
+        "notation":["9"]
     }
 ]

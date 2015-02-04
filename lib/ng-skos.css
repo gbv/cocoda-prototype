@@ -175,7 +175,6 @@ ul.ancestors li {
     display:inline-table;
     border-radius:3px;
     padding-right:3px;
-    margin-right:10px;
 }
 .set:hover{
     background-color:#eee;

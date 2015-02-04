@@ -220,10 +220,11 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             jsonp: 'jsonp'
         }),
         
-
     };
     
-    // TODO: this.ddc
+    this.ddc = {
+        name: 'DDC'
+    };
     
     this.wikidata = {
         name: 'Wikidata',
@@ -245,7 +246,7 @@ cocoda.service('knownSchemes',
 /**
  * Controller
  */
-function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggestions, knownSchemes){
+function myController($rootScope, $scope, $http, $q, SkosConceptProvider, OpenSearchSuggestions, knownSchemes){
     
     // references to the http-calls
     $scope.schemes = knownSchemes;
@@ -323,20 +324,19 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
     */
     
     // TOP CONCEPTS
-    
     if($scope.activeView.origin == 'RVK'){
         knownSchemes.rvk.topConcepts.getConceptList().then(function(response){
             $scope.topOriginConcept = response;
         });
     }else if($scope.activeView.origin == 'DDC'){
-        
+            $scope.topOriginConcept = angular.copy($rootScope.ddcTopConcepts);
     }
     if($scope.activeView.target == 'RVK'){
         knownSchemes.rvk.topConcepts.getConceptList().then(function(response){
             $scope.topTargetConcept = response;
         });
     }else if($scope.activeView.target == 'DDC'){
-        
+            $scope.topTargetConcept = angular.copy($rootScope.ddcTopConcepts);   
     }
     $scope.changeTopOrigin = function(scheme){
         if(scheme == 'RVK'){
@@ -344,7 +344,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                 $scope.topOriginConcept = response;
             });
         }else if(scheme == 'DDC'){
-            
+            $scope.topOriginConcept = angular.copy($rootScope.ddcTopConcepts);  
         }else{
             $scope.topOriginConcept = "";
         }
@@ -355,7 +355,7 @@ function myController($scope, $http, $q, SkosConceptProvider, OpenSearchSuggesti
                 $scope.topTargetConcept = response;
             });
         }else if(scheme == 'DDC'){
-            
+            $scope.topTargetConcept = angular.copy($rootScope.ddcTopConcepts);  
         }else{
             $scope.topTargetConcept = "";
         }
@@ -710,12 +710,14 @@ cocoda.run(function($rootScope,$http) {
     $http.get('data/occurrences-1.json').success(function(data){
         $rootScope.occurrencesSample = data;
     });
-
     $rootScope.treeSample = {};
     $http.get('data/tree-1.json').success(function(data){
         $rootScope.treeSample = data;
     });
-
+    $rootScope.ddcTopConcepts = { values: [] };
+    $http.get('data/ddc/topConcepts.json').success(function(data){
+        $rootScope.ddcTopConcepts = { values: data };
+    });
     $rootScope.searchSample = {
         // TODO
     };
