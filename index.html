@@ -6,7 +6,7 @@
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
       
         <!-- TODO: remove jQuery, just use angularJS -->
-        <script src="lib/jquery/jquery.js"></script>
+        <script src="lib/jquery/dist/jquery.js"></script>
 
         <script src="lib/angular/angular.js"></script>
         <script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
@@ -61,12 +61,12 @@
                             <div class="panel-heading">
                                 <div class="mapping-header">
                                     <ul class="simple-list">
-                                        <li class="dropdown">
-                                            <a data-toggle="dropdown" type="button" class="dropdown-toggle">
+                                        <li class="dropdown" dropdown>
+                                            <a dropdown-toggle type="button" class="dropdown-toggle">
                                                 <span>Source Scheme: {{activeView.origin}}</span>
                                                 <b class="caret"></b>
                                             </a>
-                                            <ul class="dropdown-menu scheme-dropdown" role="menu">
+                                            <ul class="dropdown-menu scheme-dropdown">
                                                 <li>
                                                     <a href="#" ng-click="setOrigin('')">none</a>
                                                 </li>
@@ -188,12 +188,12 @@
                             <div class="panel-heading">
                                 <div class="mapping-header">
                                     <ul class="simple-list">
-                                        <li class="dropdown">
-                                            <a data-toggle="dropdown" type="button" class="dropdown-toggle">
+                                        <li class="dropdown" dropdown>
+                                            <a dropdown-toggle type="button" class="dropdown-toggle">
                                                 <span>Target Scheme: {{activeView.target}}</span>
                                                 <b class="caret"></b>
                                             </a>
-                                            <ul class="dropdown-menu scheme-dropdown" role="menu">
+                                            <ul class="dropdown-menu scheme-dropdown">
                                                 <li>
                                                     <a href="#" ng-click="setTarget('')">none</a>
                                                 </li>

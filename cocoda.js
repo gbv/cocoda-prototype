@@ -246,7 +246,7 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
  * Controller
  */
 cocoda.controller('myController',[
-    '$scope','$http','$q','SkosConceptSource','OpenSearchSuggestions','cocodaSchemes',
+    '$rootScope','$scope','$http','$q','SkosConceptSource','OpenSearchSuggestions','cocodaSchemes',
     function ($rootScope, $scope, $http, $q, SkosConceptSource, OpenSearchSuggestions, cocodaSchemes){
     
     // references to the http-calls
