@@ -2,10 +2,13 @@ language: node_js
 node_js:
   - 0.10
 
+before_install:
+  - bower install
+
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - npm install --quiet -g karma
 
 script:
-  - karma start karma.conf.js --no-auto-watch --single-run --reporters=dots --browsers=Firefox
+  - echo "testing not implemented yet"

@@ -1,6 +1,6 @@
 /**
  * @ngdoc service
- * @name ng-skos.service:SkosConceptListProvider
+ * @name ng-skos.service:SkosConceptListSource
  * @description
  * 
  * Get an ordered list of concepts via HTTP.
@@ -21,19 +21,19 @@
  *
  */
 angular.module('ngSKOS')
-.factory('SkosConceptListProvider',['SkosProvider',function(SkosProvider) {
+.factory('SkosConceptListSource',['SkosHTTP',function(SkosHTTP) {
 
-    // inherit from SkosProvider
-    var SkosConceptListProvider = function(args) {
-        SkosProvider.call(this, args);
+    // inherit from SkosHTTP
+    var SkosConceptListSource = function(args) {
+        SkosHTTP.call(this, args);
     };
-    SkosConceptListProvider.prototype = new SkosProvider();
+    SkosConceptListSource.prototype = new SkosHTTP();
     
-    SkosConceptListProvider.prototype.getConceptList = function() {
+    SkosConceptListSource.prototype.getConceptList = function() {
         return this.get();
     };
     
-    SkosConceptListProvider.prototype.updateConceptList = function() {
+    SkosConceptListSource.prototype.updateConceptList = function() {
         return this.getConceptList(list).then(
             function(response) {
                 angular.copy(response, list);
@@ -41,5 +41,5 @@ angular.module('ngSKOS')
         );
     };
 
-    return SkosConceptListProvider;
+    return SkosConceptListSource;
 }]);

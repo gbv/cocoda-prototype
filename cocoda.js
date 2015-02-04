@@ -3,7 +3,9 @@ var cocoda = angular.module('Cocoda', ['ngSKOS','ui.bootstrap','ngSuggest']);
 /**
  * Konfiguration aller unterstützen Concept Schemes
  */
-function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptListProvider) {
+cocoda.service('cocodaSchemes', 
+    ["OpenSearchSuggestions","SkosConceptSource","SkosConceptListSource",
+function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
     this.gnd = {
         name: 'GND',
         // Suggestions API via lobid.org
@@ -21,10 +23,10 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             },
             jsonp: true
         }),
-        getNarrower: new SkosConceptProvider({
+        getNarrower: new SkosConceptSource({
             url: "http://lobid.org/subject?format=full&id={uri}"
         }),
-        getConcept: new SkosConceptProvider({
+        getConcept: new SkosConceptSource({
             url: "http://lobid.org/subject?format=full&id={uri}",
             transform: function(item) {
                 
@@ -132,7 +134,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
 
     this.rvk = {
         name: 'RVK',
-        topConcepts: new SkosConceptListProvider({
+        topConcepts: new SkosConceptListSource({
             url: "http://rvk.uni-regensburg.de/api/json/children",
             jsonp: 'jsonp',
             transform: function(response) { 
@@ -155,7 +157,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             jsonp: 'jsonp'
         }),
         // get main concept
-        getConcept: new SkosConceptProvider({
+        getConcept: new SkosConceptSource({
             url: "http://rvk.uni-regensburg.de/api/json/node/{notation}",
             transform: function(item) {
                 var concept = {
@@ -178,7 +180,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             jsonp: 'jsonp'
         }),
         // get all direct children of the concept
-        getNarrower: new SkosConceptProvider({
+        getNarrower: new SkosConceptSource({
             url: "http://rvk.uni-regensburg.de/api/json/children/{notation}",
             transform: function(item) {
 
@@ -203,7 +205,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             jsonp: 'jsonp'
         }),
         // get the direct ancestor of the concept
-        getBroader: new SkosConceptProvider({
+        getBroader: new SkosConceptSource({
             url: "http://rvk.uni-regensburg.de/api/json/ancestors/{notation}",
             transform: function(item) {
                 var concept = { 
@@ -228,7 +230,7 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
     
     this.wikidata = {
         name: 'Wikidata',
-        getConcept: new SkosConceptProvider({
+        getConcept: new SkosConceptSource({
             url: "http://www.wikidata.org/w/api.php?action=wbgetentities&ids={notation}&props=info|labels|descriptions|aliases",
             jsonp: true,
             transform: function(item) {
@@ -237,25 +239,24 @@ function knownSchemes(OpenSearchSuggestions, SkosConceptProvider, SkosConceptLis
             }
         })
     };
-};
+}]);
 
-cocoda.service('knownSchemes', 
-        ["OpenSearchSuggestions","SkosConceptProvider","SkosConceptListProvider",
-        knownSchemes]);
 
 /**
  * Controller
  */
-function myController($rootScope, $scope, $http, $q, SkosConceptProvider, OpenSearchSuggestions, knownSchemes){
+cocoda.controller('myController',[
+    '$scope','$http','$q','SkosConceptSource','OpenSearchSuggestions','cocodaSchemes',
+    function ($rootScope, $scope, $http, $q, SkosConceptSource, OpenSearchSuggestions, cocodaSchemes){
     
     // references to the http-calls
-    $scope.schemes = knownSchemes;
+    $scope.schemes = cocodaSchemes;
 
-    $scope.gndSubjectConcept = knownSchemes.gnd.getConcept;
-    $scope.rvkSubjectConcept = knownSchemes.rvk.getConcept;
+    $scope.gndSubjectConcept = cocodaSchemes.gnd.getConcept;
+    $scope.rvkSubjectConcept = cocodaSchemes.rvk.getConcept;
 
-    $scope.rvkNarrowerConcepts = knownSchemes.rvk.getNarrower;
-    $scope.rvkBroaderConcepts = knownSchemes.rvk.getBroader;
+    $scope.rvkNarrowerConcepts = cocodaSchemes.rvk.getNarrower;
+    $scope.rvkBroaderConcepts = cocodaSchemes.rvk.getBroader;
 
     // NG-SUGGEST & NAVBAR FUNCTIONALITY
     $scope.showTargetSearch = false;
@@ -325,14 +326,14 @@ function myController($rootScope, $scope, $http, $q, SkosConceptProvider, OpenSe
     
     // TOP CONCEPTS
     if($scope.activeView.origin == 'RVK'){
-        knownSchemes.rvk.topConcepts.getConceptList().then(function(response){
+        cocodaSchemes.rvk.topConcepts.getConceptList().then(function(response){
             $scope.topOriginConcept = response;
         });
     }else if($scope.activeView.origin == 'DDC'){
             $scope.topOriginConcept = angular.copy($rootScope.ddcTopConcepts);
     }
     if($scope.activeView.target == 'RVK'){
-        knownSchemes.rvk.topConcepts.getConceptList().then(function(response){
+        cocodaSchemes.rvk.topConcepts.getConceptList().then(function(response){
             $scope.topTargetConcept = response;
         });
     }else if($scope.activeView.target == 'DDC'){
@@ -340,7 +341,7 @@ function myController($rootScope, $scope, $http, $q, SkosConceptProvider, OpenSe
     }
     $scope.changeTopOrigin = function(scheme){
         if(scheme == 'RVK'){
-            knownSchemes.rvk.topConcepts.getConceptList().then(function(response){
+            cocodaSchemes.rvk.topConcepts.getConceptList().then(function(response){
                 $scope.topOriginConcept = response;
             });
         }else if(scheme == 'DDC'){
@@ -351,7 +352,7 @@ function myController($rootScope, $scope, $http, $q, SkosConceptProvider, OpenSe
     }
     $scope.changeTopTarget = function(scheme){
         if(scheme == 'RVK'){
-            knownSchemes.rvk.topConcepts.getConceptList().then(function(response){
+            cocodaSchemes.rvk.topConcepts.getConceptList().then(function(response){
                 $scope.topTargetConcept = response;
             });
         }else if(scheme == 'DDC'){
@@ -693,7 +694,8 @@ function myController($rootScope, $scope, $http, $q, SkosConceptProvider, OpenSe
         }
         $scope.selectTargetSubject($scope.targetConcept);
     };
-}
+}]);
+
 cocoda.run(function($rootScope,$http) {
     
     // load placeholder samples
@@ -723,6 +725,7 @@ cocoda.run(function($rootScope,$http) {
     };
 
 });
+
 cocoda.config(function($locationProvider) {
     $locationProvider.html5Mode(true);
-}).controller('MainCtrl', function ($$rootScope, $location) { });
+});

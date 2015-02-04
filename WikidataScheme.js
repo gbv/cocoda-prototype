@@ -1,8 +1,8 @@
-function wikidataScheme(OpenSearchSuggestions, SkosConceptProvider, SkosConceptListProvider) {
+function wikidataScheme(OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
     return {
         name: 'Wikidata',
         // look up a wikidata item by notation
-        getConcept: new SkosConceptProvider({
+        getConcept: new SkosConceptSource({
             url: "http://www.wikidata.org/w/api.php?" + [
                     "action=wbgetentities",
                     "ids={notation}",

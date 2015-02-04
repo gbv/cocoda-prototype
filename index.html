@@ -4,30 +4,32 @@
         <title>Cocoda - Concordance App</title>
         <meta charset="utf-8">
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
-        <link href="lib/hotkeys.min.css" rel="stylesheet" />
-        <link href="lib/ng-skos.css" rel="stylesheet" />
-        <link href="src/cocoda.css" rel="stylesheet" />
-            <!-- Used external sources -->
-        <script src="lib/jquery-2.1.1.min.js"></script>
-        <script src="lib/angular.min.js"></script>
+      
+        <!-- TODO: remove jQuery, just use angularJS -->
+        <script src="lib/jquery/jquery.js"></script>
+
+        <script src="lib/angular/angular.js"></script>
+        <script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+        <link href="lib/angular-hotkeys/src/hotkeys.css" rel="stylesheet" />
+        <script src="lib/angular-hotkeys/src/hotkeys.js"></script>
+ 
+        <!-- TODO: explicit dependencies (required by ng-skos???) -->
         <script src="lib/angular-resource.min.js"></script>
         <script src="lib/angular-sanitize.min.js"></script>
-        <script src="lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
-        <script src="lib/hotkeys.min.js"></script>
-        <script src="lib/ng-suggest.js"></script>
-        
-            <!-- ng-skos modules -->
-        <script src="src/json-text.js"></script>
-        <script src="lib/ng-skos.js"></script>
-        <script src="src/services/SkosProvider.js"></script>
-        <script src="src/services/SkosConceptProvider.js"></script>
-        <script src="src/services/SkosConceptListProvider.js"></script>
+
+        <script src="lib/ng-suggest/ng-suggest.js"></script>
+        <link href="lib/ng-skos/ng-skos.css" rel="stylesheet" />
+        <script src="lib/ng-skos/ng-skos.js"></script>
+ 
+        <!-- Additional services and directives not moved to ng-skos yet -->
+        <script src="src/services/SkosConceptListSource.js"></script>
         <script src="src/directives/skosMappingCollection.js"></script>
         <script src="src/directives/skosMappingTable.js"></script>
         <script src="src/directives/skosOccurrences.js"></script>
-        <script src="src/directives/skosConceptList.js"></script>
         <script src="src/directives/skosConceptMapping.js"></script>
-        <!-- Controller -->
+
+        <!-- cocoda application -->
+        <link href="cocoda.css" rel="stylesheet" />
         <script src="cocoda.js"></script>
     </head>
     <body ng-controller="myController">
