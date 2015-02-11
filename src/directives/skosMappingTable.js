@@ -73,13 +73,25 @@ angular.module('ngSKOS')
         scope: {
             mapping: '=skosMappingTable',
             select: '=selectMapping',
-            lookup: '=lookupMapping'
+            lookup: '=lookupMapping',
+            lang: '=language'
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
                    attrs.templateUrl : 'src/templates/skos-mapping-table.html';
         },
         link: function(scope, element, attr, controller, transclude) {
+            scope.$watch('lang', function(lang){
+                scope.popOverTitle = function(label){
+                    if(label[lang]){
+                        return label[lang];
+                    }else{
+                        for(lang in label){
+                            return label[lang];
+                        }
+                    }
+                }
+            });
         },
         controller: function($scope) {
             $scope.predicate = '-timestamp';

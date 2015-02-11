@@ -81,14 +81,15 @@ angular.module('ngSKOS')
         scope: {
             mappings: '=skosMappingCollection',
             useMapping: '=useMapping',
-            lookUp: '=lookUpMapping'
+            lookUp: '=lookUpMapping',
+            language: '=language'
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
                    attrs.templateUrl : 'src/templates/skos-mapping-collection.html';
         },
         link: function(scope, element, attr, controller, transclude) {
-            scope.$watch('hidden');
+            scope.$watch('language');
         },
         controller: function($scope){
             $scope.status = {};
