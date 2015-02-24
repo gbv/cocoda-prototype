@@ -5,24 +5,26 @@
         </accordion-heading>
         <div class="skos-occurrences">
             <div class="skos-occurrences occ-details">
-                <table>
-                    <tr>
-                        <td>Used notation:</td><td><span ng-if="search.length" class="notation" popover="{{popOverTitle(search[0].prefLabel)}}" popover-trigger="mouseenter">{{search[0].notation[0]}}</span></td>
-                    </tr>
-                    <tr>
-                        <td>Used database:</td><td><span ng-if="search.length" class="dbase"> {{database.notation[0]}}</td>
-                    </tr>
-                    <tr ng-if="search.length">
-                        <td>Results (total) for 
+                <ul class="simple-list">
+                    <li>
+                        <span>Used notation:</span><span ng-if="search.length" class="notation occurrence-result" popover="{{popOverTitle(search[0].prefLabel)}}" popover-trigger="mouseenter">{{search[0].notation[0]}}</span>
+                    </li>
+                    <li>
+                        <span>Used database:</span><span ng-if="search.length" class="dbase occurrence-result">{{database.notation[0]}}</span>
+                    </li>
+                    <li ng-if="search.length">
+                        <span>Results (total) for 
                             <span ng-if="search.length" class="notation" popover="{{popOverTitle(search[0].prefLabel)}}" popover-trigger="mouseenter">{{search[0].notation[0]}}</span>:
-                        </td>
-                        <td>{{total}}</td>
-                    </tr>
-                </table>
+                        </span>
+                        <span>
+                        {{total}}
+                        </span>
+                    </li>
+                </ul>
             </div>
             <div class="skos-occurrences occ-results">
                 Corresponding notations in <span ng-if="search.length" class="classification">{{target.notation[0]}}</span>:
-                <table ng-if="search.length" class="table table-hover table-condensed table-bordered">
+                <table ng-if="search.length" class="table table-hover table-condensed table-bordered" style="margin:5px 0px;">
                     <thead>
                         <tr>
                             <th>Notation</th>
