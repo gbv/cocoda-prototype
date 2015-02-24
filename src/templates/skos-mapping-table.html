@@ -38,8 +38,8 @@
                     <li ng-repeat="t in m.to">
                         <div class="skos-mapping-target" style="">
                             <span class="notation" popover="{{t.prefLabel.de}}" popover-trigger="mouseenter">{{t.notation[0]}}</span>
-                            <a ng-if="lookup" title="Look up term" style="font-size:0.85em;cursor:pointer;vertical-align:middle;"><span ng-click="lookup(t)"><span style="top:2px;" class="glyphicon glyphicon-info-sign"></span></span></a>
-                            <a ng-if="select" title="Add mapping term" style="font-size:0.85em;cursor:pointer;vertical-align:middle;"><span ng-click="select(t)"><span style="" class="glyphicon glyphicon-plus"></span></span></a>
+                            <a ng-if="lookup" title="Look up term" class="action-icon" style="vertical-align:middle;"><span ng-click="lookup(t)"><span style="top:2px;" class="glyphicon glyphicon-info-sign"></span></span></a>
+                            <a ng-if="select" title="Add mapping term" class="action-icon" style="vertical-align:middle;"><span ng-click="select(t)"><span style="" class="glyphicon glyphicon-plus"></span></span></a>
                         </div>
                     </li>
                 </ul>

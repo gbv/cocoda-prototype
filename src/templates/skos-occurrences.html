@@ -35,11 +35,11 @@
                             <td>
                                 <div style="width:100%;clear:both;">
                                     <span ng-if="not.length" class="notation" popover="{{not[0].prefLabel.de}}" popover-trigger="mouseenter">{{not[0].notation[0]}}</span>
-                                    <a ng-if="lookup" title="Look up term" style="font-size:0.85em;cursor:pointer;">
-                                    <span ng-click="lookup(not[0])" class="skos-link-icon" title="Look up notation"><span class="glyphicon glyphicon-info-sign"></span></span>
+                                    <a ng-if="lookup" title="Look up term" class="action-icon">
+                                        <span ng-click="lookup(not[0])" class="skos-link-icon" title="Look up notation"><span class="glyphicon glyphicon-info-sign"></span></span>
                                     </a>
-                                    <a ng-if="select" title="Add mapping term" style="font-size:0.85em;cursor:pointer;">
-                                    <span ng-click="select(not[0])" class="skos-link-icon" title="Select concept"><span class="glyphicon glyphicon-plus"></span></span>
+                                    <a ng-if="select" title="Add mapping term" class="action-icon">
+                                        <span ng-click="select(not[0])" class="skos-link-icon" title="Select concept"><span class="glyphicon glyphicon-plus"></span></span>
                                     </a>
                                 </div>
                             </td>

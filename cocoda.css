@@ -116,3 +116,8 @@
     margin-left:0px;
     margin-right:0px;
 }
+.action-icon{
+    font-size:0.85em;
+    cursor:pointer;
+    text-decoration: none;
+}
