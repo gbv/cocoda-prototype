@@ -7,14 +7,14 @@
             <div class="skos-occurrences occ-details">
                 <table>
                     <tr>
-                        <td>Used notation:</td><td><span ng-if="search.length" class="notation" popover="{{search[0].prefLabel.de}}" popover-trigger="mouseenter">{{search[0].notation[0]}}</span></td>
+                        <td>Used notation:</td><td><span ng-if="search.length" class="notation" popover="{{popOverTitle(search[0].prefLabel)}}" popover-trigger="mouseenter">{{search[0].notation[0]}}</span></td>
                     </tr>
                     <tr>
                         <td>Used database:</td><td><span ng-if="search.length" class="dbase"> {{database.notation[0]}}</td>
                     </tr>
                     <tr ng-if="search.length">
                         <td>Results (total) for 
-                            <span ng-if="search.length" class="notation" popover="{{search[0].prefLabel.de}}" popover-trigger="mouseenter">{{search[0].notation[0]}}</span>:
+                            <span ng-if="search.length" class="notation" popover="{{popOverTitle(search[0].prefLabel)}}" popover-trigger="mouseenter">{{search[0].notation[0]}}</span>:
                         </td>
                         <td>{{total}}</td>
                     </tr>
@@ -34,12 +34,16 @@
                         <tr ng-repeat="not in hits">
                             <td>
                                 <div style="width:100%;clear:both;">
-                                    <span ng-if="not.length" class="notation" popover="{{not[0].prefLabel.de}}" popover-trigger="mouseenter">{{not[0].notation[0]}}</span>
+                                    <span ng-if="not.length" class="notation" popover="{{popOverTitle(not[0].prefLabel)}}" popover-trigger="mouseenter">{{not[0].notation[0]}}</span>
                                     <a ng-if="lookup" title="Look up term" class="action-icon">
-                                        <span ng-click="lookup(not[0])" class="skos-link-icon" title="Look up notation"><span class="glyphicon glyphicon-info-sign"></span></span>
+                                        <span ng-click="lookup(not[0])" class="skos-link-icon" title="Look up notation">
+                                            <span class="glyphicon glyphicon-info-sign"></span>
+                                        </span>
                                     </a>
                                     <a ng-if="select" title="Add mapping term" class="action-icon">
-                                        <span ng-click="select(not[0])" class="skos-link-icon" title="Select concept"><span class="glyphicon glyphicon-plus"></span></span>
+                                        <span ng-click="select(not[0])" class="skos-link-icon" title="Select concept">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </span>
                                     </a>
                                 </div>
                             </td>

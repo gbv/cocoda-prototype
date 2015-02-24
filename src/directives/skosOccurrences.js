@@ -32,7 +32,8 @@ angular.module('ngSKOS')
         scope: {
             occurrence:'=skosOccurrences',
             select:'=selectOccurrence',
-            lookup: '=lookUpOccurrence'
+            lookup: '=lookUpOccurrence',
+            lang: '=language'
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ? 
@@ -46,6 +47,17 @@ angular.module('ngSKOS')
                     // TODO: add watcher/trigger
                 }
             );
+            scope.$watch('lang', function(lang){
+                scope.popOverTitle = function(label){
+                    if(label[lang]){
+                        return label[lang];
+                    }else{
+                        for(lang in label){
+                            return label[lang];
+                        }
+                    }
+                }
+            });
         },
         controller: function($scope){
             $scope.status = {open: true};

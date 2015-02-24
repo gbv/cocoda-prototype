@@ -172,12 +172,12 @@
                                 <!-- Existing mappings templates -->
                                 <div style="width:100%;margin:0px auto;">
                                     <div ng-if="mappingSample" class="tmpl-border" style="">
-                                        <div use-mapping="insertMapping" skos-mapping-collection="mappingSample" look-up-mapping="lookUpMapping"></div>
+                                        <div use-mapping="insertMapping" skos-mapping-collection="mappingSample" look-up-mapping="lookUpMapping" language="language"></div>
                                     </div>
                                 </div>
                             <!-- Occurrences display -->
                                 <div ng-if="occurrencesSample" class="tmpl-border" style="">
-                                    <div style="overflow:auto" skos-occurrences="occurrencesSample" select-occurrence="insertMapping" look-up-occurrence="lookUpMapping"></div>
+                                    <div style="overflow:auto" skos-occurrences="occurrencesSample" select-occurrence="insertMapping" look-up-occurrence="lookUpMapping" language="language"></div>
                                 </div>
                             </div>
                         </div>

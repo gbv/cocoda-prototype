@@ -368,7 +368,7 @@ cocoda.controller('myController',[
         origin:true,
         target:false
     };
-    
+    $scope.language = "en";
     
     // SKOS-MAPPING-COLLECTION/TABLE/OCCURRENCES TO SKOS-CONCEPT-MAPPING
     
@@ -656,13 +656,13 @@ cocoda.controller('myController',[
             $scope.originConcept = {
                 notation: concept.notation ? concept.notation : "",
                 uri: concept.uri ? concept.uri : concept.notation,
-                label: concept.prefLabel.de
+                prefLabel: concept.prefLabel
             };
         }else if(concept.label){
             $scope.originConcept = {
                 notation: concept.notation ? concept.notation : "",
                 uri: concept.uri ? concept.uri : concept.notation,
-                label: concept.label
+                prefLabel: concept.label
             };
         }else{
             $scope.originConcept = {
@@ -678,13 +678,13 @@ cocoda.controller('myController',[
             $scope.targetConcept = {
                 notation: concept.notation ? concept.notation : "",
                 uri: concept.uri ? concept.uri : concept.notation,
-                label: concept.prefLabel.de
+                prefLabel: concept.prefLabel
             };
         }else if(concept.label){
             $scope.targetConcept = {
                 notation: concept.notation ? concept.notation : "",
                 uri: concept.uri ? concept.uri : concept.notation,
-                label: concept.label
+                prefLabel: concept.label
             };
         }else{
             $scope.targetConcept = {
