@@ -9,6 +9,7 @@
                                 "from": [
                                     {
                                         "notation": ["4036762-9"],
+                                        "uri": "http://d-nb.info/gnd/4036762-9",
                                         "prefLabel":{
                                             "de":"Lymphozyt"
                                         },
@@ -38,6 +39,7 @@
                                 "from": [
                                         {
                                         "notation": ["4127387-4"],
+                                        "uri": "http://d-nb.info/gnd/4127387-4",
                                         "prefLabel":{
                                             "de":"T-Lymphozyt"
                                         },

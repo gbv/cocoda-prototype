@@ -496,9 +496,8 @@ cocoda.controller('myController',[
             // populate with basic data
             $scope.originConcept = {
                 uri: item.uri,
-                prefLabel: {
-                    de: item.label
-                }
+                notation: item.notation ? item.notation : "",
+                prefLabel: item.prefLabel,
             };
         
             // update concept
@@ -520,9 +519,7 @@ cocoda.controller('myController',[
             $scope.originConcept = {
                 notation: [ item.notation ],
                 uri: item.notation ,
-                prefLabel: {
-                    de: item.label
-                }
+                prefLabel: item.prefLabel,
             };
             // update concept
             $scope.rvkSubjectConcept.updateConcept($scope.originConcept).then(function() {
@@ -579,9 +576,7 @@ cocoda.controller('myController',[
             // populate with basic data
             $scope.targetConcept = {
                 uri: item.uri,
-                prefLabel: {
-                    de: item.label
-                }
+                prefLabel: item.prefLabel,
             };
             // update concept
             $scope.gndSubjectConcept.updateConcept($scope.targetConcept).then(function() {
@@ -602,9 +597,7 @@ cocoda.controller('myController',[
             $scope.targetConcept = {
                 notation: [ item.notation ],
                 uri: item.notation ,
-                prefLabel: {
-                    de: item.label
-                }
+                prefLabel: item.prefLabel,
             };
             // update concept
             $scope.rvkSubjectConcept.updateConcept($scope.targetConcept).then(function() {
@@ -652,11 +645,12 @@ cocoda.controller('myController',[
     };
     // for filling the concept directly on selection
     $scope.reselectOriginConcept = function(concept){
+        console.log(concept.prefLabel);
         if(concept.prefLabel){
             $scope.originConcept = {
                 notation: concept.notation ? concept.notation : "",
                 uri: concept.uri ? concept.uri : concept.notation,
-                prefLabel: concept.prefLabel
+                prefLabel: concept.prefLabel ? concept.prefLabel : "",
             };
         }else if(concept.label){
             $scope.originConcept = {
