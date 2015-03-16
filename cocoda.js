@@ -376,23 +376,25 @@ cocoda.controller('myController',[
     $scope.insertMapping = function(mapping){
         //complete mappings
         if(mapping.from){
-            if(mapping.from[0].inScheme.notation[0] == $scope.activeView.origin && mapping.to[0].inScheme.notation[0] == $scope.activeView.target){
-                $scope.currentMapping = angular.copy(mapping);
-                // $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
+            if(mapping.from.inScheme[0].notation == $scope.activeView.origin && mapping.to.inScheme[0].notation == $scope.activeView.target){
+                $scope.currentMapping.from[0] = angular.copy(mapping.from.conceptSet[0]);
+                $scope.currentMapping.to = [];
+                angular.forEach(mapping.to.conceptSet, function(value){
+                    $scope.currentMapping.to.push(value);
+                });
             }
+            // $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
         // single target terms
         }else if(mapping.notation){
-            if(mapping.inScheme.notation[0] == $scope.activeView.target){
-                var dupes = false;
-                angular.forEach($scope.currentMapping.to, function(value,key){
-                    if(value.notation[0] == mapping.notation[0]){
-                        dupes = true;
-                    }
-                });
-                if(dupes == false){
-                    $scope.currentMapping.to.push(mapping);
-                    $scope.currentMapping.timestamp = "";
+            var dupes = false;
+            angular.forEach($scope.currentMapping.to, function(value,key){
+                if(value.notation[0] == mapping.notation[0]){
+                    dupes = true;
                 }
+            });
+            if(dupes == false){
+                $scope.currentMapping.to.push(mapping);
+                $scope.currentMapping.timestamp = "";
             }
         }
     };
@@ -701,6 +703,10 @@ cocoda.run(function($rootScope,$http) {
     $rootScope.mappingSampleGND = {};
     $http.get('data/gnd-ddc.json').success(function(data){
         $rootScope.mappingSampleGND = data;
+    });
+    $rootScope.mappingSampleNew = {};
+    $http.get('data/ddc-gnd.json').success(function(data){
+        $rootScope.mappingSampleNew = data;
     });
     $rootScope.occurrencesSample = {};
     $http.get('data/occurrences-1.json').success(function(data){

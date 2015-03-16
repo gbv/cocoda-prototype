@@ -1,67 +1,60 @@
 [
     {
-        "VZG-Konkordanz": [
-            {
-                "gnd": [
-                    {
-                        "rvk": [
-                            {
-                                "from": [
-                                    {
-                                        "notation": ["4036762-9"],
-                                        "uri": "http://d-nb.info/gnd/4036762-9",
-                                        "prefLabel":{
-                                            "de":"Lymphozyt"
-                                        },
-                                        "inScheme": { "notation": ["GND"] }
-                                    }
-                                ],
-                                "to": [
-                                    {
-                                        "notation": ["WF 9880"],
-                                        "prefLabel": {
-                                            "de":"B-Lymphozyten"
-                                        },
-                                        "inScheme": { "notation": ["RVK"] }
-                                    },
-                                    {
-                                        "notation": ["WW 9120"],
-                                        "prefLabel": {
-                                            "de":"Lymphsystem (Lymphozyt), Milz, Thymus / Allgemeines"
-                                        },
-                                        "inScheme": { "notation": ["RVK"] }
-                                    }
-                                ],
-                                "timestamp": "2014-01-01",
-                                "creator": "VZG"
-                            },
-                            {
-                                "from": [
-                                        {
-                                        "notation": ["4127387-4"],
-                                        "uri": "http://d-nb.info/gnd/4127387-4",
-                                        "prefLabel":{
-                                            "de":"T-Lymphozyt"
-                                        },
-                                        "inScheme": { "notation": ["GND"] }
-                                    }
-                                ],
-                                "to": [
-                                    {
-                                        "notation": ["WF 9895"],
-                                        "prefLabel": {
-                                            "de":"T-Lymphozyten, T-Lymphozyten-Rezeptor"
-                                        },
-                                        "inScheme": { "notation": ["RVK"] }
-                                    }
-                                ],
-                                "timestamp": "2013-01-01",
-                                "creator": "VZG"
-                            }
-                        ]
+        "from":{
+            "conceptSet": [
+                {
+                    "notation": ["4036762-9"],
+                    "uri": "http://d-nb.info/gnd/4036762-9",
+                    "prefLabel":{ "de":"Lymphozyt" }
+                }
+            ],
+            "inScheme": [{ "notation": "GND" }]
+        },
+        "to": {
+            "conceptSet":[
+                {
+                    "notation": ["WF 9880"],
+                    "prefLabel": {
+                        "de":"B-Lymphozyten"
                     }
-                ]
-            }
-        ]
+                },
+                {
+                    "notation": ["WW 9120"],
+                    "prefLabel": {
+                        "de":"Lymphsystem (Lymphozyt), Milz, Thymus / Allgemeines"
+                    }
+                }
+            ],
+            "inScheme":[{ "notation": "RVK" }]
+        },
+        "timestamp": "2014-01-01",
+        "creator": "VZG"
+    },
+    {
+        "from": {
+            "conceptSet":[
+                {
+                    "notation": ["4127387-4"],
+                    "uri": "http://d-nb.info/gnd/4127387-4",
+                    "prefLabel":{
+                        "de":"T-Lymphozyt"
+                    }
+                }
+            ],
+            "inScheme": [{ "notation": "GND" }]
+        },
+        "to": {
+            "conceptSet":[
+                {
+                    "notation": ["WF 9895"],
+                    "prefLabel": {
+                        "de":"T-Lymphozyten, T-Lymphozyten-Rezeptor"
+                    }
+                }
+            ],
+            "inScheme": [{ "notation": "RVK" }]
+        },
+        "timestamp": "2013-01-01",
+        "creator": "VZG"
     }
 ]
