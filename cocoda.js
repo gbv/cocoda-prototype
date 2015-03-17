@@ -693,29 +693,23 @@ cocoda.controller('myController',[
 }]);
 
 cocoda.run(function($rootScope,$http) {
-    
-    // load placeholder samples
 
-    $rootScope.mappingSample = {};
-    $http.get('data/gnd-rvk.json').success(function(data){
-        $rootScope.mappingSample = data;
+    // load placeholder samples
+    var placeholders = {
+        'data/gnd-rvk.json': 'mappingSample',
+        'data/gnd-ddc.json': 'mappingSampleGND',
+        'data/ddc-gnd.json': 'mappingSampleNew',
+        'data/occurrences-1.json': 'occurrencesSample',
+        'data/tree-1.json': 'treeSample',
+    };
+
+    angular.forEach(placeholders, function(name, file) {
+        $rootScope[name] = {};
+        $http.get(file).success(function(data){
+            $rootScope[name] = data;
+        });
     });
-    $rootScope.mappingSampleGND = {};
-    $http.get('data/gnd-ddc.json').success(function(data){
-        $rootScope.mappingSampleGND = data;
-    });
-    $rootScope.mappingSampleNew = {};
-    $http.get('data/ddc-gnd.json').success(function(data){
-        $rootScope.mappingSampleNew = data;
-    });
-    $rootScope.occurrencesSample = {};
-    $http.get('data/occurrences-1.json').success(function(data){
-        $rootScope.occurrencesSample = data;
-    });
-    $rootScope.treeSample = {};
-    $http.get('data/tree-1.json').success(function(data){
-        $rootScope.treeSample = data;
-    });
+
     $rootScope.ddcTopConcepts = { values: [] };
     $http.get('data/ddc/topConcepts.json').success(function(data){
         $rootScope.ddcTopConcepts = { values: data };
