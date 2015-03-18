@@ -1,8 +1,8 @@
 <table style="white-space:nowrap;margin:5px 0px;" class="table table-hover table-condensed table-bordered">
     <thead>
         <tr>
-            <th><span class="classification">{{mapping[0].from[0].inScheme.notation[0]}}</span></th>
-            <th><span class="classification">{{mapping[0].to[0].inScheme.notation[0]}}</span></th>
+            <th><span class="classification">{{mapping[0].from.inScheme[0].notation}}</span></th>
+            <th><span class="classification">{{mapping[0].to.inScheme[0].notation}}</span></th>
             <th ng-if="type">
                 <span style="margin-right:3px;">Type</span>
                 <a ng-click="predicate = 'type.value';reverse = !reverse" href="" style="text-decoration:none;font-size:0.8em;">  
@@ -28,11 +28,15 @@
         <tr ng-repeat="m in mapping | orderBy:predicate:reverse">
             <td>
                 <ul class="simple-list" style="margin-bottom:0px">
-                    <li ng-repeat="f in m.from">
-                        <span class="notation" 
-                            style="max-width:85px;white-space:nowrap;" 
+                    <li ng-repeat="f in m.from.conceptSet">
+                        <span ng-if="f.prefLabel" class="notation" 
+                            style="max-width:85px;white-space:nowrap;"
                             popover="{{popOverTitle(f.prefLabel)}}" 
                             popover-trigger="mouseenter">
+                            {{f.notation[0]}}
+                        </span>
+                        <span ng-if="!f.prefLabel" class="notation" 
+                            style="max-width:85px;white-space:nowrap;">
                             {{f.notation[0]}}
                         </span>
                     </li>
@@ -40,9 +44,10 @@
             </td>
             <td>
                 <ul class="simple-list" style="margin-bottom:0px;">
-                    <li ng-repeat="t in m.to">
+                    <li ng-repeat="t in m.to.conceptSet">
                         <div class="skos-mapping-target" style="">
-                            <span class="notation" popover="{{popOverTitle(t.prefLabel)}}" popover-trigger="mouseenter">{{t.notation[0]}}</span>
+                            <span ng-if="t.prefLabel" class="notation" popover="{{popOverTitle(t.prefLabel)}}" popover-trigger="mouseenter">{{t.notation[0]}}</span>
+                            <span ng-if="!t.prefLabel" class="notation">{{t.notation[0]}}</span>
                             <a ng-if="lookup" title="Look up term" class="action-icon" style="vertical-align:middle;">
                                 <span ng-click="lookup(t)">
                                     <span style="top:2px;" class="glyphicon glyphicon-info-sign"></span>

@@ -107,6 +107,9 @@
     cursor:pointer;
     text-decoration: none;
 }
+.action-icon:hover{
+    text-decoration: none;
+}
 .occurrence-result{
     margin-left:4px;
 }

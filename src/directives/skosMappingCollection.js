@@ -92,13 +92,7 @@ angular.module('ngSKOS')
             scope.$watch('language');
         },
         controller: function($scope){
-            $scope.status = {};
-            angular.forEach($scope.mappings, function(key,value){
-                angular.forEach(key, function(key,value){
-                    
-                    $scope.status[value] =  { open: true };
-                });
-            });
+            $scope.status = { open: true};
         }
     };
 });

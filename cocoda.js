@@ -377,23 +377,25 @@ cocoda.controller('myController',[
     $scope.insertMapping = function(mapping){
         //complete mappings
         if(mapping.from){
-            if(mapping.from[0].inScheme.notation[0] == $scope.activeView.origin && mapping.to[0].inScheme.notation[0] == $scope.activeView.target){
-                $scope.currentMapping = angular.copy(mapping);
-                // $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
+            if(mapping.from.inScheme[0].notation == $scope.activeView.origin && mapping.to.inScheme[0].notation == $scope.activeView.target){
+                $scope.currentMapping.from[0] = angular.copy(mapping.from.conceptSet[0]);
+                $scope.currentMapping.to = [];
+                angular.forEach(mapping.to.conceptSet, function(value){
+                    $scope.currentMapping.to.push(value);
+                });
             }
+            // $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
         // single target terms
         }else if(mapping.notation){
-            if(mapping.inScheme.notation[0] == $scope.activeView.target){
-                var dupes = false;
-                angular.forEach($scope.currentMapping.to, function(value,key){
-                    if(value.notation[0] == mapping.notation[0]){
-                        dupes = true;
-                    }
-                });
-                if(dupes == false){
-                    $scope.currentMapping.to.push(mapping);
-                    $scope.currentMapping.timestamp = "";
+            var dupes = false;
+            angular.forEach($scope.currentMapping.to, function(value,key){
+                if(value.notation[0] == mapping.notation[0]){
+                    dupes = true;
                 }
+            });
+            if(dupes == false){
+                $scope.currentMapping.to.push(mapping);
+                $scope.currentMapping.timestamp = "";
             }
         }
     };
@@ -692,25 +694,23 @@ cocoda.controller('myController',[
 }]);
 
 cocoda.run(function($rootScope,$http) {
-    
-    // load placeholder samples
 
-    $rootScope.mappingSample = {};
-    $http.get('data/gnd-rvk.json').success(function(data){
-        $rootScope.mappingSample = data;
+    // load placeholder samples
+    var placeholders = {
+        'data/gnd-rvk.json': 'mappingSample',
+        'data/gnd-ddc.json': 'mappingSampleGND',
+        'data/ddc-gnd.json': 'mappingSampleNew',
+        'data/occurrences-1.json': 'occurrencesSample',
+        'data/tree-1.json': 'treeSample',
+    };
+
+    angular.forEach(placeholders, function(name, file) {
+        $rootScope[name] = {};
+        $http.get(file).success(function(data){
+            $rootScope[name] = data;
+        });
     });
-    $rootScope.mappingSampleGND = {};
-    $http.get('data/gnd-ddc.json').success(function(data){
-        $rootScope.mappingSampleGND = data;
-    });
-    $rootScope.occurrencesSample = {};
-    $http.get('data/occurrences-1.json').success(function(data){
-        $rootScope.occurrencesSample = data;
-    });
-    $rootScope.treeSample = {};
-    $http.get('data/tree-1.json').success(function(data){
-        $rootScope.treeSample = data;
-    });
+
     $rootScope.ddcTopConcepts = { values: [] };
     $http.get('data/ddc/topConcepts.json').success(function(data){
         $rootScope.ddcTopConcepts = { values: data };
