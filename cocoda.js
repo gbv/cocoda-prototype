@@ -38,6 +38,7 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
                     prefLabel: { de: ""},
                     broader: [],
                     related: [],
+                    altLabel: { de: [] },
                 };
 
                 if(graph.preferredName) {
@@ -63,26 +64,26 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
                 }
 
                 if(graph.variantName){
-                    concept.altLabel = graph.variantName;
+                    concept.altLabel.de = graph.variantName;
                 }else if(graph.variantNameForThePlaceOrGeographicName){
-                    concept.altLabel = graph.variantNameForThePlaceOrGeographicName;
+                    concept.altLabel.de = graph.variantNameForThePlaceOrGeographicName;
                 }else if(graph.variantNameEntityForThePerson){
-                    concept.altLabel = graph.variantNameEntityForThePerson;
+                    concept.altLabel.de = graph.variantNameEntityForThePerson;
                 }else if(graph.variantNameForTheConferenceOrEvent){
-                    concept.altLabel = graph.variantNameForTheConferenceOrEvent;
+                    concept.altLabel.de = graph.variantNameForTheConferenceOrEvent;
                 }else if(graph.variantNameForTheCorporateBody){
-                    concept.altLabel = graph.variantNameForTheCorporateBody;
+                    concept.altLabel.de = graph.variantNameForTheCorporateBody;
                 }else if(graph.variantNameForTheFamily){
-                    concept.altLabel = graph.variantNameForTheFamily;
+                    concept.altLabel.de = graph.variantNameForTheFamily;
                 }else if(graph.variantNameForThePerson){
-                    concept.altLabel = graph.variantNameForThePerson;
+                    concept.altLabel.de = graph.variantNameForThePerson;
                 }else if(graph.variantNameForTheSubjectHeading){
-                    concept.altLabel = graph.variantNameForTheSubjectHeading;
+                    concept.altLabel.de = graph.variantNameForTheSubjectHeading;
                 }else if(graph.variantNameForTheWork){
-                    concept.altLabel = graph.variantNameForTheWork;
+                    concept.altLabel.de = graph.variantNameForTheWork;
                 }
-                if(angular.isString(concept.altLabel)){
-                    concept.altLabel = [ concept.altLabel ];
+                if(angular.isString(concept.altLabel.de)){
+                    concept.altLabel.de = [ concept.altLabel.de ];
                 }
 
                 var broader = [];
