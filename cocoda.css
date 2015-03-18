@@ -80,6 +80,9 @@
 .concept-buttons{
     margin-left:16px;
 }
+.concept-buttons select{
+    height:26px;
+}
 .top-concept{
     margin-bottom:10px;
     margin-top:20px;

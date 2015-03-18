@@ -1,0 +1,24 @@
+[
+    {
+        "from": {
+            "inScheme": [{"notation":"DDC"}],
+            "conceptSet": [ {
+                "uri": "http://dewey.info/class/612.112/e22/2014-04-15/",
+                "notation": ["612.112"],
+                "prefLabel": { "de": "Leukozyten (Weiße Blutkörperchen)"}
+            } ]
+        },
+        "to": {
+            "conceptSet":[
+                {
+                    "notation": ["WW 8840 - WW 8879"],
+                    "prefLabel": {
+                        "de":"Blutkörperchen (Erythrozyt, Leukozyt), Hämoglobin"
+                    }
+                }
+            ],
+            "inScheme":[{ "notation": "RVK" }]
+        },
+        "creator": "VZG"
+    }
+]

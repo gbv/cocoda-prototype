@@ -319,6 +319,26 @@ cocoda.controller('myController',[
             return $scope.schemes[scheme].suggest;
         }
     };
+    // Mapping database requests
+    $scope.mappingTargets = 'all';
+    $scope.showMappingTargetSelection = false;
+    
+    $scope.requestMappings = function(name){
+        console.log($scope.mappingTargets)
+        if($scope.originConcept.notation[0] == "612.112"){ 
+            if(name == 'all'){
+                $scope.retrievedMapping = angular.copy($scope.mappingSampleDDC);
+            }else if(name == 'GND'){
+                $scope.retrievedMapping = angular.copy($scope.mappingSampleNew);
+            }else if(name == 'RVK'){
+                $scope.retrievedMapping = angular.copy($scope.mappingSampleDDCRVK);
+            }else{
+                $scope.retrievedMapping = [];
+            }
+        }else{
+            $scope.retrievedMapping = [];
+        }
+    }
     /*
     $scope.safeApply = function(fn) { 
         var phase = this.$root.$$phase; 
@@ -376,25 +396,21 @@ cocoda.controller('myController',[
     // used in mapping templates to transfer existing mappings into active state
     $scope.insertMapping = function(mapping){
         //complete mappings
-        if(mapping.from){
+        if(mapping.from && mapping.to){
             if(mapping.from.inScheme[0].notation == $scope.activeView.origin && mapping.to.inScheme[0].notation == $scope.activeView.target){
-                $scope.currentMapping.from[0] = angular.copy(mapping.from.conceptSet[0]);
-                $scope.currentMapping.to = [];
-                angular.forEach(mapping.to.conceptSet, function(value){
-                    $scope.currentMapping.to.push(value);
-                });
+                $scope.currentMapping = angular.copy(mapping);
             }
             // $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
         // single target terms
         }else if(mapping.notation){
             var dupes = false;
-            angular.forEach($scope.currentMapping.to, function(value,key){
+            angular.forEach($scope.currentMapping.to.conceptSet, function(value,key){
                 if(value.notation[0] == mapping.notation[0]){
                     dupes = true;
                 }
             });
             if(dupes == false){
-                $scope.currentMapping.to.push(mapping);
+                $scope.currentMapping.to.conceptSet.push(mapping);
                 $scope.currentMapping.timestamp = "";
             }
         }
@@ -409,8 +425,12 @@ cocoda.controller('myController',[
     
     // scope for the created mapping
     $scope.currentMapping = {
-        from: [],
-        to: [],
+        from:{
+            conceptSet: []
+        },
+        to:{
+            conceptSet: []
+        },
         type: '',
         source: '',
         timestamp: ''
@@ -421,11 +441,11 @@ cocoda.controller('myController',[
     // Choose origin mapping concept
     $scope.saveFrom = function(origin, item){
         if($scope.currentMapping.from[0]){
-            if($scope.currentMapping.from[0].notation[0] != item.notation[0]) { 
-            $scope.currentMapping.to = [];
+            if($scope.currentMapping.from.conceptSet[0].notation[0] != item.notation[0]) { 
+                $scope.currentMapping.to.conceptSet = [];
             };
         };
-        $scope.currentMapping.from[0] = {
+        $scope.currentMapping.from.conceptSet[0] = {
             prefLabel: { de: item.prefLabel.de },
             inScheme: { notation: [ origin ] },
             notation: [ item.notation[0] ? item.notation[0] : originConcept.uri ],
@@ -434,7 +454,7 @@ cocoda.controller('myController',[
     };
     // Add target mapping concept to list
     $scope.addTo = function(target, item){
-        $scope.currentMapping.to.push({
+        $scope.currentMapping.to.conceptSet.push({
             prefLabel: { de: item.prefLabel.de },
             inScheme: { notation: [ target ] },
             notation: [ item.notation[0] ],
@@ -444,7 +464,7 @@ cocoda.controller('myController',[
     // check, if the chosen mapping concept is already in the list
     $scope.checkDuplicate = function(){
         var dupes = false;
-        angular.forEach($scope.currentMapping.to, function(value) {
+        angular.forEach($scope.currentMapping.to.conceptSet, function(value) {
             var map = value;
             if($scope.targetConcept.uri && map.uri){
                 if($scope.targetConcept.uri == map.uri){
@@ -460,8 +480,8 @@ cocoda.controller('myController',[
     };
     // replace all target mappings with selected one
     $scope.replaceTo = function(target, item){
-        $scope.currentMapping.to = [];
-        $scope.currentMapping.to.push({
+        $scope.currentMapping.to.conceptSet = [];
+        $scope.currentMapping.to.conceptSet.push({
             prefLabel: { de: item.prefLabel.de },
             inScheme: { notation: [ target ] },
             notation: [ item.notation[0] ],
@@ -470,8 +490,8 @@ cocoda.controller('myController',[
     };
     // clear all origin and target mappings
     $scope.deleteAll = function(){
-        $scope.currentMapping.to = [];
-        $scope.currentMapping.from = [];
+        $scope.currentMapping.to.conceptSet = [];
+        $scope.currentMapping.from.conceptSet = [];
     };
     
     // SKOS-CONCEPT
@@ -567,6 +587,13 @@ cocoda.controller('myController',[
                 );
             };
 
+        }else if($scope.activeView.origin == 'DDC'){
+            
+            $scope.originConcept = {
+                notation: [ item.notation ],
+                uri: item.uri,
+                prefLabel: item.prefLabel ? item.prefLabel : "",
+            };
         }
     };
     
@@ -700,6 +727,8 @@ cocoda.run(function($rootScope,$http) {
         'data/gnd-rvk.json': 'mappingSample',
         'data/gnd-ddc.json': 'mappingSampleGND',
         'data/ddc-gnd.json': 'mappingSampleNew',
+        'data/ddc-rvk.json': 'mappingSampleDDCRVK',
+        'data/ddc-all.json': 'mappingSampleDDC',
         'data/occurrences-1.json': 'occurrencesSample',
         'data/tree-1.json': 'treeSample',
     };

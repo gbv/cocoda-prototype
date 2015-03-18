@@ -128,10 +128,14 @@
                                                 <span>Use</span>
                                                 <i class="glyphicon glyphicon-share-alt"></i>
                                             </button>
-                                            <button disabled="true" ng-click="searchOccurrence(activeView.origin, originConcept)">
+                                            <button ng-disabled="activeView.origin != 'DDC'" ng-click="requestMappings(mappingTargets)">
                                                 <span>Look up mappings</span>
                                                 <i class="glyphicon glyphicon-stats"></i>
                                             </button>
+                                            <select ng-disabled="activeView.origin != 'DDC'" ng-model="mappingTargets">
+                                                <option selected>all</option>
+                                                <option ng-repeat="s in schemes" ng-if="s.name != activeView.origin"><span>{{s.name}}</span></option>
+                                            </select>
                                         </span>
                                     </div>
                                 </div>
@@ -171,14 +175,16 @@
                             <div class="context-body" style="overflow:hidden">
                                 <!-- Existing mappings templates -->
                                 <div style="width:100%;margin:0px auto;">
-                                    <div ng-if="mappingSample" class="tmpl-border" style="">
-                                        <div use-mapping="insertMapping" skos-mapping-collection="mappingSample" look-up-mapping="lookUpMapping" language="language"></div>
+                                    <div ng-if="retrievedMapping.length" class="tmpl-border" style="">
+                                        <div use-mapping="insertMapping" skos-mapping-collection="retrievedMapping" look-up-mapping="lookUpMapping" language="language"></div>
                                     </div>
                                 </div>
                             <!-- Occurrences display -->
+                            <!--
                                 <div ng-if="occurrencesSample" class="tmpl-border" style="">
                                     <div style="overflow:auto" skos-occurrences="occurrencesSample" select-occurrence="insertMapping" look-up-occurrence="lookUpMapping" language="language"></div>
                                 </div>
+                            -->
                             </div>
                         </div>
                     </div>
