@@ -124,7 +124,7 @@
                                     <div class="tmpl-border">
                                         <div skos-concept="originConcept" skos-click="clickOriginConcept" language="language"></div>
                                         <span class="concept-buttons">
-                                            <button ng-click="saveFrom(activeView.origin, originConcept)" title="Use term" accesskey="u">
+                                            <button ng-click="saveFrom(activeView.origin, originConcept)" title="Use concept for mapping" accesskey="u">
                                                 <span>Use</span>
                                                 <i class="glyphicon glyphicon-share-alt"></i>
                                             </button>
@@ -304,11 +304,11 @@
                                         <span class="concept-buttons">
                                             <button ng-disabled="checkDuplicate()"
                                                 ng-click="addTo(activeView.target, targetConcept)"
-                                                title="Add target term">
+                                                title="Add concept to mapping">
                                                 <span>Add</span>
                                                 <i class="glyphicon glyphicon-plus"></i>
                                             </button>
-                                            <button ng-click="replaceTo(activeView.target, targetConcept)" title="Replace current terms">
+                                            <button ng-click="replaceTo(activeView.target, targetConcept)" title="Replace current target mapping concepts">
                                                 <span>Replace all</span>
                                                 <i class="glyphicon glyphicon-share-alt"></i>
                                             </button>

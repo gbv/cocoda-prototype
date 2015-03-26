@@ -1,11 +1,14 @@
 <div>
     <div ng-if="!from.length && !to.length" style="margin-top:50px;margin-bottom:40px;text-align:center;">
-        <alert type="danger" style="display:inline-block;">Please choose a concept scheme for mapping</alert>
+        <alert type="warning" style="display:inline-block;">Select concept schemes to start mapping!</alert>
     </div>
-    <div ng-if="mapping.from.length && !from.length && !to.length" style="margin-top:10px;margin-bottom:5px;text-align:center;">
-        <alert type="danger">Please choose a term to work on</alert>
+    <div ng-if="from.conceptSet.length && !mapping.from.conceptSet.length && !mapping.to.conceptSet.length" style="margin-top:10px;margin-bottom:5px;text-align:center;">
+        <alert type="warning" style="display:inline-block;">Please choose a concept to work on</alert>
     </div>
-    <div ng-if="from.length || mapping.to[0].notation.length" style="width:100%;">
+    <div ng-if="from.length && to.length && !mapping.from.conceptSet.length && !mapping.to.conceptSet.length" style="margin-top:10px;margin-bottom:5px;text-align:center;">
+        <alert type="warning" style="display:inline-block;">No concepts selected for mapping</alert>
+    </div>
+    <div ng-if="mapping.from.conceptSet.length || mapping.to.conceptSet[0].notation.length" style="width:100%;">
         <table style="width:95%;margin:0 auto;align:center;">
             <thead class="simple-list" style="text-align:center;">
                 <tr>
@@ -20,7 +23,7 @@
                                 <skos-list concepts="mapping.from.conceptSet" on-select="selectFrom" removeable="true" class="mapping-list">
                             </div>
                             <div ng-if="!mapping.from.conceptSet.length">
-                                <alert type="danger">No selected source mapping term</alert>
+                                <alert type="danger">No selected source concept</alert>
                             </div>
                         </div>
                     </td>
@@ -34,8 +37,8 @@
                             <div ng-if="mapping.to.conceptSet.length" style="font-size:1.5em;">
                                 <skos-list concepts="mapping.to.conceptSet" on-select="selectTo" removeable="true" class="mapping-list mapping-target-list">
                             </div>
-                            <div ng-if="!mapping.to.conceptSet.length && mapping.from.length">
-                                <alert style="margin-bottom:0px;" type="danger">No selected mapping terms (<span style="color:#428bca" class="glyphicon glyphicon-plus"></span>)</alert>
+                            <div ng-if="!mapping.to.conceptSet.length && mapping.from.conceptSet.length">
+                                <alert style="margin-bottom:0px;" type="warning">No target concepts selected!</alert>
                             </div>
                         </div>
                     </td>

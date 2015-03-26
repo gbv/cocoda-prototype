@@ -354,7 +354,7 @@ cocoda.controller('myController',[
             $scope.activeView.target = scheme;
             $scope.targetConcept = "";
             $scope.targetSubject = "";
-            $scope.deleteAll();
+            $scope.clearTargets();
             $scope.changeTopTarget(scheme);
         }
     };
