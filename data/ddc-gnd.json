@@ -18,7 +18,8 @@
                 "notation":["4074195-3"]
             } ]
         },
-        "mappingType": "closeMatch"
+        "mappingType": "closeMatch",
+        "creator": "CrissCross"
     },
 
     {
@@ -63,7 +64,8 @@
             } ],
             "coordination": "OR"
         },
-        "mappingRelevance": 0.5
+        "mappingRelevance": 0.5,
+        "creator": "CrissCross"
     },
 
     {
@@ -84,6 +86,7 @@
             } ],
             "coordination": "OR"
         },
-        "mappingRelevance": 0.2
+        "mappingRelevance": 0.2,
+        "creator": "CrissCross"
     }
 ]

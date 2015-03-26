@@ -30,7 +30,6 @@ angular.module('ngSKOS')
             to: '=mappingTo',
             selectO: '=selectOriginConcept',
             selectT: '=selectTargetConcept',
-            save: '=saveMapping',
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
@@ -43,20 +42,7 @@ angular.module('ngSKOS')
             scope.selectTo = function(concept) {
                 scope.selectT(concept);
             };
-            scope.saveMapping = function() {
-                scope.mapping.timestamp = new Date().toISOString().slice(0, 10);
-                // TODO: Use own database to specify 'source'
-                scope.mapping.source = function() {};
-                // TODO: Save current mapping to 'saveLocation'
-                scope.saved = true;
-            };
-            scope.clearTargets = function() {
-                scope.mapping.to = [];
-            };
             scope.$watch('mapping.to', function(){
-                scope.saved = false;
-            },true);
-            scope.$watch('mapping.from', function(){
                 scope.saved = false;
             },true);
         }

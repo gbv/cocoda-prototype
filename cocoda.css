@@ -113,6 +113,12 @@
 .action-icon:hover{
     text-decoration: none;
 }
+.link-disabled{
+    color:#ddd;
+}
+.link-disabled:hover{
+    color:#ddd;
+}
 .occurrence-result{
     margin-left:4px;
 }

@@ -365,6 +365,61 @@ cocoda.controller('myController',[
             return $scope.schemes[scheme].suggest;
         }
     };
+    // scope for the created mapping
+    $scope.currentMapping = {
+        from:{
+            conceptSet: []
+        },
+        to:{
+            conceptSet: []
+        },
+        type: '',
+        source: '',
+        timestamp: ''
+    };
+    // Save current mapping
+    $scope.lastSavedMapping = {};
+    $scope.saveStatus = {
+        type: "",
+        message: ""
+    }
+    $scope.showMappingMessage = false;
+    $scope.mappingURL = "http://esx-151.gbv.de/mapping/insert";
+    $scope.SaveCurrentMapping = function() {
+        if($scope.loggedIn === true){
+            $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
+            $http.post($scope.mappingURL, $scope.currentMapping)
+            .success(function(data, status, headers, config) {
+                $scope.lastSavedMapping = angular.copy($scope.currentMapping);
+                $scope.saveStatus = {
+                    type: status,
+                    success: true,
+                    message: "Mapping Saved!"
+                }
+                $scope.showMappingMessage = true;
+            })
+            . error(function(data, status, headers, config) {
+                $scope.saveStatus = {
+                    type: status,
+                    success: false,
+                    message: "Saving Failed!"
+                }
+                $scope.showMappingMessage = true;
+            });
+        }
+    }
+    $scope.$watch('currentMapping', function(){
+        $scope.showMappingMessage = false;
+        $scope.saveStatus = {
+            type: "",
+            message: ""
+        }
+        console.log('mapping changed!');
+    }, true);
+    $scope.clearTargets = function() {
+        $scope.currentMapping.to.conceptSet = [];
+    };
+    
     // Mapping database requests
     $scope.mappingTargets = 'all';
     $scope.showMappingTargetSelection = false;
@@ -440,7 +495,7 @@ cocoda.controller('myController',[
     // SKOS-MAPPING-COLLECTION/TABLE/OCCURRENCES TO SKOS-CONCEPT-MAPPING
     
     // used in mapping templates to transfer existing mappings into active state
-    $scope.insertMapping = function(mapping){
+    $scope.insertMapping = function(mapping, scheme){
         //complete mappings
         if(mapping.from && mapping.to){
             if(mapping.from.inScheme[0].notation == $scope.activeView.origin && mapping.to.inScheme[0].notation == $scope.activeView.target){
@@ -448,7 +503,7 @@ cocoda.controller('myController',[
             }
             // $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
         // single target terms
-        }else if(mapping.notation){
+        }else if(mapping.notation && scheme == $scope.activeView.target){
             var dupes = false;
             angular.forEach($scope.currentMapping.to.conceptSet, function(value,key){
                 if(value.notation[0] == mapping.notation[0]){
@@ -463,24 +518,12 @@ cocoda.controller('myController',[
     };
     // SKOS-MAPPING-COLLECTION/TABLE/OCCURRENCES TO SKOS-CONCEPT
     
-    $scope.lookUpMapping = function(mapping){
-        $scope.reselectTargetConcept(mapping);
+    $scope.lookUpMapping = function(mapping, scheme){
+        if(scheme == $scope.activeView.target){
+            $scope.reselectTargetConcept(mapping);
+        }
     };
     // SKOS-OCCURRENCES TO SKOS-CONCEPT-MAPPING
-    
-    
-    // scope for the created mapping
-    $scope.currentMapping = {
-        from:{
-            conceptSet: []
-        },
-        to:{
-            conceptSet: []
-        },
-        type: '',
-        source: '',
-        timestamp: ''
-    };
     
     // SKOS-CONCEPT TO SKOS-CONCEPT-MAPPING FUNCTIONS
     

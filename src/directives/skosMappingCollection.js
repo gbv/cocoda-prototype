@@ -73,7 +73,8 @@ angular.module('ngSKOS')
             mappings: '=skosMappingCollection',
             useMapping: '=useMapping',
             lookUp: '=lookUpMapping',
-            language: '=language'
+            language: '=language',
+            schemes: '=activeSchemes'
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
