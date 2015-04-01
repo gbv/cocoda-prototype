@@ -335,6 +335,7 @@ cocoda.controller('myController',[
             }else{
                 $scope.retrievedMapping = [];
             }
+            $scope.retrievedOccurrences = angular.copy($scope.occurrencesSample);
         }else{
             $scope.retrievedMapping = [];
         }
@@ -386,7 +387,7 @@ cocoda.controller('myController',[
     
     // show/hide top concepts
     $scope.showTopConcepts = {
-        origin:true,
+        origin:false,
         target:false
     };
     $scope.language = "en";

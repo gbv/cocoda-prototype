@@ -124,12 +124,12 @@
                                     <div class="tmpl-border">
                                         <div skos-concept="originConcept" skos-click="clickOriginConcept" language="language"></div>
                                         <span class="concept-buttons">
-                                            <button ng-click="saveFrom(activeView.origin, originConcept)" title="Use term" accesskey="u">
-                                                <span>Use</span>
+                                            <button ng-click="saveFrom(activeView.origin, originConcept)" title="Select concept for mapping" accesskey="u">
+                                                <span>Map</span>
                                                 <i class="glyphicon glyphicon-share-alt"></i>
                                             </button>
                                             <button ng-disabled="activeView.origin != 'DDC'" ng-click="requestMappings(mappingTargets)">
-                                                <span>Look up mappings</span>
+                                                <span>Look up database</span>
                                                 <i class="glyphicon glyphicon-stats"></i>
                                             </button>
                                             <select ng-disabled="activeView.origin != 'DDC'" ng-model="mappingTargets">
@@ -180,11 +180,11 @@
                                     </div>
                                 </div>
                             <!-- Occurrences display -->
-                            <!--
-                                <div ng-if="occurrencesSample" class="tmpl-border" style="">
-                                    <div style="overflow:auto" skos-occurrences="occurrencesSample" select-occurrence="insertMapping" look-up-occurrence="lookUpMapping" language="language"></div>
+                            
+                                <div ng-if="retrievedOccurrences.length" class="tmpl-border" style="">
+                                    <div style="overflow:auto" skos-occurrences="retrievedOccurrences" select-occurrence="insertMapping" look-up-occurrence="lookUpMapping" language="language"></div>
                                 </div>
-                            -->
+                            
                             </div>
                         </div>
                     </div>
@@ -256,11 +256,11 @@
                                     <div class="tmpl-border">
                                         <div skos-concept="targetConcept" skos-click="clickTargetConcept" language="language"></div>
                                         <span class="concept-buttons">
-                                            <button ng-disabled="checkDuplicate()" ng-click="addTo(activeView.target, targetConcept)" title="Add target term">
+                                            <button ng-disabled="checkDuplicate()" ng-click="addTo(activeView.target, targetConcept)" title="Add target concept">
                                                 <span>Add</span>
                                                 <i class="glyphicon glyphicon-plus"></i>
                                             </button>
-                                            <button ng-click="replaceTo(activeView.target, targetConcept)" title="Replace current terms">
+                                            <button ng-click="replaceTo(activeView.target, targetConcept)" title="Replace current concepts">
                                                 <span>Replace all</span>
                                                 <i class="glyphicon glyphicon-share-alt"></i>
                                             </button>
