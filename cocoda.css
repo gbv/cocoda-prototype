@@ -52,6 +52,10 @@
     font-weight:bold;
     font-size:1.2em;
 }
+.skos-mapping-cell{
+    vertical-align:middle !important;
+    text-align:center;
+}
 .context{
     margin-top:10px;
     width:100%;

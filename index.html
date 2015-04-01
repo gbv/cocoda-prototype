@@ -82,39 +82,49 @@
                                 <accordion>
                                     <accordion-group is-open="showOriginSearch" style="overflow:visible;">
                                         <accordion-heading>
-                                            <b>Search Tools</b>
+                                            <b>Search Options</b>
                                             <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showOriginSearch, 'glyphicon-chevron-right': !showOriginSearch}"></i>
                                         </accordion-heading>
+                                        <div style="margin:5px 3px;">
+                                            <span>Search by:</span>
+                                            <button ng-click="searchMode.origin = 'Label'">
+                                                Label
+                                            </button>
+                                            <button ng-click="searchMode.origin = 'Notation'">
+                                                Notation
+                                            </button>
+                                        </div>
                                         <div style="position:relative;">
-                                            <input class="form-control"
-                                                    suggest-typeahead="SuggestConcept(activeView.origin)"
-                                                    typeahead-on-select="selectOriginSubject($item)"
-                                                    ng-model="originSubject"
-                                                    placeholder="Search by terms (typeahead)"
-                                                    typeahead-loading="loadingLocations"
-                                                    typeahead-editable="false"
-                                                    tabindex=1 
-                                                    autofocus 
-                                                    accesskey="s"
-                                            />
-                                            <span ng-show="loadingLocations" class="typeahead-loading-right"><i class="glyphicon glyphicon-refresh"></i></span>
-                                            <div style="padding-top:8px;">
-                                                <span style="font-size:1.4em;font-weight:bold;">OR</span>
+                                            <div ng-if="searchMode.origin == 'Label'">
+                                                <input class="form-control"
+                                                        suggest-typeahead="SuggestConcept(activeView.origin)"
+                                                        typeahead-on-select="selectOriginSubject($item)"
+                                                        ng-model="originSubject"
+                                                        placeholder="Search by terms (typeahead)"
+                                                        typeahead-loading="loadingLocations"
+                                                        typeahead-editable="false"
+                                                        tabindex=1 
+                                                        autofocus 
+                                                        accesskey="s"
+                                                />
+                                                <span ng-show="loadingLocations" class="typeahead-loading-right"><i class="glyphicon glyphicon-refresh"></i></span>
                                             </div>
-                                            <div style="overflow:hidden;" class="search-top">
-                                                <form ng-submit="reselectOriginConcept(originNotation)">
-                                                    <span style="float:left;">
-                                                        <input class="form-control search-top-input"
-                                                            ng-model="originNotation.notation"
-                                                            placeholder="Enter full notation"
-                                                            tabindex=3 
-                                                            accesskey="n"
-                                                        />
-                                                    </span>
-                                                    <button type="submit" class="search-top-button" ng-disabled="!originNotation.notation.length" />
-                                                        <span class="glyphicon glyphicon-search"></span>
-                                                    </button>
-                                                </form>
+                                            <div ng-if="searchMode.origin == 'Notation'">
+                                                <div style="overflow:hidden;">
+                                                    <form ng-submit="reselectOriginConcept(originNotation)">
+                                                            <input class="form-control"
+                                                                ng-model="originNotation.notation"
+                                                                placeholder="Enter full notation"
+                                                                tabindex=3 
+                                                                accesskey="n"
+                                                            />
+                                                        <!--
+                                                        <button type="submit" class="search-top-button" ng-disabled="!originNotation.notation.length" />
+                                                            <span class="glyphicon glyphicon-search"></span>
+                                                        </button>
+                                                        -->
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </accordion-group>
@@ -123,20 +133,22 @@
                                 <div ng-if="activeView.origin.length && originConcept">
                                     <div class="tmpl-border">
                                         <div skos-concept="originConcept" skos-click="clickOriginConcept" language="language"></div>
-                                        <span class="concept-buttons">
+                                        <div class="concept-buttons">
                                             <button ng-click="saveFrom(activeView.origin, originConcept)" title="Select concept for mapping" accesskey="u">
                                                 <span>Map</span>
                                                 <i class="glyphicon glyphicon-share-alt"></i>
                                             </button>
-                                            <button ng-disabled="activeView.origin != 'DDC'" ng-click="requestMappings(mappingTargets)">
-                                                <span>Look up database</span>
-                                                <i class="glyphicon glyphicon-stats"></i>
-                                            </button>
-                                            <select ng-disabled="activeView.origin != 'DDC'" ng-model="mappingTargets">
-                                                <option selected>all</option>
-                                                <option ng-repeat="s in schemes" ng-if="s.name != activeView.origin"><span>{{s.name}}</span></option>
-                                            </select>
-                                        </span>
+                                            <div style="display:inline-block;">
+                                                <button ng-disabled="activeView.origin != 'DDC'" ng-click="requestMappings(mappingTargets)">
+                                                    <span>Look up database</span>
+                                                    <!-- <i class="glyphicon glyphicon-stats"></i> -->
+                                                </button>
+                                                <select ng-disabled="activeView.origin != 'DDC'" ng-model="mappingTargets" style="margin-top:10px;">
+                                                    <option selected>all</option>
+                                                    <option ng-repeat="s in schemes" ng-if="s.name != activeView.origin"><span>{{s.name}}</span></option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -150,11 +162,13 @@
                                             <b>Top Concepts</b>
                                             <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTopConcepts.origin, 'glyphicon-chevron-right': !showTopConcepts.origin}"></i>
                                         </accordion-heading>
-                                        <skos-list concepts="topOriginConcept.values"
-                                            show-labels="true" 
-                                            language="language" 
-                                            on-select="reselectOriginConcept">
-                                        </skos-list>
+                                        <div style="max-height:220px;overflow:auto;">
+                                            <skos-list concepts="topOriginConcept.values"
+                                                show-labels="true" 
+                                                language="language" 
+                                                on-select="reselectOriginConcept">
+                                            </skos-list>
+                                        </div>
                                     </accordion-group>
                                 </accordion>
                             </div>
@@ -211,10 +225,10 @@
                         </div>
                         <!-- context templates -->
                         <div class="context">
-                            <div class="context-body" style="overflow:hidden">
+                            <div class="context-body" style="">
                                 <!-- Existing mappings templates -->
                                 <div style="width:100%;margin:0px auto;">
-                                    <div ng-if="retrievedMapping.length" class="tmpl-border" style="">
+                                    <div ng-if="retrievedMapping.length" class="tmpl-border" style="overflow:auto;">
                                         <div use-mapping="insertMapping" 
                                             active-schemes="activeView" 
                                             skos-mapping-collection="retrievedMapping" 
@@ -224,7 +238,7 @@
                                 </div>
                             <!-- Occurrences display -->
                             
-                                <div ng-if="retrievedOccurrences.length" class="tmpl-border" style="">
+                                <div ng-if="retrievedOccurrences" class="tmpl-border" style="">
                                     <div style="overflow:auto" skos-occurrences="retrievedOccurrences" select-occurrence="insertMapping" look-up-occurrence="lookUpMapping" language="language"></div>
                                 </div>
                             
@@ -260,35 +274,43 @@
                                 <accordion>
                                     <accordion-group is-open="showTargetSearch" style="overflow:visible;">
                                         <accordion-heading>
-                                            <b>Search Tools</b>
+                                            <b>Search Options</b>
                                             <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTargetSearch, 'glyphicon-chevron-right': !showTargetSearch}"></i>
                                         </accordion-heading>
+                                        <div style="margin:5px 3px;">
+                                            <span>Search by:</span>
+                                            <button ng-click="searchMode.target = 'Label'">
+                                                Label
+                                            </button>
+                                            <button ng-click="searchMode.target = 'Notation'">
+                                                Notation
+                                            </button>
+                                        </div>
                                         <div style="position:relative;">
-                                            <input class="form-control"
-                                                suggest-typeahead="SuggestConcept(activeView.target)"
-                                                typeahead-on-select="selectTargetSubject($item)"
-                                                ng-model="targetSubject"
-                                                placeholder="Search by terms (typeahead)"
-                                                typeahead-loading="loadingLocations"
-                                                typeahead-editable="false"
-                                                tabindex=2
-                                            />
-                                            <span ng-show="loadingLocations" class="typeahead-loading-right"><i class="glyphicon glyphicon-refresh"></i></span>
-                                            <div style="padding-top:8px;">
-                                                <span style="font-size:1.4em;font-weight:bold;">OR</span>
+                                            <div ng-if="searchMode.target == 'Label'">
+                                                <input class="form-control"
+                                                    suggest-typeahead="SuggestConcept(activeView.target)"
+                                                    typeahead-on-select="selectTargetSubject($item)"
+                                                    ng-model="targetSubject"
+                                                    placeholder="Search by terms (typeahead)"
+                                                    typeahead-loading="loadingLocations"
+                                                    typeahead-editable="false"
+                                                    tabindex=2
+                                                />
+                                                <span ng-show="loadingLocations" class="typeahead-loading-right"><i class="glyphicon glyphicon-refresh"></i></span>
                                             </div>
-                                            <div class="search-top" style="white-space: nowrap;">
+                                            <div ng-if="searchMode.target == 'Notation'" >
                                                 <form ng-submit="reselectTargetConcept(targetNotation)">
-                                                    <span style="float:left;">
-                                                        <input class="form-control search-top-input"
+                                                        <input class="form-control"
                                                             ng-model="targetNotation.notation"
                                                             placeholder="Enter full notation"
                                                             tabindex=4
                                                         />
-                                                    </span>
+                                                    <!--
                                                     <button type="submit" class="search-top-button" ng-disabled="!targetNotation.notation.length">
                                                         <span class="glyphicon glyphicon-search"></span>
                                                     </button>
+                                                    -->
                                                 </form>
                                             </div>
                                         </div>
@@ -326,11 +348,13 @@
                                             <b>Top Concepts</b>
                                             <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTopConcepts.target, 'glyphicon-chevron-right': !showTopConcepts.target}"></i>
                                         </accordion-heading>
-                                        <skos-list concepts="topTargetConcept.values"
-                                            show-labels="true"
-                                            language="language"
-                                            on-select="reselectTargetConcept">
-                                        </skos-list>
+                                        <div style="max-height:220px;overflow:auto;">
+                                            <skos-list concepts="topTargetConcept.values"
+                                                show-labels="true"
+                                                language="language"
+                                                on-select="reselectTargetConcept">
+                                            </skos-list>
+                                        </div>
                                     </accordion-group>
                                 </accordion>
                             </div>

@@ -318,6 +318,10 @@ cocoda.controller('myController',[
         origin: 'GND',
         target: 'RVK'
     };
+    $scope.searchMode = {
+        origin: "Label",
+        target: "Label"
+    }
     // source scheme selection behavior
     $scope.setOrigin = function(scheme) {
         if(scheme == ''){
