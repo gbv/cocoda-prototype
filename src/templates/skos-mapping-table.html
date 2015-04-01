@@ -39,13 +39,13 @@
                         <div class="skos-mapping-target" style="">
                             <span ng-if="t.prefLabel" class="notation" popover="{{popOverTitle(t.prefLabel)}}" popover-trigger="mouseenter">{{t.notation[0]}}</span>
                             <span ng-if="!t.prefLabel" class="notation">{{t.notation[0]}}</span>
-                            <a ng-if="lookup" title="Look up concept" class="action-icon" style="vertical-align:middle;">
-                                <span ng-click="lookup(t)">
+                            <a ng-if="lookup" ng-class="{ 'link-disabled': m.to.inScheme[0].notation != schemes.target }" title="Look up concept" class="action-icon" style="vertical-align:middle;">
+                                <span ng-click="lookup(t, m.to.inScheme[0].notation)">
                                     <span style="top:2px;" class="glyphicon glyphicon-info-sign"></span>
                                 </span>
                             </a>
-                            <a ng-if="select" title="Add concept to mapping" class="action-icon" style="vertical-align:middle;">
-                                <span ng-click="select(t)">
+                            <a ng-if="select" ng-class="{ 'link-disabled': m.to.inScheme[0].notation != schemes.target }" title="Add concept to mapping" class="action-icon" style="vertical-align:middle;">
+                                <span ng-click="select(t, m.to.inScheme[0].notation)">
                                     <span style="" class="glyphicon glyphicon-plus"></span>
                                 </span>
                             </a>
@@ -57,8 +57,8 @@
             <td class="skos-mapping-cell" style="vertical-align:middle;"><span>{{m.creator}}</span></td>
             <td class="skos-mapping-cell" style="vertical-align:middle;max-width:100px;"><span>{{m.timestamp}}</span></td>
             <td ng-if="select" style="vertical-align:middle;" class="skos-mapping-cell">
-                <a style="cursor:pointer" ng-click="select(m)" title="Select mapping">
-                    <span class="glyphicon glyphicon-open"></span>
+                <a style="cursor:pointer;text-decoration:none;" ng-class="{ 'link-disabled': m.to.inScheme[0].notation != schemes.target }" ng-click="select(m)" title="Select this mapping">
+                    <span>Use mapping</span>
                 </a>
             </td>
         </tr>

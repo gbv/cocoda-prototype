@@ -74,7 +74,8 @@ angular.module('ngSKOS')
             mapping: '=skosMappingTable',
             select: '=selectMapping',
             lookup: '=lookupMapping',
-            lang: '=language'
+            lang: '=language',
+            schemes:'=activeSchemes'
         },
         templateUrl: function(elem, attrs) {
             return attrs.templateUrl ?
@@ -92,6 +93,7 @@ angular.module('ngSKOS')
                     }
                 }
             });
+            scope.$watch('schemes');
         },
         controller: function($scope) {
             $scope.predicate = '-timestamp';

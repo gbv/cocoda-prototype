@@ -226,7 +226,48 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
     };
     
     this.ddc = {
-        name: 'DDC'
+        name: 'DDC',
+        getConcept: new SkosConceptSource({
+            url:"http://esx-151.gbv.de/?view=notation&key={notation}",
+            transform: function(item){
+                var c = item[0].value;
+                var concept = {
+                    notation: c.notation,
+                    prefLabel: c.prefLabel,
+                    broader: c.broader
+                };
+                return concept;
+            },
+            jsonp: true
+        }),
+
+        getNarrower: new SkosConceptSource({
+            url:"http://esx-151.gbv.de/?view=broader&key={notation}",
+            transform: function(item){
+                var concept = {
+                    narrower: []
+                }
+                angular.forEach(item, function(nterm){
+                    concept.narrower.push({ notation: nterm.value.notation, prefLabel: nterm.value.prefLabel });
+                });  
+                return concept;
+            },
+            jsonp: true
+        }),
+        suggest: new OpenSearchSuggestions({
+            url: "http://esx-151.gbv.de/?view=prefLabel&key=",
+            transform: function(response) {
+                return {
+                    values: response.map(function(s) {
+                        return {
+                            label: s.key,
+                            notation: s.value.notation[0]
+                        };
+                    }),
+                };
+            },
+            jsonp: true
+        }),
     };
     
     this.wikidata = {
@@ -255,9 +296,14 @@ cocoda.controller('myController',[
 
     $scope.gndSubjectConcept = cocodaSchemes.gnd.getConcept;
     $scope.rvkSubjectConcept = cocodaSchemes.rvk.getConcept;
+    $scope.ddcSubjectConcept = cocodaSchemes.ddc.getConcept;
 
     $scope.rvkNarrowerConcepts = cocodaSchemes.rvk.getNarrower;
     $scope.rvkBroaderConcepts = cocodaSchemes.rvk.getBroader;
+    
+    $scope.ddcNarrowerConcepts = cocodaSchemes.ddc.getNarrower;
+    $scope.ddcBroaderConcepts = cocodaSchemes.ddc.getBroader;
+    
 
     // NG-SUGGEST & NAVBAR FUNCTIONALITY
     $scope.showTargetSearch = false;
@@ -308,7 +354,7 @@ cocoda.controller('myController',[
             $scope.activeView.target = scheme;
             $scope.targetConcept = "";
             $scope.targetSubject = "";
-            $scope.deleteAll();
+            $scope.clearTargets();
             $scope.changeTopTarget(scheme);
         }
     };
@@ -319,6 +365,61 @@ cocoda.controller('myController',[
             return $scope.schemes[scheme].suggest;
         }
     };
+    // scope for the created mapping
+    $scope.currentMapping = {
+        from:{
+            conceptSet: []
+        },
+        to:{
+            conceptSet: []
+        },
+        type: '',
+        source: '',
+        timestamp: ''
+    };
+    // Save current mapping
+    $scope.lastSavedMapping = {};
+    $scope.saveStatus = {
+        type: "",
+        message: ""
+    }
+    $scope.showMappingMessage = false;
+    $scope.mappingURL = "http://esx-151.gbv.de/mapping/insert";
+    $scope.SaveCurrentMapping = function() {
+        if($scope.loggedIn === true){
+            $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
+            $http.post($scope.mappingURL, $scope.currentMapping)
+            .success(function(data, status, headers, config) {
+                $scope.lastSavedMapping = angular.copy($scope.currentMapping);
+                $scope.saveStatus = {
+                    type: status,
+                    success: true,
+                    message: "Mapping Saved!"
+                }
+                $scope.showMappingMessage = true;
+            })
+            . error(function(data, status, headers, config) {
+                $scope.saveStatus = {
+                    type: status,
+                    success: false,
+                    message: "Saving Failed!"
+                }
+                $scope.showMappingMessage = true;
+            });
+        }
+    }
+    $scope.$watch('currentMapping', function(){
+        $scope.showMappingMessage = false;
+        $scope.saveStatus = {
+            type: "",
+            message: ""
+        }
+        console.log('mapping changed!');
+    }, true);
+    $scope.clearTargets = function() {
+        $scope.currentMapping.to.conceptSet = [];
+    };
+    
     // Mapping database requests
     $scope.mappingTargets = 'all';
     $scope.showMappingTargetSelection = false;
@@ -395,7 +496,7 @@ cocoda.controller('myController',[
     // SKOS-MAPPING-COLLECTION/TABLE/OCCURRENCES TO SKOS-CONCEPT-MAPPING
     
     // used in mapping templates to transfer existing mappings into active state
-    $scope.insertMapping = function(mapping){
+    $scope.insertMapping = function(mapping, scheme){
         //complete mappings
         if(mapping.from && mapping.to){
             if(mapping.from.inScheme[0].notation == $scope.activeView.origin && mapping.to.inScheme[0].notation == $scope.activeView.target){
@@ -403,7 +504,7 @@ cocoda.controller('myController',[
             }
             // $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
         // single target terms
-        }else if(mapping.notation){
+        }else if(mapping.notation && scheme == $scope.activeView.target){
             var dupes = false;
             angular.forEach($scope.currentMapping.to.conceptSet, function(value,key){
                 if(value.notation[0] == mapping.notation[0]){
@@ -418,24 +519,12 @@ cocoda.controller('myController',[
     };
     // SKOS-MAPPING-COLLECTION/TABLE/OCCURRENCES TO SKOS-CONCEPT
     
-    $scope.lookUpMapping = function(mapping){
-        $scope.reselectTargetConcept(mapping);
+    $scope.lookUpMapping = function(mapping, scheme){
+        if(scheme == $scope.activeView.target){
+            $scope.reselectTargetConcept(mapping);
+        }
     };
     // SKOS-OCCURRENCES TO SKOS-CONCEPT-MAPPING
-    
-    
-    // scope for the created mapping
-    $scope.currentMapping = {
-        from:{
-            conceptSet: []
-        },
-        to:{
-            conceptSet: []
-        },
-        type: '',
-        source: '',
-        timestamp: ''
-    };
     
     // SKOS-CONCEPT TO SKOS-CONCEPT-MAPPING FUNCTIONS
     
@@ -594,6 +683,39 @@ cocoda.controller('myController',[
                 notation: [ item.notation ],
                 uri: item.uri,
                 prefLabel: item.prefLabel ? item.prefLabel : "",
+                broader: []
+            };
+            // update concept
+            $scope.ddcSubjectConcept.updateConcept($scope.originConcept).then(function(){
+                $scope.tbConcept = angular.copy($scope.originConcept.broader[0]);  
+            }).then(function(){
+                console.log($scope.tbConcept);
+                $scope.ddcSubjectConcept.updateConcept($scope.tbConcept).then(function(){
+                    $scope.originConcept.broader[0] = angular.copy($scope.tbConcept);
+                });
+            }).then(function(){
+                $scope.tnConcept = angular.copy($scope.originConcept);
+                console.log($scope.originConcept);
+            }).then(function(){
+                $scope.ddcNarrowerConcepts.updateConcept($scope.tnConcept).then(function(){
+                    $scope.originConcept.narrower = angular.copy($scope.tnConcept.narrower);
+                });
+            })
+            $scope.clickOriginConcept = function(concept) {
+                
+                $scope.ddcSubjectConcept.updateConcept($scope.originConcept = concept ).then(function(){
+                    $scope.tbConcept = angular.copy($scope.originConcept.broader[0]);
+                }).then(function(){
+                    $scope.ddcSubjectConcept.updateConcept($scope.tbConcept).then(function(){
+                        $scope.originConcept.broader[0] = angular.copy($scope.tbConcept);
+                    });
+                }).then(function(){
+                    $scope.tnConcept = angular.copy($scope.originConcept);
+                }).then(function(){
+                    $scope.ddcNarrowerConcepts.updateConcept($scope.tnConcept).then(function(){
+                        $scope.originConcept.narrower = angular.copy($scope.tnConcept.narrower);
+                    });
+                })
             };
         }
     };
@@ -671,6 +793,45 @@ cocoda.controller('myController',[
 
                     }
                 });
+            };
+        }else if($scope.activeView.target == 'DDC'){
+            
+            $scope.targetConcept = {
+                notation: [ item.notation ],
+                uri: item.uri,
+                prefLabel: item.prefLabel ? item.prefLabel : "",
+                broader: []
+            };
+            // update concept
+            $scope.ddcSubjectConcept.updateConcept($scope.targetConcept).then(function(){
+                $scope.tbConcept = angular.copy($scope.targetConcept.broader[0]);  
+            }).then(function(){
+                $scope.ddcSubjectConcept.updateConcept($scope.tbConcept).then(function(){
+                    $scope.targetConcept.broader[0] = angular.copy($scope.tbConcept);
+                });
+            }).then(function(){
+                $scope.tnConcept = angular.copy($scope.targetConcept);
+            }).then(function(){
+                $scope.ddcNarrowerConcepts.updateConcept($scope.tnConcept).then(function(){
+                    $scope.targetConcept.narrower = angular.copy($scope.tnConcept.narrower);
+                });
+            })
+            $scope.clickTargetConcept = function(concept) {
+                
+                $scope.ddcSubjectConcept.updateConcept($scope.targetConcept = concept ).then(function(){
+                    $scope.tbConcept = angular.copy($scope.targetConcept.broader[0]);  
+                    console.log($scope.tbConcept);
+                }).then(function(){
+                    $scope.ddcSubjectConcept.updateConcept($scope.tbConcept).then(function(){
+                        $scope.targetConcept.broader[0] = angular.copy($scope.tbConcept);
+                    });
+                }).then(function(){
+                    $scope.tnConcept = angular.copy($scope.targetConcept);
+                }).then(function(){
+                    $scope.ddcNarrowerConcepts.updateConcept($scope.tnConcept).then(function(){
+                        $scope.targetConcept.narrower = angular.copy($scope.tnConcept.narrower);
+                    });
+                })
             };
         }
     };
