@@ -1,0 +1,22 @@
+{
+    "conceptSet":[
+        {
+            "notation": ["WW 8840 - WW 8879"],
+            "prefLabel": {
+                "de":"Blutkörperchen (Erythrozyt, Leukozyt), Hämoglobin"
+            }
+        },
+        {
+            "notation": ["WW 8720 - WW 8999"],
+            "prefLabel": {
+                "de": "Blut und Blutbestandteile"
+            }
+        },
+        {
+            "notation": ["WW 8845 - WW 8879"],
+            "prefLabel":{
+                "de": "Systematische Spezifizierung"
+            }
+        }
+    ]
+}

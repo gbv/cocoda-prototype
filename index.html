@@ -88,7 +88,7 @@
                                         <div style="margin:5px 3px;">
                                             <span>Search by:</span>
                                             <button ng-click="searchMode.origin = 'Label'">
-                                                Label
+                                                Term
                                             </button>
                                             <button ng-click="searchMode.origin = 'Notation'">
                                                 Notation
@@ -177,71 +177,109 @@
                 </div>
         <!-- Middle/Mapping and context column -->
                 <div class="col-md-6" style="overflow:visible">
-                    <div>
-                        <!-- Active mapping template -->
-                        <div class="tmpl-border" style="width:100%;min-height:140px;">
-                            <div skos-concept-mapping="currentMapping"
-                                select-origin-concept="reselectOriginConcept"
-                                select-target-concept="reselectTargetConcept"
-                                mapping-from="activeView.origin"
-                                mapping-to="activeView.target">
+                    <!-- Active mapping template -->
+                    <div class="panel panel-default" style="margin-bottom:0px;">
+                        <div class="panel-heading">
+                            <div class="mapping-header">
+                                <span>Active Mapping</span>
                             </div>
-                            <div ng-if="currentMapping.from.conceptSet.length && currentMapping.to.conceptSet.length">
-                                <div style="width:95%;margin:0 auto;">
-                                    <div style="float:right;margin-top:10px;">
-                                        <button ng-if="loggedIn" 
-                                                ng-click="SaveCurrentMapping()" 
-                                                ng-disabled="!currentMapping.from.conceptSet.length || !currentMapping.to.conceptSet.length" 
-                                                title="Save current mapping" 
-                                                accesskey="s">
-                                            <span style="margin-right:5px;">Save</span>
-                                            <span class="glyphicon glyphicon-save"></span>
-                                        </button>
-                                    </div>
-                                    <div ng-if="currentMapping.to.conceptSet.length" 
-                                        style="float:right;margin-top:10px;margin-right:10px;">
-                                        <button ng-click="clearTargets()" 
-                                                title="Clear all target mappings"
-                                                accesskey="c">
-                                            <span style="margin-right:5px;">Clear all</span>
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </button>
-                                    </div>
-                                    <div ng-if="mapping.timestamp && mapping.to.length" 
-                                        style="float:right;margin-top:13px;margin-right:15px;">
-                                        Created: <span>{{mapping.timestamp}}</span>
-                                    </div>
-                                    <div ng-if="showMappingMessage" style="float:left;margin-top:5px;">
-                                        <alert ng-if="saveStatus.success === true" type="success">
-                                            <span>{{saveStatus.message}}</span>
-                                        </alert>
-                                        <alert ng-if="saveStatus.success === false" type="danger">
-                                            <span>{{saveStatus.message}}</span>
-                                            <span> (Status: {{saveStatus.type}})</span>
-                                        </alert>
+                        </div>
+                        <div class="panel-body>">
+                            <div class="tmpl-border" style="width:100%;min-height:140px;">
+                                <div skos-concept-mapping="currentMapping"
+                                    select-origin-concept="reselectOriginConcept"
+                                    select-target-concept="reselectTargetConcept"
+                                    mapping-from="activeView.origin"
+                                    mapping-to="activeView.target">
+                                </div>
+                                <div ng-if="currentMapping.from.conceptSet.length && currentMapping.to.conceptSet.length">
+                                    <div style="width:95%;margin:0 auto;">
+                                        <div style="float:right;margin-top:10px;">
+                                            <button ng-if="loggedIn" 
+                                                    ng-click="SaveCurrentMapping()" 
+                                                    ng-disabled="!currentMapping.from.conceptSet.length || !currentMapping.to.conceptSet.length" 
+                                                    title="Save current mapping" 
+                                                    accesskey="s">
+                                                <span style="margin-right:5px;">Save</span>
+                                                <span class="glyphicon glyphicon-save"></span>
+                                            </button>
+                                        </div>
+                                        <div ng-if="currentMapping.to.conceptSet.length" 
+                                            style="float:right;margin-top:10px;margin-right:10px;">
+                                            <button ng-click="clearTargets()" 
+                                                    title="Clear all target mappings"
+                                                    accesskey="c">
+                                                <span style="margin-right:5px;">Clear all</span>
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            </button>
+                                        </div>
+                                        <div ng-if="mapping.timestamp && mapping.to.length" 
+                                            style="float:right;margin-top:13px;margin-right:15px;">
+                                            Created: <span>{{mapping.timestamp}}</span>
+                                        </div>
+                                        <div ng-if="showMappingMessage" style="float:left;margin-top:5px;">
+                                            <alert ng-if="saveStatus.success === true" type="success">
+                                                <span>{{saveStatus.message}}</span>
+                                            </alert>
+                                            <alert ng-if="saveStatus.success === false" type="danger">
+                                                <span>{{saveStatus.message}}</span>
+                                                <span> (Status: {{saveStatus.type}})</span>
+                                            </alert>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- context templates -->
-                        <div class="context">
-                            <div class="context-body" style="">
-                                <!-- Existing mappings templates -->
-                                <div style="width:100%;margin:0px auto;">
-                                    <div ng-if="retrievedMapping.length" class="tmpl-border" style="overflow:auto;">
-                                        <div use-mapping="insertMapping" 
-                                            active-schemes="activeView" 
-                                            skos-mapping-collection="retrievedMapping" 
-                                            look-up-mapping="lookUpMapping" 
-                                            language="language"></div>
-                                    </div>
+                    </div>
+                    <!-- context templates -->
+                    <div class="context">
+                        <div class="context-body">
+                        
+                        <!-- Existing mappings templates -->
+                        
+                            <div style="width:100%;margin:0px auto;">
+                                <div ng-if="retrievedMapping.length" class="tmpl-border">
+                                    <div use-mapping="insertMapping" 
+                                        active-schemes="activeView" 
+                                        skos-mapping-collection="retrievedMapping" 
+                                        look-up-mapping="lookUpMapping" 
+                                        language="language"></div>
                                 </div>
-                            <!-- Occurrences display -->
+                            </div>
                             
-                                <div ng-if="retrievedOccurrences" class="tmpl-border" style="">
-                                    <div style="overflow:auto" skos-occurrences="retrievedOccurrences" select-occurrence="insertMapping" look-up-occurrence="lookUpMapping" language="language"></div>
-                                </div>
+                        <!-- Occurrences display -->
+                        
+                            <div ng-if="retrievedOccurrences" class="tmpl-border" style="float:left;">
+                                <div style="overflow:auto" skos-occurrences="retrievedOccurrences" select-occurrence="insertMapping" look-up-occurrence="lookUpMapping" language="language"></div>
+                            </div>
                             
+                        <!-- Suggestions display -->
+                        
+                            <div ng-if="retrievedSuggestions" class="tmpl-border" style="float:left;margin-left:20px;margin-bottom:0px;">
+                                <accordion>
+                                    <accordion-group is-open="showSuggestions">
+                                        <accordion-heading>
+                                            <b>Suggested Target Concepts</b>
+                                            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showSuggestions, 'glyphicon-chevron-right': !showSuggestions}"></i>
+                                        </accordion-heading>
+                                        <ul class="simple-list">
+                                            <li ng-repeat="c in retrievedSuggestions.conceptSet">
+                                                <span skos-label="c.prefLabel"></span>
+                                                    <a title="Select concept" class="action-icon" style="vertical-align:middle;">
+                                                        <span ng-click="lookUpMapping(c)">
+                                                            <span style="top:2px;" class="glyphicon glyphicon-info-sign"></span>
+                                                        </span>
+                                                    </a>
+                                                    <a title="Add concept to mapping" class="action-icon" style="vertical-align:middle;">
+                                                        <span ng-click="insertMapping(c)">
+                                                            <span style="" class="glyphicon glyphicon-plus"></span>
+                                                        </span>
+                                                    </a>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </accordion-group>
+                                </accordion>
                             </div>
                         </div>
                     </div>
@@ -280,7 +318,7 @@
                                         <div style="margin:5px 3px;">
                                             <span>Search by:</span>
                                             <button ng-click="searchMode.target = 'Label'">
-                                                Label
+                                                Term
                                             </button>
                                             <button ng-click="searchMode.target = 'Notation'">
                                                 Notation

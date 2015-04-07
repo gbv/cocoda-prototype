@@ -58,12 +58,13 @@
 }
 .context{
     margin-top:10px;
-    width:100%;
+    clear:both;
+    max-width:100%;
 }
 .tmpl-border {
     border:none;
     padding:10px 0px 5px 0px;
-    margin:5px 0px 10px 0px;
+    margin-bottom:0px !important;
     display:inline-block;
 }
 .scheme-dropdown{

@@ -18,6 +18,7 @@
                 "notation":["4074195-3"]
             } ]
         },
+        "mappingRelevance": 0.8,
         "mappingType": "closeMatch",
         "creator": "CrissCross"
     },
@@ -34,21 +35,9 @@
         "to": {
             "inScheme": [{"notation":"GND"}],
             "conceptSet": [ {
-                "uri": "http://d-nb.info/gnd/4074195-3",
-                "prefLabel": { "de": "Leukozyt" },
-                "notation":["4074195-3"]
-            },{
                 "uri": "http://d-nb.info/gnd/4141893-1",
                 "prefLabel": { "de": "Alkalische Leukozytenphosphatase" },
                 "notation":["4141893-1"]
-            },{
-                "uri": "http://d-nb.info/gnd/7606617-4",
-                "prefLabel": { "de": "Blutlymphozyt" },
-                "notation":["7606617-4"]
-            },{
-                "uri": "http://d-nb.info/gnd/4158047-3",
-                "prefLabel": { "de": "Granulozyt" },
-                "notation":["4158047-3"]
             },{
                 "uri": "http://d-nb.info/gnd/4227943-4",
                 "prefLabel": { "de": "Leukozytenadhäsion" },

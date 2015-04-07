@@ -19,6 +19,7 @@
             } ]
         },
         "mappingType": "closeMatch",
+        "mappingRelevance": 0.8,
         "creator": "CrissCross"
     },
 
@@ -34,10 +35,6 @@
         "to": {
             "inScheme": [{"notation":"GND"}],
             "conceptSet": [ {
-                "uri": "http://d-nb.info/gnd/4074195-3",
-                "prefLabel": { "de": "Leukozyt" },
-                "notation":["4074195-3"]
-            },{
                 "uri": "http://d-nb.info/gnd/4141893-1",
                 "prefLabel": { "de": "Alkalische Leukozytenphosphatase" },
                 "notation":["4141893-1"]

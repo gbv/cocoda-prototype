@@ -441,6 +441,8 @@ cocoda.controller('myController',[
                 $scope.retrievedMapping = [];
             }
             $scope.retrievedOccurrences = angular.copy($scope.occurrencesSample);
+            console.log($scope.rvkSuggestions);
+            $scope.retrievedSuggestions = angular.copy($scope.rvkSuggestions);
         }else{
             $scope.retrievedMapping = [];
         }
@@ -495,6 +497,8 @@ cocoda.controller('myController',[
         origin:false,
         target:false
     };
+    
+    $scope.showSuggestions = true;
     $scope.language = "en";
     
     // SKOS-MAPPING-COLLECTION/TABLE/OCCURRENCES TO SKOS-CONCEPT-MAPPING
@@ -508,23 +512,25 @@ cocoda.controller('myController',[
             }
             // $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
         // single target terms
-        }else if(mapping.notation && scheme == $scope.activeView.target){
-            var dupes = false;
-            angular.forEach($scope.currentMapping.to.conceptSet, function(value,key){
-                if(value.notation[0] == mapping.notation[0]){
-                    dupes = true;
+        }else if(mapping.notation){
+            if(scheme == $scope.activeView.target || !scheme){
+                var dupes = false;
+                angular.forEach($scope.currentMapping.to.conceptSet, function(value,key){
+                    if(value.notation[0] == mapping.notation[0]){
+                        dupes = true;
+                    }
+                });
+                if(dupes == false){
+                    $scope.currentMapping.to.conceptSet.push(mapping);
+                    $scope.currentMapping.timestamp = "";
                 }
-            });
-            if(dupes == false){
-                $scope.currentMapping.to.conceptSet.push(mapping);
-                $scope.currentMapping.timestamp = "";
             }
         }
     };
     // SKOS-MAPPING-COLLECTION/TABLE/OCCURRENCES TO SKOS-CONCEPT
     
     $scope.lookUpMapping = function(mapping, scheme){
-        if(scheme == $scope.activeView.target){
+        if(scheme == $scope.activeView.target || !scheme){
             $scope.reselectTargetConcept(mapping);
         }
     };
@@ -897,6 +903,7 @@ cocoda.run(function($rootScope,$http) {
         'data/ddc-all.json': 'mappingSampleDDC',
         'data/occurrences-1.json': 'occurrencesSample',
         'data/tree-1.json': 'treeSample',
+        'data/rvk-suggestions-1.json': 'rvkSuggestions'
     };
 
     angular.forEach(placeholders, function(name, file) {

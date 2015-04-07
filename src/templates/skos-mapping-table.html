@@ -1,4 +1,4 @@
-<table style="white-space:nowrap;margin:5px 0px;max-width:100%;" class="table table-hover table-condensed table-bordered">
+<table style="margin:5px 0px;max-width:100%;overflow:auto;" class="table table-hover table-condensed table-bordered">
     <thead>
         <tr>
             <th><span>Target Scheme</span></th>
@@ -24,7 +24,9 @@
             <th>
                 <span>Relevance</span>
             </th>
+            <!--
             <th ng-if="select"></th>
+            -->
         </tr>
     </thead>
     <tbody>
@@ -40,7 +42,7 @@
                 <ul class="simple-list" style="margin-bottom:0px;">
                     <li ng-repeat="t in m.to.conceptSet">
                         <div class="skos-mapping-target" style="">
-                            <span ng-if="t.prefLabel" class="notation" popover="{{popOverTitle(t.prefLabel)}}" popover-trigger="mouseenter">{{t.notation[0]}}</span>
+                            <span ng-if="t.prefLabel" title="{{t.notation[0]}}" skos-label="t.prefLabel"></span>
                             <span ng-if="!t.prefLabel" class="notation">{{t.notation[0]}}</span>
                             <a ng-if="lookup" ng-class="{ 'link-disabled': m.to.inScheme[0].notation != schemes.target }" title="Select concept" class="action-icon" style="vertical-align:middle;">
                                 <span ng-click="lookup(t, m.to.inScheme[0].notation)">
@@ -60,11 +62,13 @@
             <td class="skos-mapping-cell"><span>{{m.creator}}</span></td>
             <td class="skos-mapping-cell" style="max-width:100px;"><span style="">{{m.timestamp}}</span></td>
             <td class="skos-mapping-cell"><span>{{m.mappingRelevance}}</span></td>
+            <!--
             <td ng-if="select" class="skos-mapping-cell">
                 <a style="cursor:pointer;text-decoration:none;" ng-class="{ 'link-disabled': m.to.inScheme[0].notation != schemes.target }" ng-click="select(m)" title="Select this mapping">
                     <span>Use mapping</span>
                 </a>
             </td>
+            -->
         </tr>
     </tbody>
 </table>
