@@ -18,7 +18,8 @@
                 "notation":["4074195-3"]
             } ]
         },
-        "mappingRelevance": "0.8 (high)",
+        "mappingRelevance": "0.8",
+        "mappingType": "high",
         "creator": "CrissCross"
     },
 
@@ -52,7 +53,8 @@
             } ],
             "coordination": "OR"
         },
-        "mappingRelevance": "0.5 (medium)",
+        "mappingRelevance": 0.5,
+        "mappingType": "medium",
         "creator": "CrissCross"
     },
 
@@ -74,7 +76,8 @@
             } ],
             "coordination": "OR"
         },
-        "mappingRelevance": "0.2 (low)",
+        "mappingRelevance": 0.2,
+        "mappingType": "low",
         "creator": "CrissCross"
     }
 ]
