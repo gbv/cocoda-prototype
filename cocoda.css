@@ -6,7 +6,9 @@
     padding:0px;
     margin-bottom:0px;
 }
-
+.panel-heading{
+    background-color:#CCCCCC !important;
+}
 .show-lang:after {
     content: "@" attr(lang);
     color: #999;

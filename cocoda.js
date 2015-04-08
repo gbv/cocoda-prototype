@@ -440,9 +440,6 @@ cocoda.controller('myController',[
             }else{
                 $scope.retrievedMapping = [];
             }
-            $scope.retrievedOccurrences = angular.copy($scope.occurrencesSample);
-            console.log($scope.rvkSuggestions);
-            $scope.retrievedSuggestions = angular.copy($scope.rvkSuggestions);
         }else{
             $scope.retrievedMapping = [];
         }
@@ -551,6 +548,8 @@ cocoda.controller('myController',[
             notation: [ item.notation[0] ? item.notation[0] : originConcept.uri ],
             uri: item.uri
         };
+        $scope.retrievedOccurrences = angular.copy($scope.occurrencesSample);
+        $scope.retrievedSuggestions = angular.copy($scope.rvkSuggestions);
     };
     // Add target mapping concept to list
     $scope.addTo = function(target, item){
