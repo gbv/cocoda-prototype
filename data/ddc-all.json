@@ -19,7 +19,7 @@
             } ]
         },
         "mappingType": "closeMatch",
-        "mappingRelevance": 0.8,
+        "mappingRelevance": "Hohe Relevanz",
         "creator": "CrissCross"
     },
 
@@ -61,7 +61,7 @@
             } ],
             "coordination": "OR"
         },
-        "mappingRelevance": 0.5,
+        "mappingRelevance": "Mittlere Relevanz",
         "creator": "CrissCross"
     },
 
@@ -83,7 +83,7 @@
             } ],
             "coordination": "OR"
         },
-        "mappingRelevance": 0.2,
+        "mappingRelevance": "Niedrige Relevanz",
         "creator": "CrissCross"
     },
     {

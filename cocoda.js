@@ -228,7 +228,7 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
     this.ddc = {
         name: 'DDC',
         getConcept: new SkosConceptSource({
-            url:"http://esx-151.gbv.de/?view=notation&key={notation}",
+            url:"http://esx-151.gbv.de/?view=notation&key={notation}&exact=true",
             transform: function(item){
                 var c = item[0].value;
                 var concept = {
@@ -242,7 +242,7 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
         }),
 
         getNarrower: new SkosConceptSource({
-            url:"http://esx-151.gbv.de/?view=broader&key={notation}",
+            url:"http://esx-151.gbv.de/?view=broader&key={notation}&exact=true",
             transform: function(item){
                 var concept = {
                     narrower: []
@@ -412,13 +412,28 @@ cocoda.controller('myController',[
             });
         }
     }
+    $scope.blob = "";
+    $scope.saveLocally = function(){
+        var type = "text/javascript";
+        var object = JSON.stringify($scope.currentMapping);
+        $scope.blob = new Blob([object], { type: type });
+        var filename = angular.copy($scope.currentMapping.from.conceptSet[0].notation[0]);
+        $scope.saveHREF = window.URL.createObjectURL($scope.blob);
+        $scope.saveDataURL = [ type, filename, $scope.saveHREF ].join(':');
+    }
+    $scope.cleanUp = function(){
+        setTimeout(function(){
+            window.URL.revokeObjectURL($scope.blob);
+        },1500);
+    }
     $scope.$watch('currentMapping', function(){
         $scope.showMappingMessage = false;
         $scope.saveStatus = {
             type: "",
             message: ""
         }
-        console.log('mapping changed!');
+        $scope.saveHREF = "";
+        $scope.saveDataURL = "";
     }, true);
     $scope.clearTargets = function() {
         $scope.currentMapping.to.conceptSet = [];
@@ -429,7 +444,7 @@ cocoda.controller('myController',[
     $scope.showMappingTargetSelection = false;
     
     $scope.requestMappings = function(name){
-        console.log($scope.mappingTargets)
+
         if($scope.originConcept.notation[0] == "612.112"){ 
             if(name == 'all'){
                 $scope.retrievedMapping = angular.copy($scope.mappingSampleDDC);
@@ -548,8 +563,13 @@ cocoda.controller('myController',[
             notation: [ item.notation[0] ? item.notation[0] : originConcept.uri ],
             uri: item.uri
         };
-        $scope.retrievedOccurrences = angular.copy($scope.occurrencesSample);
-        $scope.retrievedSuggestions = angular.copy($scope.rvkSuggestions);
+        if($scope.originConcept.notation[0] == "612.112" && $scope.activeView.origin == "DDC"){ 
+            $scope.retrievedOccurrences = angular.copy($scope.occurrencesSample);
+            $scope.retrievedSuggestions = angular.copy($scope.rvkSuggestions);
+        }else{
+            $scope.retrievedOccurrences = [];
+            $scope.retrievedSuggestions = [];
+        }
     };
     // Add target mapping concept to list
     $scope.addTo = function(target, item){
@@ -698,13 +718,13 @@ cocoda.controller('myController',[
             $scope.ddcSubjectConcept.updateConcept($scope.originConcept).then(function(){
                 $scope.tbConcept = angular.copy($scope.originConcept.broader[0]);  
             }).then(function(){
-                console.log($scope.tbConcept);
+
                 $scope.ddcSubjectConcept.updateConcept($scope.tbConcept).then(function(){
                     $scope.originConcept.broader[0] = angular.copy($scope.tbConcept);
                 });
             }).then(function(){
                 $scope.tnConcept = angular.copy($scope.originConcept);
-                console.log($scope.originConcept);
+
             }).then(function(){
                 $scope.ddcNarrowerConcepts.updateConcept($scope.tnConcept).then(function(){
                     $scope.originConcept.narrower = angular.copy($scope.tnConcept.narrower);
@@ -829,7 +849,7 @@ cocoda.controller('myController',[
                 
                 $scope.ddcSubjectConcept.updateConcept($scope.targetConcept = concept ).then(function(){
                     $scope.tbConcept = angular.copy($scope.targetConcept.broader[0]);  
-                    console.log($scope.tbConcept);
+
                 }).then(function(){
                     $scope.ddcSubjectConcept.updateConcept($scope.tbConcept).then(function(){
                         $scope.targetConcept.broader[0] = angular.copy($scope.tbConcept);
@@ -846,7 +866,7 @@ cocoda.controller('myController',[
     };
     // for filling the concept directly on selection
     $scope.reselectOriginConcept = function(concept){
-        console.log(concept.prefLabel);
+
         if(concept.prefLabel){
             $scope.originConcept = {
                 notation: concept.notation ? concept.notation : "",
@@ -922,6 +942,7 @@ cocoda.run(function($rootScope,$http) {
 
 });
 
-cocoda.config(function($locationProvider) {
+cocoda.config(function($locationProvider, $compileProvider) {
     $locationProvider.html5Mode(true);
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|blob:http):/);
 });

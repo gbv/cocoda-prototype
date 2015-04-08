@@ -192,39 +192,60 @@
                                     mapping-from="activeView.origin"
                                     mapping-to="activeView.target">
                                 </div>
+                                <!-- Buttons -->
                                 <div ng-if="currentMapping.from.conceptSet.length && currentMapping.to.conceptSet.length">
                                     <div style="width:95%;margin:0 auto;">
-                                        <div style="float:right;margin-top:10px;">
-                                            <button ng-if="loggedIn" 
-                                                    ng-click="SaveCurrentMapping()" 
-                                                    ng-disabled="!currentMapping.from.conceptSet.length || !currentMapping.to.conceptSet.length" 
-                                                    title="Save current mapping" 
-                                                    accesskey="s">
-                                                <span style="margin-right:5px;">Save</span>
-                                                <span class="glyphicon glyphicon-save"></span>
-                                            </button>
+                                        <div style="float:left;">
+                                            <div ng-if="mapping.timestamp && mapping.to.length" 
+                                                style="float:right;margin-top:13px;margin-right:15px;">
+                                                Created: <span>{{mapping.timestamp}}</span>
+                                            </div>
+                                            <div ng-if="showMappingMessage" style="float:left;margin-top:5px;">
+                                                <alert ng-if="saveStatus.success === true" type="success">
+                                                    <span>{{saveStatus.message}}</span>
+                                                </alert>
+                                                <alert ng-if="saveStatus.success === false" type="danger">
+                                                    <span>{{saveStatus.message}}</span>
+                                                    <span> (Status: {{saveStatus.type}})</span>
+                                                </alert>
+                                            </div>
                                         </div>
-                                        <div ng-if="currentMapping.to.conceptSet.length" 
-                                            style="float:right;margin-top:10px;margin-right:10px;">
-                                            <button ng-click="clearTargets()" 
-                                                    title="Clear all target mappings"
-                                                    accesskey="c">
-                                                <span style="margin-right:5px;">Clear all</span>
-                                                <span class="glyphicon glyphicon-remove"></span>
-                                            </button>
-                                        </div>
-                                        <div ng-if="mapping.timestamp && mapping.to.length" 
-                                            style="float:right;margin-top:13px;margin-right:15px;">
-                                            Created: <span>{{mapping.timestamp}}</span>
-                                        </div>
-                                        <div ng-if="showMappingMessage" style="float:left;margin-top:5px;">
-                                            <alert ng-if="saveStatus.success === true" type="success">
-                                                <span>{{saveStatus.message}}</span>
-                                            </alert>
-                                            <alert ng-if="saveStatus.success === false" type="danger">
-                                                <span>{{saveStatus.message}}</span>
-                                                <span> (Status: {{saveStatus.type}})</span>
-                                            </alert>
+                                        <div style="float:right;">
+                                            <div style="float:right;margin-top:10px;">
+                                                <button ng-if="loggedIn" 
+                                                        ng-click="SaveCurrentMapping()" 
+                                                        ng-disabled="!currentMapping.from.conceptSet.length || !currentMapping.to.conceptSet.length" 
+                                                        title="Save current mapping" 
+                                                        accesskey="s">
+                                                    <span style="margin-right:5px;">Save to Database</span>
+                                                    <span style="padding-top:3px;" class="glyphicon glyphicon-cloud"></span>
+                                                </button>
+                                            </div>
+                                            <div style="float:right;margin-top:10px;margin-right:10px;">
+                                                <button ng-disabled="!currentMapping.from.conceptSet.length || !currentMapping.to.conceptSet.length"
+                                                        ng-click="saveLocally()"
+                                                        title="Save locally" 
+                                                        accesskey="s">
+                                                    <span style="margin-right:5px;">Create download link</span>
+                                                    <span class="glyphicon glyphicon-save"></span>
+                                                </button>
+                                            </div>
+                                            <div ng-if="currentMapping.to.conceptSet.length" 
+                                                style="float:right;margin-top:10px;margin-right:10px;">
+                                                <button ng-click="clearTargets()" 
+                                                        title="Clear all target mappings"
+                                                        accesskey="c">
+                                                    <span style="margin-right:5px;">Clear all</span>
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </button>
+                                            </div>
+                                            <div style="clear:both">
+                                                <div ng-if="saveHREF" style="float:right;margin-top:15px;margin-right:10px;">
+                                                    <a download="{{currentMapping.from.conceptSet[0].notation[0]}}.json" href="{{saveHREF}}" ng-click="cleanUp()" data-downloadurl="{{saveDataURL}}">
+                                                        Save mapping for notation {{currentMapping.from.conceptSet[0].notation[0]}} locally
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
