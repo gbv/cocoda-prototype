@@ -141,11 +141,11 @@
                                                 <i class="glyphicon glyphicon-share-alt"></i>
                                             </button>
                                             <div style="display:inline-block;">
-                                                <button ng-disabled="activeView.origin != 'DDC'" ng-click="requestMappings(mappingTargets)">
+                                                <button ng-click="requestMappings(mappingTargets)">
                                                     <span>Look up database</span>
                                                     <!-- <i class="glyphicon glyphicon-stats"></i> -->
                                                 </button>
-                                                <select ng-disabled="activeView.origin != 'DDC'" ng-model="mappingTargets" style="margin-top:10px;">
+                                                <select ng-model="mappingTargets" style="margin-top:10px;">
                                                     <option selected>all</option>
                                                     <option ng-repeat="s in schemes" ng-if="s.name != activeView.origin"><span>{{s.name}}</span></option>
                                                 </select>

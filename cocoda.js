@@ -230,12 +230,19 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
         getConcept: new SkosConceptSource({
             url:"http://esx-151.gbv.de/?view=notation&key={notation}&exact=true",
             transform: function(item){
-                var c = item[0].value;
                 var concept = {
-                    notation: c.notation,
-                    prefLabel: c.prefLabel,
-                    broader: c.broader
+                    notation: [],
+                    prefLabel: {},
+                    broader: []
                 };
+                if(item[0]){
+                    var c = item[0].value;
+                    concept = {
+                        notation: c.notation,
+                        prefLabel: c.prefLabel,
+                        broader: c.broader
+                    }
+                }
                 return concept;
             },
             jsonp: true
@@ -282,8 +289,6 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
         })
     };
 }]);
-
-
 /**
  * Controller
  */
@@ -388,11 +393,11 @@ cocoda.controller('myController',[
         message: ""
     }
     $scope.showMappingMessage = false;
-    $scope.mappingURL = "http://esx-151.gbv.de/mapping/insert";
+    $scope.SaveMappingURL = "http://esx-151.gbv.de/mapping/insert";
     $scope.SaveCurrentMapping = function() {
         if($scope.loggedIn === true){
             $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
-            $http.post($scope.mappingURL, $scope.currentMapping)
+            $http.post($scope.SaveMappingURL, $scope.currentMapping)
             .success(function(data, status, headers, config) {
                 $scope.lastSavedMapping = angular.copy($scope.currentMapping);
                 $scope.saveStatus = {
@@ -402,7 +407,7 @@ cocoda.controller('myController',[
                 }
                 $scope.showMappingMessage = true;
             })
-            . error(function(data, status, headers, config) {
+            .error(function(data, status, headers, config) {
                 $scope.saveStatus = {
                     type: status,
                     success: false,
@@ -442,21 +447,64 @@ cocoda.controller('myController',[
     // Mapping database requests
     $scope.mappingTargets = 'all';
     $scope.showMappingTargetSelection = false;
-    
-    $scope.requestMappings = function(name){
-
-        if($scope.originConcept.notation[0] == "612.112"){ 
-            if(name == 'all'){
+    $scope.requestMappingURL = "http://esx-151.gbv.de/?db=mappings&view=fromNotation&exact=true&key=";
+    $scope.retrievedMapping = [];
+    $scope.transformData = function(data){
+        angular.forEach(data, function(d){
+            var mr = d.value.mappingRelevance;
+            var mt = d.value.mappingType;
+            var mapping = {
+                creator: d.value.creator,
+                mappingRelevance: mr,
+                mappingType: mt,
+                from: d.value.from,
+                to: d.value.to
+            }
+            if(mr == 0.2){
+                mapping.mappingType = "low";
+            }else if(mr == 0.5){
+                mapping.mappingType = "medium";
+            }
+            if(mt && !mr){
+                
+                if(mt == 'closeMatch'){
+                    mapping.mappingRelevance = 0.8;
+                    mapping.mappingType = "high";
+                }else if(mt == 'exactMatch'){
+                    mapping.mappingRelevance = 1.0;
+                    mapping.mappingType = "very high";
+                }
+            }
+            $scope.retrievedMapping.push(mapping);
+        });
+    }
+    $scope.requestMappings = function(target){
+        $scope.retrievedMapping = [];
+        if($scope.originConcept.notation[0] == "612.112" && $scope.activeView.origin == "DDC"){ 
+            if(target == 'all'){
                 $scope.retrievedMapping = angular.copy($scope.mappingSampleDDC);
-            }else if(name == 'GND'){
+            }else if(target == 'GND'){
                 $scope.retrievedMapping = angular.copy($scope.mappingSampleNew);
-            }else if(name == 'RVK'){
+            }else if(target == 'RVK'){
                 $scope.retrievedMapping = angular.copy($scope.mappingSampleDDCRVK);
             }else{
                 $scope.retrievedMapping = [];
             }
         }else{
-            $scope.retrievedMapping = [];
+            var url = $scope.requestMappingURL + $scope.originConcept.notation[0];
+            var get = $http.jsonp;
+            url += url.indexOf('?') == -1 ? '?' : '&';
+            url += 'callback=JSON_CALLBACK';
+
+            get(url).success(function(data, status){
+                $scope.transformData(data);
+                
+                if(!$scope.retrievedMapping[0]){
+                    $scope.retrievalSuccess = false;
+                }
+            }).error(function(data, status, headers){
+                console.log("Failed!" + status);
+            });
         }
     }
     /*
@@ -716,19 +764,27 @@ cocoda.controller('myController',[
             };
             // update concept
             $scope.ddcSubjectConcept.updateConcept($scope.originConcept).then(function(){
-                $scope.tbConcept = angular.copy($scope.originConcept.broader[0]);  
+                if($scope.originConcept.notation[0]){
+                    $scope.tbConcept = angular.copy($scope.originConcept.broader[0]);
+                }
             }).then(function(){
-
-                $scope.ddcSubjectConcept.updateConcept($scope.tbConcept).then(function(){
-                    $scope.originConcept.broader[0] = angular.copy($scope.tbConcept);
-                });
+                if($scope.originConcept.notation[0]){
+                    $scope.ddcSubjectConcept.updateConcept($scope.tbConcept).then(function(){
+                        $scope.originConcept.broader[0] = angular.copy($scope.tbConcept);
+                    });
+                }
             }).then(function(){
-                $scope.tnConcept = angular.copy($scope.originConcept);
-
+                if($scope.originConcept.notation[0]){
+                    $scope.tnConcept = angular.copy($scope.originConcept);
+                }
             }).then(function(){
-                $scope.ddcNarrowerConcepts.updateConcept($scope.tnConcept).then(function(){
-                    $scope.originConcept.narrower = angular.copy($scope.tnConcept.narrower);
-                });
+                if($scope.originConcept.notation[0]){
+                    $scope.ddcNarrowerConcepts.updateConcept($scope.tnConcept).then(function(){
+                        $scope.originConcept.narrower = angular.copy($scope.tnConcept.narrower);
+                    });
+                }else{
+                    $scope.conceptNotFound = true;
+                }
             })
             $scope.clickOriginConcept = function(concept) {
                 

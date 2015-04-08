@@ -96,7 +96,7 @@ angular.module('ngSKOS')
             scope.$watch('schemes');
         },
         controller: function($scope) {
-            $scope.predicate = '-timestamp';
+            $scope.predicate = '-mappingRelevance';
         }
             // ...
     };

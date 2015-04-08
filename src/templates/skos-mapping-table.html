@@ -23,6 +23,9 @@
             </th>
             <th>
                 <span>Relevance</span>
+                <a ng-click="predicate = 'mappingRelevance';reverse = !reverse" href="" style="text-decoration:none;font-size:0.8em;">
+                    <span class="glyphicon glyphicon-sort"></span>
+                </a>
             </th>
             <!--
             <th ng-if="select"></th>
@@ -61,7 +64,10 @@
             <td ng-if="type">{{m.type.prefLabel}}</td>
             <td class="skos-mapping-cell"><span>{{m.creator}}</span></td>
             <td class="skos-mapping-cell" style="max-width:100px;"><span style="">{{m.timestamp}}</span></td>
-            <td class="skos-mapping-cell"><span>{{m.mappingRelevance}}</span></td>
+            <td class="skos-mapping-cell">
+                <span ng-if="m.mappingType">{{m.mappingType}} ({{m.mappingRelevance}})</span>
+                <span ng-if="!m.mappingType && m.mappingRelevance">{{m.mappingRelevance}}</span>
+            </td>
             <!--
             <td ng-if="select" class="skos-mapping-cell">
                 <a style="cursor:pointer;text-decoration:none;" ng-class="{ 'link-disabled': m.to.inScheme[0].notation != schemes.target }" ng-click="select(m)" title="Select this mapping">
