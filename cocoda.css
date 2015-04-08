@@ -9,6 +9,20 @@
 .panel-heading{
     background-color:#CCCCCC !important;
 }
+.searchmode{
+    background-color:#EEEEEE;
+    border:1px solid #DDD;
+    border-radius:3px;
+    cursor:pointer;
+    overflow:hidden;
+}
+.searchmode span{
+    padding:0px 3px;
+    font-weight:bold;
+}
+.activesearch{
+    background-color:#66AFE9 !important;
+}
 .show-lang:after {
     content: "@" attr(lang);
     color: #999;

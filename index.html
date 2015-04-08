@@ -87,12 +87,14 @@
                                         </accordion-heading>
                                         <div style="margin:5px 3px;">
                                             <span>Search by:</span>
-                                            <button ng-click="searchMode.origin = 'Label'">
-                                                Term
-                                            </button>
-                                            <button ng-click="searchMode.origin = 'Notation'">
-                                                Notation
-                                            </button>
+                                            <span class="searchmode">
+                                                <span ng-click="searchMode.origin = 'Label'" ng-class="{'activesearch': searchMode.origin == 'Label'}">
+                                                    Term
+                                                </span>
+                                                <span ng-click="searchMode.origin = 'Notation'" ng-class="{'activesearch': searchMode.origin == 'Notation'}">
+                                                    Notation
+                                                </span>
+                                            </span>
                                         </div>
                                         <div style="position:relative;">
                                             <div ng-if="searchMode.origin == 'Label'">
@@ -338,12 +340,14 @@
                                         </accordion-heading>
                                         <div style="margin:5px 3px;">
                                             <span>Search by:</span>
-                                            <button ng-click="searchMode.target = 'Label'">
-                                                Term
-                                            </button>
-                                            <button ng-click="searchMode.target = 'Notation'">
-                                                Notation
-                                            </button>
+                                            <span class="searchmode">
+                                                <span ng-click="searchMode.target = 'Label'" ng-class="{'activesearch': searchMode.target == 'Label'}">
+                                                    Term
+                                                </span>
+                                                <span ng-click="searchMode.target = 'Notation'" ng-class="{'activesearch': searchMode.target == 'Notation'}">
+                                                    Notation
+                                                </span>
+                                            </span>
                                         </div>
                                         <div style="position:relative;">
                                             <div ng-if="searchMode.target == 'Label'">
