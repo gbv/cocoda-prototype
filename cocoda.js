@@ -233,7 +233,7 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
                 var concept = {
                     notation: [],
                     prefLabel: {},
-                    broader: []
+                    broader: [],
                 };
                 if(item[0]){
                     var c = item[0].value;
@@ -242,6 +242,11 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
                         prefLabel: c.prefLabel,
                         broader: c.broader
                     }
+                }
+                if(concept.notation[0] == "612.112"){
+                    concept.scopeNote = [{
+                        de: "DDC-Note"
+                    }];
                 }
                 return concept;
             },

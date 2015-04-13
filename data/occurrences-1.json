@@ -8,7 +8,7 @@
         },
         "inScheme": { "notation": ["DDC"] }
     }],
-    "database": { "notation": ["GVK"] },
+    "database": { "notation": ["GVK/SWB"] },
     "target": { "notation": ["RVK"] }, 
     "total": 42,
     "hits": [
