@@ -245,8 +245,12 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
                 }
                 if(concept.notation[0] == "612.112"){
                     concept.scopeNote = [{
-                        de: "DDC-Note"
-                    }];
+                        de: "Leukozyten--Humanphysiologie"
+                    },
+                    {
+                        de: "Weiße Blutkörperchen--Humanphysiologie"
+                    }
+                    ];
                 }
                 return concept;
             },
