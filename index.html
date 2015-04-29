@@ -221,16 +221,20 @@
                                                         title="Save current mapping" 
                                                         accesskey="s">
                                                     <span style="margin-right:5px;">Save to Database</span>
-                                                    <span style="padding-top:3px;" class="glyphicon glyphicon-cloud"></span>
                                                 </button>
                                             </div>
                                             <div style="float:right;margin-top:10px;margin-right:10px;">
-                                                <button ng-disabled="!currentMapping.from.conceptSet.length || !currentMapping.to.conceptSet.length"
+                                                <button ng-if="!expandJSON" ng-disabled="!currentMapping.from.conceptSet.length || !currentMapping.to.conceptSet.length"
                                                         ng-click="saveLocally()"
-                                                        title="Save locally" 
+                                                        title="Show mapping object" 
                                                         accesskey="s">
-                                                    <span style="margin-right:5px;">Create download link</span>
-                                                    <span class="glyphicon glyphicon-save"></span>
+                                                    <span style="margin-right:5px;">Show mapping object</span>
+                                                </button>
+                                                <button ng-if="expandJSON" ng-disabled="!currentMapping.from.conceptSet.length || !currentMapping.to.conceptSet.length"
+                                                        ng-click="hideJSON()"
+                                                        title="Hide mapping object" 
+                                                        accesskey="s">
+                                                    <span style="margin-right:5px;">Hide mapping object</span>
                                                 </button>
                                             </div>
                                             <div ng-if="currentMapping.to.conceptSet.length" 
@@ -242,13 +246,16 @@
                                                     <span class="glyphicon glyphicon-remove"></span>
                                                 </button>
                                             </div>
-                                            <div style="clear:both">
-                                                <div ng-if="saveHREF" style="float:right;margin-top:15px;margin-right:10px;">
-                                                    <a download="{{currentMapping.from.conceptSet[0].notation[0]}}.json" href="{{saveHREF}}" ng-click="cleanUp()" data-downloadurl="{{saveDataURL}}">
-                                                        Save mapping for notation {{currentMapping.from.conceptSet[0].notation[0]}} locally
-                                                    </a>
-                                                </div>
-                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="clear:both;padding-top:8px;width:95%;margin:0 auto;">
+                                        <pre ng-if="expandJSON">{{currentMapping | json : spacing}}</pre>
+                                    </div>
+                                    <div style="clear:both;width:95%;margin:0 auto;">
+                                        <div ng-if="expandJSON && saveHREF" style="float:right;margin-right:10px;">
+                                            <a download="{{currentMapping.from.conceptSet[0].inScheme.notation[0]}}_{{currentMapping.from.conceptSet[0].notation[0]}}.json" href="{{saveHREF}}" ng-click="cleanUp()" data-downloadurl="{{saveDataURL}}">
+                                                Save mapping as json file
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

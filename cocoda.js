@@ -163,7 +163,7 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
             transform: function(item) {
                 var concept = {
                     notation: [ item.node.notation ],
-                    uri: item.node.notation,
+                    uri: "",
                     prefLabel: { de: item.node.benennung },
                     altLabel: "" ,
                     hasChildren: false
@@ -187,7 +187,7 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
 
                 var concept = {
                     notation: [ item.node.notation ],
-                    uri: item.node.notation,
+                    uri: "",
                     prefLabel: { de: item.node.benennung },
                     narrower: [],
                     broader: [],
@@ -195,10 +195,10 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
                 if(!item.node.nochildren){
                     if(angular.isArray(item.node.children.node)){
                         angular.forEach(item.node.children.node, function(nterm) {
-                            concept.narrower.push({uri: nterm.notation, prefLabel: { de: nterm.benennung }, notation: [ nterm.notation ] });
+                            concept.narrower.push({uri: "", prefLabel: { de: nterm.benennung }, notation: [ nterm.notation ] });
                         });
                     } else if(angular.isString(item.node.children.node)){
-                        concept.narrower = [{uri: item.node.children.node.notation, prefLabel: { de: item.node.children.node.benennung }, notation: [ item.node.children.node.notation ] }];
+                        concept.narrower = [{uri: "", prefLabel: { de: item.node.children.node.benennung }, notation: [ item.node.children.node.notation ] }];
                     }
                 }
                 return concept;
@@ -211,12 +211,12 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
             transform: function(item) {
                 var concept = { 
                     notation: [ item.node.notation ],
-                    uri: item.node.notation,
+                    uri: "",
                     prefLabel: { de: item.node.benennung },
                     broader: [],
                 };
                 if(item.node.ancestor){
-                    concept.broader.push({ notation: [ item.node.ancestor.node.notation ], uri: item.node.ancestor.node.notation, prefLabel: { de: item.node.ancestor.node.benennung } })
+                    concept.broader.push({ notation: [ item.node.ancestor.node.notation ], uri: "", prefLabel: { de: item.node.ancestor.node.benennung } })
                 }
                 return concept;
             },
@@ -243,7 +243,7 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
                         broader: c.broader
                     }
                 }
-                if(concept.notation[0] == "612.112"){
+                if(concept.notation[0] == "612.112"){ // TODO Remove static example
                     concept.scopeNote = [{
                         de: "Leukozyten--Humanphysiologie"
                     },
@@ -329,7 +329,7 @@ cocoda.controller('myController',[
 
     // active source and target schemes
     $scope.activeView = {
-        origin: 'GND',
+        origin: 'DDC',
         target: 'RVK'
     };
     $scope.searchMode = {
@@ -391,7 +391,8 @@ cocoda.controller('myController',[
         to:{
             conceptSet: []
         },
-        type: '',
+        mappingType: '',
+        mappingRelevance: '',
         source: '',
         timestamp: ''
     };
@@ -402,9 +403,10 @@ cocoda.controller('myController',[
         message: ""
     }
     $scope.showMappingMessage = false;
-    $scope.SaveMappingURL = "http://esx-151.gbv.de/mapping/insert";
+    $scope.SaveMappingURL = "http://esx-151.gbv.de/mapping/insert"; // TODO: Change URL to new DB
     $scope.SaveCurrentMapping = function() {
         if($scope.loggedIn === true){
+            $scope.currentMapping.source = "VZG";
             $scope.currentMapping.timestamp = new Date().toISOString().slice(0, 10);
             $http.post($scope.SaveMappingURL, $scope.currentMapping)
             .success(function(data, status, headers, config) {
@@ -426,18 +428,25 @@ cocoda.controller('myController',[
             });
         }
     }
+    // local saving of mappings
+    $scope.expandJSON = false;
     $scope.blob = "";
     $scope.saveLocally = function(){
         var type = "text/javascript";
         var object = JSON.stringify($scope.currentMapping);
         $scope.blob = new Blob([object], { type: type });
-        var filename = angular.copy($scope.currentMapping.from.conceptSet[0].notation[0]);
+        var filename = $scope.currentMapping.from.conceptSet[0].inScheme.notation[0];
+        filename += "_" + $scope.currentMapping.from.conceptSet[0].notation[0];
         $scope.saveHREF = window.URL.createObjectURL($scope.blob);
         $scope.saveDataURL = [ type, filename, $scope.saveHREF ].join(':');
+        $scope.expandJSON = true;
+    }
+    $scope.hideJSON = function(){
+        $scope.expandJSON = false;
     }
     $scope.cleanUp = function(){
         setTimeout(function(){
-            window.URL.revokeObjectURL($scope.blob);
+            window.URL.revokeObjectURL($scope.saveHREF);
         },1500);
     }
     $scope.$watch('currentMapping', function(){
@@ -453,7 +462,7 @@ cocoda.controller('myController',[
         $scope.currentMapping.to.conceptSet = [];
     };
     
-    // Mapping database requests
+    // Mapping database requests 
     $scope.mappingTargets = 'all';
     $scope.showMappingTargetSelection = false;
     $scope.requestMappingURL = "http://esx-151.gbv.de/?db=mappings&view=fromNotation&exact=true&key=";
@@ -469,7 +478,7 @@ cocoda.controller('myController',[
                 from: d.value.from,
                 to: d.value.to
             }
-            if(mr == 0.2){
+            if(mr == 0.2){ // TODO: remove conversion of specific types
                 mapping.mappingType = "low";
             }else if(mr == 0.5){
                 mapping.mappingType = "medium";
@@ -487,7 +496,7 @@ cocoda.controller('myController',[
             $scope.retrievedMapping.push(mapping);
         });
     }
-    $scope.requestMappings = function(target){
+    $scope.requestMappings = function(target){  // TODO: remove static samples
         $scope.retrievedMapping = [];
         if($scope.originConcept.notation[0] == "612.112" && $scope.activeView.origin == "DDC"){ 
             if(target == 'all'){
@@ -527,23 +536,23 @@ cocoda.controller('myController',[
         cocodaSchemes.rvk.topConcepts.getConceptList().then(function(response){
             $scope.topOriginConcept = response;
         });
-    }else if($scope.activeView.origin == 'DDC'){
-            $scope.topOriginConcept = angular.copy($rootScope.ddcTopConcepts);
+    }else if($scope.activeView.origin == 'DDC'){ // TODO: Retrieve dynamically
+            $scope.topOriginConcept = angular.copy($scope.ddcTopConcepts);
     }
     if($scope.activeView.target == 'RVK'){
         cocodaSchemes.rvk.topConcepts.getConceptList().then(function(response){
             $scope.topTargetConcept = response;
         });
-    }else if($scope.activeView.target == 'DDC'){
-            $scope.topTargetConcept = angular.copy($rootScope.ddcTopConcepts);   
+    }else if($scope.activeView.target == 'DDC'){ // TODO: Retrieve dynamically
+            $scope.topTargetConcept = angular.copy($scope.ddcTopConcepts);   
     }
     $scope.changeTopOrigin = function(scheme){
         if(scheme == 'RVK'){
             cocodaSchemes.rvk.topConcepts.getConceptList().then(function(response){
                 $scope.topOriginConcept = response;
             });
-        }else if(scheme == 'DDC'){
-            $scope.topOriginConcept = angular.copy($rootScope.ddcTopConcepts);  
+        }else if(scheme == 'DDC'){ // TODO: Retrieve dynamically
+            $scope.topOriginConcept = angular.copy($scope.ddcTopConcepts);  
         }else{
             $scope.topOriginConcept = "";
         }
@@ -553,8 +562,8 @@ cocoda.controller('myController',[
             cocodaSchemes.rvk.topConcepts.getConceptList().then(function(response){
                 $scope.topTargetConcept = response;
             });
-        }else if(scheme == 'DDC'){
-            $scope.topTargetConcept = angular.copy($rootScope.ddcTopConcepts);  
+        }else if(scheme == 'DDC'){ // TODO: Retrieve dynamically
+            $scope.topTargetConcept = angular.copy($scope.ddcTopConcepts);  
         }else{
             $scope.topTargetConcept = "";
         }
@@ -620,7 +629,7 @@ cocoda.controller('myController',[
             notation: [ item.notation[0] ? item.notation[0] : originConcept.uri ],
             uri: item.uri
         };
-        if($scope.originConcept.notation[0] == "612.112" && $scope.activeView.origin == "DDC"){ 
+        if($scope.originConcept.notation[0] == "612.112" && $scope.activeView.origin == "DDC"){ // TODO remove exception
             $scope.retrievedOccurrences = angular.copy($scope.occurrencesSample);
             $scope.retrievedSuggestions = angular.copy($scope.rvkSuggestions);
         }else{
@@ -1009,5 +1018,5 @@ cocoda.run(function($rootScope,$http) {
 
 cocoda.config(function($locationProvider, $compileProvider) {
     $locationProvider.html5Mode(true);
-    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|blob:http):/);
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|blob:http)(:|%3A)/);
 });
