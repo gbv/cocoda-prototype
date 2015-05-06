@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="Cocoda">
+    <head>
+        <title>Cocoda - Concordance App</title>
+        <meta charset="utf-8">
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" />
+      
+        <!-- TODO: remove jQuery, just use angularJS -->
+        <script src="lib/jquery/dist/jquery.js"></script>
+
+        <script src="lib/angular/angular.js"></script>
+        <script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+        <link href="lib/angular-hotkeys/src/hotkeys.css" rel="stylesheet" />
+        <script src="lib/angular-hotkeys/src/hotkeys.js"></script>
+ 
+        <!-- TODO: explicit dependencies (required by ng-skos???) -->
+        <script src="lib/angular-resource.min.js"></script>
+        <script src="lib/angular-sanitize.min.js"></script>
+
+        <script src="lib/ng-suggest/ng-suggest.js"></script>
+        <link href="lib/ng-skos/ng-skos.css" rel="stylesheet" />
+        <script src="lib/ng-skos/ng-skos.js"></script>
+ 
+        <!-- Additional services and directives not moved to ng-skos yet -->
+        <script src="src/services/SkosConceptListSource.js"></script>
+        <script src="src/directives/skosMappingCollection.js"></script>
+        <script src="src/directives/skosMappingTable.js"></script>
+        <script src="src/directives/skosOccurrences.js"></script>
+        <script src="src/directives/skosConceptMapping.js"></script>
+
+        <!-- cocoda application -->
+        <link href="cocoda.css" rel="stylesheet" />
+        <script src="cocoda.js"></script>
+    </head>
+    <body ng-controller="myController">
+        <header>
+            <nav class="navbar navbar-default navbar-top" role="navigation">
+                <div class="navbar-header">
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a class="navbar-brand" href=""><big>Cocoda</big></a>
+                        </li>
+                    </ul>
+                    <div id="login">
+                        <a ng-click="loggedIn = !loggedIn" href="">
+                            <span ng-if="!loggedIn">Log in</span>
+                            <span ng-if="loggedIn">Log out</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="main">
+            <div class="row">
+            
+        <!-- LEFT/ORIGIN COLUMN-->
+        
+                <div class="col-md-3" style="min-width:310px;">
+                    <div style="">
+                        <div class="panel panel-default" style="margin-bottom:0px;">
+                            <div class="panel-heading">
+                                <div class="mapping-header">
+                                    <ul class="simple-list">
+                                        <li class="dropdown" dropdown>
+                                            <a dropdown-toggle type="button" class="dropdown-toggle">
+                                                <span>Source Scheme: {{activeView.origin}}</span>
+                                                <b class="caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu scheme-dropdown">
+                                                <li>
+                                                    <a href="#" ng-click="setOrigin('')">none</a>
+                                                </li>
+                                                <li ng-repeat="s in schemes">
+                                                    <a href="#" ng-click="setOrigin(s.name)">{{s.name}}</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div ng-if="activeView.origin.length" class="panel-body">
+                            
+                                <!-- Origin concept search inputs -->
+                            
+                                <accordion>
+                                    <accordion-group is-open="showOriginSearch" style="overflow:visible;">
+                                        <accordion-heading>
+                                            <b>Search Options</b>
+                                            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showOriginSearch, 'glyphicon-chevron-right': !showOriginSearch}"></i>
+                                        </accordion-heading>
+                                        <div style="margin:5px 3px;">
+                                            <span>Search by:</span>
+                                            <span class="searchmode">
+                                                <span ng-click="searchMode.origin = 'Label'" ng-class="{'activesearch': searchMode.origin == 'Label'}">
+                                                    Term
+                                                </span>
+                                                <span ng-click="searchMode.origin = 'Notation'" ng-class="{'activesearch': searchMode.origin == 'Notation'}">
+                                                    Notation
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div style="position:relative;">
+                                            <div ng-if="searchMode.origin == 'Label'">
+                                                <input class="form-control"
+                                                        suggest-typeahead="SuggestConcept(activeView.origin)"
+                                                        typeahead-on-select="selectOriginSubject($item)"
+                                                        ng-model="originSubject"
+                                                        placeholder="Search by terms (typeahead)"
+                                                        typeahead-loading="loadingLocations"
+                                                        typeahead-editable="false"
+                                                        tabindex=1 
+                                                        autofocus 
+                                                        accesskey="s"
+                                                />
+                                                <span ng-show="loadingLocations" class="typeahead-loading-right"><i class="glyphicon glyphicon-refresh"></i></span>
+                                            </div>
+                                            <div ng-if="searchMode.origin == 'Notation'">
+                                                <div style="overflow:hidden;">
+                                                    <form ng-submit="reselectOriginConcept(originNotation)">
+                                                        <input class="form-control"
+                                                            ng-model="originNotation.notation"
+                                                            placeholder="Enter full notation"
+                                                            tabindex=3 
+                                                            accesskey="n"
+                                                            title="confirm by pressing ENTER"
+                                                        />
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </accordion-group>
+                                </accordion>
+                                
+                                <!-- Origin concept scheme template -->
+                                
+                                <div ng-if="activeView.origin.length && originConcept">
+                                    <div class="tmpl-border">
+                                        <div skos-concept="originConcept" skos-click="clickOriginConcept" language="language"></div>
+                                        <div class="concept-buttons">
+                                            <button ng-click="saveFrom(activeView.origin, originConcept)" title="Select concept for mapping" accesskey="u">
+                                                <span>Map</span>
+                                                <i class="glyphicon glyphicon-share-alt"></i>
+                                            </button>
+                                            <div style="display:inline-block;">
+                                                <button ng-click="requestMappings(mappingTargets)">
+                                                    <span>Look up database</span>
+                                                </button>
+                                                <select ng-model="mappingTargets" style="margin-top:10px;">
+                                                    <option selected>all</option>
+                                                    <option ng-repeat="s in schemes" ng-if="s.name != activeView.origin"><span>{{s.name}}</span></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    <!-- Origin top concept display -->
+                    
+                        <div ng-if="activeView.origin.length && topOriginConcept">
+                            <div ng-if="topOriginConcept" class="top-concept">
+                                <accordion>
+                                    <accordion-group is-open="showTopConcepts.origin">
+                                        <accordion-heading>
+                                            <b>Top Concepts</b>
+                                            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTopConcepts.origin, 'glyphicon-chevron-right': !showTopConcepts.origin}"></i>
+                                        </accordion-heading>
+                                        <div style="max-height:220px;overflow:auto;">
+                                            <skos-list concepts="topOriginConcept.values"
+                                                show-labels="true" 
+                                                language="language" 
+                                                on-select="reselectOriginConcept">
+                                            </skos-list>
+                                        </div>
+                                    </accordion-group>
+                                </accordion>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+        <!-- MIDDLE MAPPING/CONTEXT COLUMN -->
+        
+                <div class="col-md-6" style="overflow:visible">
+                
+                    <!-- Active mapping template -->
+                    
+                    <div class="panel panel-default" style="margin-bottom:0px;">
+                        <div class="panel-heading">
+                            <div class="mapping-header">
+                                <span>Active Mapping</span>
+                            </div>
+                        </div>
+                        <div class="panel-body>">
+                            <div class="tmpl-border" style="width:100%;min-height:140px;">
+                                <div skos-concept-mapping="currentMapping"
+                                    select-origin-concept="reselectOriginConcept"
+                                    select-target-concept="reselectTargetConcept"
+                                    mapping-from="activeView.origin"
+                                    mapping-to="activeView.target">
+                                </div>
+                                
+                                <!-- Buttons/JSON -->
+                                
+                                <div ng-if="currentMapping.from.conceptSet.length && currentMapping.to.conceptSet.length">
+                                    <div style="width:95%;margin:0 auto;">
+                                        <div style="float:left;">
+                                            <div ng-if="mapping.timestamp && mapping.to.length" 
+                                                style="float:right;margin-top:13px;margin-right:15px;">
+                                                Created: <span>{{mapping.timestamp}}</span>
+                                            </div>
+                                            <div ng-if="showMappingMessage" style="float:left;margin-top:5px;">
+                                                <alert ng-if="saveStatus.success === true" type="success">
+                                                    <span>{{saveStatus.message}}</span>
+                                                </alert>
+                                                <alert ng-if="saveStatus.success === false" type="danger">
+                                                    <span>{{saveStatus.message}}</span>
+                                                    <span> (Status: {{saveStatus.type}})</span>
+                                                </alert>
+                                            </div>
+                                        </div>
+                                        <div style="float:right;">
+                                        
+                                            <!-- SAVE -->
+                                        
+                                            <div style="float:right;margin-top:10px;">
+                                                <button ng-if="loggedIn" 
+                                                        ng-click="SaveCurrentMapping()" 
+                                                        ng-disabled="!currentMapping.from.conceptSet.length || !currentMapping.to.conceptSet.length || !SaveMappingURL" 
+                                                        title="Save current mapping" 
+                                                        accesskey="s">
+                                                    <span style="margin-right:5px;">Save to Database</span>
+                                                </button>
+                                            </div>
+                                            
+                                            <!-- Show/hide JSON -->
+                                            
+                                            <div style="float:right;margin-top:10px;margin-right:10px;">
+                                                <button ng-if="!expandJSON" ng-disabled="!currentMapping.from.conceptSet.length || !currentMapping.to.conceptSet.length"
+                                                        ng-click="saveLocally()"
+                                                        title="Show mapping object" 
+                                                        accesskey="s">
+                                                    <span style="margin-right:5px;">Show mapping object</span>
+                                                </button>
+                                                <button ng-if="expandJSON" ng-disabled="!currentMapping.from.conceptSet.length || !currentMapping.to.conceptSet.length"
+                                                        ng-click="hideJSON()"
+                                                        title="Hide mapping object" 
+                                                        accesskey="s">
+                                                    <span style="margin-right:5px;">Hide mapping object</span>
+                                                </button>
+                                            </div>
+                                            
+                                            <!-- Remove all target concepts -->
+                                            
+                                            <div ng-if="currentMapping.to.conceptSet.length" 
+                                                style="float:right;margin-top:10px;margin-right:10px;">
+                                                <button ng-click="clearTargets()" 
+                                                        title="Clear all target mappings"
+                                                        accesskey="c">
+                                                    <span style="margin-right:5px;">Clear all</span>
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="clear:both;padding-top:8px;width:95%;margin:0 auto;">
+                                        <pre ng-if="expandJSON">{{currentMapping | json : spacing}}</pre>
+                                    </div>
+                                    <div style="clear:both;width:95%;margin:0 auto;">
+                                        <div ng-if="expandJSON && saveHREF" style="float:right;margin-right:10px;">
+                                            <a download="{{currentMapping.from.conceptSet[0].inScheme.notation[0]}}_{{currentMapping.from.conceptSet[0].notation[0]}}.json" href="{{saveHREF}}" ng-click="cleanUp()" data-downloadurl="{{saveDataURL}}">
+                                                Save mapping as json file
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- context templates -->
+                    
+                    <div class="context">
+                        <div class="context-body">
+                        
+                        <!-- Existing mappings templates -->
+                        
+                            <div style="width:100%;margin:0px auto;">
+                                <div ng-if="retrievedMapping.length" class="tmpl-border">
+                                    <div use-mapping="insertMapping" 
+                                        active-schemes="activeView" 
+                                        skos-mapping-collection="retrievedMapping" 
+                                        look-up-mapping="lookUpMapping" 
+                                        language="language"></div>
+                                </div>
+                            </div>
+                            
+                        <!-- Occurrences display -->
+                        
+                            <div ng-if="retrievedOccurrences" class="tmpl-border" style="float:left;">
+                                <div style="overflow:auto" skos-occurrences="retrievedOccurrences" select-occurrence="insertMapping" look-up-occurrence="lookUpMapping" language="language"></div>
+                            </div>
+                            
+                        <!-- Suggestions display -->
+                        
+                            <div ng-if="retrievedSuggestions" class="tmpl-border" style="float:left;margin-left:20px;margin-bottom:0px;">
+                                <accordion>
+                                    <accordion-group is-open="showSuggestions">
+                                        <accordion-heading>
+                                            <b>Suggested Target Concepts</b>
+                                            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showSuggestions, 'glyphicon-chevron-right': !showSuggestions}"></i>
+                                        </accordion-heading>
+                                        <ul class="simple-list">
+                                            <li ng-repeat="c in retrievedSuggestions.conceptSet">
+                                                <span skos-label="c.prefLabel"></span>
+                                                    <a title="Select concept" class="action-icon" style="vertical-align:middle;">
+                                                        <span ng-click="lookUpMapping(c)">
+                                                            <span style="top:2px;" class="glyphicon glyphicon-info-sign"></span>
+                                                        </span>
+                                                    </a>
+                                                    <a title="Add concept to mapping" class="action-icon" style="vertical-align:middle;">
+                                                        <span ng-click="insertMapping(c)">
+                                                            <span style="" class="glyphicon glyphicon-plus"></span>
+                                                        </span>
+                                                    </a>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </accordion-group>
+                                </accordion>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+        <!-- RIGHT/TARGET COLUMN-->
+        
+                <div class="col-md-3" style="min-width:310px;">
+                    <div style="">
+                        <div class="panel panel-default" style="margin-bottom:0px;">
+                            <div class="panel-heading">
+                                <div class="mapping-header">
+                                    <ul class="simple-list">
+                                        <li class="dropdown" dropdown>
+                                            <a dropdown-toggle type="button" class="dropdown-toggle">
+                                                <span>Target Scheme: {{activeView.target}}</span>
+                                                <b class="caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu scheme-dropdown">
+                                                <li>
+                                                    <a href="#" ng-click="setTarget('')">none</a>
+                                                </li>
+                                                <li ng-repeat="s in schemes">
+                                                    <a href="#" ng-click="setTarget(s.name)" ng-if="s.name != activeView.origin">{{s.name}}</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div ng-if="activeView.target" class="panel-body">
+                                <accordion>
+                                    <accordion-group is-open="showTargetSearch" style="overflow:visible;">
+                                        <accordion-heading>
+                                            <b>Search Options</b>
+                                            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTargetSearch, 'glyphicon-chevron-right': !showTargetSearch}"></i>
+                                        </accordion-heading>
+                                        <div style="margin:5px 3px;">
+                                            <span>Search by:</span>
+                                            <span class="searchmode">
+                                                <span ng-click="searchMode.target = 'Label'" ng-class="{'activesearch': searchMode.target == 'Label'}">
+                                                    Term
+                                                </span>
+                                                <span ng-click="searchMode.target = 'Notation'" ng-class="{'activesearch': searchMode.target == 'Notation'}">
+                                                    Notation
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div style="position:relative;">
+                                            <div ng-if="searchMode.target == 'Label'">
+                                                <input class="form-control"
+                                                    suggest-typeahead="SuggestConcept(activeView.target)"
+                                                    typeahead-on-select="selectTargetSubject($item)"
+                                                    ng-model="targetSubject"
+                                                    placeholder="Search by terms (typeahead)"
+                                                    typeahead-loading="loadingLocations"
+                                                    typeahead-editable="false"
+                                                    tabindex=2
+                                                />
+                                                <span ng-show="loadingLocations" class="typeahead-loading-right"><i class="glyphicon glyphicon-refresh"></i></span>
+                                            </div>
+                                            <div ng-if="searchMode.target == 'Notation'" >
+                                                <form ng-submit="reselectTargetConcept(targetNotation)">
+                                                    <input class="form-control"
+                                                        ng-model="targetNotation.notation"
+                                                        placeholder="Enter full notation"
+                                                        tabindex=4
+                                                        title="confirm by pressing ENTER"
+                                                    />
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </accordion-group>
+                                </accordion>
+                                
+                                <!-- Target concept scheme template -->
+                                
+                                <div ng-if="activeView.origin.length && targetConcept">
+                                    <div class="tmpl-border">
+                                        <div skos-concept="targetConcept"
+                                            skos-click="clickTargetConcept"
+                                            language="language">
+                                        </div>
+                                        <span class="concept-buttons">
+                                            <button ng-disabled="checkDuplicate()"
+                                                ng-click="addTo(activeView.target, targetConcept)"
+                                                title="Add concept to mapping">
+                                                <span>Add</span>
+                                                <i class="glyphicon glyphicon-plus"></i>
+                                            </button>
+                                            <button ng-click="replaceTo(activeView.target, targetConcept)" title="Replace current target mapping concepts">
+                                                <span>Replace all</span>
+                                                <i class="glyphicon glyphicon-share-alt"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                <!-- Target top concept display -->
+                
+                        <div ng-if="activeView.target.length">
+                            <div ng-if="topTargetConcept" class="top-concept">
+                                <accordion>
+                                    <accordion-group is-open="showTopConcepts.target">
+                                        <accordion-heading>
+                                            <b>Top Concepts</b>
+                                            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTopConcepts.target, 'glyphicon-chevron-right': !showTopConcepts.target}"></i>
+                                        </accordion-heading>
+                                        <div style="max-height:220px;overflow:auto;">
+                                            <skos-list concepts="topTargetConcept.values"
+                                                show-labels="true"
+                                                language="language"
+                                                on-select="reselectTargetConcept">
+                                            </skos-list>
+                                        </div>
+                                    </accordion-group>
+                                </accordion>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
