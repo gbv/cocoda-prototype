@@ -1,8 +1,8 @@
-<table style="margin:5px 0px;max-width:100%;overflow:auto;" class="table table-hover table-condensed table-bordered">
+<table style="margin:5px 0px;width:100%;overflow:auto;" class="table table-hover table-condensed table-bordered">
     <thead>
         <tr>
             <th><span>Target Scheme</span></th>
-            <th><span>Notation</span></th>
+            <th><span>Concept</span></th>
             <th ng-if="type">
                 <span style="margin-right:3px;">Type</span>
                 <a ng-click="predicate = 'type.value';reverse = !reverse" href="" style="text-decoration:none;font-size:0.8em;">  
@@ -17,7 +17,7 @@
             </th>
             <th style="width:100px;">
                 <span style="margin-right:3px;">Date</span>
-                <a ng-click="predicate = 'timestamp';reverse = !reverse" href="" style="text-decoration:none;font-size:0.8em;">
+                <a ng-click="predicate = 'date';reverse = !reverse" href="" style="text-decoration:none;font-size:0.8em;">
                     <span class="glyphicon glyphicon-sort"></span>
                 </a>
             </th>
@@ -63,7 +63,7 @@
             </td>
             <td ng-if="type">{{m.type.prefLabel}}</td>
             <td class="skos-mapping-cell"><span>{{m.creator}}</span></td>
-            <td class="skos-mapping-cell" style="max-width:100px;"><span style="">{{m.timestamp}}</span></td>
+            <td class="skos-mapping-cell" style="max-width:100px;"><span style="">{{m.date}}</span></td>
             <td class="skos-mapping-cell">
                 <span ng-if="m.mappingType">{{m.mappingType}} ({{m.mappingRelevance}})</span>
                 <span ng-if="!m.mappingType && m.mappingRelevance">{{m.mappingRelevance}}</span>

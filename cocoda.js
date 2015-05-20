@@ -244,11 +244,11 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
                     }
                 }
                 if(concept.notation[0] == "612.112"){ // TODO Remove static example
-                    concept.scopeNote = [{
-                        de: "Leukozyten--Humanphysiologie"
+                    concept.definition = [{
+                        de: "RE: Leukozyten--Humanphysiologie"
                     },
                     {
-                        de: "Weiße Blutkörperchen--Humanphysiologie"
+                        de: "RE: Weiße Blutkörperchen--Humanphysiologie"
                     }
                     ];
                 }
@@ -463,6 +463,13 @@ cocoda.controller('myController',[
     };
     
     // Mapping database requests 
+    $scope.hideMappings = function(){
+        $scope.retrievedMapping = [];
+    }
+    $scope.hideCandidates = function(){
+        $scope.retrievedOccurrences = [];
+        $scope.retrievedSuggestions = [];
+    }
     $scope.mappingTargets = 'all';
     $scope.showMappingTargetSelection = false;
     $scope.requestMappingURL = "http://esx-151.gbv.de/?db=mappings&view=fromNotation&exact=true&key=";

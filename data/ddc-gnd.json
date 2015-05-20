@@ -20,7 +20,8 @@
         },
         "mappingRelevance": "0.8",
         "mappingType": "high",
-        "creator": "CrissCross"
+        "creator": "CrissCross",
+        "date":"2010"
     },
 
     {
@@ -55,7 +56,8 @@
         },
         "mappingRelevance": 0.5,
         "mappingType": "medium",
-        "creator": "CrissCross"
+        "creator": "CrissCross",
+        "date":"2010"
     },
 
     {
@@ -78,6 +80,7 @@
         },
         "mappingRelevance": 0.2,
         "mappingType": "low",
-        "creator": "CrissCross"
+        "creator": "CrissCross",
+        "date":"2010"
     }
 ]

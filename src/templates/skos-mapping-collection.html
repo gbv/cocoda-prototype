@@ -1,10 +1,12 @@
-<accordion close-others="false" style="margin-bottom:0px;">
-            <accordion-group is-open="status.open" style="margin-bottom:6px;">
-                
-                <accordion-heading>
-                    <b>Concordance database</b>
-                    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-                </accordion-heading>
-                    <div skos-mapping-table="mappings" select-mapping="useMapping" active-schemes="schemes" lookup-mapping="lookUp" language="language" style="overflow:auto;"></div>
-            </accordion-group>
-</accordion>
+<div class="panel panel-default panel-mapping">
+    <div class="panel-heading">
+        <div class="mapping-header">
+            <span>Concordance database</span>
+                <span ng-click="hideMappings()" style="padding-top:3px;cursor:pointer" class="pull-right glyphicon glyphicon-remove"></span>
+        </div>
+        <!-- <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>  -->
+    </div>
+    <div class="panel-body">
+        <div skos-mapping-table="mappings" select-mapping="useMapping" active-schemes="schemes" lookup-mapping="lookUp" language="language" style="overflow:auto;"></div>
+    </div>
+</div>

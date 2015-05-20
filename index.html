@@ -44,6 +44,8 @@
                         </li>
                     </ul>
                     <div id="login">
+                        <span ng-if="loggedIn" class="glyphicon glyphicon-user"></span>
+                        <span ng-if="loggedIn" style="margin-right:5px;padding-right:5px;border-right: 1px solid #000;" >VZG</span>
                         <a ng-click="loggedIn = !loggedIn" href="">
                             <span ng-if="!loggedIn">Log in</span>
                             <span ng-if="loggedIn">Log out</span>
@@ -57,7 +59,7 @@
         <!-- Left/Origin concept column-->
                 <div class="col-md-3" style="min-width:310px;">
                     <div style="">
-                        <div class="panel panel-default" style="margin-bottom:0px;">
+                        <div class="panel panel-default panel-cocoda" style="margin-bottom:0px;">
                             <div class="panel-heading">
                                 <div class="mapping-header">
                                     <ul class="simple-list">
@@ -80,7 +82,7 @@
                             </div>
                             <div ng-if="activeView.origin.length" class="panel-body">
                                 <accordion>
-                                    <accordion-group is-open="showOriginSearch" style="overflow:visible;">
+                                    <accordion-group is-open="showOriginSearch" style="overflow:visible;" class="panel-cocoda">
                                         <accordion-heading>
                                             <b>Search Options</b>
                                             <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showOriginSearch, 'glyphicon-chevron-right': !showOriginSearch}"></i>
@@ -160,7 +162,7 @@
                         <div ng-if="activeView.origin.length && topOriginConcept">
                             <div ng-if="topOriginConcept" class="top-concept">
                                 <accordion>
-                                    <accordion-group is-open="showTopConcepts.origin">
+                                    <accordion-group is-open="showTopConcepts.origin" class="panel-cocoda">
                                         <accordion-heading>
                                             <b>Top Concepts</b>
                                             <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTopConcepts.origin, 'glyphicon-chevron-right': !showTopConcepts.origin}"></i>
@@ -181,7 +183,7 @@
         <!-- Middle/Mapping and context column -->
                 <div class="col-md-6" style="overflow:visible">
                     <!-- Active mapping template -->
-                    <div class="panel panel-default" style="margin-bottom:0px;">
+                    <div class="panel panel-default panel-cocoda" style="margin-bottom:0px;">
                         <div class="panel-heading">
                             <div class="mapping-header">
                                 <span>Active Mapping</span>
@@ -265,11 +267,60 @@
                     <!-- context templates -->
                     <div class="context">
                         <div class="context-body">
-                        
+                            <div class="tmpl-border" style="width:100%;" ng-if="retrievedOccurrences || retrievedSuggestions">
+                                <div class="panel panel-default panel-candidates">
+                                    <div class="panel-heading">
+                                        <div class="mapping-header">
+                                            <span>Mapping Candidates</span>
+                                            <span ng-click="hideCandidates()" style="padding-top:3px;cursor:pointer" class="pull-right glyphicon glyphicon-remove"></span>
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                    <!-- Occurrences display -->
+                                    
+                                        <div ng-if="retrievedOccurrences" class="tmpl-border" style="float:left;width:40%">
+                                            <div style="overflow:auto" skos-occurrences="retrievedOccurrences" select-occurrence="insertMapping" look-up-occurrence="lookUpMapping" language="language"></div>
+                                        </div>
+                                        
+                                    <!-- Suggestions display -->
+                                    
+                                        <div ng-if="retrievedSuggestions" class="tmpl-border" style="float:right;margin-bottom:0px;width:58%">
+                                            <accordion>
+                                                <accordion-group is-open="showSuggestions" class="panel-cocoda">
+                                                    <accordion-heading>
+                                                        <b>Suggested Target Concepts</b>
+                                                        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showSuggestions, 'glyphicon-chevron-right': !showSuggestions}"></i>
+                                                    </accordion-heading>
+                                                    <ul class="simple-list">
+                                                        <li ng-repeat="c in retrievedSuggestions.conceptSet" style="display:table-row;">
+                                                            <span style="display:table-cell"><span style="white-space:nowrap" class="notation">{{c.notation[0]}}</span></span>
+                                                            <span style="display:table-cell;padding-left:4px;padding-right:4px;"><span skos-label="c.prefLabel"></span></span>
+                                                            <span style="display:table-cell;">
+                                                                <span style="white-space:nowrap">
+                                                                <a title="Select concept" class="action-icon" style="vertical-align:middle;">
+                                                                    <span ng-click="lookUpMapping(c)">
+                                                                        <span style="top:2px;" class="glyphicon glyphicon-info-sign"></span>
+                                                                    </span>
+                                                                </a>
+                                                                <a title="Add concept to mapping" class="action-icon" style="vertical-align:middle;">
+                                                                    <span ng-click="insertMapping(c)">
+                                                                        <span style="" class="glyphicon glyphicon-plus"></span>
+                                                                    </span>
+                                                                </a>
+                                                                </span>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </accordion-group>
+                                            </accordion>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         <!-- Existing mappings templates -->
                         
                             <div style="width:100%;margin:0px auto;">
-                                <div ng-if="retrievedMapping.length" class="tmpl-border">
+                                <div ng-if="retrievedMapping.length" class="tmpl-border" style="width:100%;">
                                     <div use-mapping="insertMapping" 
                                         active-schemes="activeView" 
                                         skos-mapping-collection="retrievedMapping" 
@@ -277,48 +328,13 @@
                                         language="language"></div>
                                 </div>
                             </div>
-                            
-                        <!-- Occurrences display -->
-                        
-                            <div ng-if="retrievedOccurrences" class="tmpl-border" style="float:left;">
-                                <div style="overflow:auto" skos-occurrences="retrievedOccurrences" select-occurrence="insertMapping" look-up-occurrence="lookUpMapping" language="language"></div>
-                            </div>
-                            
-                        <!-- Suggestions display -->
-                        
-                            <div ng-if="retrievedSuggestions" class="tmpl-border" style="float:left;margin-left:20px;margin-bottom:0px;">
-                                <accordion>
-                                    <accordion-group is-open="showSuggestions">
-                                        <accordion-heading>
-                                            <b>Suggested Target Concepts</b>
-                                            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showSuggestions, 'glyphicon-chevron-right': !showSuggestions}"></i>
-                                        </accordion-heading>
-                                        <ul class="simple-list">
-                                            <li ng-repeat="c in retrievedSuggestions.conceptSet">
-                                                <span skos-label="c.prefLabel"></span>
-                                                    <a title="Select concept" class="action-icon" style="vertical-align:middle;">
-                                                        <span ng-click="lookUpMapping(c)">
-                                                            <span style="top:2px;" class="glyphicon glyphicon-info-sign"></span>
-                                                        </span>
-                                                    </a>
-                                                    <a title="Add concept to mapping" class="action-icon" style="vertical-align:middle;">
-                                                        <span ng-click="insertMapping(c)">
-                                                            <span style="" class="glyphicon glyphicon-plus"></span>
-                                                        </span>
-                                                    </a>
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    </accordion-group>
-                                </accordion>
-                            </div>
                         </div>
                     </div>
                 </div>
         <!-- Right/Target concept column-->
                 <div class="col-md-3" style="min-width:310px;">
                     <div style="">
-                        <div class="panel panel-default" style="margin-bottom:0px;">
+                        <div class="panel panel-default panel-cocoda" style="margin-bottom:0px;">
                             <div class="panel-heading">
                                 <div class="mapping-header">
                                     <ul class="simple-list">
@@ -341,7 +357,7 @@
                             </div>
                             <div ng-if="activeView.target" class="panel-body">
                                 <accordion>
-                                    <accordion-group is-open="showTargetSearch" style="overflow:visible;">
+                                    <accordion-group is-open="showTargetSearch" style="overflow:visible;" class="panel-cocoda">
                                         <accordion-heading>
                                             <b>Search Options</b>
                                             <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTargetSearch, 'glyphicon-chevron-right': !showTargetSearch}"></i>
@@ -415,7 +431,7 @@
                         <div ng-if="activeView.target.length">
                             <div ng-if="topTargetConcept" class="top-concept">
                                 <accordion>
-                                    <accordion-group is-open="showTopConcepts.target">
+                                    <accordion-group is-open="showTopConcepts.target" class="panel-cocoda">
                                         <accordion-heading>
                                             <b>Top Concepts</b>
                                             <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showTopConcepts.target, 'glyphicon-chevron-right': !showTopConcepts.target}"></i>
