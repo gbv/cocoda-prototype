@@ -325,6 +325,7 @@ cocoda.controller('myController',[
     // possible profile scope
     
 
+    // LOGIN
     $scope.loggedIn = false;
 
     // active source and target schemes
@@ -332,10 +333,20 @@ cocoda.controller('myController',[
         origin: 'DDC',
         target: 'RVK'
     };
+    
+    // Standard search method
     $scope.searchMode = {
         origin: "Label",
         target: "Label"
     }
+    //
+    // show/hide top concepts
+    $scope.showTopConcepts = {
+        origin:false,
+        target:false
+    };
+    $scope.language = "en";
+    
     // source scheme selection behavior
     $scope.setOrigin = function(scheme) {
         if(scheme == ''){
@@ -403,7 +414,7 @@ cocoda.controller('myController',[
         message: ""
     }
     $scope.showMappingMessage = false;
-    $scope.SaveMappingURL = "http://esx-151.gbv.de/mapping/insert"; // TODO: Change URL to new DB
+    $scope.SaveMappingURL = "http://esx-151.gbv.de/mappings/insert"; // TODO: Change URL to new DB
     $scope.SaveCurrentMapping = function() {
         if($scope.loggedIn === true){
             $scope.currentMapping.source = "VZG";
@@ -419,6 +430,7 @@ cocoda.controller('myController',[
                 $scope.showMappingMessage = true;
             })
             .error(function(data, status, headers, config) {
+                console.log(status);
                 $scope.saveStatus = {
                     type: status,
                     success: false,
@@ -577,14 +589,10 @@ cocoda.controller('myController',[
        
     }
     
-    // show/hide top concepts
-    $scope.showTopConcepts = {
-        origin:false,
-        target:false
-    };
+
     
     $scope.showSuggestions = true;
-    $scope.language = "en";
+
     
     // SKOS-MAPPING-COLLECTION/TABLE/OCCURRENCES TO SKOS-CONCEPT-MAPPING
     

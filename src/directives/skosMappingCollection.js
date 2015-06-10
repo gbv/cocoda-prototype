@@ -69,7 +69,6 @@ angular.module('ngSKOS')
 .directive('skosMappingCollection', function() {
     return {
         restrict: 'A',
-        require: '^ngController',
         scope: {
             mappings: '=skosMappingCollection',
             useMapping: '=useMapping',
@@ -81,12 +80,12 @@ angular.module('ngSKOS')
             return attrs.templateUrl ?
                    attrs.templateUrl : 'src/templates/skos-mapping-collection.html';
         },
-        link: function(scope, element, attr, controller) {
+        link: function(scope, element, attr) {
             scope.$watch('language');
-            scope.hideMappings = function(){
-                console.log(controller);
-                controller.hideMappings();
+            scope.hide = function(){
+                scope.mappings = [];
             }
+
         },
         controller: function($scope){
             $scope.status = { open: true};
