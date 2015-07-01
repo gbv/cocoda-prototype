@@ -222,6 +222,19 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
             },
             jsonp: 'jsonp'
         }),
+        getSuggestions: new SkosConceptListSource({
+            url:"http://rvk.uni-regensburg.de/api/json/register/Blutdruck",
+            transform: function(response){
+                var concepts = [];
+                angular.forEach(response.Register, function(c){
+                    if(c.match == "exact"){
+                        concepts.push({ notation: [ c.notation ], prefLabel: { de: c.begriff } })
+                    }
+                })
+                return concepts;
+            },
+            jsonp: 'jsonp'
+        })
         
     };
     
@@ -314,6 +327,7 @@ cocoda.controller('myController',[
 
     $scope.rvkNarrowerConcepts = cocodaSchemes.rvk.getNarrower;
     $scope.rvkBroaderConcepts = cocodaSchemes.rvk.getBroader;
+    $scope.rvkSuggestions = cocodaSchemes.rvk.getSuggestions;
     
     $scope.ddcNarrowerConcepts = cocodaSchemes.ddc.getNarrower;
     $scope.ddcBroaderConcepts = cocodaSchemes.ddc.getBroader;
@@ -544,6 +558,13 @@ cocoda.controller('myController',[
             });
         }
     }
+    $scope.requestSuggestions = function(label){
+        if($scope.activeView.target == 'RVK'){
+            $scope.rvkSuggestions.getConceptList(label).then(function(response){
+                $scope.retrievedSuggestions = angular.copy(response);
+            })
+        }
+    }
     /*
     $scope.safeApply = function(fn) { 
         var phase = this.$root.$$phase; 
@@ -649,7 +670,7 @@ cocoda.controller('myController',[
             $scope.retrievedSuggestions = angular.copy($scope.rvkSuggestions);
         }else{
             $scope.retrievedOccurrences = [];
-            $scope.retrievedSuggestions = [];
+            $scope.requestSuggestions(item.prefLabel.de); // TODO language
         }
     };
     // Add target mapping concept to list

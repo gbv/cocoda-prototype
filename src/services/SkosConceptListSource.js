@@ -33,6 +33,23 @@ angular.module('ngSKOS')
         return this.get();
     };
     
+    SkosConceptListSource.prototype.getConceptListByLabel = function(label) {
+        var url;
+        // look up by uri / notation / prefLabel
+        if (this.url) {
+            if (angular.isFunction(this.url)) {
+                url = this.url(concept);
+            } else {
+                url = this.url;
+                    url = url.replace('{prefLabel}', decodeURIComponent(label));
+            }
+        } else {
+            url = label;
+        }
+
+        return this.get(url);
+    };
+    
     SkosConceptListSource.prototype.updateConceptList = function() {
         return this.getConceptList(list).then(
             function(response) {

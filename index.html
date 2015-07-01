@@ -27,6 +27,7 @@
         <script src="src/directives/skosMappingTable.js"></script>
         <script src="src/directives/skosOccurrences.js"></script>
         <script src="src/directives/skosConceptMapping.js"></script>
+        <script src="src/directives/skosSuggestions.js"></script>
 
         <!-- cocoda application -->
         <link href="cocoda.css" rel="stylesheet" />
@@ -267,7 +268,7 @@
                     <!-- context templates -->
                     <div class="context">
                         <div class="context-body">
-                            <div class="tmpl-border" style="width:100%;" ng-if="retrievedOccurrences || retrievedSuggestions">
+                            <div class="tmpl-border" style="width:100%;" ng-if="retrievedSuggestions || retrievedOccurrences">
                                 <div class="panel panel-default panel-candidates">
                                     <div class="panel-heading">
                                         <div class="mapping-header">
@@ -278,48 +279,21 @@
                                     <div class="panel-body">
                                     <!-- Occurrences display -->
                                     
-                                        <div ng-if="retrievedOccurrences" class="tmpl-border" style="float:left;width:40%">
+                                        <div ng-if="retrievedOccurrences" class="tmpl-border" style="float:left;max-width:40%">
                                             <div style="overflow:auto" skos-occurrences="retrievedOccurrences" select-occurrence="insertMapping" look-up-occurrence="lookUpMapping" language="language"></div>
                                         </div>
                                         
                                     <!-- Suggestions display -->
                                     
-                                        <div ng-if="retrievedSuggestions" class="tmpl-border" style="float:right;margin-bottom:0px;width:58%">
-                                            <accordion>
-                                                <accordion-group is-open="showSuggestions" class="panel-cocoda">
-                                                    <accordion-heading>
-                                                        <b>Suggested Target Concepts</b>
-                                                        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': showSuggestions, 'glyphicon-chevron-right': !showSuggestions}"></i>
-                                                    </accordion-heading>
-                                                    <ul class="simple-list">
-                                                        <li ng-repeat="c in retrievedSuggestions.conceptSet" style="display:table-row;">
-                                                            <span style="display:table-cell"><span style="white-space:nowrap" class="notation">{{c.notation[0]}}</span></span>
-                                                            <span style="display:table-cell;padding-left:4px;padding-right:4px;"><span skos-label="c.prefLabel"></span></span>
-                                                            <span style="display:table-cell;">
-                                                                <span style="white-space:nowrap">
-                                                                <a title="Select concept" class="action-icon" style="vertical-align:middle;">
-                                                                    <span ng-click="lookUpMapping(c)">
-                                                                        <span style="top:2px;" class="glyphicon glyphicon-info-sign"></span>
-                                                                    </span>
-                                                                </a>
-                                                                <a title="Add concept to mapping" class="action-icon" style="vertical-align:middle;">
-                                                                    <span ng-click="insertMapping(c)">
-                                                                        <span style="" class="glyphicon glyphicon-plus"></span>
-                                                                    </span>
-                                                                </a>
-                                                                </span>
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </accordion-group>
-                                            </accordion>
+                                        <div ng-if="retrievedSuggestions.length" class="tmpl-border" style="float:right;margin-bottom:0px;max-width:58%">
+                                            <div style="overflow:auto" skos-suggestions="retrievedSuggestions" select-suggestion="insertMapping" look-up-suggestion="lookUpMapping" language="language"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         <!-- Existing mappings templates -->
                         
-                            <div style="width:100%;margin:0px auto;">
+                            <div ng-if="retrievedMapping" style="width:100%;margin:0px auto;">
                                 <div ng-if="retrievedMapping.length" class="tmpl-border" style="width:100%;">
                                     <div use-mapping="insertMapping" 
                                         active-schemes="activeView" 

@@ -1,0 +1,33 @@
+<accordion>
+    <accordion-group is-open="status.open" class="panel-cocoda">
+        <accordion-heading>
+            <b>Suggested Target Concepts</b>
+            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+        </accordion-heading>
+        <ul class="simple-list">
+            <li ng-repeat="c in concepts" style="display:table-row;">
+                <span style="display:table-cell"><span style="white-space:nowrap" class="notation">{{c.notation[0]}}</span></span>
+                <span style="display:table-cell;padding-left:4px;padding-right:4px;"><span skos-label="c.prefLabel"></span></span>
+                <span style="display:table-cell;">
+                    <span style="white-space:nowrap">
+                        <a title="Select concept" class="action-icon" style="vertical-align:middle;">
+                            <span ng-click="lookup(c)">
+                                <span style="top:2px;" class="glyphicon glyphicon-info-sign"></span>
+                            </span>
+                        </a>
+                        <a title="Add concept to mapping" class="action-icon" style="vertical-align:middle;">
+                            <span ng-click="select(c)">
+                                <span style="" class="glyphicon glyphicon-plus"></span>
+                            </span>
+                        </a>
+                        <a title="Remove from List" class="action-icon"  style="vertical-align:middle;">
+                            <span ng-click="remove($index)">
+                                <span class="glyphicon glyphicon-trash" title="Remove concept (DEL)"></span>
+                            </span>
+                        </a>
+                    </span>
+                </span>
+            </li>
+        </ul>
+    </accordion-group>
+</accordion>
