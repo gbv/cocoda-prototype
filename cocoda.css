@@ -162,3 +162,10 @@
 .occurrence-result{
     margin-left:4px;
 }
+.gnd-fields{
+    margin-left:14px;
+}
+.gnd-fields-title{
+    font-weight:bold;
+    padding:2px;
+}

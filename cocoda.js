@@ -223,7 +223,7 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
             jsonp: 'jsonp'
         }),
         getSuggestions: new SkosConceptListSource({
-            url:"http://rvk.uni-regensburg.de/api/json/register/Blutdruck",
+            url:"http://rvk.uni-regensburg.de/api/json/register/{prefLabel}",
             transform: function(response){
                 var concepts = [];
                 angular.forEach(response.Register, function(c){
@@ -500,6 +500,7 @@ cocoda.controller('myController',[
     $scope.showMappingTargetSelection = false;
     $scope.requestMappingURL = "http://esx-151.gbv.de/?db=mappings&view=fromNotation&exact=true&key=";
     $scope.retrievedMapping = [];
+    $scope.GNDTerms = [];
     $scope.transformData = function(data){
         angular.forEach(data, function(d){
             var mr = d.value.mappingRelevance;
@@ -526,43 +527,58 @@ cocoda.controller('myController',[
                     mapping.mappingType = "very high";
                 }
             }
-            $scope.retrievedMapping.push(mapping);
+            if(mapping.to.inScheme[0].notation != 'GND' && mapping.from.inScheme[0].notation != 'DDC'){
+                $scope.retrievedMapping.push(mapping);
+            }else{
+                $scope.GNDTerms.push(mapping);
+            }
         });
     }
     $scope.requestMappings = function(target){  // TODO: remove static samples
         $scope.retrievedMapping = [];
-        if($scope.originConcept.notation[0] == "612.112" && $scope.activeView.origin == "DDC"){ 
-            if(target == 'all'){
-                $scope.retrievedMapping = angular.copy($scope.mappingSampleDDC);
-            }else if(target == 'GND'){
-                $scope.retrievedMapping = angular.copy($scope.mappingSampleNew);
-            }else if(target == 'RVK'){
-                $scope.retrievedMapping = angular.copy($scope.mappingSampleDDCRVK);
-            }else{
-                $scope.retrievedMapping = [];
-            }
-        }else{
-            var url = $scope.requestMappingURL + $scope.originConcept.notation[0];
-            var get = $http.jsonp;
-            url += url.indexOf('?') == -1 ? '?' : '&';
-            url += 'callback=JSON_CALLBACK';
+        $scope.GNDTerms = [];
+        var url = $scope.requestMappingURL + $scope.originConcept.notation[0];
+        var get = $http.jsonp;
+        url += url.indexOf('?') == -1 ? '?' : '&';
+        url += 'callback=JSON_CALLBACK';
 
-            get(url).success(function(data, status){
-                $scope.transformData(data);
-                
-                if(!$scope.retrievedMapping[0]){
-                    $scope.retrievalSuccess = false;
-                }
-            }).error(function(data, status, headers){
-                console.log("Failed!" + status);
-            });
-        }
+        get(url).success(function(data, status){
+            $scope.transformData(data);
+            
+            if(!$scope.retrievedMapping[0]){
+                $scope.retrievalSuccess = false;
+            }
+        }).error(function(data, status, headers){
+            console.log("Failed!" + status);
+        });
     }
     $scope.requestSuggestions = function(label){
         if($scope.activeView.target == 'RVK'){
-            $scope.rvkSuggestions.getConceptList(label).then(function(response){
+            var suggestions = [];
+            $scope.rvkSuggestions.getConceptListByLabel(label).then(function(response){
                 $scope.retrievedSuggestions = angular.copy(response);
+            });
+            angular.forEach($scope.GNDTerms, function(g){
+                angular.forEach(g.to.conceptSet, function(c){
+                    var deferred = $q.defer();
+                    var res = false;
+                    console.log(c.prefLabel.de + "+" + label);
+                    if(c.prefLabel.de != label){
+                        $scope.rvkSuggestions.getConceptListByLabel(c.prefLabel.de).then(function(response){
+                            deferred.resolve(response);
+                        })
+                        suggestions.push(deferred.promise);
+                    }
+                })
             })
+            $q.all(suggestions).then(function(results){
+                angular.forEach(results, function(r){
+                    if(r.length){
+                        $scope.retrievedSuggestions.push(r[0]);
+                        console.log(r[0]);
+                    }
+                })
+            });
         }
     }
     /*
@@ -856,6 +872,7 @@ cocoda.controller('myController',[
                     });
                 })
             };
+            $scope.requestMappings('GND');
         }
     };
     
