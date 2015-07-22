@@ -686,6 +686,7 @@ cocoda.controller('myController',[
             $scope.retrievedSuggestions = angular.copy($scope.rvkSuggestions);
         }else{
             $scope.retrievedOccurrences = [];
+            $scope.retrievedSuggestions = [];
             $scope.requestSuggestions(item.prefLabel.de); // TODO language
         }
     };

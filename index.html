@@ -144,8 +144,8 @@
                                             </div>
                                             <div class="gnd-fields">
                                                 <span class="gnd-fields-title">GND-Terme:</span>
-                                                <div ng-repeat="g in GNDTerms">
-                                                    <span>Relevance: {{g.mappingType}}</span>
+                                                <div ng-repeat="g in GNDTerms" class="gnd-fields-labels">
+                                                    <span class="gnd-fields-relevance">Relevanz: {{g.mappingType}}</span>
                                                     <div ng-repeat="c in g.to.conceptSet">
                                                         <span>{{c.prefLabel.de}}</span>
                                                     </div>
@@ -281,7 +281,7 @@
                     <!-- context templates -->
                     <div class="context">
                         <div class="context-body">
-                            <div class="tmpl-border" style="width:100%;" ng-if="retrievedSuggestions || retrievedOccurrences">
+                            <div class="tmpl-border" style="width:100%;" ng-if="retrievedSuggestions.length || retrievedOccurrences">
                                 <div class="panel panel-default panel-candidates">
                                     <div class="panel-heading">
                                         <div class="mapping-header">
@@ -300,7 +300,6 @@
                                     
                                         <div ng-if="retrievedSuggestions.length" class="tmpl-border" style="float:right;margin-bottom:0px;max-width:58%">
                                             <div style="overflow:auto" skos-suggestions="retrievedSuggestions" select-suggestion="insertMapping" look-up-suggestion="lookUpMapping" language="language"></div>
-                                            {{retrievedSuggestions}}
                                         </div>
                                     </div>
                                 </div>

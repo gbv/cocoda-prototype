@@ -169,3 +169,14 @@
     font-weight:bold;
     padding:2px;
 }
+.gnd-fields-labels{
+    padding:2px;
+    border:1px solid #ccc;
+    border-radius:2px;
+    margin:3px 0px;
+}
+.gnd-fields-relevance{
+    background-color:#eee;
+    padding:2px;
+    display:block;
+}
