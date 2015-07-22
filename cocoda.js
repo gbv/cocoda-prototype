@@ -498,19 +498,28 @@ cocoda.controller('myController',[
     }
     $scope.mappingTargets = 'all';
     $scope.showMappingTargetSelection = false;
-    $scope.requestMappingURL = "http://esx-151.gbv.de/?db=mappings&view=fromNotation&exact=true&key=";
+    $scope.requestMappingURL = "http://coli-conc.gbv.de/cocoda/api/mappings?fromNotation=";
     $scope.retrievedMapping = [];
     $scope.GNDTerms = [];
     $scope.transformData = function(data){
         angular.forEach(data, function(d){
-            var mr = d.value.mappingRelevance;
-            var mt = d.value.mappingType;
+            if(d.value){
+                d = d.value;
+            }
+            var mt = "";
+            var mr = "";
+            if(d.mappingRelevance){
+                mr = d.mappingRelevance;
+            }
+            if(d.mappingType){
+                mt = d.mappingType;
+            }
             var mapping = {
-                creator: d.value.creator,
-                mappingRelevance: mr,
-                mappingType: mt,
-                from: d.value.from,
-                to: d.value.to
+                creator: d.creator,
+                mappingRelevance: "",
+                mappingType: "",
+                from: d.from,
+                to: d.to
             }
             if(mr == 0.2){ // TODO: remove conversion of specific types
                 mapping.mappingType = "low";
@@ -527,10 +536,10 @@ cocoda.controller('myController',[
                     mapping.mappingType = "very high";
                 }
             }
-            if(mapping.to.inScheme[0].notation != 'GND' && mapping.from.inScheme[0].notation != 'DDC'){
-                $scope.retrievedMapping.push(mapping);
-            }else{
+            if(mapping.to.inScheme[0].notation == 'GND' && mapping.from.inScheme[0].notation == 'DDC'){
                 $scope.GNDTerms.push(mapping);
+            }else{
+                $scope.retrievedMapping.push(mapping);
             }
         });
     }
@@ -541,8 +550,10 @@ cocoda.controller('myController',[
         var get = $http.jsonp;
         url += url.indexOf('?') == -1 ? '?' : '&';
         url += 'callback=JSON_CALLBACK';
+        console.log(url);
 
         get(url).success(function(data, status){
+            console.log(data);
             $scope.transformData(data);
             
             if(!$scope.retrievedMapping[0]){
