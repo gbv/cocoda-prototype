@@ -750,7 +750,7 @@ cocoda.controller('myController',[
     
     // fill origin concept
     $scope.selectOriginSubject = function(item) {
-         
+        $scope.GNDTerms = [];
         // check for selected concept scheme
         if($scope.activeView.origin == 'GND'){
             
@@ -826,7 +826,7 @@ cocoda.controller('myController',[
             };
 
         }else if($scope.activeView.origin == 'DDC'){
-            
+            $scope.GNDTerms = [];
             $scope.originConcept = {
                 notation: [ item.notation ],
                 uri: item.uri,
@@ -858,7 +858,7 @@ cocoda.controller('myController',[
                 }
             })
             $scope.clickOriginConcept = function(concept) {
-                
+                $scope.GNDTerms = [];
                 $scope.ddcSubjectConcept.updateConcept($scope.originConcept = concept ).then(function(){
                     $scope.tbConcept = angular.copy($scope.originConcept.broader[0]);
                 }).then(function(){
@@ -871,6 +871,8 @@ cocoda.controller('myController',[
                     $scope.ddcNarrowerConcepts.updateConcept($scope.tnConcept).then(function(){
                         $scope.originConcept.narrower = angular.copy($scope.tnConcept.narrower);
                     });
+                }).then(function(){
+                    $scope.requestMappings('GND');
                 })
             };
             $scope.requestMappings('GND');
