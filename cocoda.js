@@ -165,13 +165,13 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
                     notation: [ item.node.notation ],
                     uri: "",
                     prefLabel: { de: item.node.benennung },
-                    altLabel: "" ,
+                    altLabel: { de: [] } ,
                     hasChildren: false
                 }
                 if(angular.isArray(item.node.register)){
-                    concept.altLabel = item.node.register;
+                    concept.altLabel.de = item.node.register;
                 }else if(angular.isString(item.node.register)){
-                    concept.altLabel = [item.node.register];
+                    concept.altLabel.de = [item.node.register];
                 }
                 if(item.node.has_children == 'yes'){
                     concept.hasChildren = true;
@@ -359,7 +359,7 @@ cocoda.controller('myController',[
         origin:false,
         target:false
     };
-    $scope.language = "en";
+    $scope.language = "de";
     
     // source scheme selection behavior
     $scope.setOrigin = function(scheme) {
@@ -557,10 +557,8 @@ cocoda.controller('myController',[
         url += $scope.originConcept.notation[0];
         url += url.indexOf('?') == -1 ? '?' : '&';
         url += 'callback=JSON_CALLBACK';
-        console.log(url);
 
         get(url).success(function(data, status){
-            console.log(data);
             $scope.transformData(data);
             
             if(!$scope.retrievedMapping[0]){
@@ -580,7 +578,6 @@ cocoda.controller('myController',[
                 angular.forEach(g.to.conceptSet, function(c){
                     var deferred = $q.defer();
                     var res = false;
-                    console.log(c.prefLabel.de + "+" + label);
                     if(c.prefLabel.de != label){
                         $scope.rvkSuggestions.getConceptListByLabel(c.prefLabel.de).then(function(response){
                             deferred.resolve(response);
@@ -593,7 +590,6 @@ cocoda.controller('myController',[
                 angular.forEach(results, function(r){
                     if(r.length){
                         $scope.retrievedSuggestions.push(r[0]);
-                        console.log(r[0]);
                     }
                 })
             });
@@ -923,11 +919,8 @@ cocoda.controller('myController',[
             };
         }else if($scope.activeView.target == 'RVK'){
             var not = item.notation;
-            console.log(not);
             if(/\d-\w/.test(item.notation)){
-                console.log("b: " + item.notation[0]);
                 not = item.notation[0].split("-").join(" - ");
-                console.log("a:" + not);
             }
             // populate with basic data
             $scope.targetConcept = {
