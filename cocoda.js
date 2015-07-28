@@ -543,11 +543,18 @@ cocoda.controller('myController',[
             }
         });
     }
-    $scope.requestMappings = function(target){  // TODO: remove static samples
+    $scope.requestMappings = function(target){
         $scope.retrievedMapping = [];
-        $scope.GNDTerms = [];
-        var url = $scope.requestMappingURL + $scope.originConcept.notation[0];
+        var url = "http://coli-conc.gbv.de/cocoda/api/mappings?fromNotation=";
         var get = $http.jsonp;
+        if(target != 'all'){
+            url = "http://coli-conc.gbv.de/cocoda/api/mappings?toSchemeNotation=" + target + "&fromNotation=";
+        }
+        if($scope.activeView.origin == 'DDC' && target == 'GND'){
+            url = "http://esx-151.gbv.de/?db=mappings&view=fromNotation&exact=true&key=";
+            $scope.GNDTerms = [];
+        }
+        url += $scope.originConcept.notation[0];
         url += url.indexOf('?') == -1 ? '?' : '&';
         url += 'callback=JSON_CALLBACK';
         console.log(url);
@@ -915,11 +922,17 @@ cocoda.controller('myController',[
                 );
             };
         }else if($scope.activeView.target == 'RVK'){
-
+            var not = item.notation;
+            console.log(not);
+            if(/\d-\w/.test(item.notation)){
+                console.log("b: " + item.notation[0]);
+                not = item.notation[0].split("-").join(" - ");
+                console.log("a:" + not);
+            }
             // populate with basic data
             $scope.targetConcept = {
-                notation: [ item.notation ],
-                uri: item.notation ,
+                notation: [ not ],
+                uri: not ,
                 prefLabel: item.prefLabel,
             };
             // update concept
