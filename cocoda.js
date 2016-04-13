@@ -4,8 +4,8 @@ var cocoda = angular.module('Cocoda', ['ngSKOS','ui.bootstrap','ngSuggest']);
  * Konfiguration aller unterstützen Concept Schemes
  */
 cocoda.service('cocodaSchemes', 
-    ["OpenSearchSuggestions","SkosConceptSource","SkosConceptListSource",
-function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
+    ["OpenSearchSuggestions","SkosConceptSource","SkosConceptListSource","$http",
+function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource, $http) {
     this.gnd = {
         name: 'GND',
         // Suggestions API via lobid.org
@@ -159,68 +159,12 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
         }),
         // get main concept
         getConcept: new SkosConceptSource({
-            url: "http://rvk.uni-regensburg.de/api/json/node/{notation}",
+            url: "http://193.174.240.128:6033/concepts?notation={notation}",
             transform: function(item) {
-                var concept = {
-                    notation: [ item.node.notation ],
-                    uri: "",
-                    prefLabel: { de: item.node.benennung },
-                    altLabel: { de: [] } ,
-                    hasChildren: false
-                }
-                if(angular.isArray(item.node.register)){
-                    concept.altLabel.de = item.node.register;
-                }else if(angular.isString(item.node.register)){
-                    concept.altLabel.de = [item.node.register];
-                }
-                if(item.node.has_children == 'yes'){
-                    concept.hasChildren = true;
-                }
+                var concept = item[0];
                 return concept;
             },
-            jsonp: 'jsonp'
-        }),
-        // get all direct children of the concept
-        getNarrower: new SkosConceptSource({
-            url: "http://rvk.uni-regensburg.de/api/json/children/{notation}",
-            transform: function(item) {
-
-                var concept = {
-                    notation: [ item.node.notation ],
-                    uri: "",
-                    prefLabel: { de: item.node.benennung },
-                    narrower: [],
-                    broader: [],
-                };
-                if(!item.node.nochildren){
-                    if(angular.isArray(item.node.children.node)){
-                        angular.forEach(item.node.children.node, function(nterm) {
-                            concept.narrower.push({uri: "", prefLabel: { de: nterm.benennung }, notation: [ nterm.notation ] });
-                        });
-                    } else if(angular.isString(item.node.children.node)){
-                        concept.narrower = [{uri: "", prefLabel: { de: item.node.children.node.benennung }, notation: [ item.node.children.node.notation ] }];
-                    }
-                }
-                return concept;
-            },
-            jsonp: 'jsonp'
-        }),
-        // get the direct ancestor of the concept
-        getBroader: new SkosConceptSource({
-            url: "http://rvk.uni-regensburg.de/api/json/ancestors/{notation}",
-            transform: function(item) {
-                var concept = { 
-                    notation: [ item.node.notation ],
-                    uri: "",
-                    prefLabel: { de: item.node.benennung },
-                    broader: [],
-                };
-                if(item.node.ancestor){
-                    concept.broader.push({ notation: [ item.node.ancestor.node.notation ], uri: "", prefLabel: { de: item.node.ancestor.node.benennung } })
-                }
-                return concept;
-            },
-            jsonp: 'jsonp'
+            jsonp: false
         }),
         getSuggestions: new SkosConceptListSource({
             url:"http://rvk.uni-regensburg.de/api/json/register/{prefLabel}",
@@ -240,6 +184,21 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource) {
     
     this.ddc = {
         name: 'DDC',
+        topConcepts: function(){
+            var concepts = [];
+            $http.get('data/ddc/topConcepts.json').success(function(data){
+                concepts = { values: data };
+                return concepts;
+            });
+        },
+        topConcepts: new SkosConceptListSource({
+            url: "data/ddc/topConcepts.json",
+            jsonp: false,
+            transform: function(response) { 
+                var concepts = { values: response };
+                return concepts; 
+            },
+        }), 
         getConcept: new SkosConceptSource({
             url:"http://esx-151.gbv.de/?view=notation&key={notation}&exact=true",
             transform: function(item){
@@ -518,7 +477,9 @@ cocoda.controller('myController',[
                 creator: d.creator,
                 mappingRelevance: "",
                 mappingType: "",
+                fromScheme: d.fromScheme ? d.fromScheme : "",
                 from: d.from,
+                toScheme: d.toScheme ? d.toScheme : "",
                 to: d.to
             }
             if(mr == 0.2){ // TODO: remove conversion of specific types
@@ -536,8 +497,10 @@ cocoda.controller('myController',[
                     mapping.mappingType = "very high";
                 }
             }
-            if(mapping.to.inScheme[0].notation == 'GND' && mapping.from.inScheme[0].notation == 'DDC'){
-                $scope.GNDTerms.push(mapping);
+            if(mapping.to.inScheme){
+              if(mapping.to.inScheme[0].notation == 'GND' && mapping.from.inScheme[0].notation == 'DDC'){
+                  $scope.GNDTerms.push(mapping);
+              }
             }else{
                 $scope.retrievedMapping.push(mapping);
             }
@@ -607,14 +570,18 @@ cocoda.controller('myController',[
             $scope.topOriginConcept = response;
         });
     }else if($scope.activeView.origin == 'DDC'){ // TODO: Retrieve dynamically
-            $scope.topOriginConcept = angular.copy($scope.ddcTopConcepts);
+        cocodaSchemes.ddc.topConcepts.getConceptList().then(function(response){
+            $scope.topOriginConcept = response;
+        });
     }
     if($scope.activeView.target == 'RVK'){
         cocodaSchemes.rvk.topConcepts.getConceptList().then(function(response){
             $scope.topTargetConcept = response;
         });
     }else if($scope.activeView.target == 'DDC'){ // TODO: Retrieve dynamically
-            $scope.topTargetConcept = angular.copy($scope.ddcTopConcepts);   
+        cocodaSchemes.ddc.topConcepts.getConceptList().then(function(response){
+            $scope.topTargetConcept = response;
+        }); 
     }
     $scope.changeTopOrigin = function(scheme){
         if(scheme == 'RVK'){
@@ -797,46 +764,10 @@ cocoda.controller('myController',[
                 prefLabel: item.prefLabel,
             };
             // update concept
-            $scope.rvkSubjectConcept.updateConcept($scope.originConcept).then(function() {
-                // fill buffer concept, so originConcept won't be overwritten
-                $scope.tempConcept = angular.copy($scope.originConcept);
-                $scope.originSubject = $scope.originConcept.prefLabel.de;
-                if($scope.originConcept.hasChildren == true){
-                    $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept).then(function(){
-                        $scope.originConcept.altLabel = angular.copy($scope.tempConcept.altLabel);
-                        $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
-                            $scope.originConcept.broader = $scope.tempConcept.broader;
-                        })
-                    });
-                }else{
-
-                    $scope.rvkBroaderConcepts.updateConcept($scope.originConcept).then(function(){
-                        $scope.originConcept.altLabel = $scope.tempConcept.altLabel;
-                    });
-                }
-            });
+            $scope.rvkSubjectConcept.updateConcept($scope.originConcept);
             // when concept node is clicked
             $scope.clickOriginConcept = function(concept) {
-                
-                $scope.rvkSubjectConcept.updateConcept( $scope.originConcept = concept ).then(
-                    function() {
-                        // fill buffer concept, so originConcept won't be overwritten
-                        $scope.tempConcept = angular.copy($scope.originConcept);
-                        if($scope.originConcept.hasChildren == true){
-                            $scope.rvkNarrowerConcepts.updateConcept($scope.originConcept).then(function(){
-                                $scope.originConcept.altLabel = angular.copy($scope.tempConcept.altLabel);
-                                $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
-                                    $scope.originConcept.broader = $scope.tempConcept.broader;
-                                })
-                            });
-                        }else{
-                            
-                            $scope.rvkBroaderConcepts.updateConcept($scope.originConcept).then(function(){
-                                $scope.originConcept.altLabel = $scope.tempConcept.altLabel;
-                    });
-                        }
-                    }
-                );
+                $scope.rvkSubjectConcept.updateConcept( $scope.originConcept = concept );
             };
 
         }else if($scope.activeView.origin == 'DDC'){
@@ -929,46 +860,10 @@ cocoda.controller('myController',[
                 prefLabel: item.prefLabel,
             };
             // update concept
-            $scope.rvkSubjectConcept.updateConcept($scope.targetConcept).then(function() {
-                // fill buffer concept, so targetConcept won't be overwritten
-                $scope.tempConcept = angular.copy($scope.targetConcept);
-                if($scope.targetConcept.hasChildren == true){
-                    $scope.rvkNarrowerConcepts.updateConcept($scope.targetConcept).then(function(){
-
-                        $scope.targetConcept.altLabel = angular.copy($scope.tempConcept.altLabel);
-                        $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
-                            $scope.targetConcept.broader = $scope.tempConcept.broader;
-                        })
-                    });
-                }else{
-
-                    $scope.rvkBroaderConcepts.updateConcept($scope.targetConcept).then(function(){
-                        $scope.targetConcept.altLabel = $scope.tempConcept.altLabel;
-                    });
-                }
-            });
+            $scope.rvkSubjectConcept.updateConcept($scope.targetConcept);
             // when concept node is clicked
             $scope.clickTargetConcept = function(concept) {
-
-                $scope.rvkSubjectConcept.updateConcept( $scope.targetConcept = concept ).then(function() {
-                    // fill buffer concept, so targetConcept won't be overwritten
-                    $scope.tempConcept = angular.copy($scope.targetConcept);
-                    if($scope.targetConcept.hasChildren == true){
-                        $scope.rvkNarrowerConcepts.updateConcept($scope.targetConcept).then(function(){
-
-                            $scope.targetConcept.altLabel = angular.copy($scope.tempConcept.altLabel);
-                            $scope.rvkBroaderConcepts.updateConcept($scope.tempConcept).then(function(){
-                                $scope.targetConcept.broader = $scope.tempConcept.broader;
-                            })
-                        });
-                    }else{
-
-                        $scope.rvkBroaderConcepts.updateConcept($scope.targetConcept).then(function(){
-                            $scope.targetConcept.altLabel = $scope.tempConcept.altLabel;
-                        });
-
-                    }
-                });
+                $scope.rvkSubjectConcept.updateConcept( $scope.targetConcept = concept );
             };
         }else if($scope.activeView.target == 'DDC'){
             
