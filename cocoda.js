@@ -159,7 +159,7 @@ function (OpenSearchSuggestions, SkosConceptSource, SkosConceptListSource, $http
         }),
         // get main concept
         getConcept: new SkosConceptSource({
-            url: "http://193.174.240.128:6033/concepts?notation={notation}",
+            url: "http://193.174.240.128:6033/concepts?notation={notation}&inScheme=http://bartoc.org/en/node/533",
             transform: function(item) {
                 var concept = item[0];
                 return concept;

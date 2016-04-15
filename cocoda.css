@@ -33,15 +33,17 @@
     background-color:#EEEEEE;
     border:1px solid #DDD;
     border-radius:3px;
-    cursor:pointer;
     overflow:hidden;
 }
 .searchmode span{
     padding:0px 3px;
+    cursor:pointer;
     font-weight:bold;
 }
 .activesearch{
-    background-color:#66AFE9 !important;
+    background-color:#577fbb !important;
+    color:#fff;
+    cursor:default !important;
 }
 .show-lang:after {
     content: "@" attr(lang);
