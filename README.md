@@ -14,7 +14,7 @@ Install required libraries with bower:
 
 
 Testing is configured in `karma.conf.js` and **unit tests** are located in
-directory `test` written with [Jasmine](http://pivotal.github.io/jasmine/). 
+directory `test` written with [Jasmine](https://jasmine.github.io/). 
 
 As configured in `.travis.yml` the tests are automatically 
 [executed at travis-ci](https://travis-ci.org/gbv/cocoda)
